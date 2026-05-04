@@ -31,3 +31,7 @@ BEMYAGENT provides a single markdown file (`BEMYAGENT.md`) that acts as a bootst
 ## Contributing & Dogfooding
 
 This repository itself uses the BEMYAGENT protocol. You can explore the `sandbox/` directory to see a live example of the generated architecture. In fact, we use this very sandbox to document, plan, and evolve the BEMYAGENT protocol itself.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
