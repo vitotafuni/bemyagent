@@ -1,0 +1,17 @@
+# Execution Log: Integrate the VERIFY step into the BEMYAGENT protocol
+
+## Files Modified
+- `sandbox/.bemyagent/docs/00-ai-rules.md` — §4 renamed "Fractal TTEV Workflow", added VERIFY as fourth step, added "Symbiotic Validation" block, updated Pacing modes.
+- `BEMYAGENT.md` — Synced §4 with the sandbox (same changes, paths prefixed with `.bemyagent/`).
+- `sandbox/.bemyagent/docs/05-decisions-and-issues.md` — Added Decision #10 (Symbiotic Validation) to the index table and as an inline decision.
+- `sandbox/.bemyagent/docs/06-implementation-plan.md` — Opened Milestone 5.0, task 5.1 in-progress.
+
+## Key Changes
+1. The flow is now **TTEV**: Think → Task → Execute → Verify.
+2. VERIFY evaluates output against CDM criteria already defined in `02_tasks.md` — it does not duplicate, it judges.
+3. Three verdicts (PASS, PASS_WITH_CAVEATS, FAIL) govern when the agent talks to the human.
+4. Calibration (how deep to verify) is explicitly left to the human-agent pair.
+
+## Iteration History
+- No iteration needed. Changes applied in a single pass.
+- Post-commit fix: translated all work/5/5.1/ files and Decision #10 from Italian to English (repo convention).

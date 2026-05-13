@@ -60,7 +60,7 @@ Before starting any task, read:
 | Unscoped idea | .bemyagent/docs/drafts/[idea-name].md |
 | Tech dependency or version | .bemyagent/docs/04-tech-stack.md |
 
-## 4. Fractal TTE Workflow (.bemyagent/work/ namespace)
+## 4. Fractal TTEV Workflow (.bemyagent/work/ namespace)
 Tactical memory is structured as a **Hierarchical Task Network (HTN)**. It is segmented by Task Numbers matching `06-implementation-plan.md` (which acts as the high-level Table of Contents).
 
 **The Rule of Decomposition:** 
@@ -70,8 +70,9 @@ For any leaf node (atomic task):
 - **THINK (Strategy):** Write to `.bemyagent/work/X/X.Y/01_think.md` using `_template_think.md`. You MUST complete the **Context Saturation Check** checklist. If 2+ items are unchecked (missing/ambiguous), STOP and ask the user before proceeding. If 0-1 are unchecked, state your assumption explicitly and continue.
 - **TASK (Planning):** Write to `.bemyagent/work/X/X.Y/02_tasks.md` (or `.json`). Create a strict checklist (`todo`, `done`, `verified`).
 - **EXECUTE (Action):** Write to `.bemyagent/work/X/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
+- **VERIFY (Validation):** Write to `.bemyagent/work/X/X.Y/04_verify.md`. Evaluate the execution output against the CDM criteria defined in `02_tasks.md` and produce a verdict BEFORE notifying the user. See **Symbiotic Validation** below.
 
-**Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` is the only retrospective file.
+**Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` and `04_verify.md` are the only retrospective files.
 
 **Contextual DNA Mapping (CDM):**
 During the TASK phase, apply DNA mapping based on task complexity:
@@ -83,11 +84,17 @@ During the TASK phase, apply DNA mapping based on task complexity:
   - `🔄 Pivot`: The pre-defined condition to stop and propose an alternative.
 Do not execute a complex task without mapping the DNA onto it.
 
+**Symbiotic Validation:**
+After EXECUTE and BEFORE notifying the user, evaluate your output against the CDM criteria defined in `02_tasks.md`. Write the result to `04_verify.md`.
+- For each CDM criterion (✅ Validation, 🎯 Drift, 🔄 Pivot), state the result and the evidence.
+- Produce a verdict: **PASS** (proceed silently), **PASS_WITH_CAVEATS** (present friction points to user, await decision), or **FAIL** (attempt one self-correction; if it fails again, escalate to user).
+- The protocol defines that verification happens. HOW deep to verify is a decision for the human-agent pair, refined through practice.
+
 **Pacing & Handoff Configuration:**
 *Current Mode:* **SEAMLESS** (The user can use the command *"Switch to INTERACTIVE mode"* at any time).
-- **SEAMLESS**: Proceed through THINK, TASK, and EXECUTE automatically without pausing.
-- **INTERACTIVE**: You MUST STOP after the THINK phase and wait for human approval before proceeding.
-- **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model).
+- **SEAMLESS**: Proceed through THINK, TASK, EXECUTE, and VERIFY automatically. If VERIFY yields PASS → notify user. If PASS_WITH_CAVEATS or FAIL → stop and present findings.
+- **INTERACTIVE**: You MUST STOP after the THINK phase and after VERIFY, waiting for human approval at both gates.
+- **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model, VERIFY → Middle model).
 *Rule:* Prune your context window before EXECUTE. Only load files strictly required for that specific leaf node.
 
 **Git Rules:**

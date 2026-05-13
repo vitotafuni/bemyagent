@@ -25,6 +25,14 @@
 | 4.4 | Bootstrap hardening & anti-hallucination rules | done |
 | 4.5 | Test Context Probing on a real task | done |
 
+## Milestone 5.0 — Symbiotic Validation (VERIFY step)
+**Goal**: Integrate the fourth VERIFY step into the TTEV workflow, completing the CDM cycle with a post-execution exit gate.
+**Status**: done
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 5.1 | Integrate the VERIFY rule in `00-ai-rules.md`, sync to `BEMYAGENT.md`, meta-test with first `04_verify.md` | done |
+
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

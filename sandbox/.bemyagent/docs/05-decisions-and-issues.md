@@ -12,6 +12,7 @@
 | 7 | Strict Hierarchical Task Nesting | Organize `.bemyagent/work/` tasks under their parent Milestone directories. | - |
 | 8 | Semver Versioning Strategy | Use semver adapted for protocol lifecycle: MAJOR=breaking, MINOR=features, PATCH=fixes. | - |
 | 9 | Contextual DNA Mapping (CDM) | Embed Drift/Validation/Pivot metadata in tasks during TTE explosion. | - |
+| 10 | Symbiotic Validation (VERIFY step) | Add a fourth TTEV phase: post-execution self-validation against CDM criteria before notifying user. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -56,6 +57,11 @@
 - **Problem**: Tasks in `02_tasks.md` are flat checklists — the agent knows WHAT to do but not HOW to detect failure, WHEN to stop, or WHAT counts as done. The user must mentally reconstruct these criteria during validation.
 - **Decision**: During the TASK phase (TTE explosion), embed Drift/Validation/Pivot metadata in each task, scaled by complexity. Simple tasks get no CDM, medium tasks get Validation only, complex tasks get full CDM (Drift + Validation + Pivot).
 - **Trade-off**: Slightly denser planning output, but eliminates implicit assumptions and makes human validation faster (criteria are visible, not mental). Complexity threshold to be refined during dogfooding.
+
+#### 10. Symbiotic Validation (VERIFY step)
+- **Problem**: CDM defines validation criteria in `02_tasks.md`, but nobody explicitly verifies them after execution. The agent says "done" without self-evaluating. There is an entry gate (Context Saturation Check) but no exit gate.
+- **Decision**: Add a fourth step to the workflow — VERIFY (`04_verify.md`). After EXECUTE, the agent evaluates its output against CDM criteria and produces a verdict (PASS / PASS_WITH_CAVEATS / FAIL) before notifying the user. The flow becomes TTEV.
+- **Trade-off**: One extra file per validated task, but the cost is marginal (~800 tokens) compared to the risk of having to rollback an entire milestone for an undetected error. Calibration (when to skip, how deep to go) is left to the human-agent pair, not prescribed by the protocol.
 
 ## Known issues
 ### AI forgets to pause
