@@ -73,6 +73,16 @@ For any leaf node (atomic task):
 
 **Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` is the only retrospective file.
 
+**Contextual DNA Mapping (CDM):**
+During the TASK phase, apply DNA mapping based on task complexity:
+- **Simple tasks** (single file, no dependencies): No CDM needed.
+- **Medium tasks** (2-3 files, internal deps): Add `✅ Validation` only (what proves success).
+- **Complex tasks** (3+ files, external deps, architectural): Add full CDM:
+  - `🎯 Drift`: What constitutes going off-track for THIS specific task.
+  - `✅ Validation`: The objective evidence of success (test output, file diff, etc.).
+  - `🔄 Pivot`: The pre-defined condition to stop and propose an alternative.
+Do not execute a complex task without mapping the DNA onto it.
+
 **Pacing & Handoff Configuration:**
 *Current Mode:* **SEAMLESS** (The user can use the command *"Switch to INTERACTIVE mode"* at any time).
 - **SEAMLESS**: Proceed through THINK, TASK, and EXECUTE automatically without pausing.

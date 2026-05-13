@@ -15,7 +15,7 @@
 
 ## Milestone 4.0 — Protocol Hardening & Evolution
 **Goal**: Localize generated templates, encapsulate into `.bemyagent/`, and integrate evolution modules (Context Probing, Adaptive Session Restore).
-**Status**: in-progress
+**Status**: done
 
 | Task | Description | Status |
 |------|-------------|--------|
@@ -23,7 +23,7 @@
 | 4.2 | Hierarchical structure for `work/` directory | done |
 | 4.3 | Evolution modules (Context Probing, Session Restore, Quick Ref Card) | done |
 | 4.4 | Bootstrap hardening & anti-hallucination rules | done |
-| 4.5 | Test Context Probing on a real task | next |
+| 4.5 | Test Context Probing on a real task | done |
 
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)

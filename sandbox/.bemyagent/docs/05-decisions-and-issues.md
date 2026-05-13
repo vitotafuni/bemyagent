@@ -11,6 +11,7 @@
 | 6 | Directory Encapsulation | Move `docs/` and `work/` inside a hidden `.bemyagent/` folder. | - |
 | 7 | Strict Hierarchical Task Nesting | Organize `.bemyagent/work/` tasks under their parent Milestone directories. | - |
 | 8 | Semver Versioning Strategy | Use semver adapted for protocol lifecycle: MAJOR=breaking, MINOR=features, PATCH=fixes. | - |
+| 9 | Contextual DNA Mapping (CDM) | Embed Drift/Validation/Pivot metadata in tasks during TTE explosion. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -50,6 +51,11 @@
   - **MINOR** (1.X.0): New features, rules, or structural improvements that are additive and backward-compatible. An agent re-reading the updated `00-ai-rules.md` can adapt without manual intervention.
   - **PATCH** (1.1.X): Bug fixes to protocol rules (ambiguous wording causing agent misbehavior, incorrect path references, typos in instructions).
 - **Trade-off**: Semver is designed for APIs, not documentation protocols. The "breaking change" boundary is subjective — we define it as "does a project bootstrapped with vN require manual work to use vN+1?". If yes → MAJOR. If the agent can self-adapt by re-reading the updated rules → MINOR.
+
+#### 9. Contextual DNA Mapping (CDM)
+- **Problem**: Tasks in `02_tasks.md` are flat checklists — the agent knows WHAT to do but not HOW to detect failure, WHEN to stop, or WHAT counts as done. The user must mentally reconstruct these criteria during validation.
+- **Decision**: During the TASK phase (TTE explosion), embed Drift/Validation/Pivot metadata in each task, scaled by complexity. Simple tasks get no CDM, medium tasks get Validation only, complex tasks get full CDM (Drift + Validation + Pivot).
+- **Trade-off**: Slightly denser planning output, but eliminates implicit assumptions and makes human validation faster (criteria are visible, not mental). Complexity threshold to be refined during dogfooding.
 
 ## Known issues
 ### AI forgets to pause
