@@ -2,36 +2,81 @@
 
 > **Mission**: Save tokens for the machine. Save orientation for the human.
 
-BEMYAGENT is a lightweight, self-bootstrapping protocol designed to initialize AI-assisted software projects. It establishes a structured environment that prevents AI context bloat, reduces token consumption, and keeps developers perfectly oriented.
+BEMYAGENT is a lightweight, self-bootstrapping protocol that bridges the gap between humans and AI agents. Instead of forcing alignment through code reviews or rigid procedures, it creates a shared workspace where the machine thinks in structured files and the human validates at the right level of abstraction.
 
 ## The Problem
 
-When working with autonomous agents or AI coding assistants on complex projects, the context window quickly becomes cluttered. Agents lose track of the architecture, hallucinate changes outside the scope, or read thousands of irrelevant lines, slowing down the process and increasing costs. 
+When working with AI agents on complex projects, three things break down:
 
-## The Solution: TTE Workflow & Lazy Loading
+1. **Context bloat** — The agent reads thousands of irrelevant lines, inflating costs and slowing down.
+2. **Silent drift** — The agent executes a task but drifts from the original intent. Nobody catches it until it's too late.
+3. **Validation fatigue** — The human must review every line of output because there's no structured checkpoint between "done" and "delivered".
 
-BEMYAGENT provides a single markdown file (`BEMYAGENT.md`) that acts as a bootstrap prompt. When fed to an AI, it automatically generates a structured filesystem:
+## The Solution: TTEV Workflow
 
-- **`.bemyagent/docs/`**: Permanent, immutable truth (architecture, code map, tech stack).
-- **`.bemyagent/work/`**: Tactical, volatile memory organized by Task/Milestone.
+BEMYAGENT provides a single markdown file (`BEMYAGENT.md`) that acts as a bootstrap prompt. When fed to an AI assistant, it generates a structured `.bemyagent/` workspace:
 
-### Key Concepts
+- **`.bemyagent/docs/`** — Permanent project memory (architecture, code map, tech stack, decisions).
+- **`.bemyagent/work/`** — Tactical, volatile memory organized as a Hierarchical Task Network (HTN).
 
-1. **Lazy Loading**: The AI is explicitly instructed *never* to read documentation drafts or specs during context restoration unless strictly required by the current task. 
-2. **Think-Task-Execute (TTE)**: A rigid workflow inside the `.bemyagent/work/` directory. The AI must strategize (`01_think.md`), plan atomic steps (`02_tasks.json`), and log actions (`03_execute.log`) before writing any code.
-3. **Self-Registration**: The AI automatically configures the project's native rule files (e.g., `.cursorrules`, `AGENTS.md`) to read the core `.bemyagent/docs/00-ai-rules.md` at the start of every session.
+### Core Concepts
+
+| Concept | What it does |
+|---|---|
+| **TTEV Workflow** | Think → Task → Execute → Verify. A four-phase cycle where the agent strategizes, plans atomic steps, executes, and self-validates before notifying the human. |
+| **Lazy Loading** | The agent never reads specs, drafts, or decisions during context restoration unless the current task explicitly requires them. Saves tokens by default. |
+| **Fractal Decomposition (HTN)** | If a task is too large, the agent decomposes it into sub-tasks (e.g., `work/1/1.1/`, `work/1/1.2/`). Each leaf node gets its own TTEV cycle. |
+| **Context Saturation Check** | Before executing, the agent verifies it has enough context (target files, expected behavior, constraints, dependencies). If too much is unclear, it asks instead of guessing. |
+| **Contextual DNA Mapping (CDM)** | During planning, the agent embeds validation criteria directly into each task — scaled by complexity. Simple tasks get none; complex tasks get Drift sensors, Validation criteria, and Pivot triggers. |
+| **Symbiotic Validation** | After execution, the agent evaluates its own output against the CDM criteria and produces a verdict (PASS / PASS\_WITH\_CAVEATS / FAIL) before presenting results. The human validates the *sense*, the agent has already validated the *form*. |
+| **Self-Registration** | The agent configures the project's native rule files (`.cursorrules`, `AGENTS.md`, etc.) to read `00-ai-rules.md` at every session start. |
+
+### Pacing Modes
+
+The human controls how much autonomy the agent has:
+
+- **SEAMLESS** — The agent runs TTEV automatically. It only stops if verification finds issues.
+- **INTERACTIVE** — The agent pauses after THINK (plan approval) and after VERIFY (result approval). Two human gates.
+- **AUTO-CLI** — The agent switches AI models per phase (e.g., large model for THINK, fast model for EXECUTE).
 
 ## Usage
 
 1. Drop `BEMYAGENT.md` into the root of your project.
-2. Ask your AI assistant to read the file and execute its instructions sequentially.
-3. The AI will generate the directories and templates.
-4. Delete `BEMYAGENT.md` (or keep it if you are iterating on the protocol!) and start coding.
+2. Ask your AI assistant to read the file and execute its instructions.
+3. The AI generates the `.bemyagent/` directory structure and templates.
+4. Delete `BEMYAGENT.md` and start a fresh chat session (the bootstrap context is no longer needed).
+
+That's it. From this point on, the agent reads `.bemyagent/docs/00-ai-rules.md` at the start of every session and knows how to operate.
+
+## How It Works (The Files)
+
+```
+.bemyagent/
+├── docs/                          # Permanent project memory
+│   ├── 00-ai-rules.md             # The protocol itself (agent reads this first)
+│   ├── 01-overview.md             # What the project does, quick start
+│   ├── 02-architecture.md         # System diagram, component roles
+│   ├── 03-code-map.md             # Routes, key functions, data schemas
+│   ├── 04-tech-stack.md           # Technologies, versions, external services
+│   ├── 05-decisions-and-issues.md # Decision log and known issues
+│   ├── 06-implementation-plan.md  # Milestones and task index
+│   ├── decisions/                 # Complex ADRs (loaded on-demand)
+│   ├── specs/                     # Feature specifications (loaded on-demand)
+│   └── drafts/                    # Unscoped ideas (loaded on-demand)
+└── work/                          # Tactical memory (volatile)
+    └── {milestone}/{task}/        # One folder per atomic task
+        ├── 01_think.md            # Strategy & context check
+        ├── 02_tasks.md            # Checklist with CDM criteria
+        ├── 03_execute.log         # What happened (retrospective)
+        └── 04_verify.md           # Self-validation report
+```
 
 ## Contributing & Dogfooding
 
-This repository itself uses the BEMYAGENT protocol. You can explore the `sandbox/` directory to see a live example of the generated architecture. In fact, we use this very sandbox to document, plan, and evolve the BEMYAGENT protocol itself.
+This repository uses the BEMYAGENT protocol to develop itself. The `sandbox/` directory contains the live `.bemyagent/` workspace where the protocol is planned, documented, and evolved — using its own rules.
+
+Explore `sandbox/.bemyagent/work/` to see real TTEV cycles, CDM annotations, and verification reports in action.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.

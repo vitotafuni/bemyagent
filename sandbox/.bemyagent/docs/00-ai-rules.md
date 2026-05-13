@@ -80,7 +80,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
-- **Language:** All user-facing text and documentation must be in the user's preferred language.
+- **Language:** Documentation language is set at bootstrap time (matching the language used during the initial bootstrap interaction). The user can override it at any time by saying *"Set documentation language to [language]"*. All `.bemyagent/` files must use the configured language. Chat interaction language and documentation language are independent.
 - **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
 - `drafts/` files: promote to `specs/` when ready to build, delete the draft.

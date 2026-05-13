@@ -13,6 +13,7 @@
 | 8 | Semver Versioning Strategy | Use semver adapted for protocol lifecycle: MAJOR=breaking, MINOR=features, PATCH=fixes. | - |
 | 9 | Contextual DNA Mapping (CDM) | Embed Drift/Validation/Pivot metadata in tasks during TTE explosion. | - |
 | 10 | Symbiotic Validation (VERIFY step) | Add a fourth TTEV phase: post-execution self-validation against CDM criteria before notifying user. | - |
+| 11 | Documentation Language Rule | Language set at bootstrap, overridable anytime. Chat language and doc language are independent. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -62,6 +63,11 @@
 - **Problem**: CDM defines validation criteria in `02_tasks.md`, but nobody explicitly verifies them after execution. The agent says "done" without self-evaluating. There is an entry gate (Context Saturation Check) but no exit gate.
 - **Decision**: Add a fourth step to the workflow — VERIFY (`04_verify.md`). After EXECUTE, the agent evaluates its output against CDM criteria and produces a verdict (PASS / PASS_WITH_CAVEATS / FAIL) before notifying the user. The flow becomes TTEV.
 - **Trade-off**: One extra file per validated task, but the cost is marginal (~800 tokens) compared to the risk of having to rollback an entire milestone for an undetected error. Calibration (when to skip, how deep to go) is left to the human-agent pair, not prescribed by the protocol.
+
+#### 11. Documentation Language Rule
+- **Problem**: The previous rule ("use the user's preferred language") was ambiguous — it conflated chat interaction language with documentation language. In a public repo with international audience, the user may interact in Italian but need English documentation.
+- **Decision**: Documentation language is set at bootstrap time (matching the bootstrap interaction language). It can be overridden at any time with "Set documentation language to [language]". Chat and documentation languages are independent.
+- **Trade-off**: Slightly more complex rule, but eliminates the ambiguity that caused Italian text in an English-convention repo.
 
 ## Known issues
 ### AI forgets to pause

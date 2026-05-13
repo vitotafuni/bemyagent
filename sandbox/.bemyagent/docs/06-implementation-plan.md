@@ -32,6 +32,7 @@
 | Task | Description | Status |
 |------|-------------|--------|
 | 5.1 | Integrate the VERIFY rule in `00-ai-rules.md`, sync to `BEMYAGENT.md`, meta-test with first `04_verify.md` | done |
+| 5.2 | Clarify documentation language rule (§6) + update README.md to reflect current protocol state | done |
 
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)

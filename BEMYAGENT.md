@@ -109,7 +109,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
-- **Language:** All user-facing text and documentation must be in the user's preferred language.
+- **Language:** Documentation language is set at bootstrap time (matching the language used during the initial bootstrap interaction). The user can override it at any time by saying *"Set documentation language to [language]"*. All `.bemyagent/` files must use the configured language. Chat interaction language and documentation language are independent.
 - **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
 - `drafts/` files: promote to `specs/` when ready to build, delete the draft.
@@ -125,7 +125,7 @@ Run this with your AI assistant once a month:
 
 ### Step 3: Generate Scaffold Files
 Create these files using the templates below. **CRITICAL:** Do not just leave them as blank templates! Use the knowledge gathered in Step 0 to auto-populate `01-overview.md`, `02-architecture.md`, `03-code-map.md`, and `04-tech-stack.md` as thoroughly as possible. For `decisions`, `specs`, and `drafts`, create a `_template.md` file inside the respective folder. Also create `_template_think.md` in `.bemyagent/work/`.
-**LANGUAGE RULE:** You must dynamically translate the content of these generated markdown templates into the language the user is currently communicating with you during the bootstrap. The filenames must remain in English as shown below.
+**LANGUAGE RULE:** Generate all markdown template content in the language the user is using during this bootstrap interaction. This sets the default documentation language for the project. Filenames must remain in English as shown below. The user can change the documentation language at any time (see §6).
 
 **`.bemyagent/docs/01-overview.md`**
 ```markdown
