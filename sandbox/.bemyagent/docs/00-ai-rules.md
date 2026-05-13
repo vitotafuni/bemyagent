@@ -34,13 +34,20 @@ For any leaf node (atomic task):
 - **EXECUTE (Action):** Write to `work/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
 
 **Pacing & Handoff Configuration:**
-*Current Mode:* **SEAMLESS** (The user can instruct you to change this at any time).
+*Current Mode:* **SEAMLESS** (The user can use the command *"Switch to INTERACTIVE mode"* at any time).
 - **SEAMLESS**: Proceed through THINK, TASK, and EXECUTE automatically without pausing.
-- **INTERACTIVE**: You MUST STOP after the THINK phase and wait for human approval (or a manual model switch in the UI) before proceeding.
-- **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the pre-agreed models for each phase without pausing.
+- **INTERACTIVE**: You MUST STOP after the THINK phase and wait for human approval before proceeding.
+- **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model).
 *Rule:* Prune your context window before EXECUTE. Only load files strictly required for that specific leaf node.
 
-## 5. Coding & Maintenance Rules
+**Git Rules:**
+- Before starting EXECUTE, always suggest a clean, atomic Git commit for the previous task with a clear message based on the task number (e.g., `git commit -m "feat: [1.1] add user auth"`).
+
+## 5. Anti-Hallucination & Safety Rules
+- **Always Verify:** Prima di ogni modifica a file esistenti, leggi SEMPRE il contenuto attuale del file. Mai assumere che una funzione o variabile esista senza averla vista nel context.
+- **Dependencies:** Se devi aggiungere una dipendenza, prima aggiorna `04-tech-stack.md` e proponi `npm install` / equivalente.
+
+## 6. Coding & Maintenance Rules
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
@@ -49,8 +56,10 @@ For any leaf node (atomic task):
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
 - `drafts/` files: promote to `specs/` when ready to build, delete the draft.
 
-## 6. Monthly audit prompt
+## 7. Monthly audit prompt
 Run this with your AI assistant once a month:
 > "Compare `03-code-map.md` against the real file structure and report any drift.
-> Check `01-overview.md` env vars against actual config files.
+> Check `01-overview.md` env vars against actual config files (look for missing vars).
+> Verify files ignored by `.gitignore`.
+> Check if test coverage is still aligned with recent code changes.
 > List any decisions made recently not yet in `05-decisions-and-issues.md`."

@@ -3,20 +3,22 @@
 The BEMYAGENT framework is not a software application but an **Information Architecture** and a **Workflow Protocol** designed for AI Agents.
 
 ## System Diagram (Directory Structure)
-```text
-Project Root
-└── .bemyagent/
-    ├── docs/                     # Core Memory (Immutable context)
-    │   ├── 00-ai-rules.md        # The OS of the Agent (Must be read every time)
-    │   ├── 0X-*.md               # Domain knowledge (Lazy loaded)
-    │   ├── decisions/            # ADRs (Architecture Decision Records)
-    │   └── specs/                # Feature definitions
-    └── work/                     # Working Memory (Volatile context)
-        └── 1/                    # Milestone Directory
-            └── 1.0/              # Milestone HTN node
-                ├── 01_think.md   # Strategy & Model reasoning
-                ├── 02_tasks.md   # Checklist
-                └── 03_execute.log# Raw actions and errors
+```mermaid
+graph TD
+    Root[Project Root] --> BA[.bemyagent/]
+    BA --> Docs[docs/ - Core Memory]
+    BA --> Work[work/ - Working Memory]
+    
+    Docs --> Rules[00-ai-rules.md]
+    Docs --> Domain[0X-*.md Domain Knowledge]
+    Docs --> ADR[decisions/ ADRs]
+    Docs --> Specs[specs/ Feature definitions]
+    
+    Work --> MS[1/ Milestone Directory]
+    MS --> Node[1.0/ Milestone HTN Node]
+    Node --> Think[01_think.md - Strategy]
+    Node --> Tasks[02_tasks.md - Checklist]
+    Node --> Exec[03_execute.log - Actions/Errors]
 ```
 
 ## Request Flow (The Developer-AI Interaction)

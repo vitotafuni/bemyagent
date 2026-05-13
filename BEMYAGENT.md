@@ -10,9 +10,9 @@ This file instructs the AI to initialize the `.bemyagent/docs/` and `.bemyagent/
 When the user asks you to execute this bootstrap, you MUST perform the following steps using your file-writing tools. Do NOT ask for permission between steps. Do them all sequentially.
 
 ### Step 0: Discovery & Assessment
-Before generating any files, analyze the current workspace:
+Before generating any files, analyze the current workspace. **Important:** If your tool cannot create directories automatically, list the required `mkdir` commands and ask the user to execute them before proceeding.
 1. **Is this an UPGRADE?** If `.bemyagent/docs/` and `.bemyagent/work/` directories already exist, this is a protocol upgrade. **ONLY overwrite `.bemyagent/docs/00-ai-rules.md`** to update the rules. Do NOT overwrite `01-overview.md` or any other existing project documentation. Output an upgrade success message and STOP.
-2. **Is it an existing project (Brownfield)?** If you see an existing codebase but no `.bemyagent/docs/` folder, quietly scan the structure and dependencies. You will use this context to AUTO-FILL the documentation in Step 3. Do NOT fabricate `.bemyagent/work/` logs for past work; only map the current state.
+2. **Is it an existing project (Brownfield)?** If you see an existing codebase but no `.bemyagent/docs/` folder, perform a **shallow, token-efficient scan** of the structure. **CRITICAL TOKEN-SAVING RULE:** You MUST IGNORE lockfiles (e.g., `package-lock.json`), vendor directories (e.g., `node_modules`, `vendor`, `.venv`), build outputs (`dist`, `target`), and deeply nested source code. Look ONLY at the root directory, primary dependency manifests, build scripts, and top-level architecture indicators. You will use this context to AUTO-FILL the documentation in Step 3. Do NOT fabricate `.bemyagent/work/` logs for past work; only map the current state.
 3. **Is it a new/empty project (Greenfield)?** If the workspace is empty, STOP and ask the user: *"What are we building? Please describe the project."* Wait for their answer. You will use their response to AUTO-FILL the documentation in Step 3.
 
 ### Step 1: Create Directories
@@ -63,13 +63,20 @@ For any leaf node (atomic task):
 - **EXECUTE (Action):** Write to `.bemyagent/work/X/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
 
 **Pacing & Handoff Configuration:**
-*Current Mode:* **SEAMLESS** (The user can instruct you to change this at any time).
+*Current Mode:* **SEAMLESS** (The user can use the command *"Switch to INTERACTIVE mode"* at any time).
 - **SEAMLESS**: Proceed through THINK, TASK, and EXECUTE automatically without pausing.
-- **INTERACTIVE**: You MUST STOP after the THINK phase and wait for human approval (or a manual model switch in the UI) before proceeding.
-- **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the pre-agreed models for each phase without pausing.
+- **INTERACTIVE**: You MUST STOP after the THINK phase and wait for human approval before proceeding.
+- **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model).
 *Rule:* Prune your context window before EXECUTE. Only load files strictly required for that specific leaf node.
 
-## 5. Coding & Maintenance Rules
+**Git Rules:**
+- Before starting EXECUTE, always suggest a clean, atomic Git commit for the previous task with a clear message based on the task number (e.g., `git commit -m "feat: [1.1] add user auth"`).
+
+## 5. Anti-Hallucination & Safety Rules
+- **Always Verify:** Before modifying existing files, ALWAYS read the current content of the file. NEVER assume a function, variable, or import exists without seeing it in the context.
+- **Dependencies:** If you need to add a new dependency, first update `04-tech-stack.md` and propose the installation command to the user (e.g., `npm install`).
+
+## 6. Coding & Maintenance Rules
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
@@ -78,20 +85,23 @@ For any leaf node (atomic task):
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
 - `drafts/` files: promote to `specs/` when ready to build, delete the draft.
 
-## 6. Monthly audit prompt
+## 7. Monthly audit prompt
 Run this with your AI assistant once a month:
 > "Compare `03-code-map.md` against the real file structure and report any drift.
-> Check `01-overview.md` env vars against actual config files.
+> Check `01-overview.md` env vars against actual config files (look for missing vars).
+> Verify files ignored by `.gitignore`.
+> Check if test coverage is still aligned with recent code changes.
 > List any decisions made recently not yet in `05-decisions-and-issues.md`."
 ````
 
-### Step 3: Generate Scaffold Files in `.bemyagent/docs/`
-Create these files using the templates below. **CRITICAL:** Do not just leave them as blank templates! Use the knowledge gathered in Step 0 to auto-populate `01-overview.md`, `02-architecture.md`, `03-code-map.md`, and `04-tech-stack.md` as thoroughly as possible. For `decisions`, `specs`, and `drafts`, create a `_template.md` file inside the respective folder.
+### Step 3: Generate Scaffold Files
+Create these files using the templates below. **CRITICAL:** Do not just leave them as blank templates! Use the knowledge gathered in Step 0 to auto-populate `01-overview.md`, `02-architecture.md`, `03-code-map.md`, and `04-tech-stack.md` as thoroughly as possible. For `decisions`, `specs`, and `drafts`, create a `_template.md` file inside the respective folder. Also create `_template_think.md` in `.bemyagent/work/`.
 **LANGUAGE RULE:** You must dynamically translate the content of these generated markdown templates into the language the user is currently communicating with you during the bootstrap. The filenames must remain in English as shown below.
 
 **`.bemyagent/docs/01-overview.md`**
 ```markdown
 - One paragraph: what the project does and for whom
+- Success Metrics (Measurable KPIs)
 - Repository structure (tree, max 2 levels)
 - Quick start commands
 - Environment variables table: name, default, description
@@ -100,13 +110,19 @@ Create these files using the templates below. **CRITICAL:** Do not just leave th
 
 **`.bemyagent/docs/02-architecture.md`**
 ```markdown
-- ASCII or Mermaid system diagram
+- System diagram (MUST use Mermaid for better readability)
 - Request flow as numbered steps
 - One paragraph per component: what it does, what it owns, what it does NOT do
 ```
 
 **`.bemyagent/docs/03-code-map.md`**
 ```markdown
+## Hot Paths / Performance Critical
+- List modules or files where performance is critical.
+
+## Test Coverage Overview
+- Brief overview of current test coverage and testing strategy.
+
 ## Pages / Routes
 | Path/Method | File/Handler | Role/Auth | Key DOM IDs / Description |
 |---|---|---|---|
@@ -190,6 +206,22 @@ One paragraph.
 
 **`.bemyagent/docs/drafts/[idea-name].md`**
 > No strict template. Free form. The only rule: write enough that the idea can be understood 6 months later without the author present.
+
+**`.bemyagent/work/_template_think.md`**
+```markdown
+## Context
+- What are we trying to achieve?
+
+## Approaches Considered
+- Pros/Cons of 2-3 different approaches
+
+## Selected Approach & Risks
+- What we chose and why
+- Risks & Mitigations
+
+## Verification Plan
+- How will we know it works?
+```
 
 **`.bemyagent/docs/06-implementation-plan.md`**
 ```markdown

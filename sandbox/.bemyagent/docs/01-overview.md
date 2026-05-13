@@ -2,6 +2,11 @@
 
 BEMYAGENT is a lightweight, markdown-based bootstrapping protocol designed to initialize AI-assisted software projects. It provides a standardized directory structure and a rigid workflow (Fractal TTE & Lazy Loading) to prevent AI context bloat, reduce token consumption, and maintain deep historical logs of executions without confusing the AI.
 
+## Success Metrics (Measurable KPIs)
+- Token consumption per task (reduction)
+- Context window drift and hallucinations (reduction)
+- Human orientation time when returning to a project (reduction)
+
 ## Repository Structure
 - `/BEMYAGENT.md` - The core executable prompt/template to be fed to AI.
 - `/README.md` - The human-facing description of the project.

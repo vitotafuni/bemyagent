@@ -1,5 +1,11 @@
 # Code Map (File Map)
 
+## Hot Paths / Performance Critical
+- Context loading (Reading docs on start): Critical that docs remain small to prevent token explosion.
+
+## Test Coverage Overview
+- The protocol relies heavily on dogfooding within the `sandbox` directory to ensure workflows remain viable.
+
 ## Key Files
 | Path | File | Role | Key Description |
 |---|---|---|---|
