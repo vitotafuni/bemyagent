@@ -1,0 +1,11 @@
+# Execution Log: Localization and Encapsulation in .bemyagent
+
+- Created and registered new path in `BEMYAGENT.md` by replacing `docs/` with `.bemyagent/docs/` and `work/` with `.bemyagent/work/`.
+- Added the `LANGUAGE RULE` constraint in step 3 of `BEMYAGENT.md`.
+- Performed `sandbox/` directory migration by creating `.bemyagent/` and moving `docs/` and `work/` inside it.
+- Updated paths in internal sandbox files (`01-overview.md` and `02-architecture.md`).
+- Added new architectural decisions in the log (`05-decisions-and-issues.md`) to justify the change (Milestone 4.0).
+- Updated the sandbox's `06-implementation-plan.md`.
+- Updated the main `README.md`.
+
+Execution completed successfully.

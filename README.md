@@ -12,14 +12,14 @@ When working with autonomous agents or AI coding assistants on complex projects,
 
 BEMYAGENT provides a single markdown file (`BEMYAGENT.md`) that acts as a bootstrap prompt. When fed to an AI, it automatically generates a structured filesystem:
 
-- **`docs/`**: Permanent, immutable truth (architecture, code map, tech stack).
-- **`work/`**: Tactical, volatile memory organized by Task/Milestone.
+- **`.bemyagent/docs/`**: Permanent, immutable truth (architecture, code map, tech stack).
+- **`.bemyagent/work/`**: Tactical, volatile memory organized by Task/Milestone.
 
 ### Key Concepts
 
 1. **Lazy Loading**: The AI is explicitly instructed *never* to read documentation drafts or specs during context restoration unless strictly required by the current task. 
-2. **Think-Task-Execute (TTE)**: A rigid workflow inside the `work/` directory. The AI must strategize (`01_think.md`), plan atomic steps (`02_tasks.json`), and log actions (`03_execute.log`) before writing any code.
-3. **Self-Registration**: The AI automatically configures the project's native rule files (e.g., `.cursorrules`, `AGENTS.md`) to read the core `00-ai-rules.md` at the start of every session.
+2. **Think-Task-Execute (TTE)**: A rigid workflow inside the `.bemyagent/work/` directory. The AI must strategize (`01_think.md`), plan atomic steps (`02_tasks.json`), and log actions (`03_execute.log`) before writing any code.
+3. **Self-Registration**: The AI automatically configures the project's native rule files (e.g., `.cursorrules`, `AGENTS.md`) to read the core `.bemyagent/docs/00-ai-rules.md` at the start of every session.
 
 ## Usage
 

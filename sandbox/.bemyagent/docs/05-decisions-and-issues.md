@@ -7,6 +7,9 @@
 | 2 | Fractal TTE Workflow | Use HTN for task breakdown to manage context sizes. | - |
 | 3 | Model Handoff Pauses | Force AI to pause between Think/Task/Execute to switch models. | - |
 | 4 | Sandbox Dogfooding | Use `sandbox/` as the actual development docs for the repo. | - |
+| 5 | Native Language Localization | Generate templates in the user's interaction language. | - |
+| 6 | Directory Encapsulation | Move `docs/` and `work/` inside a hidden `.bemyagent/` folder. | - |
+| 7 | Strict Hierarchical Task Nesting | Organize `.bemyagent/work/` tasks under their parent Milestone directories. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -23,6 +26,21 @@
 - **Problem**: Using an expensive "Reasoning" model for simple execution tasks wastes tokens and money.
 - **Decision**: Imposed mandatory pauses between Think, Task, and Execute phases.
 - **Trade-off**: Less "one-shot autonomous" behavior, but much better economic efficiency.
+
+#### 5. Native Language Localization
+- **Problem**: Generating English scaffolds forces non-English users to translate them or mix languages.
+- **Decision**: Instruct the AI to dynamically translate the generated markdown templates into the user's conversation language during the bootstrap.
+- **Trade-off**: Slightly less predictable output depending on the AI's translation, but much better user experience.
+
+#### 6. Directory Encapsulation
+- **Problem**: Generating `docs/` and `work/` in the project root can conflict with existing folders or clutter the repo.
+- **Decision**: Encapsulate all protocol files within a `.bemyagent/` directory.
+- **Trade-off**: An extra folder level, but much cleaner integration into existing projects.
+
+#### 7. Strict Hierarchical Task Nesting
+- **Problem**: A flat `work/` directory where all tasks (`1.1/`, `4.1/`, `5.1/`) are at the root level becomes cluttered and unmanageable.
+- **Decision**: Enforce a strict hierarchy where tasks are nested inside their Milestone folders (e.g., `work/1/1.1/`).
+- **Trade-off**: Deeper folder structure, but much easier for humans to audit and navigate.
 
 ## Known issues
 ### AI forgets to pause

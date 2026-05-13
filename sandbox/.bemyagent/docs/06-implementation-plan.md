@@ -1,5 +1,5 @@
 # Implementation plan
-> This document is the high-level Table of Contents (Index) for the project. For the historical execution trace and thought process, refer to the corresponding `work/X.Y/` folders.
+> This document is the high-level Table of Contents (Index) for the project. For the historical execution trace and thought process, refer to the corresponding `.bemyagent/work/X/X.Y/` folders.
 
 ## Milestone 1.0 — Initial BEMYAGENT Protocol Definition
 **Goal**: Create a robust, self-bootstrapping template for AI agent context management.
@@ -11,6 +11,10 @@
 
 ## Milestone 3.0 — Testing & Sandbox Dogfooding
 **Goal**: Execute the protocol within its own repository to prove the concept and generate example documentation.
+**Status**: in-progress
+
+## Milestone 4.0 — Protocol Updates (Localization & Encapsulation)
+**Goal**: Localize generated templates to the user's language and move `docs/` and `work/` into `.bemyagent/`.
 **Status**: in-progress
 
 ## Backlog (unscheduled)
