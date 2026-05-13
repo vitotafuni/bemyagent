@@ -71,6 +71,8 @@ For any leaf node (atomic task):
 - **TASK (Planning):** Write to `.bemyagent/work/X/X.Y/02_tasks.md` (or `.json`). Create a strict checklist (`todo`, `done`, `verified`).
 - **EXECUTE (Action):** Write to `.bemyagent/work/X/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
 
+**Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` is the only retrospective file.
+
 **Pacing & Handoff Configuration:**
 *Current Mode:* **SEAMLESS** (The user can use the command *"Switch to INTERACTIVE mode"* at any time).
 - **SEAMLESS**: Proceed through THINK, TASK, and EXECUTE automatically without pausing.
@@ -79,6 +81,7 @@ For any leaf node (atomic task):
 *Rule:* Prune your context window before EXECUTE. Only load files strictly required for that specific leaf node.
 
 **Git Rules:**
+- Before committing, verify that a corresponding `.bemyagent/work/X/X.Y/` folder exists for the current task with `01_think.md` and `02_tasks.md` written BEFORE execution began.
 - Before starting EXECUTE, always suggest a clean, atomic Git commit for the previous task with a clear message based on the task number (e.g., `git commit -m "feat: [1.1] add user auth"`).
 
 ## 5. Anti-Hallucination & Safety Rules
@@ -90,7 +93,7 @@ For any leaf node (atomic task):
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
 - **Language:** All user-facing text and documentation must be in the user's preferred language.
-- **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change.
+- **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
 - `drafts/` files: promote to `specs/` when ready to build, delete the draft.
 

@@ -12,6 +12,7 @@
 
 ## Iteration History
 - v1: emoji-based table with ALWAYS_ASSUME override.
-- v2: user feedback incorporated — checkboxes, no summary file, cheat sheet.
+- v2: user feedback — checkboxes, no summary file, cheat sheet.
+- v3: Handoff Principle + pre-commit rule + §6 extension for discussion decisions.
 
 Execution completed successfully.

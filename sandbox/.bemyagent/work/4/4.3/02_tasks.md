@@ -20,3 +20,8 @@
 - [x] **Task 6: Update sandbox work/ (dogfooding)**
   - Create `work/4/4.3/` with 01_think, 02_tasks, 03_execute.
   - Update `06-implementation-plan.md`.
+- [x] **Task 7: Handoff Principle & Pre-commit Rule**
+  - Add Handoff Principle to §4: TTE files are serialized execution plans, not retrospective logs.
+  - Add pre-commit check to Git Rules: verify `work/X/X.Y/` exists before committing.
+- [x] **Task 8: Extend §6 for discussion-driven decisions**
+  - Extend CRITICAL rule to include decisions from discussions, even without code changes.
