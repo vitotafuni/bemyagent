@@ -16,7 +16,7 @@
   - Add a new task 4.6 for the CDM integration if needed, or close Milestone 4.
   - *(CDM: None — single file update)*
 
-- [ ] **Task 4: Stage and commit all changes**
+- [x] **Task 4: Stage and commit all changes**
   - Stage: `00-ai-rules.md`, `05-decisions-and-issues.md`, `BEMYAGENT.md`, `work/4/4.5/*`, `06-implementation-plan.md`
   - 🎯 **Drift**: If `git diff --staged` shows files outside `sandbox/` or `BEMYAGENT.md`, something is wrong.
   - ✅ **Validation**: `git status` shows clean working tree after commit.
