@@ -11,11 +11,20 @@
 
 ## Milestone 3.0 — Testing & Sandbox Dogfooding
 **Goal**: Execute the protocol within its own repository to prove the concept and generate example documentation.
+**Status**: done
+
+## Milestone 4.0 — Protocol Hardening & Evolution
+**Goal**: Localize generated templates, encapsulate into `.bemyagent/`, and integrate evolution modules (Context Probing, Adaptive Session Restore).
 **Status**: in-progress
 
-## Milestone 4.0 — Protocol Updates (Localization & Encapsulation)
-**Goal**: Localize generated templates to the user's language and move `docs/` and `work/` into `.bemyagent/`.
-**Status**: in-progress
+| Task | Description | Status |
+|------|-------------|--------|
+| 4.1 | Localization & directory encapsulation in `.bemyagent/` | done |
+| 4.2 | Hierarchical structure for `work/` directory | done |
+| 4.3 | Evolution modules (Context Probing, Session Restore, Quick Ref Card) | done |
+| 4.4 | Bootstrap hardening & anti-hallucination rules | done |
+| 4.5 | Test Context Probing on a real task | next |
 
 ## Backlog (unscheduled)
+- Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

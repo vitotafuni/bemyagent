@@ -5,9 +5,18 @@ If this project does not yet have your tool's native rule file (e.g. `.amazonq/r
 `Read docs/00-ai-rules.md before every task.`
 
 ## 2. Session Restore
-If this is a new session or context was lost, read in order:
-`docs/01-overview.md` → `docs/02-architecture.md` → `docs/05-decisions-and-issues.md` → `docs/06-implementation-plan.md`.
-Then confirm the current milestone and the active `work/X.Y/` task folder before proceeding. Ask the user to close unnecessary tabs.
+If this is a new session or context was lost:
+
+**Step 1 — Quick Resume (try this first):**
+1. Read `docs/06-implementation-plan.md` to identify the active milestone and task number.
+2. Read the `02_tasks.md` inside the most recent `work/X/X.Y/` folder matching that task.
+3. If the checklist clearly shows what's done and what's pending, you have enough context. Confirm the status with the user and proceed.
+
+**Step 2 — Full Restore (only if Step 1 is insufficient):**
+Read in order: `docs/01-overview.md` → `docs/02-architecture.md` → `docs/05-decisions-and-issues.md`.
+Then use the Routing Table (§3) to lazy-load any additional context needed for the task.
+
+Ask the user to close unnecessary tabs.
 
 ## 3. Routing Table & Lazy Loading
 **Lazy Loading Principle:** NEVER read files inside `decisions/`, `specs/`, or `drafts/` during initial context restore. They must only be loaded on-demand when explicitly required by the task.
@@ -29,7 +38,7 @@ Tactical memory is structured as a **Hierarchical Task Network (HTN)**. It is se
 If a task is too complex, DO NOT execute it directly. Decompose it into sub-tasks (e.g., if `work/1.0/` is too big, create `work/1.1/` and `work/1.2/`). 
 
 For any leaf node (atomic task):
-- **THINK (Strategy):** Write to `work/X.Y/01_think.md`. Define the approach and verification criteria. If the task is too large, break it down here and create sub-folders.
+- **THINK (Strategy):** Write to `work/X.Y/01_think.md` using `_template_think.md`. You MUST complete the **Context Saturation Check** checklist. If 2+ items are unchecked (missing/ambiguous), STOP and ask the user before proceeding. If 0-1 are unchecked, state your assumption explicitly and continue.
 - **TASK (Planning):** Write to `work/X.Y/02_tasks.md` (or `.json`). Create a strict checklist (`todo`, `done`, `verified`).
 - **EXECUTE (Action):** Write to `work/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
 

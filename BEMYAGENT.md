@@ -34,9 +34,18 @@ If this project does not yet have your tool's native rule file (e.g. `.amazonq/r
 `Read .bemyagent/docs/00-ai-rules.md before every task.`
 
 ## 2. Session Restore
-If this is a new session or context was lost, read in order:
-`.bemyagent/docs/01-overview.md` → `.bemyagent/docs/02-architecture.md` → `.bemyagent/docs/05-decisions-and-issues.md` → `.bemyagent/docs/06-implementation-plan.md`.
-Then confirm the current milestone and the active `.bemyagent/work/X/X.Y/` task folder before proceeding. Ask the user to close unnecessary tabs.
+If this is a new session or context was lost:
+
+**Step 1 — Quick Resume (try this first):**
+1. Read `.bemyagent/docs/06-implementation-plan.md` to identify the active milestone and task number.
+2. Read the `02_tasks.md` inside the most recent `.bemyagent/work/X/X.Y/` folder matching that task.
+3. If the checklist clearly shows what's done and what's pending, you have enough context. Confirm the status with the user and proceed.
+
+**Step 2 — Full Restore (only if Step 1 is insufficient):**
+Read in order: `.bemyagent/docs/01-overview.md` → `.bemyagent/docs/02-architecture.md` → `.bemyagent/docs/05-decisions-and-issues.md`.
+Then use the Routing Table (§3) to lazy-load any additional context needed for the task.
+
+Ask the user to close unnecessary tabs.
 
 ## 3. Routing Table & Lazy Loading
 **Lazy Loading Principle:** NEVER read files inside `decisions/`, `specs/`, or `drafts/` during initial context restore. They must only be loaded on-demand when explicitly required by the task.
@@ -58,7 +67,7 @@ Tactical memory is structured as a **Hierarchical Task Network (HTN)**. It is se
 If a task is too complex, DO NOT execute it directly. Decompose it into sub-tasks (e.g., if `.bemyagent/work/1/1.0/` is too big, create `.bemyagent/work/1/1.1/` and `.bemyagent/work/1/1.2/`). 
 
 For any leaf node (atomic task):
-- **THINK (Strategy):** Write to `.bemyagent/work/X/X.Y/01_think.md`. Define the approach and verification criteria. If the task is too large, break it down here and create sub-folders.
+- **THINK (Strategy):** Write to `.bemyagent/work/X/X.Y/01_think.md` using `_template_think.md`. You MUST complete the **Context Saturation Check** checklist. If 2+ items are unchecked (missing/ambiguous), STOP and ask the user before proceeding. If 0-1 are unchecked, state your assumption explicitly and continue.
 - **TASK (Planning):** Write to `.bemyagent/work/X/X.Y/02_tasks.md` (or `.json`). Create a strict checklist (`todo`, `done`, `verified`).
 - **EXECUTE (Action):** Write to `.bemyagent/work/X/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
 
@@ -212,6 +221,15 @@ One paragraph.
 ## Context
 - What are we trying to achieve?
 
+### Context Saturation Check
+> Before proceeding, fill this checklist. If 2+ items are unchecked, STOP and ask the user.
+> If 0-1 are unchecked, state your assumption explicitly and proceed.
+
+- [ ] **Target files/paths** — Known (from code-map) or ASK USER
+- [ ] **Expected behavior** — Clear (from spec) or ASK USER
+- [ ] **Constraints** — Defined (from decisions) or ASK USER
+- [ ] **Dependencies** — Mapped (from tech-stack) or ASK USER
+
 ## Approaches Considered
 - Pros/Cons of 2-3 different approaches
 
@@ -244,5 +262,28 @@ One paragraph.
 After creating all the files above:
 1. **Self-Register:** If your specific AI environment supports persistent configuration (like `.cursorrules`, `.github/copilot-instructions.md`, or internal Knowledge Items), create that configuration NOW. Program yourself to automatically `Read .bemyagent/docs/00-ai-rules.md before every task`.
 2. Output a success message confirming the initialization.
-3. Instruct the user to delete this `BEMYAGENT.md` file using the terminal `rm BEMYAGENT.md` (unless they explicitly want to keep it).
-4. **CRITICAL: CONTEXT CLEANSING.** Tell the user to CLOSE the current chat session and start a NEW ONE. Explain that continuing the current chat will pointlessly waste tokens because the entire bootstrap prompt remains in the context window. A new chat will trigger the `00-ai-rules.md` and cleanly load only what is necessary.
+3. **Show the Quick Reference Card** to the user:
+   ```
+   ╔══════════════════════════════════════════════════════════╗
+   ║  BEMYAGENT — Quick Reference                            ║
+   ╠══════════════════════════════════════════════════════════╣
+   ║                                                          ║
+   ║  MODES (say these in chat to switch):                    ║
+   ║  • "Switch to INTERACTIVE mode"                          ║
+   ║     → Agent pauses after THINK for your approval.        ║
+   ║  • "Switch to SEAMLESS mode"                             ║
+   ║     → Agent runs THINK → TASK → EXECUTE without stops.  ║
+   ║                                                          ║
+   ║  CONTEXT PROBING:                                        ║
+   ║  The agent checks if it has enough context before        ║
+   ║  acting. If too much is unclear, it will ask you.        ║
+   ║  This is normal — it means it's thinking carefully.      ║
+   ║                                                          ║
+   ║  KEY FOLDERS:                                            ║
+   ║  • .bemyagent/docs/  → Long-term project memory         ║
+   ║  • .bemyagent/work/  → Task history & audit trail        ║
+   ║                                                          ║
+   ╚══════════════════════════════════════════════════════════╝
+   ```
+4. Instruct the user to delete this `BEMYAGENT.md` file using the terminal `rm BEMYAGENT.md` (unless they explicitly want to keep it).
+5. **CRITICAL: CONTEXT CLEANSING.** Tell the user to CLOSE the current chat session and start a NEW ONE. Explain that continuing the current chat will pointlessly waste tokens because the entire bootstrap prompt remains in the context window. A new chat will trigger the `00-ai-rules.md` and cleanly load only what is necessary.
