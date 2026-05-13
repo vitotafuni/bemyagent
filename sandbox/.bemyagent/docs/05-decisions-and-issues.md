@@ -10,6 +10,7 @@
 | 5 | Native Language Localization | Generate templates in the user's interaction language. | - |
 | 6 | Directory Encapsulation | Move `docs/` and `work/` inside a hidden `.bemyagent/` folder. | - |
 | 7 | Strict Hierarchical Task Nesting | Organize `.bemyagent/work/` tasks under their parent Milestone directories. | - |
+| 8 | Semver Versioning Strategy | Use semver adapted for protocol lifecycle: MAJOR=breaking, MINOR=features, PATCH=fixes. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -41,6 +42,14 @@
 - **Problem**: A flat `work/` directory where all tasks (`1.1/`, `4.1/`, `5.1/`) are at the root level becomes cluttered and unmanageable.
 - **Decision**: Enforce a strict hierarchy where tasks are nested inside their Milestone folders (e.g., `work/1/1.1/`).
 - **Trade-off**: Deeper folder structure, but much easier for humans to audit and navigate.
+
+#### 8. Semver Versioning Strategy
+- **Problem**: The project needs a clear tagging strategy. As a protocol (not a library), standard semver triggers are ambiguous — there are no API contracts to break.
+- **Decision**: Adopt semver with protocol-specific semantics:
+  - **MAJOR** (X.0.0): Breaking changes that require manual migration of existing `.bemyagent/` setups (e.g., renaming core files, restructuring `docs/` incompatibly).
+  - **MINOR** (1.X.0): New features, rules, or structural improvements that are additive and backward-compatible. An agent re-reading the updated `00-ai-rules.md` can adapt without manual intervention.
+  - **PATCH** (1.1.X): Bug fixes to protocol rules (ambiguous wording causing agent misbehavior, incorrect path references, typos in instructions).
+- **Trade-off**: Semver is designed for APIs, not documentation protocols. The "breaking change" boundary is subjective — we define it as "does a project bootstrapped with vN require manual work to use vN+1?". If yes → MAJOR. If the agent can self-adapt by re-reading the updated rules → MINOR.
 
 ## Known issues
 ### AI forgets to pause
