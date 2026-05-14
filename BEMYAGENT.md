@@ -75,14 +75,15 @@ For any leaf node (atomic task):
 **Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` and `04_verify.md` are the only retrospective files.
 
 **Contextual DNA Mapping (CDM):**
-During the TASK phase, apply DNA mapping based on task complexity:
-- **Simple tasks** (single file, no dependencies): No CDM needed.
-- **Medium tasks** (2-3 files, internal deps): Add `✅ Validation` only (what proves success).
-- **Complex tasks** (3+ files, external deps, architectural): Add full CDM:
+During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
+- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed.
+- **Standard tasks** (routine development): Add `✅ Validation` only.
+- **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
   - `🎯 Drift`: What constitutes going off-track for THIS specific task.
-  - `✅ Validation`: The objective evidence of success (test output, file diff, etc.).
+  - `✅ Validation`: The objective evidence of success.
   - `🔄 Pivot`: The pre-defined condition to stop and propose an alternative.
-Do not execute a complex task without mapping the DNA onto it.
+    **Dynamic Pivot Rule:** During EXECUTE, if you encounter unexpected obstacles (threshold defined in `settings.json`) or if the task is consuming significantly more time/tokens than expected, STOP execution. Re-read your `01_think.md` "Approaches Considered" section and evaluate whether a previously discarded approach is now more viable. ALWAYS present the pivot proposal to the user before switching, honoring the settings in `settings.json`.
+Do not execute a heavy task without mapping the DNA onto it.
 
 **Symbiotic Validation:**
 After EXECUTE and BEFORE notifying the user, evaluate your output against the CDM criteria defined in `02_tasks.md`. Write the result to `04_verify.md`.
@@ -126,6 +127,18 @@ Run this with your AI assistant once a month:
 ### Step 3: Generate Scaffold Files
 Create these files using the templates below. **CRITICAL:** Do not just leave them as blank templates! Use the knowledge gathered in Step 0 to auto-populate `01-overview.md`, `02-architecture.md`, `03-code-map.md`, and `04-tech-stack.md` as thoroughly as possible. For `decisions`, `specs`, and `drafts`, create a `_template.md` file inside the respective folder. Also create `_template_think.md` in `.bemyagent/work/`.
 **LANGUAGE RULE:** Generate all markdown template content in the language the user is using during this bootstrap interaction. This sets the default documentation language for the project. Filenames must remain in English as shown below. The user can change the documentation language at any time (see §6).
+
+**`.bemyagent/settings.json`**
+```json
+{
+  "dynamicPivoting": {
+    "enabled": true,
+    "obstacleThreshold": 2,
+    "requireHumanApproval": true,
+    "monitorTokenConsumption": true
+  }
+}
+```
 
 **`.bemyagent/docs/01-overview.md`**
 ```markdown
@@ -252,6 +265,7 @@ One paragraph.
 
 ## Approaches Considered
 - Pros/Cons of 2-3 different approaches
+> These are NOT discarded forever. During EXECUTE, if the chosen approach hits unexpected friction, re-evaluate these alternatives with the new information acquired during execution.
 
 ## Selected Approach & Risks
 - What we chose and why

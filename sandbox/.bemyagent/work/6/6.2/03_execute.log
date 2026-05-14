@@ -1,0 +1,7 @@
+# Execution Log: Task 6.2
+
+- Updated `sandbox/.bemyagent/work/_template_think.md` to add the note about re-evaluating approaches under `## Approaches Considered`.
+- Updated `BEMYAGENT.md` (Master Template):
+  - In Section 4 (`00-ai-rules.md` block), updated the CDM evaluation rule to use token/size estimates and added the `wc` hint and Dynamic Pivot rule.
+  - In Step 3, added the block to generate `.bemyagent/settings.json` with the default JSON content.
+  - In Step 3, updated `_template_think.md` to include the same note about approaches.

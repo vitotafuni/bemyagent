@@ -1,0 +1,7 @@
+# Execution Log: Task 6.1
+
+- Created `.bemyagent/settings.json` with `dynamicPivoting` block (enabled, obstacleThreshold: 2, requireHumanApproval: true, monitorTokenConsumption: true).
+- Updated `.bemyagent/docs/00-ai-rules.md` Section 4:
+  - Replaced complexity-based CDM mapping with size/token-based mapping (Short/Micro, Standard, Long/Heavy).
+  - Added hint to use terminal tools like `wc` for token estimation.
+  - Added the "Dynamic Pivot Rule" block that monitors time/tokens and refers to `settings.json`.

@@ -1,0 +1,8 @@
+{
+  "dynamicPivoting": {
+    "enabled": true,
+    "obstacleThreshold": 2,
+    "requireHumanApproval": true,
+    "monitorTokenConsumption": true
+  }
+}

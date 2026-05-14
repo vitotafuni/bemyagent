@@ -34,6 +34,15 @@
 | 5.1 | Integrate the VERIFY rule in `00-ai-rules.md`, sync to `BEMYAGENT.md`, meta-test with first `04_verify.md` | done |
 | 5.2 | Clarify documentation language rule (§6) + update README.md to reflect current protocol state | done |
 
+## Milestone 6.0 — Protocol Configuration & Dynamic Pivoting
+**Goal**: Introduce a `settings.json` file for configurable protocol flags and implement the Dynamic Execution Pivoting (runtime monitoring) rule.
+**Status**: done
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 6.1 | Create `settings.json` and update `00-ai-rules.md` §4 with Dynamic Pivot logic | done |
+| 6.2 | Sync templates (`BEMYAGENT.md`, `_template_think.md`) and validate with a test task | done |
+
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

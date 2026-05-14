@@ -46,14 +46,15 @@ For any leaf node (atomic task):
 **Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` and `04_verify.md` are the only retrospective files.
 
 **Contextual DNA Mapping (CDM):**
-During the TASK phase, apply DNA mapping based on task complexity:
-- **Simple tasks** (single file, no dependencies): No CDM needed.
-- **Medium tasks** (2-3 files, internal deps): Add `✅ Validation` only (what proves success).
-- **Complex tasks** (3+ files, external deps, architectural): Add full CDM:
+During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
+- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed.
+- **Standard tasks** (routine development): Add `✅ Validation` only.
+- **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
   - `🎯 Drift`: What constitutes going off-track for THIS specific task.
-  - `✅ Validation`: The objective evidence of success (test output, file diff, etc.).
+  - `✅ Validation`: The objective evidence of success.
   - `🔄 Pivot`: The pre-defined condition to stop and propose an alternative.
-Do not execute a complex task without mapping the DNA onto it.
+    **Dynamic Pivot Rule:** During EXECUTE, if you encounter unexpected obstacles (threshold defined in `settings.json`) or if the task is consuming significantly more time/tokens than expected, STOP execution. Re-read your `01_think.md` "Approaches Considered" section and evaluate whether a previously discarded approach is now more viable. ALWAYS present the pivot proposal to the user before switching, honoring the settings in `settings.json`.
+Do not execute a heavy task without mapping the DNA onto it.
 
 **Symbiotic Validation:**
 After EXECUTE and BEFORE notifying the user, evaluate your output against the CDM criteria defined in `02_tasks.md`. Write the result to `04_verify.md`.
