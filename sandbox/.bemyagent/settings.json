@@ -1,4 +1,6 @@
 {
+  "language": "en",
+  "mode": "SEAMLESS",
   "dynamicPivoting": {
     "enabled": true,
     "obstacleThreshold": 2,
