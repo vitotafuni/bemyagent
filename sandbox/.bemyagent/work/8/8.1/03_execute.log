@@ -1,0 +1,6 @@
+# Execution Log: Task 8.1
+
+- Updated `sandbox/.bemyagent/docs/00-ai-rules.md` to include Section 8: Protocol Updates & Migration Rules, emphasizing atomic operations and collision prevention.
+- Updated `BEMYAGENT.md`:
+  - Added Section 8 to the core template block.
+  - Updated Step 0, Rule 1 (Is this an UPGRADE?) to explicitly require stopping and following the Section 8 migration rules, checking for collisions, and using atomic operations.

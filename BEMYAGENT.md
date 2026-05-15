@@ -11,7 +11,7 @@ When the user asks you to execute this bootstrap, you MUST perform the following
 
 ### Step 0: Discovery & Assessment
 Before generating any files, analyze the current workspace. **Important:** If your tool cannot create directories automatically, list the required `mkdir` commands and ask the user to execute them before proceeding.
-1. **Is this an UPGRADE?** If `.bemyagent/docs/` and `.bemyagent/work/` directories already exist, this is a protocol upgrade. **ONLY overwrite `.bemyagent/docs/00-ai-rules.md`** to update the rules. Do NOT overwrite `01-overview.md` or any other existing project documentation. Output an upgrade success message and STOP.
+1. **Is this an UPGRADE?** If `.bemyagent/` already exists, STOP and follow the Migration Rules (see Section 8 in the template below). Use atomic operations (`cp -r`, `mv`) and check for filename collisions before copying new protocol files. ONLY overwrite `.bemyagent/docs/00-ai-rules.md`. Do NOT overwrite `01-overview.md` or any other user documentation. Output an upgrade success message and STOP.
 2. **Is it an existing project (Brownfield)?** If you see an existing codebase but no `.bemyagent/docs/` folder, perform a **shallow, token-efficient scan** of the structure. **CRITICAL TOKEN-SAVING RULE:** You MUST IGNORE lockfiles (e.g., `package-lock.json`), vendor directories (e.g., `node_modules`, `vendor`, `.venv`), build outputs (`dist`, `target`), and deeply nested source code. Look ONLY at the root directory, primary dependency manifests, build scripts, and top-level architecture indicators. You will use this context to AUTO-FILL the documentation in Step 3. Do NOT fabricate `.bemyagent/work/` logs for past work; only map the current state.
 3. **Is it a new/empty project (Greenfield)?** If the workspace is empty, STOP and ask the user: *"What are we building? Please describe the project."* Wait for their answer. You will use their response to AUTO-FILL the documentation in Step 3.
 
@@ -75,14 +75,15 @@ For any leaf node (atomic task):
 **Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` and `04_verify.md` are the only retrospective files.
 
 **Contextual DNA Mapping (CDM):**
-During the TASK phase, apply DNA mapping based on task complexity:
-- **Simple tasks** (single file, no dependencies): No CDM needed.
-- **Medium tasks** (2-3 files, internal deps): Add `✅ Validation` only (what proves success).
-- **Complex tasks** (3+ files, external deps, architectural): Add full CDM:
+During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
+- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
+- **Standard tasks** (routine development): Add `✅ Validation` only.
+- **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
   - `🎯 Drift`: What constitutes going off-track for THIS specific task.
-  - `✅ Validation`: The objective evidence of success (test output, file diff, etc.).
+  - `✅ Validation`: The objective evidence of success.
   - `🔄 Pivot`: The pre-defined condition to stop and propose an alternative.
-Do not execute a complex task without mapping the DNA onto it.
+    **Dynamic Pivot Rule:** During EXECUTE, if you encounter unexpected obstacles (threshold defined in `settings.json`) or if the task is consuming significantly more time/tokens than expected, STOP execution. Re-read your `01_think.md` "Approaches Considered" section and evaluate whether a previously discarded approach is now more viable. ALWAYS present the pivot proposal to the user before switching, honoring the settings in `settings.json`.
+Do not execute a heavy task without mapping the DNA onto it.
 
 **Symbiotic Validation:**
 After EXECUTE and BEFORE notifying the user, evaluate your output against the CDM criteria defined in `02_tasks.md`. Write the result to `04_verify.md`.
@@ -91,7 +92,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - The protocol defines that verification happens. HOW deep to verify is a decision for the human-agent pair, refined through practice.
 
 **Pacing & Handoff Configuration:**
-*Current Mode:* **SEAMLESS** (The user can use the command *"Switch to INTERACTIVE mode"* at any time).
+*Current Mode:* **Determined by `settings.json` (`mode` key)**. The user can override this by saying *"Switch to INTERACTIVE/SEAMLESS mode"*, which should trigger an update to the JSON file.
 - **SEAMLESS**: Proceed through THINK, TASK, EXECUTE, and VERIFY automatically. If VERIFY yields PASS → notify user. If PASS_WITH_CAVEATS or FAIL → stop and present findings.
 - **INTERACTIVE**: You MUST STOP after the THINK phase and after VERIFY, waiting for human approval at both gates.
 - **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model, VERIFY → Middle model).
@@ -109,7 +110,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
-- **Language:** Documentation language is set at bootstrap time (matching the language used during the initial bootstrap interaction). The user can override it at any time by saying *"Set documentation language to [language]"*. All `.bemyagent/` files must use the configured language. Chat interaction language and documentation language are independent.
+- **Language:** Documentation language is defined in `settings.json` (`language` key). The user can override it at any time by saying *"Set documentation language to [language]"*, which should trigger an update to the JSON file. Chat interaction language and documentation language are independent.
 - **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
 - `drafts/` files: promote to `specs/` when ready to build, delete the draft.
@@ -121,11 +122,31 @@ Run this with your AI assistant once a month:
 > Verify files ignored by `.gitignore`.
 > Check if test coverage is still aligned with recent code changes.
 > List any decisions made recently not yet in `05-decisions-and-issues.md`."
+
+## 8. Protocol Updates & Migration Rules
+When updating or migrating a project to a new version of BEMYAGENT:
+- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic terminal commands (e.g., `cp -r`, `mv`) instead of manually enumerating files. Manual reconstruction leads to omission.
+- **Prevent Name Collisions:** Before bootstrapping or copying new protocol files, scan the destination directory for filename collisions with existing user documentation.
+- **Safe Resolution:** If a collision exists, NEVER overwrite the user's files. Pause execution to ask the user, or safely move the conflicting files to an `archived/` or `project_docs/` folder. User documentation and protocol documentation should remain clearly separated.
 ````
 
 ### Step 3: Generate Scaffold Files
 Create these files using the templates below. **CRITICAL:** Do not just leave them as blank templates! Use the knowledge gathered in Step 0 to auto-populate `01-overview.md`, `02-architecture.md`, `03-code-map.md`, and `04-tech-stack.md` as thoroughly as possible. For `decisions`, `specs`, and `drafts`, create a `_template.md` file inside the respective folder. Also create `_template_think.md` in `.bemyagent/work/`.
 **LANGUAGE RULE:** Generate all markdown template content in the language the user is using during this bootstrap interaction. This sets the default documentation language for the project. Filenames must remain in English as shown below. The user can change the documentation language at any time (see §6).
+
+**`.bemyagent/settings.json`**
+```json
+{
+  "language": "en",
+  "mode": "SEAMLESS",
+  "dynamicPivoting": {
+    "enabled": true,
+    "obstacleThreshold": 2,
+    "requireHumanApproval": true,
+    "monitorTokenConsumption": true
+  }
+}
+```
 
 **`.bemyagent/docs/01-overview.md`**
 ```markdown
@@ -252,6 +273,7 @@ One paragraph.
 
 ## Approaches Considered
 - Pros/Cons of 2-3 different approaches
+> These are NOT discarded forever. During EXECUTE, if the chosen approach hits unexpected friction, re-evaluate these alternatives with the new information acquired during execution.
 
 ## Selected Approach & Risks
 - What we chose and why

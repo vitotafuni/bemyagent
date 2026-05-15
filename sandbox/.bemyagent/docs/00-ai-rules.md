@@ -46,14 +46,15 @@ For any leaf node (atomic task):
 **Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` and `04_verify.md` are the only retrospective files.
 
 **Contextual DNA Mapping (CDM):**
-During the TASK phase, apply DNA mapping based on task complexity:
-- **Simple tasks** (single file, no dependencies): No CDM needed.
-- **Medium tasks** (2-3 files, internal deps): Add `✅ Validation` only (what proves success).
-- **Complex tasks** (3+ files, external deps, architectural): Add full CDM:
+During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
+- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
+- **Standard tasks** (routine development): Add `✅ Validation` only.
+- **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
   - `🎯 Drift`: What constitutes going off-track for THIS specific task.
-  - `✅ Validation`: The objective evidence of success (test output, file diff, etc.).
+  - `✅ Validation`: The objective evidence of success.
   - `🔄 Pivot`: The pre-defined condition to stop and propose an alternative.
-Do not execute a complex task without mapping the DNA onto it.
+    **Dynamic Pivot Rule:** During EXECUTE, if you encounter unexpected obstacles (threshold defined in `settings.json`) or if the task is consuming significantly more time/tokens than expected, STOP execution. Re-read your `01_think.md` "Approaches Considered" section and evaluate whether a previously discarded approach is now more viable. ALWAYS present the pivot proposal to the user before switching, honoring the settings in `settings.json`.
+Do not execute a heavy task without mapping the DNA onto it.
 
 **Symbiotic Validation:**
 After EXECUTE and BEFORE notifying the user, evaluate your output against the CDM criteria defined in `02_tasks.md`. Write the result to `04_verify.md`.
@@ -62,7 +63,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - The protocol defines that verification happens. HOW deep to verify is a decision for the human-agent pair, refined through practice.
 
 **Pacing & Handoff Configuration:**
-*Current Mode:* **SEAMLESS** (The user can use the command *"Switch to INTERACTIVE mode"* at any time).
+*Current Mode:* **Determined by `settings.json` (`mode` key)**. The user can override this by saying *"Switch to INTERACTIVE/SEAMLESS mode"*, which should trigger an update to the JSON file.
 - **SEAMLESS**: Proceed through THINK, TASK, EXECUTE, and VERIFY automatically. If VERIFY yields PASS → notify user. If PASS_WITH_CAVEATS or FAIL → stop and present findings.
 - **INTERACTIVE**: You MUST STOP after the THINK phase and after VERIFY, waiting for human approval at both gates.
 - **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model, VERIFY → Middle model).
@@ -80,7 +81,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
-- **Language:** Documentation language is set at bootstrap time (matching the language used during the initial bootstrap interaction). The user can override it at any time by saying *"Set documentation language to [language]"*. All `.bemyagent/` files must use the configured language. Chat interaction language and documentation language are independent.
+- **Language:** Documentation language is defined in `settings.json` (`language` key). The user can override it at any time by saying *"Set documentation language to [language]"*, which should trigger an update to the JSON file. Chat interaction language and documentation language are independent.
 - **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
 - `drafts/` files: promote to `specs/` when ready to build, delete the draft.
@@ -92,3 +93,9 @@ Run this with your AI assistant once a month:
 > Verify files ignored by `.gitignore`.
 > Check if test coverage is still aligned with recent code changes.
 > List any decisions made recently not yet in `05-decisions-and-issues.md`."
+
+## 8. Protocol Updates & Migration Rules
+When updating or migrating a project to a new version of BEMYAGENT:
+- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic terminal commands (e.g., `cp -r`, `mv`) instead of manually enumerating files. Manual reconstruction leads to omission.
+- **Prevent Name Collisions:** Before bootstrapping or copying new protocol files, scan the destination directory for filename collisions with existing user documentation.
+- **Safe Resolution:** If a collision exists, NEVER overwrite the user's files. Pause execution to ask the user, or safely move the conflicting files to an `archived/` or `project_docs/` folder. User documentation and protocol documentation should remain clearly separated.

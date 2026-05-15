@@ -12,6 +12,7 @@
 
 ## Approaches Considered
 - Pros/Cons of 2-3 different approaches
+> These are NOT discarded forever. During EXECUTE, if the chosen approach hits unexpected friction, re-evaluate these alternatives with the new information acquired during execution.
 
 ## Selected Approach & Risks
 - What we chose and why
