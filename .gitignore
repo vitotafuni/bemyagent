@@ -1,3 +1,5 @@
-# Ignore BEMYAGENT drafts
-.bemyagent/docs/drafts/
-sandbox/.bemyagent/docs/drafts/
+# Ignore BEMYAGENT drafts but keep the templates
+.bemyagent/docs/drafts/*
+!.bemyagent/docs/drafts/_template.md
+sandbox/.bemyagent/docs/drafts/*
+!sandbox/.bemyagent/docs/drafts/_template.md
