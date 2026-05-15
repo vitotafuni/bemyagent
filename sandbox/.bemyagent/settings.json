@@ -1,6 +1,10 @@
 {
   "language": "en",
-  "mode": "SEAMLESS",
+  "interactiveMode": false,
+  "strictVerification": false,
+  "compressMicroTasks": true,
+  "autoModelSwitching": true,
+  "autoCommit": false,
   "dynamicPivoting": {
     "enabled": true,
     "obstacleThreshold": 2,

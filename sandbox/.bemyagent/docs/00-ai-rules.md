@@ -47,7 +47,7 @@ For any leaf node (atomic task):
 
 **Contextual DNA Mapping (CDM):**
 During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
-- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
+- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** If `compressMicroTasks` is `true` in `settings.json`, IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
 - **Standard tasks** (routine development): Add `✅ Validation` only.
 - **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
   - `🎯 Drift`: What constitutes going off-track for THIS specific task.
@@ -60,13 +60,14 @@ Do not execute a heavy task without mapping the DNA onto it.
 After EXECUTE and BEFORE notifying the user, evaluate your output against the CDM criteria defined in `02_tasks.md`. Write the result to `04_verify.md`.
 - For each CDM criterion (✅ Validation, 🎯 Drift, 🔄 Pivot), state the result and the evidence.
 - Produce a verdict: **PASS** (proceed silently), **PASS_WITH_CAVEATS** (present friction points to user, await decision), or **FAIL** (attempt one self-correction; if it fails again, escalate to user).
-- The protocol defines that verification happens. HOW deep to verify is a decision for the human-agent pair, refined through practice.
+- **Verification Depth:** If `strictVerification` is `true` in `settings.json`, perform a deep analysis (edge cases, performance, architecture alignment). If `false`, perform a light check (compilation, basic task success).
+- **Auto Commit:** If `autoCommit` is `true` in `settings.json` and the verdict is PASS, automatically execute or propose a `git commit` with a message like `feat: [X.Y] ...`.
 
 **Pacing & Handoff Configuration:**
-*Current Mode:* **Determined by `settings.json` (`mode` key)**. The user can override this by saying *"Switch to INTERACTIVE/SEAMLESS mode"*, which should trigger an update to the JSON file.
-- **SEAMLESS**: Proceed through THINK, TASK, EXECUTE, and VERIFY automatically. If VERIFY yields PASS → notify user. If PASS_WITH_CAVEATS or FAIL → stop and present findings.
-- **INTERACTIVE**: You MUST STOP after the THINK phase and after VERIFY, waiting for human approval at both gates.
-- **AUTO-CLI**: If you have CLI capabilities to switch models autonomously, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model, VERIFY → Middle model).
+*Interactive Mode:* **Determined by `settings.json` (`interactiveMode` key)**. The user can override this by saying *"Enable/Disable interactive mode"*, which should trigger an update to the JSON file.
+- **if false (SEAMLESS)**: Proceed through THINK, TASK, EXECUTE, and VERIFY automatically. If VERIFY yields PASS → notify user. If PASS_WITH_CAVEATS or FAIL → stop and present findings.
+- **if true (INTERACTIVE)**: You MUST STOP after the THINK phase and after VERIFY, waiting for human approval at both gates.
+- **AUTO-CLI**: If `autoModelSwitching` is `true` in `settings.json` and you have CLI capabilities, switch to the optimal models for each phase (e.g., THINK → Opus/Big model, TASK → Sonnet/Middle model, EXECUTE → Haiku/Fast model, VERIFY → Middle model).
 *Rule:* Prune your context window before EXECUTE. Only load files strictly required for that specific leaf node.
 
 **Git Rules:**
