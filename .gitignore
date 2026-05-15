@@ -1,0 +1,3 @@
+# Ignore BEMYAGENT drafts
+.bemyagent/docs/drafts/
+sandbox/.bemyagent/docs/drafts/
