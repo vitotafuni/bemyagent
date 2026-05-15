@@ -309,17 +309,25 @@ One paragraph.
 After creating all the files above:
 1. **Self-Register:** If your specific AI environment supports persistent configuration (like `.cursorrules`, `.github/copilot-instructions.md`, or internal Knowledge Items), create that configuration NOW. Program yourself to automatically `Read .bemyagent/docs/00-ai-rules.md before every task`.
 2. Output a success message confirming the initialization.
-3. **Show the Quick Reference Card** to the user:
-   ```
+3. **Explain Configuration:** Present a brief summary of the `.bemyagent/settings.json` file so the user knows how to configure you:
+   - `language`: Language for generated docs (e.g. "en", "it").
+   - `interactiveMode`: If `true`, the agent pauses for human approval after THINK and VERIFY. If `false` (SEAMLESS), it works autonomously.
+   - `strictVerification`: If `true`, performs deep analysis (performance, edge cases) during VERIFY. If `false`, performs light checks.
+   - `compressMicroTasks`: If `true`, skips verbose templates for trivial tasks to save tokens.
+   - `autoModelSwitching`: If `true`, uses cheaper/faster models for execution and smarter models for thinking (if CLI permits).
+   - `autoCommit`: If `true`, suggests a Git commit automatically after every successful task.
+   - `dynamicPivoting`: Settings to stop the agent from wasting tokens if a task suddenly becomes too complex.
+   Tell the user they can manually edit `.bemyagent/settings.json` or ask you to change these settings at any time.
+4. **Show the Quick Reference Card** to the user:
+   ```text
    ╔══════════════════════════════════════════════════════════╗
    ║  BEMYAGENT — Quick Reference                            ║
    ╠══════════════════════════════════════════════════════════╣
    ║                                                          ║
-   ║  MODES (say these in chat to switch):                    ║
-   ║  • "Switch to INTERACTIVE mode"                          ║
-   ║     → Agent pauses after THINK for your approval.        ║
-   ║  • "Switch to SEAMLESS mode"                             ║
-   ║     → Agent runs THINK → TASK → EXECUTE without stops.  ║
+   ║  MODES & SETTINGS:                                       ║
+   ║  • All behavior is controlled by .bemyagent/settings.json║
+   ║  • You can manually edit it or tell me to update it      ║
+   ║    (e.g., "Switch to interactive mode", "Use Italian").  ║
    ║                                                          ║
    ║  CONTEXT PROBING:                                        ║
    ║  The agent checks if it has enough context before        ║
