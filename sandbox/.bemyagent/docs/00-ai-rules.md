@@ -47,7 +47,7 @@ For any leaf node (atomic task):
 
 **Contextual DNA Mapping (CDM):**
 During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
-- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed.
+- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
 - **Standard tasks** (routine development): Add `✅ Validation` only.
 - **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
   - `🎯 Drift`: What constitutes going off-track for THIS specific task.

@@ -1,0 +1,3 @@
+# Execution Log: Task 7.1
+
+- Replaced "No CDM needed." with "No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`." in both `sandbox/.bemyagent/docs/00-ai-rules.md` and `BEMYAGENT.md`.
