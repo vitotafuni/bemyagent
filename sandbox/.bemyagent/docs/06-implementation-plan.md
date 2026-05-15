@@ -51,6 +51,14 @@
 |------|-------------|--------|
 | 7.1 | Update `00-ai-rules.md` and `BEMYAGENT.md` to enforce the compression rule for Short/Micro tasks | done |
 
+## Milestone 8.0 — Protocol Updates & Migrations
+**Goal**: Implement Draft 04 rules to safely handle updates in existing projects, avoiding file loss (via atomic operations) and filename collisions.
+**Status**: done
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 8.1 | Add Migration Rules to `00-ai-rules.md` and `BEMYAGENT.md` (atomic operations, collision checks) | done |
+
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

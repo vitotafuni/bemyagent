@@ -11,7 +11,7 @@ When the user asks you to execute this bootstrap, you MUST perform the following
 
 ### Step 0: Discovery & Assessment
 Before generating any files, analyze the current workspace. **Important:** If your tool cannot create directories automatically, list the required `mkdir` commands and ask the user to execute them before proceeding.
-1. **Is this an UPGRADE?** If `.bemyagent/docs/` and `.bemyagent/work/` directories already exist, this is a protocol upgrade. **ONLY overwrite `.bemyagent/docs/00-ai-rules.md`** to update the rules. Do NOT overwrite `01-overview.md` or any other existing project documentation. Output an upgrade success message and STOP.
+1. **Is this an UPGRADE?** If `.bemyagent/` already exists, STOP and follow the Migration Rules (see Section 8 in the template below). Use atomic operations (`cp -r`, `mv`) and check for filename collisions before copying new protocol files. ONLY overwrite `.bemyagent/docs/00-ai-rules.md`. Do NOT overwrite `01-overview.md` or any other user documentation. Output an upgrade success message and STOP.
 2. **Is it an existing project (Brownfield)?** If you see an existing codebase but no `.bemyagent/docs/` folder, perform a **shallow, token-efficient scan** of the structure. **CRITICAL TOKEN-SAVING RULE:** You MUST IGNORE lockfiles (e.g., `package-lock.json`), vendor directories (e.g., `node_modules`, `vendor`, `.venv`), build outputs (`dist`, `target`), and deeply nested source code. Look ONLY at the root directory, primary dependency manifests, build scripts, and top-level architecture indicators. You will use this context to AUTO-FILL the documentation in Step 3. Do NOT fabricate `.bemyagent/work/` logs for past work; only map the current state.
 3. **Is it a new/empty project (Greenfield)?** If the workspace is empty, STOP and ask the user: *"What are we building? Please describe the project."* Wait for their answer. You will use their response to AUTO-FILL the documentation in Step 3.
 
@@ -122,6 +122,12 @@ Run this with your AI assistant once a month:
 > Verify files ignored by `.gitignore`.
 > Check if test coverage is still aligned with recent code changes.
 > List any decisions made recently not yet in `05-decisions-and-issues.md`."
+
+## 8. Protocol Updates & Migration Rules
+When updating or migrating a project to a new version of BEMYAGENT:
+- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic terminal commands (e.g., `cp -r`, `mv`) instead of manually enumerating files. Manual reconstruction leads to omission.
+- **Prevent Name Collisions:** Before bootstrapping or copying new protocol files, scan the destination directory for filename collisions with existing user documentation.
+- **Safe Resolution:** If a collision exists, NEVER overwrite the user's files. Pause execution to ask the user, or safely move the conflicting files to an `archived/` or `project_docs/` folder. User documentation and protocol documentation should remain clearly separated.
 ````
 
 ### Step 3: Generate Scaffold Files

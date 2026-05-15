@@ -93,3 +93,9 @@ Run this with your AI assistant once a month:
 > Verify files ignored by `.gitignore`.
 > Check if test coverage is still aligned with recent code changes.
 > List any decisions made recently not yet in `05-decisions-and-issues.md`."
+
+## 8. Protocol Updates & Migration Rules
+When updating or migrating a project to a new version of BEMYAGENT:
+- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic terminal commands (e.g., `cp -r`, `mv`) instead of manually enumerating files. Manual reconstruction leads to omission.
+- **Prevent Name Collisions:** Before bootstrapping or copying new protocol files, scan the destination directory for filename collisions with existing user documentation.
+- **Safe Resolution:** If a collision exists, NEVER overwrite the user's files. Pause execution to ask the user, or safely move the conflicting files to an `archived/` or `project_docs/` folder. User documentation and protocol documentation should remain clearly separated.
