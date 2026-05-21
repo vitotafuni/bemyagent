@@ -108,6 +108,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - **Dependencies:** If you need to add a new dependency, first update `04-tech-stack.md` and propose the installation command to the user (e.g., `npm install`).
 
 ## 6. Coding & Maintenance Rules
+- **Surgical Scope:** Touch only files directly related to the task. Do not refactor adjacent code, alter unrelated comments, or normalize formatting across the repo.
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
@@ -215,6 +216,10 @@ Create these files using the templates below. **CRITICAL:** Do not just leave th
 - **Decision**: what was chosen
 - **Trade-off**: what we gave up
 
+## Engineering Learnings
+> **Rule of thumb:** Use this section to capture project-specific patterns, gotchas, or best practices discovered during execution that future agents should know.
+- **[Topic]**: What we learned.
+
 ## Known issues
 ### [Issue title]
 - **Symptom**: what the user/developer sees
@@ -282,6 +287,7 @@ One paragraph.
 
 ## Selected Approach & Risks
 - What we chose and why
+- Estimated token cost: [low/medium/high] (Consider switching model if high)
 - Risks & Mitigations
 
 ## Verification Plan

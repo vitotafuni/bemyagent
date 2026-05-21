@@ -67,7 +67,11 @@
 #### 11. Documentation Language Rule
 - **Problem**: The previous rule ("use the user's preferred language") was ambiguous — it conflated chat interaction language with documentation language. In a public repo with international audience, the user may interact in Italian but need English documentation.
 - **Decision**: Documentation language is set at bootstrap time (matching the bootstrap interaction language). It can be overridden at any time with "Set documentation language to [language]". Chat and documentation languages are independent.
-- **Trade-off**: Slightly more complex rule, but eliminates the ambiguity that caused Italian text in an English-convention repo.
+- **Trade-off**: Perdo la storicità della motivazione originale per cui era stato introdotto. E' anche vero che ci sono i commit su git per ricostruire eventualmente un po' di storia.
+
+## Engineering Learnings
+> **Rule of thumb:** Use this section to capture project-specific patterns, gotchas, or best practices discovered during execution that future agents should know.
+- **[Topic]**: What we learned.
 
 ## Known issues
 ### AI forgets to pause

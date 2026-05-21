@@ -16,6 +16,7 @@
 
 ## Selected Approach & Risks
 - What we chose and why
+- Estimated token cost: [low/medium/high] (Consider switching model if high)
 - Risks & Mitigations
 
 ## Verification Plan

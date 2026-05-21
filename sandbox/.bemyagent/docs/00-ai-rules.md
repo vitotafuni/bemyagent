@@ -79,6 +79,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - **Dependencies:** Se devi aggiungere una dipendenza, prima aggiorna `04-tech-stack.md` e proponi `npm install` / equivalente.
 
 ## 6. Coding & Maintenance Rules
+- **Surgical Scope:** Touch only files directly related to the task. Do not refactor adjacent code, alter unrelated comments, or normalize formatting across the repo.
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
