@@ -34,11 +34,23 @@ Before starting any task, read:
 ## 4. Fractal TTEV Workflow (work/ namespace)
 Tactical memory is structured as a **Hierarchical Task Network (HTN)**. It is segmented by Task Numbers matching `06-implementation-plan.md` (which acts as the high-level Table of Contents).
 
-**The Rule of Decomposition:** 
-If a task is too complex, DO NOT execute it directly. Decompose it into sub-tasks (e.g., if `work/1.0/` is too big, create `work/1.1/` and `work/1.2/`). 
+**The Rule of Decomposition (Divide et Impera):** 
+If a task is too complex, DO NOT execute it directly. Decompose it into sub-tasks (e.g., if `work/1.0/` is too big, create `work/1.1/` and `work/1.2/`). Solve each sub-component in isolation, verify it individually, then integrate gradually. If a sub-task itself proves too complex during EXECUTE, fragment further into nested directories (e.g., `work/7/7.1/7.1.1/`).
+
+**Hierarchical Work Structure:**
+Work directories follow the task hierarchy from `06-implementation-plan.md`:
+- **Level 1** — Milestone: `work/<N>/` (e.g., `work/4/`)
+- **Level 2** — Task: `work/<N>/<N.Y>/` (e.g., `work/4/4.1/`)
+- **Level 3** — Sub-task (optional): `work/<N>/<N.Y>/<N.Y.Z>/` (e.g., `work/4/4.1/4.1.1/`)
+
+A directory is a **leaf node** if it contains TTEV files (`01_think.md`, `02_tasks.md`, etc.). A directory is a **branch node** if it contains only subdirectories. **Maximum nesting depth: 3 levels.** If a sub-task at level 3 still needs decomposition, it's a sign the milestone itself should be re-scoped.
+
 
 For any leaf node (atomic task):
 - **THINK (Strategy):** Write to `work/X.Y/01_think.md` using `_template_think.md`. You MUST complete the **Context Saturation Check** checklist. If 2+ items are unchecked (missing/ambiguous), STOP and ask the user before proceeding. If 0-1 are unchecked, state your assumption explicitly and continue.
+  **Advanced Reasoning (for Standard and Heavy tasks):**
+  - *Pre-mortem:* Before finalizing the plan, assume the task has failed. Identify the 2-3 most likely causes of failure and adjust the plan to mitigate them proactively.
+  - *Devil's Advocate:* Challenge your own chosen approach. Generate at least one radically different alternative. If it's clearly superior, pivot. If not, briefly document why the original approach survives the challenge.
 - **TASK (Planning):** Write to `work/X.Y/02_tasks.md` (or `.json`). Create a strict checklist (`todo`, `done`, `verified`).
 - **EXECUTE (Action):** Write to `work/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
 - **VERIFY (Validation):** Write to `work/X.Y/04_verify.md`. Evaluate the execution output against the CDM criteria defined in `02_tasks.md` and produce a verdict BEFORE notifying the user. See **Symbiotic Validation** below.
