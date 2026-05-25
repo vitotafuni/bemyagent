@@ -31,6 +31,14 @@ Before starting any task, read:
 | Unscoped idea | docs/drafts/[idea-name].md |
 | Tech dependency or version | docs/04-tech-stack.md |
 
+**Context Slicing Rule (Large File Handling):**
+Before reading any file in `docs/` or `work/`, estimate its size (e.g., `wc -l <file>`).
+If the file exceeds `contextSlicingThreshold` lines (defined in `settings.json`, default: 200):
+1. **Do NOT read the entire file.** Use `grep` or targeted search to extract only the sections relevant to the current task, with a context window of ~20-30 lines around each match.
+2. **If the initial extraction is insufficient**, progressively expand the context window (e.g., 50-80 lines) until you have enough information.
+3. **Only as a last resort**, read the entire file.
+4. **If you repeatedly need large portions of the same file across multiple tasks**, propose fragmentation to the user (e.g., splitting `03-code-map.md` into `03-code-map/frontend.md` and `03-code-map/backend.md`).
+
 ## 4. Fractal TTEV Workflow (work/ namespace)
 Tactical memory is structured as a **Hierarchical Task Network (HTN)**. It is segmented by Task Numbers matching `06-implementation-plan.md` (which acts as the high-level Table of Contents).
 
@@ -59,13 +67,13 @@ For any leaf node (atomic task):
 
 **Contextual DNA Mapping (CDM):**
 During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
-- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** If `compressMicroTasks` is `true` in `settings.json`, IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
+- **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
 - **Standard tasks** (routine development): Add `✅ Validation` only.
 - **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
   - `🎯 Drift`: What constitutes going off-track for THIS specific task.
   - `✅ Validation`: The objective evidence of success.
   - `🔄 Pivot`: The pre-defined condition to stop and propose an alternative.
-    **Dynamic Pivot Rule:** During EXECUTE, if you encounter unexpected obstacles (threshold defined in `settings.json`) or if the task is consuming significantly more time/tokens than expected, STOP execution. Re-read your `01_think.md` "Approaches Considered" section and evaluate whether a previously discarded approach is now more viable. ALWAYS present the pivot proposal to the user before switching, honoring the settings in `settings.json`.
+    **Dynamic Pivot Rule:** During EXECUTE, if you encounter unexpected obstacles exceeding `obstacleThreshold` (defined in `settings.json`) or if the task is consuming significantly more time/tokens than expected, STOP execution. Re-read your `01_think.md` "Approaches Considered" section and evaluate whether a previously discarded approach is now more viable. If `interactiveMode` is `true`, present the pivot proposal to the user before switching. If `false`, pivot and report the change in the next status update.
 Do not execute a heavy task without mapping the DNA onto it.
 
 **Symbiotic Validation:**
@@ -95,6 +103,7 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
+- **Output Brevity:** Minimize verbose explanations unless explicitly requested. Prefer direct file modifications over describing changes in chat. Keep `03_execute.log` entries ultra-synthetic: command → result → next action. No prose. When showing code changes, use minimal diffs rather than repeating entire file contents.
 - **Language:** Documentation language is defined in `settings.json` (`language` key). The user can override it at any time by saying *"Set documentation language to [language]"*, which should trigger an update to the JSON file. Chat interaction language and documentation language are independent.
 - **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.

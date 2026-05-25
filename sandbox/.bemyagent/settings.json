@@ -2,13 +2,8 @@
   "language": "en",
   "interactiveMode": false,
   "strictVerification": false,
-  "compressMicroTasks": true,
   "autoModelSwitching": true,
   "autoCommit": false,
-  "dynamicPivoting": {
-    "enabled": true,
-    "obstacleThreshold": 2,
-    "requireHumanApproval": true,
-    "monitorTokenConsumption": true
-  }
+  "obstacleThreshold": 2,
+  "contextSlicingThreshold": 200
 }
