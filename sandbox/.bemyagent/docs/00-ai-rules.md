@@ -31,6 +31,8 @@ Before starting any task, read:
 | Unscoped idea | docs/drafts/[idea-name].md |
 | Tech dependency or version | docs/04-tech-stack.md |
 
+**Conceptual Map Pattern:** Files referenced in the Routing Table (`01-overview.md`, `02-architecture.md`, `03-code-map.md`) act as lightweight conceptual maps. They MUST contain only the logical tree and pointers to detailed fragments — never inline specs or extended explanations. When navigating fragmented documentation, always read the map first (low cost), then fetch only the specific fragment needed.
+
 **Context Slicing Rule (Large File Handling):**
 Before reading any file in `docs/` or `work/`, estimate its size (e.g., `wc -l <file>`).
 If the file exceeds `contextSlicingThreshold` lines (defined in `settings.json`, default: 200):
@@ -97,13 +99,18 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 ## 5. Anti-Hallucination & Safety Rules
 - **Always Verify:** Prima di ogni modifica a file esistenti, leggi SEMPRE il contenuto attuale del file. Mai assumere che una funzione o variabile esista senza averla vista nel context.
 - **Dependencies:** Se devi aggiungere una dipendenza, prima aggiorna `04-tech-stack.md` e proponi `npm install` / equivalente.
+- **Critical Review Protocol:** When evaluating a draft, proposal, or any input that suggests changes to documentation or protocol (including `00-ai-rules.md` itself):
+  1. **Overlap Check:** Search the target file(s) for semantic overlap. If the concept is already covered (even implicitly), prefer a surgical edit to the existing text over adding a new rule.
+  2. **Cost/Benefit:** Quantify the cost of the proposal (e.g., lines added to `00-ai-rules.md` = tokens consumed at every session restore). The benefit must clearly outweigh this recurring cost.
+  3. **Challenge:** Identify at least one structural weakness and one unanswered question before recommending integration.
+  4. **Minimal Alternative:** Always propose the smallest possible change that achieves the same goal.
 
 ## 6. Coding & Maintenance Rules
 - **Surgical Scope:** Touch only files directly related to the task. Do not refactor adjacent code, alter unrelated comments, or normalize formatting across the repo.
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
-- **Output Brevity:** Minimize verbose explanations unless explicitly requested. Prefer direct file modifications over describing changes in chat. Keep `03_execute.log` entries ultra-synthetic: command → result → next action. No prose. When showing code changes, use minimal diffs rather than repeating entire file contents.
+- **Output Brevity:** Minimize verbose explanations unless explicitly requested. Prefer direct file modifications over describing changes in chat. Keep `03_execute.log` entries ultra-synthetic: command → result → next action. No prose. When showing code changes, use minimal diffs rather than repeating entire file contents. When producing evaluations or reviews, focus on gaps, overlaps, and minimal actions — never paraphrase the input.
 - **Language:** Documentation language is defined in `settings.json` (`language` key). The user can override it at any time by saying *"Set documentation language to [language]"*, which should trigger an update to the JSON file. Chat interaction language and documentation language are independent.
 - **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
