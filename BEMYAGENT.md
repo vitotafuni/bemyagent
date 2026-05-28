@@ -116,6 +116,8 @@ Before starting any task, read:
 | Unscoped idea | .bemyagent/docs/drafts/[idea-name].md |
 | Tech dependency or version | .bemyagent/docs/04-tech-stack.md |
 
+**Conceptual Map Pattern:** Files referenced in the Routing Table (`01-overview.md`, `02-architecture.md`, `03-code-map.md`) act as lightweight conceptual maps. They MUST contain only the logical tree and pointers to detailed fragments — never inline specs or extended explanations. When navigating fragmented documentation, always read the map first (low cost), then fetch only the specific fragment needed.
+
 **Context Slicing Rule (Large File Handling):**
 Before reading any file in `docs/` or `work/`, estimate its size (e.g., line count via terminal).
 If the file exceeds `contextSlicingThreshold` lines (defined in `settings.json`, default: 200):
@@ -127,11 +129,22 @@ If the file exceeds `contextSlicingThreshold` lines (defined in `settings.json`,
 ## 4. Fractal TTEV Workflow (.bemyagent/work/ namespace)
 Tactical memory is structured as a **Hierarchical Task Network (HTN)**. It is segmented by Task Numbers matching `06-implementation-plan.md` (which acts as the high-level Table of Contents).
 
-**The Rule of Decomposition:** 
-If a task is too complex, DO NOT execute it directly. Decompose it into sub-tasks (e.g., if `.bemyagent/work/1/1.0/` is too big, create `.bemyagent/work/1/1.1/` and `.bemyagent/work/1/1.2/`). 
+**The Rule of Decomposition (Divide et Impera):** 
+If a task is too complex, DO NOT execute it directly. Decompose it into sub-tasks (e.g., if `.bemyagent/work/1/1.0/` is too big, create `.bemyagent/work/1/1.1/` and `.bemyagent/work/1/1.2/`). Solve each sub-component in isolation, verify it individually, then integrate gradually. If a sub-task itself proves too complex during EXECUTE, fragment further into nested directories (e.g., `.bemyagent/work/7/7.1/7.1.1/`).
+
+**Hierarchical Work Structure:**
+Work directories follow the task hierarchy from `06-implementation-plan.md`:
+- **Level 1** — Milestone: `.bemyagent/work/<N>/` (e.g., `.bemyagent/work/4/`)
+- **Level 2** — Task: `.bemyagent/work/<N>/<N.Y>/` (e.g., `.bemyagent/work/4/4.1/`)
+- **Level 3** — Sub-task (optional): `.bemyagent/work/<N>/<N.Y>/<N.Y.Z>/` (e.g., `.bemyagent/work/4/4.1/4.1.1/`)
+
+A directory is a **leaf node** if it contains TTEV files (`01_think.md`, `02_tasks.md`, etc.). A directory is a **branch node** if it contains only subdirectories. **Maximum nesting depth: 3 levels.** If a sub-task at level 3 still needs decomposition, it's a sign the milestone itself should be re-scoped.
 
 For any leaf node (atomic task):
 - **THINK (Strategy):** Write to `.bemyagent/work/X/X.Y/01_think.md` using `_template_think.md`. You MUST complete the **Context Saturation Check** checklist. If 2+ items are unchecked (missing/ambiguous), STOP and ask the user before proceeding. If 0-1 are unchecked, state your assumption explicitly and continue.
+  **Advanced Reasoning (for Standard and Heavy tasks):**
+  - *Pre-mortem:* Before finalizing the plan, assume the task has failed. Identify the 2-3 most likely causes of failure and adjust the plan to mitigate them proactively.
+  - *Devil's Advocate:* Challenge your own chosen approach. Generate at least one radically different alternative. If it's clearly superior, pivot. If not, briefly document why the original approach survives the challenge.
 - **TASK (Planning):** Write to `.bemyagent/work/X/X.Y/02_tasks.md` (or `.json`). Create a strict checklist (`todo`, `done`, `verified`).
 - **EXECUTE (Action):** Write to `.bemyagent/work/X/X.Y/03_execute.log`. Implement the code, log terminal outputs and errors.
 - **VERIFY (Validation):** Write to `.bemyagent/work/X/X.Y/04_verify.md`. Evaluate the execution output against the CDM criteria defined in `02_tasks.md` and produce a verdict BEFORE notifying the user. See **Symbiotic Validation** below.
@@ -170,13 +183,18 @@ After EXECUTE and BEFORE notifying the user, evaluate your output against the CD
 ## 5. Anti-Hallucination & Safety Rules
 - **Always Verify:** Before modifying existing files, ALWAYS read the current content of the file. NEVER assume a function, variable, or import exists without seeing it in the context.
 - **Dependencies:** If you need to add a new dependency, first update `04-tech-stack.md` and propose the installation command to the user (e.g., `npm install`).
+- **Critical Review Protocol:** When evaluating a draft, proposal, or any input that suggests changes to documentation or protocol (including `00-ai-rules.md` itself):
+  1. **Overlap Check:** Search the target file(s) for semantic overlap. If the concept is already covered (even implicitly), prefer a surgical edit to the existing text over adding a new rule.
+  2. **Cost/Benefit:** Quantify the cost of the proposal (e.g., lines added to `00-ai-rules.md` = tokens consumed at every session restore). The benefit must clearly outweigh this recurring cost.
+  3. **Challenge:** Identify at least one structural weakness and one unanswered question before recommending integration.
+  4. **Minimal Alternative:** Always propose the smallest possible change that achieves the same goal.
 
 ## 6. Coding & Maintenance Rules
 - **Surgical Scope:** Touch only files directly related to the task. Do not refactor adjacent code, alter unrelated comments, or normalize formatting across the repo.
 - Never remove existing code/tests unless explicitly asked.
 - Make changes in one edit, not incrementally. Write minimal code.
 - Match existing code style. 
-- **Output Brevity:** Minimize verbose explanations unless explicitly requested. Prefer direct file modifications over describing changes in chat. Keep `03_execute.log` entries ultra-synthetic: command → result → next action. No prose. When showing code changes, use minimal diffs rather than repeating entire file contents.
+- **Output Brevity:** Minimize verbose explanations unless explicitly requested. Prefer direct file modifications over describing changes in chat. Keep `03_execute.log` entries ultra-synthetic: command → result → next action. No prose. When showing code changes, use minimal diffs rather than repeating entire file contents. When producing evaluations or reviews, focus on gaps, overlaps, and minimal actions — never paraphrase the input.
 - **Language:** Documentation language is defined in `settings.json` (`language` key). The user can override it at any time by saying *"Set documentation language to [language]"*, which should trigger an update to the JSON file. Chat interaction language and documentation language are independent.
 - **CRITICAL:** Update `03-code-map.md` and `05-decisions.md` in the SAME response as any change. This includes decisions made during discussion, even without code changes (e.g., rejected approaches, architectural choices). Use `drafts/` for unresolved ideas.
 - `specs/` files: tick acceptance criteria checkboxes as they are completed.
