@@ -7,6 +7,9 @@ If this project does not yet have your tool's native rule file (e.g. `.amazonq/r
 ## 2. Session Restore
 If this is a new session or context was lost:
 
+**Step 0 — Pending Upgrade Check:**
+If `upgrade-plan.md` exists in the `.bemyagent/` root, a protocol upgrade was started but not completed. Read the plan and present it to the user for approval before doing any other work.
+
 **Step 1 — Quick Resume (try this first):**
 1. Read `docs/06-implementation-plan.md` to identify the active milestone and task number.
 2. Read the `02_tasks.md` inside the most recent `work/X/X.Y/` folder matching that task.
@@ -34,7 +37,7 @@ Before starting any task, read:
 **Conceptual Map Pattern:** Files referenced in the Routing Table (`01-overview.md`, `02-architecture.md`, `03-code-map.md`) act as lightweight conceptual maps. They MUST contain only the logical tree and pointers to detailed fragments — never inline specs or extended explanations. When navigating fragmented documentation, always read the map first (low cost), then fetch only the specific fragment needed.
 
 **Context Slicing Rule (Large File Handling):**
-Before reading any file in `docs/` or `work/`, estimate its size (e.g., `wc -l <file>`).
+Before reading any file in `docs/` or `work/`, estimate its size (e.g., line count via terminal).
 If the file exceeds `contextSlicingThreshold` lines (defined in `settings.json`, default: 200):
 1. **Do NOT read the entire file.** Use `grep` or targeted search to extract only the sections relevant to the current task, with a context window of ~20-30 lines around each match.
 2. **If the initial extraction is insufficient**, progressively expand the context window (e.g., 50-80 lines) until you have enough information.
@@ -68,7 +71,7 @@ For any leaf node (atomic task):
 **Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` and `04_verify.md` are the only retrospective files.
 
 **Contextual DNA Mapping (CDM):**
-During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
+During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands to estimate token counts (e.g., word or line count) without loading full files into context.*
 - **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
 - **Standard tasks** (routine development): Add `✅ Validation` only.
 - **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
@@ -126,6 +129,6 @@ Run this with your AI assistant once a month:
 
 ## 8. Protocol Updates & Migration Rules
 When updating or migrating a project to a new version of BEMYAGENT:
-- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic terminal commands (e.g., `cp -r`, `mv`) instead of manually enumerating files. Manual reconstruction leads to omission.
+- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic copy/move operations (single commands that act on entire directories, not file-by-file enumeration). Manual reconstruction leads to omission.
 - **Prevent Name Collisions:** Before bootstrapping or copying new protocol files, scan the destination directory for filename collisions with existing user documentation.
 - **Safe Resolution:** If a collision exists, NEVER overwrite the user's files. Pause execution to ask the user, or safely move the conflicting files to an `archived/` or `project_docs/` folder. User documentation and protocol documentation should remain clearly separated.

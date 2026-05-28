@@ -11,7 +11,60 @@ When the user asks you to execute this bootstrap, you MUST perform the following
 
 ### Step 0: Discovery & Assessment
 Before generating any files, analyze the current workspace. **Important:** If your tool cannot create directories automatically, list the required `mkdir` commands and ask the user to execute them before proceeding.
-1. **Is this an UPGRADE?** If `.bemyagent/` already exists, STOP and follow the Migration Rules (see Section 8 in the template below). Use atomic operations (`cp -r`, `mv`) and check for filename collisions before copying new protocol files. ONLY overwrite `.bemyagent/docs/00-ai-rules.md`. Do NOT overwrite `01-overview.md` or any other user documentation. Output an upgrade success message and STOP.
+1. **Is this an UPGRADE?** If `.bemyagent/` already exists:
+
+   **a) ASSESS** — Compare current state with desired state:
+   - You already know the old protocol structure (loaded at session start from `00-ai-rules.md`). Now read this `BEMYAGENT.md` as the desired state.
+   - Scan the existing `.bemyagent/` structure and compare with the expected layout.
+   - For `settings.json`: identify new fields in the template that are missing from the project's file. If a field name changed, search the old docs for references to understand the mapping.
+   - For project files (`01-overview.md`, `02-architecture.md`, etc.): do NOT read them fully. Check only whether structural sections from the new template are present (quick scan of headers).
+   - SKIP all completed `.bemyagent/work/` folders entirely. Only check in-progress tasks for template compatibility.
+
+   **b) PLAN** — Generate `.bemyagent/upgrade-plan.md` with a categorized checklist:
+   ```
+   # Upgrade Plan — YYYY-MM-DD
+
+   ## 1. Protocol Files (overwrite)
+   > These files are owned by the BMA protocol. Overwriting is safe.
+   - [ ] `00-ai-rules.md` — Overwrite with new version
+     - Key changes: [brief summary of differences detected]
+   - [ ] `work/_template_think.md` — Overwrite / Unchanged ✓
+   - [ ] `docs/drafts/_template.md` — Overwrite / Unchanged ✓
+
+   ## 2. Settings (additive merge)
+   > Existing values are preserved. Only additions and remapping.
+   - [ ] Add: `"newField": defaultValue`
+   - [ ] Remap: `oldName` → `newName` (current value preserved)
+   - [ ] Orphaned fields: [list fields present in project but absent in new template]
+
+   ## 3. Structural Changes
+   > Folder/path changes detected.
+   - [ ] None detected ✓
+
+   ## 4. Project Files (suggestions only)
+   > These files contain YOUR project data. Never overwritten automatically.
+   - [ ] `01-overview.md`: missing section "[name]" — suggest appending
+   - [ ] Other files: structure matches ✓
+
+   ## 5. Self-Registration Files
+   - [ ] Regenerate [list] with updated path/content
+   ```
+
+   **STOP.** Present the plan to the user. The user reviews it, ticks/unticks items, and approves.
+
+   **c) APPLY** — Execute only the approved items (checked `[x]`):
+   - Use atomic copy/move operations (single commands that act on entire directories, not file-by-file enumeration).
+   - Before overwriting any file, create a backup (e.g., `file.bak-YYYYMMDD`).
+   - Check for filename collisions before copying. If a collision exists, NEVER overwrite user files — ask the user.
+
+   **d) AUDIT** — Write a synthetic log to `.bemyagent/work/upgrade-YYYY-MM-DD.log`:
+   ```
+   YYYY-MM-DD — BMA Upgrade
+   Applied: [list of changes made]
+   Skipped: [list of items user declined]
+   ```
+
+   **e) CLEANUP** — Delete `.bemyagent/upgrade-plan.md`. Output upgrade success message and STOP.
 2. **Is it an existing project (Brownfield)?** If you see an existing codebase but no `.bemyagent/docs/` folder, perform a **shallow, token-efficient scan** of the structure. **CRITICAL TOKEN-SAVING RULE:** You MUST IGNORE lockfiles (e.g., `package-lock.json`), vendor directories (e.g., `node_modules`, `vendor`, `.venv`), build outputs (`dist`, `target`), and deeply nested source code. Look ONLY at the root directory, primary dependency manifests, build scripts, and top-level architecture indicators. You will use this context to AUTO-FILL the documentation in Step 3. Do NOT fabricate `.bemyagent/work/` logs for past work; only map the current state.
 3. **Is it a new/empty project (Greenfield)?** If the workspace is empty, STOP and ask the user: *"What are we building? Please describe the project."* Wait for their answer. You will use their response to AUTO-FILL the documentation in Step 3.
 
@@ -35,6 +88,9 @@ If this project does not yet have your tool's native rule file (e.g. `.amazonq/r
 
 ## 2. Session Restore
 If this is a new session or context was lost:
+
+**Step 0 — Pending Upgrade Check:**
+If `.bemyagent/upgrade-plan.md` exists, a protocol upgrade was started but not completed. Read the plan and present it to the user for approval before doing any other work.
 
 **Step 1 — Quick Resume (try this first):**
 1. Read `.bemyagent/docs/06-implementation-plan.md` to identify the active milestone and task number.
@@ -61,7 +117,7 @@ Before starting any task, read:
 | Tech dependency or version | .bemyagent/docs/04-tech-stack.md |
 
 **Context Slicing Rule (Large File Handling):**
-Before reading any file in `docs/` or `work/`, estimate its size (e.g., `wc -l <file>`).
+Before reading any file in `docs/` or `work/`, estimate its size (e.g., line count via terminal).
 If the file exceeds `contextSlicingThreshold` lines (defined in `settings.json`, default: 200):
 1. **Do NOT read the entire file.** Use `grep` or targeted search to extract only the sections relevant to the current task, with a context window of ~20-30 lines around each match.
 2. **If the initial extraction is insufficient**, progressively expand the context window (e.g., 50-80 lines) until you have enough information.
@@ -83,7 +139,7 @@ For any leaf node (atomic task):
 **Handoff Principle:** `01_think.md` and `02_tasks.md` are NOT retrospective logs. They are **serialized execution plans** designed to be executable by a fresh agent with zero conversation context. Write them BEFORE executing, not after. `03_execute.log` and `04_verify.md` are the only retrospective files.
 
 **Contextual DNA Mapping (CDM):**
-During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands (e.g. `wc -w <file>` or similar scripts) to estimate token counts without loading full files into context.*
+During the TASK phase, apply DNA mapping based on task size/token cost estimation rather than purely structural complexity. *Hint: use terminal commands to estimate token counts (e.g., word or line count) without loading full files into context.*
 - **Short/Micro tasks** (typo fixes, single simple edit): No CDM needed. **Proportional Compression:** IGNORE the standard `_think` and `_verify` templates. Write a maximum of 1-2 lines for both `01_think.md` and `04_verify.md`.
 - **Standard tasks** (routine development): Add `✅ Validation` only.
 - **Long/Heavy tasks** (repetitive changes, complex logic, high token cost expected): Add full CDM:
@@ -136,7 +192,7 @@ Run this with your AI assistant once a month:
 
 ## 8. Protocol Updates & Migration Rules
 When updating or migrating a project to a new version of BEMYAGENT:
-- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic terminal commands (e.g., `cp -r`, `mv`) instead of manually enumerating files. Manual reconstruction leads to omission.
+- **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic copy/move operations (single commands that act on entire directories, not file-by-file enumeration). Manual reconstruction leads to omission.
 - **Prevent Name Collisions:** Before bootstrapping or copying new protocol files, scan the destination directory for filename collisions with existing user documentation.
 - **Safe Resolution:** If a collision exists, NEVER overwrite the user's files. Pause execution to ask the user, or safely move the conflicting files to an `archived/` or `project_docs/` folder. User documentation and protocol documentation should remain clearly separated.
 ````

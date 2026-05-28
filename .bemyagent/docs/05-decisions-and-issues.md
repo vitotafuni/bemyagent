@@ -14,6 +14,7 @@
 | 9 | Contextual DNA Mapping (CDM) | Embed Drift/Validation/Pivot metadata in tasks during TTE explosion. | - |
 | 10 | Symbiotic Validation (VERIFY step) | Add a fourth TTEV phase: post-execution self-validation against CDM criteria before notifying user. | - |
 | 11 | Documentation Language Rule | Language set at bootstrap, overridable anytime. Chat language and doc language are independent. | - |
+| 12 | Convergence-Based Upgrade Protocol | Upgrades compare desired state (new BEMYAGENT.md) vs current state, generate an upgrade plan for human review, no version field needed. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -68,6 +69,11 @@
 - **Problem**: The previous rule ("use the user's preferred language") was ambiguous — it conflated chat interaction language with documentation language. In a public repo with international audience, the user may interact in Italian but need English documentation.
 - **Decision**: Documentation language is set at bootstrap time (matching the bootstrap interaction language). It can be overridden at any time with "Set documentation language to [language]". Chat and documentation languages are independent.
 - **Trade-off**: Perdo la storicità della motivazione originale per cui era stato introdotto. E' anche vero che ci sono i commit su git per ricostruire eventualmente un po' di storia.
+
+#### 12. Convergence-Based Upgrade Protocol
+- **Problem**: How to update BMA in projects already using it? Version-based approaches (version field in settings, changelog) fail because: (a) `settings.json` is generated, so the version must live in `BEMYAGENT.md`, (b) users don't clone this repo (they copy the file or use the website), (c) changelogs require maintaining a separate artifact that grows over time.
+- **Decision**: Convergence-based model — the agent reads the new `BEMYAGENT.md` as desired state, compares with the current `.bemyagent/` structure, and generates an `upgrade-plan.md` with a checkbox-based plan. The human reviews and approves before any changes are applied. Protocol files (ai-rules, templates) are overwritable; project files (overview, architecture) get suggestions only. No version field needed — git tags suffice for the repo, the agent determines what to do by comparing states.
+- **Trade-off**: Semantic diff is non-deterministic (two agents may produce different plans), mitigated by making protocol files always-overwrite and project files suggestion-only. Token cost of assessment (~100-150 lines overhead) is acceptable vs. the risk of destructive upgrades.
 
 ## Engineering Learnings
 > **Rule of thumb:** Use this section to capture project-specific patterns, gotchas, or best practices discovered during execution that future agents should know.

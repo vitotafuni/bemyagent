@@ -1,3 +1,6 @@
 # Ignore BEMYAGENT drafts but keep the templates
 .bemyagent/docs/drafts/*
 !.bemyagent/docs/drafts/_template.md
+
+# Ephemeral upgrade plan (created during upgrade, deleted after apply)
+.bemyagent/upgrade-plan.md
