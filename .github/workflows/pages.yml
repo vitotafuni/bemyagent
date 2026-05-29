@@ -18,6 +18,9 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +33,7 @@ jobs:
           pandoc README.md \
             --standalone \
             --template=site/template.html \
-            --metadata title="BEMYAGENT" \
+            --metadata title="BEMYAGENT.md" \
             -o site/output/index.html
           echo "bemyagent.md" > site/output/CNAME
 
