@@ -4,3 +4,6 @@
 
 # Ephemeral upgrade plan (created during upgrade, deleted after apply)
 .bemyagent/upgrade-plan.md
+
+# Generated site (built by CI)
+site/output/

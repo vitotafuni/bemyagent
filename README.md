@@ -1,8 +1,10 @@
-# BEMYAGENT
+# BEMYAGENT.md
 
 > **Mission**: Save tokens for the machine. Save orientation for the human.
 
-BEMYAGENT is a lightweight, self-bootstrapping protocol that bridges the gap between humans and AI agents. Instead of forcing alignment through code reviews or rigid procedures, it creates a shared workspace where the machine thinks in structured files and the human validates at the right level of abstraction.
+📖 **Website**: [bemyagent.md](https://bemyagent.md)
+
+BEMYAGENT.md is a lightweight, self-bootstrapping protocol that bridges the gap between humans and AI agents. Instead of forcing alignment through code reviews or rigid procedures, it creates a shared workspace where the machine thinks in structured files and the human validates at the right level of abstraction.
 
 ## The Problem
 
@@ -14,7 +16,7 @@ When working with AI agents on complex projects, three things break down:
 
 ## The Solution: TTEV Workflow
 
-BEMYAGENT provides a single markdown file (`BEMYAGENT.md`) that acts as a bootstrap prompt. When fed to an AI assistant, it generates a structured `.bemyagent/` workspace:
+BEMYAGENT.md provides a single markdown file (`BEMYAGENT.md`) that acts as a bootstrap prompt. When fed to an AI assistant, it generates a structured `.bemyagent/` workspace:
 
 - **`.bemyagent/docs/`** — Permanent project memory (architecture, code map, tech stack, decisions).
 - **`.bemyagent/work/`** — Tactical, volatile memory organized as a Hierarchical Task Network (HTN).
@@ -73,9 +75,9 @@ That's it. From this point on, the agent reads `.bemyagent/docs/00-ai-rules.md` 
 
 ## Contributing & Dogfooding
 
-This repository uses the BEMYAGENT protocol to develop itself. The `sandbox/` directory contains the live `.bemyagent/` workspace where the protocol is planned, documented, and evolved — using its own rules.
+This repository uses the BEMYAGENT.md protocol to develop itself. The `.bemyagent/` directory contains the live workspace where the protocol is planned, documented, and evolved — using its own rules.
 
-Explore `sandbox/.bemyagent/work/` to see real TTEV cycles, CDM annotations, and verification reports in action.
+Explore `.bemyagent/work/` to see real TTEV cycles, CDM annotations, and verification reports in action.
 
 ## License
 
