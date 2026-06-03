@@ -132,3 +132,15 @@ When updating or migrating a project to a new version of BEMYAGENT:
 - **Use Atomic Operations:** When migrating existing documentation or folders, ALWAYS use atomic copy/move operations (single commands that act on entire directories, not file-by-file enumeration). Manual reconstruction leads to omission.
 - **Prevent Name Collisions:** Before bootstrapping or copying new protocol files, scan the destination directory for filename collisions with existing user documentation.
 - **Safe Resolution:** If a collision exists, NEVER overwrite the user's files. Pause execution to ask the user, or safely move the conflicting files to an `archived/` or `project_docs/` folder. User documentation and protocol documentation should remain clearly separated.
+
+## 9. Multi-Agent Parallelism
+When multiple agents work on the same project concurrently:
+1. **Isolate via `git worktree`:** Each agent works in a dedicated worktree on its own branch.
+   ```bash
+   git worktree add ../project-task-X.Y -b bma/X.Y
+   ```
+2. **One branch per task:** Branch naming follows the task number: `bma/1.1`, `bma/1.2`, etc.
+3. **Full autonomy on branch:** Each agent follows the standard TTEV workflow and is free to update all files (code-map, decisions, source) without coordination.
+4. **Human dispatches:** The user opens a separate IDE/terminal session per worktree and assigns tasks. There is no automated orchestrator.
+5. **Merge to main:** After completion, branches are merged via PR or direct merge. The human resolves conflicts.
+6. **Cleanup:** `git worktree remove ../project-task-X.Y` after merge.
