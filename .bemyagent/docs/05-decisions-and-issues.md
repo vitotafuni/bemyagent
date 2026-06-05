@@ -15,6 +15,7 @@
 | 10 | Symbiotic Validation (VERIFY step) | Add a fourth TTEV phase: post-execution self-validation against CDM criteria before notifying user. | - |
 | 11 | Documentation Language Rule | Language set at bootstrap, overridable anytime. Chat language and doc language are independent. | - |
 | 12 | Convergence-Based Upgrade Protocol | Upgrades compare desired state (new BEMYAGENT.md) vs current state, generate an upgrade plan for human review, no version field needed. | - |
+| 13 | Protocol Anchoring Gate (Write Gate) | Procedural checkpoint with forced output before any file creation/modification in `.bemyagent/`. Prevents Recency Bias and Protocol Drift. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -75,6 +76,11 @@
 - **Decision**: Convergence-based model — the agent reads the new `BEMYAGENT.md` as desired state, compares with the current `.bemyagent/` structure, and generates an `upgrade-plan.md` with a checkbox-based plan. The human reviews and approves before any changes are applied. Protocol files (ai-rules, templates) are overwritable; project files (overview, architecture) get suggestions only. No version field needed — git tags suffice for the repo, the agent determines what to do by comparing states.
 - **Trade-off**: Semantic diff is non-deterministic (two agents may produce different plans), mitigated by making protocol files always-overwrite and project files suggestion-only. Token cost of assessment (~100-150 lines overhead) is acceptable vs. the risk of destructive upgrades.
 
+#### 13. Protocol Anchoring Gate (Write Gate)
+- **Problem**: During long, technically intense sessions, agents suffer from Recency Bias — the user's immediate request overrides protocol rules read many turns ago. The agent creates ad-hoc files in `.bemyagent/` (e.g., a `crawler_roadmap.md` in `work/`) instead of updating the correct existing file (e.g., `06-implementation-plan.md`). This is model-agnostic: all transformer-based LLMs exhibit this behavior because attention weights on conversational context decay with distance.
+- **Decision**: Add a procedural gate (not a declarative rule) in §3 of `00-ai-rules.md`. Before ANY file creation/modification in `docs/` or `work/`, the agent must: (1) re-read the Routing Table, (2) output a `PROTOCOL_CHECK:` line identifying the target file and justification, (3) only then proceed. The forced output creates a token dependency that is structurally hard to skip. The gate exempts normal TTEV workflow writes (appending to `03_execute.log`, writing `04_verify.md`).
+- **Trade-off**: ~80 tokens overhead per file creation. Acceptable vs. the cost of orphan files and manual cleanup. Declarative rules were rejected (estimated ~50-60% compliance after 15 turns); procedural gates with forced output estimated at ~90% compliance. Evidence sourced from cross-model analysis (Gemini Pro self-diagnosis, June 2026).
+
 ## Engineering Learnings
 > **Rule of thumb:** Use this section to capture project-specific patterns, gotchas, or best practices discovered during execution that future agents should know.
 - **[Topic]**: What we learned.
@@ -85,3 +91,9 @@
 - **Root cause**: Instruction tuning in some models prioritizes fulfilling the user's ultimate goal in one go.
 - **Status**: Mitigated
 - **Workaround**: Explicitly state "STOP" and "Wait for the user" in the prompt.
+
+### Recency Bias causes Protocol Drift
+- **Symptom**: During long sessions (15+ turns of intense technical work), the agent creates ad-hoc files in `.bemyagent/` instead of updating existing protocol files. The agent "knows" the protocol structure but doesn't consult it before acting.
+- **Root cause**: In transformers, recent user instructions have disproportionate attention weight over rules read many turns ago. Declarative rules degrade to ~20-30% compliance after context truncation. Simple/familiar tasks are executed in "fast-path" mode with less deliberation, making them more vulnerable.
+- **Status**: Mitigated (Decision 13 — Protocol Anchoring Gate)
+- **Workaround**: Procedural gate with forced `PROTOCOL_CHECK:` output before any write to `.bemyagent/`.

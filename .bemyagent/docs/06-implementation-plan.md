@@ -59,6 +59,15 @@
 |------|-------------|--------|
 | 8.1 | Add Migration Rules to `00-ai-rules.md` and `BEMYAGENT.md` (atomic operations, collision checks) | done |
 
+## Milestone 9.0 — Protocol Anchoring Gate (Anti-Drift)
+**Goal**: Add a model-agnostic procedural gate that prevents Recency Bias from causing agents to create orphan files in `.bemyagent/` during long sessions.
+**Status**: done
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 9.1 | Add Protocol Anchoring Gate to `00-ai-rules.md` §3 and sync to `BEMYAGENT.md` | done |
+| 9.2 | Add system-level IF-THEN rule recommendation to Self-Registration (§1) | done |
+
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

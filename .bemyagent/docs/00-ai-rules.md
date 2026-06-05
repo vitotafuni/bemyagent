@@ -2,7 +2,13 @@
 
 ## 1. Self-registration (do once per project)
 If this project does not yet have your tool's native rule file (e.g. `.amazonq/rules/`, `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`), create it now with this content:
-`Read docs/00-ai-rules.md before every task.`
+```
+Read docs/00-ai-rules.md before every task.
+IF about to create or modify any file inside .bemyagent/, THEN:
+  1. Re-read the Routing Table in docs/00-ai-rules.md §3
+  2. Output: "PROTOCOL_CHECK: target=[file], reason=[why]"
+  3. Proceed only after step 2
+```
 
 ## 2. Session Restore
 If this is a new session or context was lost:
@@ -28,6 +34,7 @@ Before starting any task, read:
 | Task involves | Read first (On-Demand) |
 |---|---|
 | Any code change | docs/03-code-map.md |
+| Creating/modifying any file in docs/ or work/ | docs/06-implementation-plan.md |
 | Architecture or new service | docs/02-architecture.md |
 | Bug or unexpected behaviour | docs/05-decisions-and-issues.md |
 | New feature | docs/specs/[feature-name].md |
@@ -43,6 +50,15 @@ If the file exceeds `contextSlicingThreshold` lines (defined in `settings.json`,
 2. **If the initial extraction is insufficient**, progressively expand the context window (e.g., 50-80 lines) until you have enough information.
 3. **Only as a last resort**, read the entire file.
 4. **If you repeatedly need large portions of the same file across multiple tasks**, propose fragmentation to the user (e.g., splitting `03-code-map.md` into `03-code-map/frontend.md` and `03-code-map/backend.md`).
+
+**Protocol Anchoring Gate (Write Gate):**
+Before creating or modifying ANY file inside `docs/` or `work/`, the agent MUST:
+1. Re-read the Routing Table above to identify if the content belongs in an existing file.
+2. Output in chat: `PROTOCOL_CHECK: target=[existing file or new file path], reason=[brief justification]`
+3. If the check reveals the content belongs in an existing file, update that file instead of creating a new one.
+4. Only then proceed with the file operation.
+
+This gate applies to file *creation* and *structural modifications*. It does NOT apply to normal TTEV workflow writes (appending to `03_execute.log`, writing `04_verify.md` for the current task).
 
 ## 4. Fractal TTEV Workflow (work/ namespace)
 Tactical memory is structured as a **Hierarchical Task Network (HTN)**. It is segmented by Task Numbers matching `06-implementation-plan.md` (which acts as the high-level Table of Contents).
