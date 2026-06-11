@@ -16,6 +16,7 @@
 | 11 | Documentation Language Rule | Language set at bootstrap, overridable anytime. Chat language and doc language are independent. | - |
 | 12 | Convergence-Based Upgrade Protocol | Upgrades compare desired state (new BEMYAGENT.md) vs current state, generate an upgrade plan for human review, no version field needed. | - |
 | 13 | Protocol Anchoring Gate (Write Gate) | Procedural checkpoint with forced output before any file creation/modification in `.bemyagent/`. Prevents Recency Bias and Protocol Drift. | - |
+| 14 | Single Slim Template | One compressed `BEMYAGENT.md` (286 lines, -37%), zero semantic loss. `min.md` experiment retired. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -76,6 +77,11 @@
 - **Decision**: Convergence-based model — the agent reads the new `BEMYAGENT.md` as desired state, compares with the current `.bemyagent/` structure, and generates an `upgrade-plan.md` with a checkbox-based plan. The human reviews and approves before any changes are applied. Protocol files (ai-rules, templates) are overwritable; project files (overview, architecture) get suggestions only. No version field needed — git tags suffice for the repo, the agent determines what to do by comparing states.
 - **Trade-off**: Semantic diff is non-deterministic (two agents may produce different plans), mitigated by making protocol files always-overwrite and project files suggestion-only. Token cost of assessment (~100-150 lines overhead) is acceptable vs. the risk of destructive upgrades.
 
+#### 14. Single Slim Template
+- **Problem**: `BEMYAGENT.md` (457 lines) is a recurring token cost at every bootstrap/upgrade; the embedded rules cost ~4k tokens at every session restore. The `BEMYAGENT.min.md` experiment proved ~45% compression is viable, but two hand-maintained copies guarantee sync drift (proven by the 2026-06-10 evaluation diff). 
+- **Decision**: One file only. Rewrote `BEMYAGENT.md` in compressed style (286 lines, -37%) with a zero-semantic-loss constraint verified mechanically (all 7 settings keys defined in rules, no stale refs, fences balanced). Folded in the evaluation's unambiguous fixes (task table in plan template, `05-decisions-and-issues.md` ref, TTEV naming, Write Gate scope alignment, micro.log tier, secrets redaction, commit-trigger consolidation, role-based model tiers, ADR-per-task in multi-agent mode, `.bak` cleanup). Excluded pending user decision: version pre-filter (Decision 12 stands), self-compression directive for human-facing docs.
+- **Trade-off**: Denser text is slightly harder for humans to scan, acceptable for a machine-first bootstrap artifact; human-facing scaffold templates kept readable. A full rewrite is harder to review than patches — mitigated by mechanical verification and the evaluation checklist as reference.
+
 #### 13. Protocol Anchoring Gate (Write Gate)
 - **Problem**: During long, technically intense sessions, agents suffer from Recency Bias — the user's immediate request overrides protocol rules read many turns ago. The agent creates ad-hoc files in `.bemyagent/` (e.g., a `crawler_roadmap.md` in `work/`) instead of updating the correct existing file (e.g., `06-implementation-plan.md`). This is model-agnostic: all transformer-based LLMs exhibit this behavior because attention weights on conversational context decay with distance.
 - **Decision**: Add a procedural gate (not a declarative rule) in §3 of `00-ai-rules.md`. Before ANY file creation/modification in `docs/` or `work/`, the agent must: (1) re-read the Routing Table, (2) output a `PROTOCOL_CHECK:` line identifying the target file and justification, (3) only then proceed. The forced output creates a token dependency that is structurally hard to skip. The gate exempts normal TTEV workflow writes (appending to `03_execute.log`, writing `04_verify.md`).
@@ -83,7 +89,8 @@
 
 ## Engineering Learnings
 > **Rule of thumb:** Use this section to capture project-specific patterns, gotchas, or best practices discovered during execution that future agents should know.
-- **[Topic]**: What we learned.
+- **VERIFY evidence must be mechanical**: Task 9.1's `04_verify.md` claimed "all changes synced to BEMYAGENT.md ✓" (PASS) from recollection; a later diff found 6 divergences. The Anchoring Gate (Decision 13) fixes *where* agents write, not *whether claims are true* — verification claims must come from commands run during VERIFY (diff/grep/test), never memory. Rule now embedded in the template's Symbiotic Validation.
+- **Multiple hand-synced copies of the same content always drift**: template↔live rules diverged (pre-Gate sessions); a hand-made `min.md` would have been a third copy. Keep one canonical source per content.
 
 ## Known issues
 ### AI forgets to pause

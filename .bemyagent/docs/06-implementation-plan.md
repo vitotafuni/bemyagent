@@ -68,6 +68,15 @@
 | 9.1 | Add Protocol Anchoring Gate to `00-ai-rules.md` §3 and sync to `BEMYAGENT.md` | done |
 | 9.2 | Add system-level IF-THEN rule recommendation to Self-Registration (§1) | done |
 
+## Milestone 10.0 — Single Slim Template
+**Goal**: Replace `BEMYAGENT.md` with one maximally slim version (zero semantic loss) and retire the `BEMYAGENT.min.md` comparison experiment.
+**Status**: done
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 10.1 | Rewrite `BEMYAGENT.md` slim (-37%), fold in 2026-06-10 eval B-fixes, delete `min.md`; verified lossless (clause audit + MUST restoration) and weak-model safe (Haiku cold-bootstrap test) | done |
+| 10.2 | Regenerate live `.bemyagent/docs/00-ai-rules.md` from new template (byte-exact extraction, plan-approved 2026-06-11) | done |
+
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

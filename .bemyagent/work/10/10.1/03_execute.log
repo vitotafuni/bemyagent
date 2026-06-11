@@ -1,0 +1,15 @@
+2026-06-10
+- read BEMYAGENT.min.md (259 ln) → gap list: orphaned keys (strictVerification, autoModelSwitching), lost Handoff Principle, lost CDM defs, lost specs/drafts lifecycle, inherited bugs → not shippable as-is
+- rewrote BEMYAGENT.md → 286 ln (was 457, -37%) → ok
+- rm BEMYAGENT.min.md → ok
+- verification batch (wc/grep/sed) → all pass (see 04_verify.md)
+- updated 06-implementation-plan (M10), 05-decisions-and-issues (Decision 14 + 2 Engineering Learnings) → ok
+- NOT touched: .bemyagent/docs/00-ai-rules.md (live) — regeneration = upgrade flow, needs user approval → task 10.2
+
+2026-06-11 (user challenge: semantic loss? weak-model drift?)
+- emphasis audit: grep MUST old=7 new=0 → regression → restored 6 MUST + 1 NEVER at critical gates → grep MUST = 6 ok
+- clause-by-clause audit vs git HEAD → all rules/thresholds/paths present; only intentional eval-fix deltas
+- empirical test: fake brownfield (express+sqlite + node_modules canary) in /tmp/bma-haiku-test → Haiku agent ran bootstrap cold
+  → structure exact; 00-ai-rules.md BYTE-IDENTICAL (diff empty); settings valid; AGENTS.md correct; canary leak = 0; no fabricated work/; task-table template followed
+  → new risk found: AUTO-FILL fabrication (invented schemas/links) → added anti-fabrication guard to Step 3
+- task 10.2: regenerated live 00-ai-rules.md via sed extraction (plan approval = user gate)
