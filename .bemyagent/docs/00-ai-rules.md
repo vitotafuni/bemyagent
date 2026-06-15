@@ -1,7 +1,11 @@
 # AI Rules & TTEV Workflow
 
-## 1. Self-Registration (once per project)
-If the project lacks your tool's native rule file (`AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, …), create it with:
+## 1. Self-Registration (idempotent, harness-proof)
+Identify your tool's native rule file (`AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, `.claude/CLAUDE.md`, …).
+Check its **content** — not just existence. The sentinel line is: `Read .bemyagent/docs/00-ai-rules.md before every task.`
+- **File missing** → create it with the directive block below.
+- **File exists but sentinel absent** → append the directive block.
+- **Sentinel already present** → skip (noop).
 ```
 Read .bemyagent/docs/00-ai-rules.md before every task.
 IF about to create or modify any file inside .bemyagent/docs/ or .bemyagent/work/, THEN:
