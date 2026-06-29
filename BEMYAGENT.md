@@ -41,7 +41,7 @@ IF about to create or modify any file inside .bemyagent/docs/ or .bemyagent/work
 
 ## 2. Session Restore (new session or lost context)
 **0 — Pending upgrade:** if `.bemyagent/upgrade-plan.md` exists, an upgrade is incomplete — present it for user approval before any other work.
-**1 — Quick Resume (try first):** read `docs/06-implementation-plan.md` → identify active milestone/task → read that task's `02_tasks.md` in `work/X/X.Y/`. If the checklist makes done/pending clear, confirm status with the user and proceed.
+**1 — Quick Resume (try first):** read `docs/06-implementation-plan.md` → identify active milestone/task → read that task's `02_tasks.md` in `work/X/X.Y/`. If the checklist makes done/pending clear, confirm status with the user and proceed. If `03_execute.log` exists, read its last entry to determine the resume point.
 **2 — Full Restore (only if 1 is insufficient):** read `docs/01-overview.md` → `02-architecture.md` → `05-decisions-and-issues.md`, then lazy-load the rest via the Routing Table.
 
 ## 3. Routing Table & Lazy Loading
@@ -72,7 +72,7 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 **Decomposition (Divide et Impera):** if a task is too complex, do NOT execute it directly — split into sub-tasks, solve each leaf in isolation, verify individually, integrate gradually. A leaf that proves too complex during EXECUTE fragments further.
 
 **Size the ceremony first** (estimate token cost via terminal word/line counts, not full reads):
-- **Micro** (typo, single trivial edit): NO folder, no TTEV files. Append one line to `work/<N>/micro.log`: `date | task | change | verdict`.
+- **Micro** (typo, single trivial edit): NO folder, no TTEV files. Append one line to `work/<N>/micro.log`: `date | task | change | verdict` (e.g. `2026-06-27T14:32Z | 1.1 | fixed typo in route handler | PASS`).
 - **Standard** (routine development): TTEV files; CDM = `✅ Validation` only.
 - **Heavy** (complex logic, repetitive changes, high token cost): TTEV files + full CDM. Never execute Heavy without it:
   - `🎯 Drift` — what going off-track means for THIS task
@@ -82,7 +82,7 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 **TTEV files** (in `work/X/X.Y/`):
 - **THINK** `01_think.md` (from `_template_think.md`): you MUST complete the Context Saturation Check — 2+ items unknown → STOP and ask the user; 0-1 → state the assumption explicitly, continue. Standard/Heavy also add: *Pre-mortem* (assume the task failed; mitigate the 2-3 likeliest causes in the plan) and *Devil's Advocate* (generate one radically different alternative; pivot if clearly superior, else note briefly why not).
 - **TASK** `02_tasks.md`: strict checklist (todo / done / verified) + the CDM criteria.
-- **EXECUTE** `03_execute.log`: command → result → next action. No prose. Redact secrets/credentials before logging.
+- **EXECUTE** `03_execute.log`: command → result → **next intended action** (mandatory; write before executing it). No prose. Redact secrets/credentials before logging.
 - **VERIFY** `04_verify.md`: see Symbiotic Validation.
 **Handoff Principle:** `01` and `02` are forward-written execution plans a fresh zero-context agent could run — write them BEFORE executing. Only `03` and `04` are retrospective.
 
@@ -97,6 +97,7 @@ Depth: `strictVerification=true` → deep analysis (edge cases, performance, arc
 Prune context before EXECUTE: load only what this leaf strictly needs.
 
 **Git:** a task's `01_think.md` + `02_tasks.md` must exist (written pre-execution) before its commit. On verdict PASS: `autoCommit=true` → commit as `feat: [X.Y] …`; `false` → propose it. If the previous task is still uncommitted when starting EXECUTE, propose committing it first.
+Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gitignore` `work/` (audit trail retained locally, lost in VCS).
 
 ## 5. Anti-Hallucination & Safety
 - Read a file's current content before modifying it. NEVER assume a function, variable, or import exists without seeing it.
@@ -126,7 +127,7 @@ Prune context before EXECUTE: load only what this leaf strictly needs.
 ````
 
 ### Step 3: Generate Scaffold Files
-AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templates. Fill in ONLY what the scan evidenced: mark unknowns with `?` instead of inventing, and link only to files that exist. Create a `_template.md` inside `decisions/`, `specs/`, `drafts/` and `_template_think.md` in `work/` from the blocks below.
+AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templates. Fill in ONLY what the scan evidenced: mark unknowns with `?` instead of inventing, and link only to files that exist. Create a `_template.md` inside `decisions/`, `specs/`, `drafts/` and `_template_think.md` in `work/` from the content blocks below (block headings show the naming convention for real files, not the template filename).
 **Language:** write all content in the language the user is using in this conversation (this sets the project's default docs language; see rules §6). Filenames stay in English.
 
 **`.bemyagent/settings.json`**
@@ -284,6 +285,8 @@ AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templat
    ║    is unclear, I ask — that's by design          ║
    ║  • docs/ = long-term memory                      ║
    ║  • work/ = task history & audit trail            ║
+   ║  • First run? Set interactiveMode: true to       ║
+   ║    validate behavior before going autonomous     ║
    ╚══════════════════════════════════════════════════╝
    ```
 5. Tell the user to delete this file (`rm BEMYAGENT.md`) unless they want to keep it.
