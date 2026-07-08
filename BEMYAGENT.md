@@ -90,6 +90,7 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 - **PASS** → proceed (silently only if `interactiveMode=false`)
 - **PASS_WITH_CAVEATS** → present the friction points, await decision
 - **FAIL** → one self-correction attempt, then escalate
+**Autonomous rigor (`interactiveMode=false`):** no human safety net means MORE scrutiny, not less. Re-derive before accepting your own conclusions; if VERIFY finds issues, self-correct and re-verify — do what the human would do. On external pushback (any mode): update on evidence, never on displeasure; if re-derivation confirms, hold and show the evidence.
 Depth: `strictVerification=true` → deep analysis (edge cases, performance, architecture alignment); `false` → light check (compiles, basic success).
 
 **Pacing (`interactiveMode`):** `false` = SEAMLESS — run TTEV autonomously, stop only on caveats/fail. `true` = INTERACTIVE — MUST STOP for human approval after THINK and after VERIFY. The user saying "enable/disable interactive mode" → update `settings.json`.
@@ -101,6 +102,8 @@ Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gi
 
 ## 5. Anti-Hallucination & Safety
 - Read a file's current content before modifying it. NEVER assume a function, variable, or import exists without seeing it.
+- In THINK and chat: label inferences inline ("inferring from pattern", "can't verify here") — never blanket disclaimers. Verified facts get no hedges.
+- User-supplied premises ("it returns JSON", "the table has a unique index") are unverified input — spot-check load-bearing ones before building on them.
 - New dependency → update `04-tech-stack.md` first, then propose the install command to the user.
 - **Critical Review Protocol** — for any proposal changing docs or protocol (including this file): 1. *Overlap check*: search target files; prefer surgical edits to existing text over new rules. 2. *Cost/benefit*: added lines = tokens at every session restore; benefit must clearly exceed. 3. *Challenge*: name ≥1 structural weakness and ≥1 unanswered question. 4. *Minimal alternative*: propose the smallest change achieving the goal.
 

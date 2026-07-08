@@ -17,6 +17,7 @@
 | 12 | Convergence-Based Upgrade Protocol | Upgrades compare desired state (new BEMYAGENT.md) vs current state, generate an upgrade plan for human review, no version field needed. | - |
 | 13 | Protocol Anchoring Gate (Write Gate) | Procedural checkpoint with forced output before any file creation/modification in `.bemyagent/`. Prevents Recency Bias and Protocol Drift. | - |
 | 14 | Single Slim Template | One compressed `BEMYAGENT.md` (286 lines, -37%), zero semantic loss. `min.md` experiment retired. | - |
+| 15 | Fable.md Cross-Analysis | 5 improvements from frontier model's Operating Manual: intent gate, dormancy, pushback protocol, epistemic labeling, user premise verification. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -81,6 +82,11 @@
 - **Problem**: `BEMYAGENT.md` (457 lines) is a recurring token cost at every bootstrap/upgrade; the embedded rules cost ~4k tokens at every session restore. The `BEMYAGENT.min.md` experiment proved ~45% compression is viable, but two hand-maintained copies guarantee sync drift (proven by the 2026-06-10 evaluation diff). 
 - **Decision**: One file only. Rewrote `BEMYAGENT.md` in compressed style (286 lines, -37%) with a zero-semantic-loss constraint verified mechanically (all 7 settings keys defined in rules, no stale refs, fences balanced). Folded in the evaluation's unambiguous fixes (task table in plan template, `05-decisions-and-issues.md` ref, TTEV naming, Write Gate scope alignment, micro.log tier, secrets redaction, commit-trigger consolidation, role-based model tiers, ADR-per-task in multi-agent mode, `.bak` cleanup). Excluded pending user decision: version pre-filter (Decision 12 stands), self-compression directive for human-facing docs.
 - **Trade-off**: Denser text is slightly harder for humans to scan, acceptable for a machine-first bootstrap artifact; human-facing scaffold templates kept readable. A full rewrite is harder to review than patches — mitigated by mechanical verification and the evaluation checklist as reference.
+
+#### 15. Fable.md Cross-Analysis Improvements
+- **Problem**: A frontier model's self-authored Operating Manual (`fable.md`) revealed gap areas in BEMYAGENT. Initial analysis identified 5 proposals; critical re-evaluation (prompted by user challenge) found 2 were wrong-context adoptions, 1 was mis-framed.
+- **Decision**: 3 surgical additions survived (~75 tokens total). (B) Epistemic labeling rule in §5 — marginal but covers a documented failure mode. (C→reworked) Autonomous rigor principle in §4: in seamless mode the agent IS the quality gate — must be MORE rigorous without a human safety net, self-correct and re-verify rather than wait. (E) User-premise spot-checking in §5. **Reverted**: (A) Intent Alignment Gate — BEMYAGENT tasks arrive pre-scoped from implementation plans; the intent-vs-literal problem is a general-chat concern, not a structured-task concern. (D) Dormancy — creates an escape hatch that undermines the Write Gate; the Micro tier already covers lightweight tasks.
+- **Trade-off**: The initial analysis was insufficiently critical — it treated fable.md as an authority rather than unverified input (ironic given fable.md's own §4). Lesson: cross-protocol analysis must evaluate whether the source context (open-ended conversation) maps to the target context (structured task execution). Token cost reduced from ~125 to ~75.
 
 #### 13. Protocol Anchoring Gate (Write Gate)
 - **Problem**: During long, technically intense sessions, agents suffer from Recency Bias — the user's immediate request overrides protocol rules read many turns ago. The agent creates ad-hoc files in `.bemyagent/` (e.g., a `crawler_roadmap.md` in `work/`) instead of updating the correct existing file (e.g., `06-implementation-plan.md`). This is model-agnostic: all transformer-based LLMs exhibit this behavior because attention weights on conversational context decay with distance.
