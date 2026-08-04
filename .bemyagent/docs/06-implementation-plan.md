@@ -86,6 +86,7 @@
 | 11.1 | A/B harness (fixture, arm runner, shape/slice/token extractors) + 7-run experiment; land P2 and corrected P3 | done |
 | 11.2 | Verify the corrected P3 glossary rule fires on new domain vocabulary — confirmed, 0/8 → 8/8 | done |
 | 11.4 | P2 across 3 forms / 12 arms: declarative null, self-report null, `Delivers:` artifact 18/18 — landed | done |
+| 11.5 | No-BMA control (3 arms): ambiguity detection no different; halt behaviour 3/12 vs 0/3; BMA ~2× planning cost. Claims narrowed to structural conformance | done |
 | 11.3 | Blocked-leaf convention — the missing `02_tasks.md` was the Saturation Check working, not a defect; four rival handling styles found, one made canonical | done |
 
 ## Backlog (unscheduled)
