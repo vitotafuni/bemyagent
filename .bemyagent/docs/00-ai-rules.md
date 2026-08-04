@@ -44,7 +44,7 @@ Exempt: the standard TTEV writes of the current task (`01`–`04` files, `micro.
 ## 4. Fractal TTEV Workflow (work/)
 Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06-implementation-plan.md`.
 **Structure:** `work/<N>/` milestone → `work/<N>/<N.Y>/` task → `work/<N>/<N.Y>/<N.Y.Z>/` sub-task. Max depth 3 — needing more means the milestone should be re-scoped. Leaf nodes hold TTEV files; branch nodes hold only subfolders — never both.
-**Decomposition (Divide et Impera):** if a task is too complex, do NOT execute it directly — split into sub-tasks, solve each leaf in isolation, verify individually, integrate gradually. A leaf that proves too complex during EXECUTE fragments further.
+**Decomposition (Divide et Impera):** if a task is too complex, do NOT execute it directly — split into sub-tasks, solve each leaf in isolation, verify individually, integrate gradually. A leaf that proves too complex during EXECUTE fragments further. Right size = fits one fresh context window.
 
 **Size the ceremony first** (estimate token cost via terminal word/line counts, not full reads):
 - **Micro** (typo, single trivial edit): NO folder, no TTEV files. Append one line to `work/<N>/micro.log`: `date | task | change | verdict` (e.g. `2026-06-27T14:32Z | 1.1 | fixed typo in route handler | PASS`).
@@ -56,7 +56,7 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 
 **TTEV files** (in `work/X/X.Y/`):
 - **THINK** `01_think.md` (from `_template_think.md`): you MUST complete the Context Saturation Check — 2+ items unknown → STOP and ask the user; 0-1 → state the assumption explicitly, continue. Standard/Heavy also add: *Pre-mortem* (assume the task failed; mitigate the 2-3 likeliest causes in the plan) and *Devil's Advocate* (generate one radically different alternative; pivot if clearly superior, else note briefly why not).
-- **TASK** `02_tasks.md`: strict checklist (todo / done / verified) + the CDM criteria.
+- **TASK** `02_tasks.md`: strict checklist (todo / done / verified) + the CDM criteria. Open the file with `Delivers:` — the one user-visible behaviour this leaf makes work end to end, demoable on its own. If you cannot name one without depending on a sibling leaf, the split was horizontal: re-cut before EXECUTE. If the Saturation Check stopped this task, do NOT write `02_tasks.md` — a plan built on invented answers is not runnable. Leave `01_think.md` holding the open questions and mark the task `blocked — [reason]` in `06-implementation-plan.md`; write `02` once answered.
 - **EXECUTE** `03_execute.log`: command → result → **next intended action** (mandatory; write before executing it). No prose. Redact secrets/credentials before logging.
 - **VERIFY** `04_verify.md`: see Symbiotic Validation.
 **Handoff Principle:** `01` and `02` are forward-written execution plans a fresh zero-context agent could run — write them BEFORE executing. Only `03` and `04` are retrospective.
@@ -86,7 +86,8 @@ Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gi
 - **Surgical scope:** touch only task-related files. No adjacent refactors, comment churn, or repo-wide reformatting. Never remove code/tests unless asked. One edit, not increments. Minimal code, matching existing style.
 - **Brevity:** chat = results, open questions, next steps — no recaps of visible actions, no prefaces, no filler. Prefer file edits over chat descriptions. Minimal diffs, never full-file repeats. Evaluations/reviews: gaps, overlaps, minimal actions — never paraphrase the input.
 - **Language:** docs language = `language` in `settings.json`; chat language is independent. "Set documentation language to X" → update the JSON.
-- **CRITICAL:** update `03-code-map.md` and `05-decisions-and-issues.md` in the SAME response as any change — including discussion-only decisions (rejected approaches, architectural choices). Unresolved ideas → `drafts/`.
+- **Glossary:** use the `01-overview.md` glossary terms verbatim in docs, tasks, and code — never re-explain an established term.
+- **CRITICAL:** update `03-code-map.md` and `05-decisions-and-issues.md` in the SAME response as any change — including discussion-only decisions (rejected approaches, architectural choices). A task that introduces new domain vocabulary adds those terms to the `01-overview.md` glossary in that same response. Unresolved ideas → `drafts/`.
 - `specs/`: tick acceptance criteria as completed. `drafts/`: promote to `specs/` when ready to build, then delete the draft.
 
 ## 7. Monthly Audit Prompt

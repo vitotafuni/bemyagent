@@ -77,6 +77,17 @@
 | 10.1 | Rewrite `BEMYAGENT.md` slim (-37%), fold in 2026-06-10 eval B-fixes, delete `min.md`; verified lossless (clause audit + MUST restoration) and weak-model safe (Haiku cold-bootstrap test) | done |
 | 10.2 | Regenerate live `.bemyagent/docs/00-ai-rules.md` from new template (byte-exact extraction, plan-approved 2026-06-11) | done |
 
+## Milestone 11.0 — Empirical Protocol Evaluation
+**Goal**: Give the protocol a way to measure whether a rule works, and use it to decide the mattpocock/skills candidates.
+**Status**: done — 16 subagent arms; 2 of 5 candidates survived, each only in a form found by measurement rather than by reasoning.
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 11.1 | A/B harness (fixture, arm runner, shape/slice/token extractors) + 7-run experiment; land P2 and corrected P3 | done |
+| 11.2 | Verify the corrected P3 glossary rule fires on new domain vocabulary — confirmed, 0/8 → 8/8 | done |
+| 11.4 | P2 across 3 forms / 12 arms: declarative null, self-report null, `Delivers:` artifact 18/18 — landed | done |
+| 11.3 | Blocked-leaf convention — the missing `02_tasks.md` was the Saturation Check working, not a defect; four rival handling styles found, one made canonical | done |
+
 ## Backlog (unscheduled)
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.
