@@ -16,6 +16,7 @@ IF about to create or modify any file inside .bemyagent/docs/ or .bemyagent/work
 
 ## 2. Session Restore (new session or lost context)
 **0 — Pending upgrade:** if `.bemyagent/upgrade-plan.md` exists, an upgrade is incomplete — present it for user approval before any other work.
+Also grep `docs/` for `⚠️ UNPOPULATED` — any hit means bootstrap never captured that content: ask for it and write it in before any other work.
 **1 — Quick Resume (try first):** read `docs/06-implementation-plan.md` → identify active milestone/task → read that task's `02_tasks.md` in `work/X/X.Y/`. If the checklist makes done/pending clear, confirm status with the user and proceed. If `03_execute.log` exists, read its last entry to determine the resume point.
 **2 — Full Restore (only if 1 is insufficient):** read `docs/01-overview.md` → `02-architecture.md` → `05-decisions-and-issues.md`, then lazy-load the rest via the Routing Table.
 

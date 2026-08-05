@@ -19,6 +19,7 @@
 | 14 | Single Slim Template | One compressed `BEMYAGENT.md` (286 lines, -37%), zero semantic loss. `min.md` experiment retired. | - |
 | 15 | Fable.md Cross-Analysis | 5 improvements from frontier model's Operating Manual: intent gate, dormancy, pushback protocol, epistemic labeling, user premise verification. | - |
 | 16 | Vertical Slicing + Domain Glossary (measured) | 2 of 5 candidates from mattpocock/skills survived an A/B experiment; first empirically-tested protocol change. | - |
+| 17 | UNPOPULATED marker (measured) | Field bug on greenfield bootstrap: 1 of 3 proposed fixes survived; the other 2 solved problems that never reproduced. | - |
 
 ### Inline decisions
 #### 1. Add Step 0 (Discovery)
@@ -107,6 +108,15 @@
     - **Cost: BMA is ~2×.** Control ≈52k tokens / 20 tool calls; BMA ≈85k / 47.
   - **What may honestly be claimed**: BMA's reproducible wins are *structural* — 16/16 well-formed workspaces, byte-identical rules regeneration, idempotent self-registration, no blank templates, persistent decision records, resumable state. It does **not** make the model smarter about noticing gaps, and it only sometimes changes what the model does after noticing.
 - **Trade-off**: +4 lines to the restore path. The measured cost of a rule is far lower than previously assumed — prompt caching makes recurring reads ~10× cheaper than fresh input, so the "ratchet" concern is real but roughly an order of magnitude smaller than the pre-experiment estimate. The harness itself is the durable asset: it is the eviction mechanism the protocol lacked.
+
+#### 17. UNPOPULATED marker for greenfield bootstrap
+- **Problem**: Field report (2026-08-05) — BMA on an empty repo, user answered the bootstrap question with a bare "yes" and no project subject. The agent scaffolded content-empty docs, then reportedly started building instead of documenting when the description finally arrived, risking total loss of project context on session close.
+- **Investigation**: 6 arms (3 baseline / 3 fix), 3 turns each, on genuinely empty repos with a neutral prompt. Two of three reasoned fixes were discarded on evidence:
+  - **Preamble contradiction (dropped)**: `Do NOT ask permission between steps` (line 6) versus Step 0.3's `STOP and ask` looks like it should suppress the greenfield stop. It doesn't — **6/6 arms stopped and quoted Step 0.3**. The real trigger is an ambiguous affirmative at the next turn: a bare "yes" read as consent, reproducing the blank scaffold **3/3 in baseline, 0/3 with the fix**.
+  - **Late-context routing rule (dropped)**: **6/6 arms** wrote the eventually-supplied description into `01-overview.md` (plus `02`/`04`/`05`/`06`) and none started coding. The baseline self-heals because the blank scaffold files `Task 1.1 = "get project description, fill in docs"` into `06-implementation-plan.md` — the instruction sits on disk where the next turn reads it. **The reported data-loss risk did not reproduce.**
+  - **UNPOPULATED marker (landed)**: replaces inert `?` placeholders with a greppable signal Session Restore acts on. Unplanned benefit — it tracks *epistemic status per doc*: fix arms cleared the marker on `01-overview` once real content arrived while deliberately keeping it on `02`/`03`/`04` (architecture inferred, no code yet). A `?` cannot express that distinction.
+- **Unclosed**: all 3 baselines left breadcrumbs (decision + Known Issue + Task 1.1); the reported agent left none. Divergence unexplained — needs the reporter's model and the wording of their follow-up.
+- **Trade-off**: +2 lines. The original recommendation was A+C+D; measurement cut it to C, avoiding 2 lines of permanent restore-path overhead that would have done nothing. Confirms the Decision 16 lesson at a second site: reasoned fixes must be measured, not argued.
 
 #### 13. Protocol Anchoring Gate (Write Gate)
 - **Problem**: During long, technically intense sessions, agents suffer from Recency Bias — the user's immediate request overrides protocol rules read many turns ago. The agent creates ad-hoc files in `.bemyagent/` (e.g., a `crawler_roadmap.md` in `work/`) instead of updating the correct existing file (e.g., `06-implementation-plan.md`). This is model-agnostic: all transformer-based LLMs exhibit this behavior because attention weights on conversational context decay with distance.

@@ -90,5 +90,6 @@
 | 11.3 | Blocked-leaf convention — the missing `02_tasks.md` was the Saturation Check working, not a defect; four rival handling styles found, one made canonical | done |
 
 ## Backlog (unscheduled)
+- **Greenfield bootstrap loses the project description** (reported 2026-08-05) — the Step 0 GREENFIELD stop is contradicted by the preamble's "Do NOT ask permission between steps", and no rule routes late-arriving project context into `01-overview.md`. Root causes confirmed, fix not chosen → `drafts/greenfield-context-capture.md`
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

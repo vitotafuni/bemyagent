@@ -41,6 +41,7 @@ IF about to create or modify any file inside .bemyagent/docs/ or .bemyagent/work
 
 ## 2. Session Restore (new session or lost context)
 **0 — Pending upgrade:** if `.bemyagent/upgrade-plan.md` exists, an upgrade is incomplete — present it for user approval before any other work.
+Also grep `docs/` for `⚠️ UNPOPULATED` — any hit means bootstrap never captured that content: ask for it and write it in before any other work.
 **1 — Quick Resume (try first):** read `docs/06-implementation-plan.md` → identify active milestone/task → read that task's `02_tasks.md` in `work/X/X.Y/`. If the checklist makes done/pending clear, confirm status with the user and proceed. If `03_execute.log` exists, read its last entry to determine the resume point.
 **2 — Full Restore (only if 1 is insufficient):** read `docs/01-overview.md` → `02-architecture.md` → `05-decisions-and-issues.md`, then lazy-load the rest via the Routing Table.
 
@@ -131,7 +132,7 @@ Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gi
 ````
 
 ### Step 3: Generate Scaffold Files
-AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templates. Fill in ONLY what the scan evidenced: mark unknowns with `?` instead of inventing, and link only to files that exist. Create a `_template.md` inside `decisions/`, `specs/`, `drafts/` and `_template_think.md` in `work/` from the content blocks below (block headings show the naming convention for real files, not the template filename).
+AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templates. If a doc must be created before its content is known, its first line MUST be `> ⚠️ UNPOPULATED — awaiting [what is missing]`. Fill in ONLY what the scan evidenced: mark unknowns with `?` instead of inventing, and link only to files that exist. Create a `_template.md` inside `decisions/`, `specs/`, `drafts/` and `_template_think.md` in `work/` from the content blocks below (block headings show the naming convention for real files, not the template filename).
 **Language:** write all content in the language the user is using in this conversation (this sets the project's default docs language; see rules §6). Filenames stay in English.
 
 **`.bemyagent/settings.json`**
