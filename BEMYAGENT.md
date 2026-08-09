@@ -57,7 +57,7 @@ NEVER read `decisions/`, `specs/`, `drafts/` during restore — on-demand only.
 | Unscoped idea | docs/drafts/[idea-name].md |
 | Tech dependency or version | docs/04-tech-stack.md |
 
-**Conceptual maps:** `01`/`02`/`03` MUST hold only logical trees + pointers to fragments — never inline specs or long explanations. Read the map first (cheap), then only the needed fragment.
+**Conceptual maps:** `01`/`02`/`03` MUST hold only logical trees + pointers to fragments — never inline specs or long explanations.
 
 **Context Slicing** (any docs/work file > `contextSlicingThreshold` lines — estimate via terminal first): grep the relevant sections (~20-30 lines context) → expand (50-80) if insufficient → full read only as last resort. If you repeatedly need large parts of the same file, propose splitting it (e.g. `03-code-map/frontend.md`).
 
@@ -73,7 +73,7 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 **Decomposition (Divide et Impera):** if a task is too complex, do NOT execute it directly — split into sub-tasks, solve each leaf in isolation, verify individually, integrate gradually. A leaf that proves too complex during EXECUTE fragments further. Right size = fits one fresh context window.
 
 **Size the ceremony first** (estimate token cost via terminal word/line counts, not full reads):
-- **Micro** (typo, single trivial edit): NO folder, no TTEV files. Append one line to `work/<N>/micro.log`: `date | task | change | verdict` (e.g. `2026-06-27T14:32Z | 1.1 | fixed typo in route handler | PASS`).
+- **Micro** (typo, single trivial edit): NO folder, no TTEV files. Append one line to `work/<N>/micro.log`: `date | task | change | verdict | evidence` — evidence is the command you ran and its decisive result, never a bare claim (e.g. `2026-06-27T14:32Z | 1.1 | fixed typo in route handler | PASS | npm test → 12 pass 0 fail`).
 - **Standard** (routine development): TTEV files; CDM = `✅ Validation` only.
 - **Heavy** (complex logic, repetitive changes, high token cost): TTEV files + full CDM. Never execute Heavy without it:
   - `🎯 Drift` — what going off-track means for THIS task
@@ -83,7 +83,7 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 **TTEV files** (in `work/X/X.Y/`):
 - **THINK** `01_think.md` (from `_template_think.md`): you MUST complete the Context Saturation Check — 2+ items unknown → STOP and ask the user; 0-1 → state the assumption explicitly, continue. Standard/Heavy also add: *Pre-mortem* (assume the task failed; mitigate the 2-3 likeliest causes in the plan) and *Devil's Advocate* (generate one radically different alternative; pivot if clearly superior, else note briefly why not).
 - **TASK** `02_tasks.md`: strict checklist (todo / done / verified) + the CDM criteria. Open the file with `Delivers:` — the one user-visible behaviour this leaf makes work end to end, demoable on its own. If you cannot name one without depending on a sibling leaf, the split was horizontal: re-cut before EXECUTE. If the Saturation Check stopped this task, do NOT write `02_tasks.md` — a plan built on invented answers is not runnable. Leave `01_think.md` holding the open questions and mark the task `blocked — [reason]` in `06-implementation-plan.md`; write `02` once answered.
-- **EXECUTE** `03_execute.log`: command → result → **next intended action** (mandatory; write before executing it). No prose. Redact secrets/credentials before logging.
+- **EXECUTE** `03_execute.log`: command → result → **next intended action** (mandatory; write before executing it). Redact secrets/credentials before logging.
 - **VERIFY** `04_verify.md`: see Symbiotic Validation.
 **Handoff Principle:** `01` and `02` are forward-written execution plans a fresh zero-context agent could run — write them BEFORE executing. Only `03` and `04` are retrospective.
 
@@ -96,10 +96,8 @@ Depth: `strictVerification=true` → deep analysis (edge cases, performance, arc
 
 **Pacing (`interactiveMode`):** `false` = SEAMLESS — run TTEV autonomously, stop only on caveats/fail. `true` = INTERACTIVE — MUST STOP for human approval after THINK and after VERIFY. The user saying "enable/disable interactive mode" → update `settings.json`.
 **Model switching (`autoModelSwitching=true`, if your CLI permits):** strongest available model for THINK and VERIFY; cheaper tiers for mechanical EXECUTE steps and log summarization.
-Prune context before EXECUTE: load only what this leaf strictly needs.
 
 **Git:** a task's `01_think.md` + `02_tasks.md` must exist (written pre-execution) before its commit. On verdict PASS: `autoCommit=true` → commit as `feat: [X.Y] …`; `false` → propose it. If the previous task is still uncommitted when starting EXECUTE, propose committing it first.
-Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gitignore` `work/` (audit trail retained locally, lost in VCS).
 
 ## 5. Anti-Hallucination & Safety
 - Read a file's current content before modifying it. NEVER assume a function, variable, or import exists without seeing it.
@@ -117,19 +115,15 @@ Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gi
 - **CRITICAL:** update `03-code-map.md` and `05-decisions-and-issues.md` in the SAME response as any change — including discussion-only decisions (rejected approaches, architectural choices). A task that introduces new domain vocabulary adds those terms to the `01-overview.md` glossary in that same response. Unresolved ideas → `drafts/`.
 - `specs/`: marking a milestone done REQUIRES diffing its spec's acceptance criteria against the repo in that same response: tick a criterion only with evidence verified in the repo NOW (file, test, commit — cite it beside the tick; the plan's status column is a claim, not evidence); every unmet criterion becomes a new task — a milestone with unmet criteria stays in-progress. `drafts/`: promote to `specs/` when ready to build, then delete the draft.
 
-## 7. Monthly Audit Prompt
-> "Compare `03-code-map.md` vs the real file structure; report drift. Check `01-overview.md` env vars vs actual config. Verify `.gitignore` coverage. Check test coverage vs recent changes. List recent decisions missing from `05-decisions-and-issues.md`. Flag placeholder sections and language inconsistencies in docs/."
-
-## 8. Protocol Updates & Migration
+## 7. Protocol Updates & Migration
 - Atomic dir-level copy/move operations only — file-by-file enumeration causes omissions.
 - Scan the destination for filename collisions first. NEVER overwrite user files: ask, or move them to `archived/`. Keep user docs and protocol docs separated.
 
-## 9. Multi-Agent Parallelism
+## 8. Multi-Agent Parallelism
 1. One worktree + branch per task: `git worktree add ../project-task-X.Y -b bma/X.Y`
 2. Each agent runs the standard TTEV workflow autonomously on its branch.
 3. Shared docs: write decisions as per-task ADR files in `decisions/` (collision-free by filename); defer `03-code-map.md` edits to a post-merge sync task on main.
-4. The human dispatches (one session per worktree), merges via PR, resolves conflicts. No automated orchestrator.
-5. After merge: `git worktree remove ../project-task-X.Y`
+4. After merge: `git worktree remove ../project-task-X.Y`
 ````
 
 ### Step 3: Generate Scaffold Files

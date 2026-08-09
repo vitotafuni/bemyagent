@@ -101,7 +101,7 @@
 
 ## Milestone 13.0 — Declarative Rule Audit (candidate MAJOR)
 **Goal**: Every rule is attached to an inspectable artifact, or it leaves. Milestones 11/16/18 measured declarative rules at ~zero compliance and procedural ones near-total; most of `00-ai-rules.md` is still declarative and may have been inert since it was written.
-**Status**: in-progress
+**Status**: done — MAJOR not justified by any single change; see the version note below. Net −156 tokens.
 
 | Task | Description | Status |
 |------|-------------|--------|
@@ -109,9 +109,11 @@
 | 13.1b | Re-classify into procedural / declarative / non-rule; judge deletions by verifiability × cost × cost-of-failure, not verifiability alone (e.g. "redact secrets" is 13 tokens and unverifiable — keeping it is obviously right) | todo |
 | 13.2 | First inertness run (Context Slicing + Surgical Scope + Brevity, 207 tok, 6 arms): **INCONCLUSIVE** — planted defect did not exist, fixture README self-identified as a test, and Surgical Scope got only one accidental occasion. 0/3 vs 1/3 = noise. Nothing pruned | done |
 | 13.2b | Re-run with a real defect, a fixture that reads as an ordinary project, and one rule per experiment | todo |
-| 13.3 | Prune the inert-and-unfixable; regenerate `00-ai-rules.md`. MAJOR only if the result is breaking (existing projects need regeneration) | todo |
+| 13.3 | Cut −186 tok (3 inert restatements + 2 non-rules relocated to README); kept Handoff Principle and Monthly Audit on the audit's own objection | done |
+| 13.4 | Micro tier had no evidence requirement — 5/6 arms left an unverifiable PASS. `micro.log` gains an `evidence` field. Net −156 tok | done |
+| 13.5 | `04_verify.md` command+output clause — 1/3 vs 0/3, inconclusive, not landed. Candidate | todo |
 
-> Version note: this is the only MAJOR candidate on the table. Decisions 17 and 19 are additive — an agent re-reading the rules adapts without manual migration, so they are MINOR by the Decision 8 criterion. A major bump is earned by the audit's outcome, not chosen in advance.
+> **Version note (conclusion).** No single change from Milestones 11–13 is breaking: each is additive or subtractive but self-adapting on re-read → MINOR by the Decision 8 criterion. **The one genuine MAJOR argument is Decision 18's convergence gate**, and it is not about size: it *re-judges existing data*. After upgrading, a milestone already marked `done` whose spec has unticked acceptance criteria becomes non-closable and the protocol will reopen it. That is a behavioural change applied retroactively to a project's history, which is what "requires manual migration" means in practice. Migration note if MAJOR is taken: *after upgrading, review closed milestones — those with unmet acceptance criteria will return to in-progress.*
 
 ## Backlog (unscheduled)
 - **Greenfield exit condition — the A/B was invalid** (kept for the method, the rule itself landed as Decision 19). Step 0.3 prescribes the *action* ("STOP and ask") but no *exit condition*: an agent that asks, receives a bare "ok", and considers the question asked is following the text. Four different behaviours were observed on that ambiguity. A candidate fix exists (create nothing until the answer names the project; explicit opt-in for an `UNPOPULATED` scaffold), but the A/B was **invalid** — subagents refuse coordinator messages on authority grounds regardless of the rule, and directory names leaked the hypothesis (neutral names: 1 refusal / 2 proceed; names revealing the gate: 3/3 refusals). 6/6 arms behaved identically. Consent-shaped rules are not measurable with the harness — this one needs testing by a human in a real session before it can land.

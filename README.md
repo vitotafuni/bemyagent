@@ -50,6 +50,31 @@ The human controls how much autonomy the agent has:
 
 That's it. From this point on, the agent reads `.bemyagent/docs/00-ai-rules.md` at the start of every session and knows how to operate.
 
+## Human-invoked routines
+
+These live here rather than in `00-ai-rules.md` so they cost nothing at session restore —
+they are for you to run, not for the agent to carry in context every turn.
+
+### Monthly audit
+
+Every procedural rule in the protocol forces an artifact to *exist*; none checks that it is
+*true*. This prompt is the reconciliation pass. Paste it into a session roughly monthly:
+
+> "Compare `03-code-map.md` vs the real file structure; report drift. Check `01-overview.md`
+> env vars vs actual config. Verify `.gitignore` coverage. Check test coverage vs recent
+> changes. List recent decisions missing from `05-decisions-and-issues.md`. Flag placeholder
+> sections and language inconsistencies in docs/."
+
+### Version-control conventions
+
+`.bemyagent/` is tracked in git by default. Teams preferring a clean VCS history may
+`.gitignore` `work/` — the audit trail is kept locally and lost in VCS.
+
+### Multi-agent dispatch
+
+In the worktree workflow (`00-ai-rules.md` §8) the human dispatches one session per worktree,
+merges via PR, and resolves conflicts. There is no automated orchestrator by design.
+
 ## How It Works (The Files)
 
 ```
