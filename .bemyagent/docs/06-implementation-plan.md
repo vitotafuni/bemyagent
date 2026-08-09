@@ -100,6 +100,7 @@
 | 12.3 | Harness into the repo (`harness/`): fixture + `tokens.py` + the four measurement rules; biased slice classifier deliberately not shipped | done |
 
 ## Backlog (unscheduled)
+- **Greenfield exit condition — UNTESTED, needs a human session.** Step 0.3 prescribes the *action* ("STOP and ask") but no *exit condition*: an agent that asks, receives a bare "ok", and considers the question asked is following the text. Four different behaviours were observed on that ambiguity. A candidate fix exists (create nothing until the answer names the project; explicit opt-in for an `UNPOPULATED` scaffold), but the A/B was **invalid** — subagents refuse coordinator messages on authority grounds regardless of the rule, and directory names leaked the hypothesis (neutral names: 1 refusal / 2 proceed; names revealing the gate: 3/3 refusals). 6/6 arms behaved identically. Consent-shaped rules are not measurable with the harness — this one needs testing by a human in a real session before it can land.
 - **Greenfield bootstrap** — resolved in Decision 17 (`UNPOPULATED` marker). Two of three proposed fixes were dropped after measurement; see Decision 17 in `05-decisions-and-issues.md`. Working notes stayed in local `drafts/` (untracked by design).
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.

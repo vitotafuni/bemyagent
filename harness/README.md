@@ -50,6 +50,22 @@ procedure they followed its steps and ticked criteria against non-existent code 
 and 0/3 spot-checked the premise. A new rule competes for attention with the rules
 already there. Every candidate needs an arm where it could plausibly hurt.
 
+## What this harness cannot measure
+
+**Rules that depend on the user's authority.** Subagents always know they are subagents
+and treat a coordinator's message as non-authoritative by construction — they say so in
+as many words: *"an 'ok' relayed through the coordinator is not the user's consent."* So
+any consent gate, exit condition on a human reply, or interaction-shaped rule will look
+like it works in every arm, for a reason that has nothing to do with the rule. Those need
+a human in a real session; measure a proxy artifact instead, or accept it is untested and
+say so.
+
+**Name the run directories neutrally.** An arm once wrote: *"given the directory is named
+`gatebase-1`, bypassing the gate via a technicality seems like precisely the wrong
+result."* Same protocol, same model, only the naming changed: neutral names gave 1 refusal
+and 2 proceed; names that revealed the gate under test gave 3/3 refusals. Directory names
+are part of the prompt. Use `a-1`, `b-1`, never `base`/`fix`/`gate`/`control`.
+
 ## Scoring
 
 Grep the generated `.bemyagent/` tree for the artifact the rule is supposed to
