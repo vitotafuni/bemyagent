@@ -7,3 +7,7 @@
 
 # Generated site (built by CI)
 site/output/
+
+# harness fixture artifacts
+harness/fixture/game.db
+harness/fixture/node_modules/

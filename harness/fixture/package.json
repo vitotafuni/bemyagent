@@ -1,0 +1,14 @@
+{
+  "name": "tictactoe",
+  "version": "0.1.0",
+  "description": "Hot-seat tic-tac-toe: express + sqlite + vanilla client",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "express": "^4.19.0"
+  }
+}

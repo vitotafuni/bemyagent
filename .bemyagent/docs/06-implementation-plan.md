@@ -95,10 +95,11 @@
 
 | Task | Description | Status |
 |------|-------------|--------|
-| 12.1 | Survey + overlap check → `drafts/landscape-analysis.md`; most rival mechanisms already covered or bettered | done |
+| 12.1 | Survey + overlap check vs Cline / Spec-Kit / BMAD / rtoma / skill-memory-bank; most rival mechanisms already covered or bettered (working notes in local `drafts/`, untracked by design) | done |
 | 12.2 | Milestone convergence gate — 3 rounds / 15 arms: drafted rule laundered fraud 3/3, reworded 0/3; landed in §6 | done |
+| 12.3 | Harness into the repo (`harness/`): fixture + `tokens.py` + the four measurement rules; biased slice classifier deliberately not shipped | done |
 
 ## Backlog (unscheduled)
-- **Greenfield bootstrap loses the project description** (reported 2026-08-05) — the Step 0 GREENFIELD stop is contradicted by the preamble's "Do NOT ask permission between steps", and no rule routes late-arriving project context into `01-overview.md`. Root causes confirmed, fix not chosen → `drafts/greenfield-context-capture.md`
+- **Greenfield bootstrap** — resolved in Decision 17 (`UNPOPULATED` marker). Two of three proposed fixes were dropped after measurement; see Decision 17 in `05-decisions-and-issues.md`. Working notes stayed in local `drafts/` (untracked by design).
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.
