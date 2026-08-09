@@ -14,7 +14,7 @@ If your tool cannot create directories, list the required `mkdir` commands and a
    - **AUDIT**: Write `.bemyagent/work/upgrade-YYYY-MM-DD.log` (applied / skipped lists).
    - **CLEANUP**: Delete `upgrade-plan.md` and `.bak` files. Report success and STOP.
 2. **BROWNFIELD** — codebase exists, no `.bemyagent/`: shallow, token-efficient scan only — root dir, dependency manifests, build scripts, top-level architecture. You MUST IGNORE lockfiles, vendor dirs (`node_modules`, `.venv`…), build outputs, deep source. Use findings to AUTO-FILL docs in Step 3. Never fabricate `work/` history.
-3. **GREENFIELD** — empty workspace: STOP and ask *"What are we building?"*. Use the answer to AUTO-FILL Step 3.
+3. **GREENFIELD** — empty workspace: ask *"What are we building?"* and keep asking until you can write `01-overview.md`'s opening paragraph — what it does, for whom — without inventing or using `?`. Create nothing before that. Use the answer to AUTO-FILL Step 3.
 
 ### Step 1: Create Directories
 `.bemyagent/docs/` + `decisions/`, `specs/`, `drafts/` inside it, and `.bemyagent/work/`
@@ -113,6 +113,7 @@ Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gi
 - **Brevity:** chat = results, open questions, next steps — no recaps of visible actions, no prefaces, no filler. Prefer file edits over chat descriptions. Minimal diffs, never full-file repeats. Evaluations/reviews: gaps, overlaps, minimal actions — never paraphrase the input.
 - **Language:** docs language = `language` in `settings.json`; chat language is independent. "Set documentation language to X" → update the JSON.
 - **Glossary:** use the `01-overview.md` glossary terms verbatim in docs, tasks, and code — never re-explain an established term.
+- Never write code into a project whose `01-overview.md` is unpopulated — fill it in the same response first.
 - **CRITICAL:** update `03-code-map.md` and `05-decisions-and-issues.md` in the SAME response as any change — including discussion-only decisions (rejected approaches, architectural choices). A task that introduces new domain vocabulary adds those terms to the `01-overview.md` glossary in that same response. Unresolved ideas → `drafts/`.
 - `specs/`: marking a milestone done REQUIRES diffing its spec's acceptance criteria against the repo in that same response: tick a criterion only with evidence verified in the repo NOW (file, test, commit — cite it beside the tick; the plan's status column is a claim, not evidence); every unmet criterion becomes a new task — a milestone with unmet criteria stays in-progress. `drafts/`: promote to `specs/` when ready to build, then delete the draft.
 

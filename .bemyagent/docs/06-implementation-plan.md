@@ -99,8 +99,20 @@
 | 12.2 | Milestone convergence gate — 3 rounds / 15 arms: drafted rule laundered fraud 3/3, reworded 0/3; landed in §6 | done |
 | 12.3 | Harness into the repo (`harness/`): fixture + `tokens.py` + the four measurement rules; biased slice classifier deliberately not shipped | done |
 
+## Milestone 13.0 — Declarative Rule Audit (candidate MAJOR)
+**Goal**: Every rule is attached to an inspectable artifact, or it leaves. Milestones 11/16/18 measured declarative rules at ~zero compliance and procedural ones near-total; most of `00-ai-rules.md` is still declarative and may have been inert since it was written.
+**Status**: in-progress
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 13.1 | Classify every rule declarative vs procedural, with token cost and a proposed artifact for each fixable one | in-progress |
+| 13.2 | Measure the top 5 candidates by (tokens × fixability) — 6 arms each, including an arm where the rule could plausibly *harm* | todo |
+| 13.3 | Prune the inert-and-unfixable; regenerate `00-ai-rules.md`. MAJOR only if the result is breaking (existing projects need regeneration) | todo |
+
+> Version note: this is the only MAJOR candidate on the table. Decisions 17 and 19 are additive — an agent re-reading the rules adapts without manual migration, so they are MINOR by the Decision 8 criterion. A major bump is earned by the audit's outcome, not chosen in advance.
+
 ## Backlog (unscheduled)
-- **Greenfield exit condition — UNTESTED, needs a human session.** Step 0.3 prescribes the *action* ("STOP and ask") but no *exit condition*: an agent that asks, receives a bare "ok", and considers the question asked is following the text. Four different behaviours were observed on that ambiguity. A candidate fix exists (create nothing until the answer names the project; explicit opt-in for an `UNPOPULATED` scaffold), but the A/B was **invalid** — subagents refuse coordinator messages on authority grounds regardless of the rule, and directory names leaked the hypothesis (neutral names: 1 refusal / 2 proceed; names revealing the gate: 3/3 refusals). 6/6 arms behaved identically. Consent-shaped rules are not measurable with the harness — this one needs testing by a human in a real session before it can land.
+- **Greenfield exit condition — the A/B was invalid** (kept for the method, the rule itself landed as Decision 19). Step 0.3 prescribes the *action* ("STOP and ask") but no *exit condition*: an agent that asks, receives a bare "ok", and considers the question asked is following the text. Four different behaviours were observed on that ambiguity. A candidate fix exists (create nothing until the answer names the project; explicit opt-in for an `UNPOPULATED` scaffold), but the A/B was **invalid** — subagents refuse coordinator messages on authority grounds regardless of the rule, and directory names leaked the hypothesis (neutral names: 1 refusal / 2 proceed; names revealing the gate: 3/3 refusals). 6/6 arms behaved identically. Consent-shaped rules are not measurable with the harness — this one needs testing by a human in a real session before it can land.
 - **Greenfield bootstrap** — resolved in Decision 17 (`UNPOPULATED` marker). Two of three proposed fixes were dropped after measurement; see Decision 17 in `05-decisions-and-issues.md`. Working notes stayed in local `drafts/` (untracked by design).
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)
 - Evaluate creating a CLI tool (e.g., `npx bemyagent`) in the future to automate the file copy.
