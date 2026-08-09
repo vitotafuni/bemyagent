@@ -29,9 +29,9 @@ BEMYAGENT.md provides a single markdown file (`BEMYAGENT.md`) that acts as a boo
 | **Lazy Loading** | The agent never reads specs, drafts, or decisions during context restoration unless the current task explicitly requires them. Saves tokens by default. |
 | **Fractal Decomposition (HTN)** | If a task is too large, the agent decomposes it into sub-tasks (e.g., `work/1/1.1/`, `work/1/1.2/`). Each leaf node gets its own TTEV cycle. |
 | **Context Saturation Check** | Before executing, the agent verifies it has enough context (target files, expected behavior, constraints, dependencies). If too much is unclear, it asks instead of guessing. |
-| **Contextual DNA Mapping (CDM)** | During planning, the agent embeds validation criteria directly into each task — scaled by complexity. Simple tasks get none; complex tasks get Drift sensors, Validation criteria, and Pivot triggers. |
+| **Contextual DNA Mapping (CDM)** | During planning, the agent embeds validation criteria directly into each task — scaled by complexity, in three tiers: Micro tasks get none, Standard tasks get Validation criteria, and Heavy tasks get the full set — Drift sensors, Validation criteria and Pivot triggers. |
 | **Symbiotic Validation** | After execution, the agent evaluates its own output against the CDM criteria and produces a verdict (PASS / PASS\_WITH\_CAVEATS / FAIL) before presenting results. The human validates the *sense*, the agent has already validated the *form*. |
-| **Self-Registration** | The agent configures the project's native rule files (`.cursorrules`, `AGENTS.md`, etc.) to read `00-ai-rules.md` at every session start. |
+| **Self-Registration** | The agent configures the project's native rule files (`.cursorrules`, `AGENTS.md`, etc.) to read `00-ai-rules.md` before every task. |
 
 ### Pacing Modes
 
@@ -39,7 +39,8 @@ The human controls how much autonomy the agent has:
 
 - **SEAMLESS** — The agent runs TTEV automatically. It only stops if verification finds issues.
 - **INTERACTIVE** — The agent pauses after THINK (plan approval) and after VERIFY (result approval). Two human gates.
-- **AUTO-CLI** — The agent switches AI models per phase (e.g., large model for THINK, fast model for EXECUTE).
+
+Independently of pacing, `autoModelSwitching` lets the agent use a stronger model for THINK and VERIFY and cheaper tiers for mechanical EXECUTE steps. It composes with either mode rather than being a third one.
 
 ## Usage
 
@@ -48,7 +49,7 @@ The human controls how much autonomy the agent has:
 3. The AI generates the `.bemyagent/` directory structure and templates.
 4. Delete `BEMYAGENT.md` and start a fresh chat session (the bootstrap context is no longer needed).
 
-That's it. From this point on, the agent reads `.bemyagent/docs/00-ai-rules.md` at the start of every session and knows how to operate.
+That's it. From this point on, the agent reads `.bemyagent/docs/00-ai-rules.md` before every task and knows how to operate.
 
 ## Human-invoked routines
 
