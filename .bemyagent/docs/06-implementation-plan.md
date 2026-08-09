@@ -89,6 +89,15 @@
 | 11.5 | No-BMA control (3 arms): ambiguity detection no different; halt behaviour 3/12 vs 0/3; BMA ~2× planning cost. Claims narrowed to structural conformance | done |
 | 11.3 | Blocked-leaf convention — the missing `02_tasks.md` was the Saturation Check working, not a defect; four rival handling styles found, one made canonical | done |
 
+## Milestone 12.0 — Landscape Survey & Convergence Gate
+**Goal**: Compare BMA against the 2026 field (Cline, Spec-Kit, BMAD, rtoma, skill-memory-bank) and close any real gap.
+**Status**: done — 1 gap found in 6 protocols; first draft measured harmful, reworded version landed.
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 12.1 | Survey + overlap check → `drafts/landscape-analysis.md`; most rival mechanisms already covered or bettered | done |
+| 12.2 | Milestone convergence gate — 3 rounds / 15 arms: drafted rule laundered fraud 3/3, reworded 0/3; landed in §6 | done |
+
 ## Backlog (unscheduled)
 - **Greenfield bootstrap loses the project description** (reported 2026-08-05) — the Step 0 GREENFIELD stop is contradicted by the preamble's "Do NOT ask permission between steps", and no rule routes late-arriving project context into `01-overview.md`. Root causes confirmed, fix not chosen → `drafts/greenfield-context-capture.md`
 - Capability Handshake as Operations Manifest in `02_tasks.md` (Fase 3 from evaluation)

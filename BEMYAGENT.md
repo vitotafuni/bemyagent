@@ -114,7 +114,7 @@ Default: track `.bemyagent/` in git. Teams preferring clean VCS history may `.gi
 - **Language:** docs language = `language` in `settings.json`; chat language is independent. "Set documentation language to X" → update the JSON.
 - **Glossary:** use the `01-overview.md` glossary terms verbatim in docs, tasks, and code — never re-explain an established term.
 - **CRITICAL:** update `03-code-map.md` and `05-decisions-and-issues.md` in the SAME response as any change — including discussion-only decisions (rejected approaches, architectural choices). A task that introduces new domain vocabulary adds those terms to the `01-overview.md` glossary in that same response. Unresolved ideas → `drafts/`.
-- `specs/`: tick acceptance criteria as completed. `drafts/`: promote to `specs/` when ready to build, then delete the draft.
+- `specs/`: marking a milestone done REQUIRES diffing its spec's acceptance criteria against the repo in that same response: tick a criterion only with evidence verified in the repo NOW (file, test, commit — cite it beside the tick; the plan's status column is a claim, not evidence); every unmet criterion becomes a new task — a milestone with unmet criteria stays in-progress. `drafts/`: promote to `specs/` when ready to build, then delete the draft.
 
 ## 7. Monthly Audit Prompt
 > "Compare `03-code-map.md` vs the real file structure; report drift. Check `01-overview.md` env vars vs actual config. Verify `.gitignore` coverage. Check test coverage vs recent changes. List recent decisions missing from `05-decisions-and-issues.md`. Flag placeholder sections and language inconsistencies in docs/."
