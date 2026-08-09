@@ -105,8 +105,10 @@
 
 | Task | Description | Status |
 |------|-------------|--------|
-| 13.1 | Classify every rule declarative vs procedural, with token cost and a proposed artifact for each fixable one | in-progress |
-| 13.2 | Measure the top 5 candidates by (tokens × fixability) — 6 arms each, including an arm where the rule could plausibly *harm* | todo |
+| 13.1 | Audit done: 32 procedural (~1456 tok) vs 36 declarative (~1300 tok) = 42% of rule content. Caveat: the 42% includes reference data (routing table), config statements and human-process text, which are not "inert rules" and need a third category | done |
+| 13.1b | Re-classify into procedural / declarative / non-rule; judge deletions by verifiability × cost × cost-of-failure, not verifiability alone (e.g. "redact secrets" is 13 tokens and unverifiable — keeping it is obviously right) | todo |
+| 13.2 | First inertness run (Context Slicing + Surgical Scope + Brevity, 207 tok, 6 arms): **INCONCLUSIVE** — planted defect did not exist, fixture README self-identified as a test, and Surgical Scope got only one accidental occasion. 0/3 vs 1/3 = noise. Nothing pruned | done |
+| 13.2b | Re-run with a real defect, a fixture that reads as an ordinary project, and one rule per experiment | todo |
 | 13.3 | Prune the inert-and-unfixable; regenerate `00-ai-rules.md`. MAJOR only if the result is breaking (existing projects need regeneration) | todo |
 
 > Version note: this is the only MAJOR candidate on the table. Decisions 17 and 19 are additive — an agent re-reading the rules adapts without manual migration, so they are MINOR by the Decision 8 criterion. A major bump is earned by the audit's outcome, not chosen in advance.

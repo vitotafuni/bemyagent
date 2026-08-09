@@ -60,6 +60,15 @@ like it works in every arm, for a reason that has nothing to do with the rule. T
 a human in a real session; measure a proxy artifact instead, or accept it is untested and
 say so.
 
+**Verify the planted defect actually exists.** A run once shipped with a comment
+declaring a bug in code that was already correct. Every arm spot-checked the premise,
+refused to edit, and the experiment measured §5 instead of its three target rules —
+a wasted round. Reproduce the defect yourself before launching.
+
+**Strip the fixture's self-description.** An arm read the fixture README, saw the words
+"harness fixture", and reasoned about being under test. Fixtures must read as ordinary
+projects.
+
 **Name the run directories neutrally.** An arm once wrote: *"given the directory is named
 `gatebase-1`, bypassing the gate via a technicality seems like precisely the wrong
 result."* Same protocol, same model, only the naming changed: neutral names gave 1 refusal
