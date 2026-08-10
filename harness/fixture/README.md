@@ -9,3 +9,7 @@ Deliberately layered so a feature request cuts through several layers at once:
 ```
 npm install && npm test   # 4 passing
 ```
+
+Requires Node >= 20. `better-sqlite3` is a native module: older pins fail to
+build against recent Node releases, which costs an experiment round when arms
+hit it instead of the rule under test.
