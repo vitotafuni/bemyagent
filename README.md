@@ -99,6 +99,46 @@ merges via PR, and resolves conflicts. There is no automated orchestrator by des
         └── 04_verify.md           # Self-validation report
 ```
 
+## `harness/` — measuring whether a rule actually works
+
+**Not part of the protocol.** `BEMYAGENT.md` is still the only thing you copy into
+your project; `harness/` is never referenced by it and never lands in your repo.
+It is the test environment used to develop the protocol — and it is generic
+enough to reuse.
+
+The problem it solves: a rule written for an AI agent is a *claim* about
+behaviour, and reasoning about that claim predicts the outcome badly. Across
+three milestones here, most proposed rules did not survive measurement — several
+turned out inert, and one made the agent measurably worse before it was reworked.
+
+**The method** — one variable, two arms, N=3 each:
+
+1. Copy `fixture/` into 6 isolated directories.
+2. Three get your current rules; three get the same rules plus the candidate.
+   Diff the two and confirm the only difference is the rule.
+3. Run one agent per directory, same prompt, same model, in parallel.
+4. Score the **artifact** the rule should produce — not a downstream proxy like
+   token count, which is noisy enough to produce false positives.
+
+**What's inside:**
+
+- `fixture/` — a small tic-tac-toe app (Express + sqlite + vanilla client, ~120
+  lines) with real layer separation: schema → store → API → client → tests. It is
+  deliberately layered so a feature request cuts through everything at once, which
+  is what makes decomposition and scoping rules observable. Swap in your own
+  codebase if you prefer.
+- `tokens.py` — per-arm cost from agent session transcripts, cache-weighted
+  (raw token sums mislead: cache reads are ~10× cheaper than fresh input).
+- `README.md` — the method, plus what the harness **cannot** measure and the
+  traps that cost real experiment rounds: consent-shaped rules are unmeasurable
+  because subagents never treat a coordinator as the user; directory names leak
+  the hypothesis to the agents; a fixture that advertises itself as a test
+  changes behaviour; a planted defect that doesn't actually exist turns every
+  arm into a different experiment.
+
+Useful for anyone tuning agent instructions — prompts, skills, rule files — who
+wants evidence instead of intuition.
+
 ## Contributing & Dogfooding
 
 This repository uses the BEMYAGENT.md protocol to develop itself. The `.bemyagent/` directory contains the live workspace where the protocol is planned, documented, and evolved — using its own rules.
