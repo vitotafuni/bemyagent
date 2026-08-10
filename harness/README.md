@@ -65,6 +65,14 @@ declaring a bug in code that was already correct. Every arm spot-checked the pre
 refused to edit, and the experiment measured §5 instead of its three target rules —
 a wasted round. Reproduce the defect yourself before launching.
 
+**Run the fixture before you run the arms.** `npm install && npm test` must
+succeed on your Node version. A fixture that fails to build turns every arm into
+a debugging session about the fixture: in one round, three arms spent their effort
+diagnosing a native-module build failure, two installed a working version
+out-of-tree to proceed, and one downgraded its own verdict because it could not
+run HTTP-level checks. None of that is data about the rule under test — it is
+noise injected by the measuring instrument.
+
 **Strip the fixture's self-description.** An arm read the fixture README, saw the words
 "harness fixture", and reasoned about being under test. Fixtures must read as ordinary
 projects.

@@ -111,7 +111,8 @@
 | 13.2b | Re-run with a real defect, a fixture that reads as an ordinary project, and one rule per experiment | todo |
 | 13.3 | Cut −186 tok (3 inert restatements + 2 non-rules relocated to README); kept Handoff Principle and Monthly Audit on the audit's own objection | done |
 | 13.4 | Micro tier had no evidence requirement — 5/6 arms left an unverifiable PASS. `micro.log` gains an `evidence` field. Net −156 tok | done |
-| 13.5 | `04_verify.md` command+output clause — 1/3 vs 0/3, inconclusive, not landed. Candidate | todo |
+| 13.5 | `04_verify.md` command+output clause — NOT landed. Re-run on a Standard-tier fixture: the baseline already writes commands and results into `04_verify.md` in 3/3 arms, so the existing "evidence from commands run during VERIFY" rule leaves the clause no room. Same shape as the declarative-P2 and audit results: the strong procedural rule already covers it | done |
+| 13.6 | Fixture failed `npm install` on Node 26 — measurement noise from the instrument itself; pinned and verified end-to-end | done |
 
 > **Version note (conclusion).** No single change from Milestones 11–13 is breaking: each is additive or subtractive but self-adapting on re-read → MINOR by the Decision 8 criterion. **The one genuine MAJOR argument is Decision 18's convergence gate**, and it is not about size: it *re-judges existing data*. After upgrading, a milestone already marked `done` whose spec has unticked acceptance criteria becomes non-closable and the protocol will reopen it. That is a behavioural change applied retroactively to a project's history, which is what "requires manual migration" means in practice. Migration note if MAJOR is taken: *after upgrading, review closed milestones — those with unmet acceptance criteria will return to in-progress.*
 
