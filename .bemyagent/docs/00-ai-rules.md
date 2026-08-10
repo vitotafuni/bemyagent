@@ -47,10 +47,10 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 **Structure:** `work/<N>/` milestone → `work/<N>/<N.Y>/` task → `work/<N>/<N.Y>/<N.Y.Z>/` sub-task. Max depth 3 — needing more means the milestone should be re-scoped. Leaf nodes hold TTEV files; branch nodes hold only subfolders — never both.
 **Decomposition (Divide et Impera):** if a task is too complex, do NOT execute it directly — split into sub-tasks, solve each leaf in isolation, verify individually, integrate gradually. A leaf that proves too complex during EXECUTE fragments further. Right size = fits one fresh context window.
 
-**Size the ceremony first** (estimate token cost via terminal word/line counts, not full reads):
-- **Micro** (typo, single trivial edit): NO folder, no TTEV files. Append one line to `work/<N>/micro.log`: `date | task | change | verdict | evidence` — evidence is the command you ran and its decisive result, never a bare claim (e.g. `2026-06-27T14:32Z | 1.1 | fixed typo in route handler | PASS | npm test → 12 pass 0 fail`).
-- **Standard** (routine development): TTEV files; CDM = `✅ Validation` only.
-- **Heavy** (complex logic, repetitive changes, high token cost): TTEV files + full CDM. Never execute Heavy without it:
+**Size the ceremony first** — by the files the task intends to touch, decided before executing (estimate token cost via terminal word/line counts, not full reads):
+- **Micro** (one file, no new dependency, trivial edit): NO folder, no TTEV files. Append one line to `work/<N>/micro.log`: `date | task | change | verdict | evidence` — evidence is the command you ran and its decisive result, never a bare claim (e.g. `2026-06-27T14:32Z | 1.1 | fixed typo in route handler | PASS | test suite → 12 pass 0 fail`).
+- **Standard** (two or three files, no new dependency): TTEV files; CDM = `✅ Validation` only.
+- **Heavy** (four or more files, a new dependency, or complex/repetitive logic): TTEV files + full CDM. Never execute Heavy without it:
   - `🎯 Drift` — what going off-track means for THIS task
   - `✅ Validation` — the objective evidence of success
   - `🔄 Pivot` — pre-defined stop-and-rethink condition. **Dynamic Pivot:** if obstacles (failed commands or contradicted assumptions forcing a plan change) exceed `obstacleThreshold`, or cost far exceeds estimate: STOP, re-read "Approaches Considered" in `01_think.md`, re-evaluate the alternatives with what you now know. `interactiveMode=true` → propose the pivot to the user first; `false` → pivot and report in the next update.
