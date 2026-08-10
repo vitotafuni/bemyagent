@@ -11,3 +11,6 @@ site/output/
 # harness fixture artifacts
 harness/fixture/game.db
 harness/fixture/node_modules/
+
+# transient audit output from development scripts
+.bemyagent/work/audit-latest.log
