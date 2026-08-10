@@ -25,3 +25,17 @@
 
 ## Data schemas
 *(No strict data schemas in this markdown-based protocol)*
+
+## Harness (development only — not distributed)
+> Test environment for measuring whether a protocol rule changes agent behaviour.
+> Nothing in `BEMYAGENT.md` references it; it never lands in a user's project.
+
+| File | Role | Notes |
+|---|---|---|
+| `harness/README.md` | The method, its limits, and the traps that cost experiment rounds | Read this before designing a run |
+| `harness/tokens.py` | Per-arm cost from agent session transcripts, cache-weighted | Emits numeric aggregates only, never transcript content |
+| `harness/fixture/` | Cavia: tic-tac-toe app with real layer separation | schema → store → API → client → test |
+| `fixture/server/rules.js` | Pure move legality + win detection | No I/O — the seam most experiments target |
+| `fixture/server/store.js` | sqlite persistence | Native dep: see tech-stack for the Node constraint |
+| `fixture/server/index.js` | REST API + static hosting | |
+| `fixture/test/rules.test.js` | 4 tests | `npm test` → `node --test test/*.test.js` |

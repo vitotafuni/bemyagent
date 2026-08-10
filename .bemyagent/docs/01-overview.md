@@ -43,6 +43,8 @@ This repository IS the source code of the BEMYAGENT protocol. The protocol gover
 - `/README.md` — Human-facing project description.
 - `/.bemyagent/docs/` — Permanent knowledge (architecture, rules, decisions).
 - `/.bemyagent/work/` — Volatile memory (execution traces, task logs).
+- `/harness/` — Test environment for measuring rules. NOT part of the distributed protocol; never referenced by `BEMYAGENT.md`.
+- `/site/` — Generated site for bemyagent.md (built by CI).
 
 ## Quick Start Commands
 - Drop `BEMYAGENT.md` in your repo and ask the AI: "Read BEMYAGENT.md and execute the bootstrap".
