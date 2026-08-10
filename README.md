@@ -101,10 +101,12 @@ merges via PR, and resolves conflicts. There is no automated orchestrator by des
 
 ## `harness/` — measuring whether a rule actually works
 
-**Not part of the protocol.** `BEMYAGENT.md` is still the only thing you copy into
-your project; `harness/` is never referenced by it and never lands in your repo.
-It is the test environment used to develop the protocol — and it is generic
-enough to reuse.
+**Not part of the protocol, and not shipped to you.** `BEMYAGENT.md` is the only
+thing you copy into your project. `harness/` is never referenced by it, never lands
+in your repo, and its tooling — Node, sqlite, Python — is **not** a requirement for
+using BEMYAGENT: the protocol is plain markdown and assumes no runtime, no package
+manager and no particular operating system. `harness/` is the test environment used
+to develop the protocol, kept here for anyone who wants to reuse the method.
 
 The problem it solves: a rule written for an AI agent is a *claim* about
 behaviour, and reasoning about that claim predicts the outcome badly. Across
