@@ -1,15 +1,24 @@
-# tictactoe — harness fixture
+# tictactoe
 
 Hot-seat tic-tac-toe. Two players share one device; the board lives server-side.
 
-Deliberately layered so a feature request cuts through several layers at once:
-`db/schema.sql` · `server/rules.js` (pure logic) · `server/store.js` (persistence) ·
-`server/index.js` (REST) · `client/` (UI) · `test/`.
+## Layout
+
+```
+db/schema.sql       game persistence schema
+server/rules.js     move legality + win detection (pure)
+server/store.js     sqlite persistence
+server/session.js   player sessions, reconnect, online presence
+server/index.js     REST API + static hosting
+client/             vanilla UI
+test/               unit tests
+```
+
+## Running
 
 ```
 npm install && npm test   # 4 passing
+npm start                 # http://localhost:3000
 ```
 
-Requires Node >= 20. `better-sqlite3` is a native module: older pins fail to
-build against recent Node releases, which costs an experiment round when arms
-hit it instead of the rule under test.
+Requires Node >= 20 (`better-sqlite3` is a native module).

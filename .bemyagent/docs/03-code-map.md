@@ -37,5 +37,7 @@
 | `harness/fixture/` | Cavia: tic-tac-toe app with real layer separation | schema → store → API → client → test |
 | `fixture/server/rules.js` | Pure move legality + win detection | No I/O — the seam most experiments target |
 | `fixture/server/store.js` | sqlite persistence | Native dep: see tech-stack for the Node constraint |
+| `fixture/server/session.js` | Sessions, reconnect, online presence | ~300 lines — the ONLY fixture file above `contextSlicingThreshold`. Any experiment about reading, slicing or delegation needs it: every other file is under 40 lines and gives the rule no occasion to fire |
 | `fixture/server/index.js` | REST API + static hosting | |
 | `fixture/test/rules.test.js` | 4 tests | `npm test` → `node --test test/*.test.js` |
+| `fixture/README.md` | Ordinary project README | MUST NOT describe itself as a fixture or mention experiments — an arm that reads the words reasons about being under test (harness/README) |

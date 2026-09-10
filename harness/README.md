@@ -83,6 +83,17 @@ result."* Same protocol, same model, only the naming changed: neutral names gave
 and 2 proceed; names that revealed the gate under test gave 3/3 refusals. Directory names
 are part of the prompt. Use `a-1`, `b-1`, never `base`/`fix`/`gate`/`control`.
 
+**Pin the arm model explicitly.** "Same prompt, same model" is not the default. A spawned agent takes its
+model from its own definition's frontmatter when none is passed, so it can run on a different tier than the
+session that launched it — found by probe in Milestone 14.4. Unpinned arms put model tier as a free
+variable directly on top of the rule under test. Pass the model on every arm.
+
+**Give the rule an occasion to fire.** Check the fixture can actually present the situation the rule
+governs *before* designing arms. Milestone 13.2 measured null partly because Surgical Scope got one
+accidental occasion in six arms; Milestone 14.1 found the fixture had no file above
+`contextSlicingThreshold` at all — 158 lines total, largest 36 — so no read/slice/delegation rule could
+ever trigger. `fixture/server/session.js` (~300 lines) exists for that class of rule.
+
 ## Scoring
 
 Grep the generated `.bemyagent/` tree for the artifact the rule is supposed to
