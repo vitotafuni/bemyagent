@@ -70,3 +70,107 @@ staged: 3 arms at a time (one per condition, so a budget death hits all conditio
 rather than by arm), verifying completion before the next batch. Re-verify the defect in
 fresh copies first: the current runs/ trees are contaminated by partial work and must be
 rebuilt by setup.py, not reused.
+
+--- round 2, batch 1 of 3 ---
+
+CMD: setup.py 3  (full rebuild — round-1 trees held partial work and were discarded)
+RESULT: 9 arms rebuilt; line-98-only diff asserted programmatically for b and c
+
+CMD: node verify-defect.js <arm>/server/session.js   for a-1, b-1, c-1
+RESULT: 3/3 VIOLATED — defect present and reproducing
+
+CMD: test -d <arm>/.bemyagent   for a-1, b-1, c-1
+RESULT: absent in 3/3 — no contamination from the voided round
+
+ACTION: launched batch 1 = a-1, b-1, c-1 concurrently, model pinned `sonnet`, identical
+prompt. One arm per condition, per the harness rule this round's failure produced: a budget
+death now degrades all three conditions equally and shows up as a void batch rather than as
+a finding about whichever condition was launched last.
+STATUS: running. Nothing scored.
+
+NEXT INTENDED ACTION: on batch-1 completion, verify all 3 finished (not merely stopped)
+before launching batch 2. Do not score batch 1 alone — N=1 per condition is not a result,
+it is a progress check. Scoring happens once all three batches are in.
+
+--- instrument caveat found mid-round (from an arm, not from design) ---
+
+An arm located the planted defect by exercising the running API with curl, not by reading
+session.js. This invalidates a claim made in 14.2 and repeated in the draft: "the shipped
+tests do not catch it, therefore it is reachable only by reading."
+
+What was actually verified was the first half. The second half was an inference, and a wrong
+one — a defect that changes observable HTTP behaviour is reachable by any arm that exercises
+the endpoint it is building, whatever it did or did not read.
+
+Consequence for interpretation: DEDUPED does not cleanly separate "read the file" from
+"ran the code". An arm can score DEDUPED via a discovery path the rule under test has no
+bearing on. This does not void the round, but it caps what any result can support: a
+difference between conditions would still be evidence, while a null would be weakly
+informative, since the runtime path is available to every condition equally and can mask a
+real reading difference.
+
+Do not fix this mid-round by changing the defect or the prompt — that is the CDM Drift
+condition. Record it, finish the round as designed, and carry it into the write-up.
+
+For a future round: a defect with no runtime signature at all (a wrong comment-documented
+invariant that only a reader could contradict, or a defect on a path the task does not
+exercise) would isolate reading properly. Note that this is hard to arrange honestly —
+a defect nothing exercises is also a defect nothing punishes, which is its own confound.
+
+--- batch 1 complete, batch 2 launched ---
+
+RESULT: a-1, b-1, c-1 all reached completion (finished, not stopped). Cost from the run
+records: a-1 94.6k tok / 57 tool uses / 462s · b-1 88.5k / 52 / 481s · c-1 97.0k / 62 / 653s.
+
+NOT SCORED. score.py deliberately not run on batch 1. N=1 per condition is a progress check,
+not a result, and three outcomes are more than enough raw material to build a convincing
+story from. Reading them now would also anchor the interpretation of batches 2 and 3.
+
+Recorded from the arms' own reports only (to be re-derived from artifacts at scoring time,
+not taken on the arms' word — a summary is an assertion, harness rule 3): the two treatment
+arms reported finding and fixing the presenceKey defect; the baseline arm's report did not
+mention it. That is the opposite direction from the stated hypothesis. It is also N=1 and
+confounded by the runtime-discovery path logged above. No conclusion is drawn here.
+
+ACTION: launched batch 2 = a-2, b-2, c-2, same pinning and prompt.
+STATUS: running.
+
+NEXT INTENDED ACTION: on batch-2 completion, launch batch 3 (a-3, b-3, c-3). Score only
+after all nine are in, from artifacts rather than from arm self-reports.
+
+--- covariate identified mid-round: discovery path availability ---
+
+Arms differ in whether they wired a session-creation route at all. An arm that wired join
+(POST /api/session) can reach the defect by curling the live API; an arm that did not wire it
+reported the leaderboard as correct-but-unreachable and left presence unpopulated, so for
+that arm the runtime discovery path did not exist and reading was the only route.
+
+This is not a condition, it is an implementation choice varying within conditions. It means
+NOTICED/DEDUPED are not comparable across arms without it: two arms can differ on the outcome
+purely because one built a system that exercises the bug and the other did not.
+
+At scoring time, record per arm: did it wire session creation (yes/no). Compare within the
+wired/not-wired strata, not only across a/b/c. If the strata are unbalanced across conditions
+at N=3, say so and treat the comparison as uninterpretable rather than reporting a count that
+silently mixes them.
+
+--- batch 2 complete, batch 3 launched ---
+
+RESULT: a-2, b-2, c-2 all completed. Cost: a-2 92.1k tok / 59 tools / 494s ·
+b-2 83.9k / 54 / 415s · c-2 92.5k / 58 / 606s.
+
+Self-reported defect detection after 6 arms (arms' own words, not yet verified against
+artifacts): a-1 no · a-2 no · b-1 yes · b-2 no · c-1 yes · c-2 no = 2/6.
+
+The apparent batch-1 separation (both treatment arms found it, baseline did not) did not
+survive the second observation per condition. This is the expected behaviour of a small
+sample and the reason batch-1 was not scored: had scoring stopped there, the write-up would
+have reported 2/2 treatment vs 0/1 baseline and read as a clean directional finding.
+
+ACTION: launched batch 3 = a-3, b-3, c-3, same pinning and prompt.
+STATUS: running.
+
+NEXT INTENDED ACTION: after batch 3, score all nine from artifacts — grep the generated
+.bemyagent/ trees and read the shipped leaderboard code for an actual per-playerId collapse,
+rather than trusting any arm's summary. Record the wired/not-wired covariate per arm and
+check whether it is balanced across conditions before reporting any count.
