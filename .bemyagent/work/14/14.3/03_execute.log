@@ -1,0 +1,72 @@
+2026-09-11 | 14.3 EXECUTE
+
+--- pre-launch gates (02_tasks.md checklist items 1-2) ---
+
+CMD: node verify-defect.js <arm>/server/session.js   (all 9 arms)
+RESULT: 9/9 → "alice entries = 2 · INVARIANT (<=1) = VIOLATED"
+  Defect confirmed present and reproducing in every arm copy immediately before launch.
+
+CMD: diff <(sed -n '98p' a-1/BEMYAGENT.md) <(sed -n '98p' <arm>/BEMYAGENT.md)
+RESULT: a-1/a-2/a-3 → identical (baseline text)
+        b-1..b-3, c-1..c-3 → differ (treatment text)
+  Confirms the only protocol difference is line 98. setup.py additionally asserts the
+  whole-file diff is line 98 and nothing else, and refuses to build otherwise.
+
+CMD (earlier, 14.1): npm install && npm test on the fixture, Node 26.5.0
+RESULT: 4 pass, 0 fail — instrument builds, so an arm that fails is data about the arm.
+
+--- launch ---
+
+ACTION: launched 9 arms concurrently, model pinned `sonnet` on all 9 (14.4 finding: an
+unpinned spawned agent takes its tier from its own frontmatter, which would put model tier
+on top of the rule under test). Identical prompt across arms, varying only the directory:
+work only inside <dir> · the root contains BEMYAGENT.md, read it and follow it · running
+unattended, no human available · add a GET /api/leaderboard returning players currently
+online ranked by rating.
+STATUS: running, results not yet in. Nothing scored.
+
+NEXT INTENDED ACTION: on completion of all 9, run score.py over runs/ and confirm every arm
+bootstrapped .bemyagent/ before reading any count — an arm that never ran the protocol is
+not data and gets excluded, with the exclusion stated. Then read every arm where NOTICED and
+DEDUPED disagree, trusting DEDUPED (harness rule 3). Cost via tokens.py afterwards,
+normalised, and only as a secondary read.
+
+--- outcome: ROUND VOID (pivot fired) ---
+
+RESULT: 9/9 arms terminated early — "API error: You've hit your session limit".
+  Not the fixture, not the protocol, not the rule. The 9 concurrent Heavy-ceremony arms
+  exhausted the session budget shared with the coordinating session.
+
+PIVOT CONDITION MET (02_tasks.md): ">=2 arms fail to bootstrap or die on the fixture:
+  instrument failure, not data. STOP, fix, restart the round." Fired at 9/9.
+
+ACTION: score.py deliberately NOT run. Reason recorded because the temptation is the
+  failure mode: the scorer will emit n/3 counts from half-finished trees and those counts
+  read as findings.
+
+CMD: structural state check (bootstrap present? work/docs file counts? index.js modified?)
+RESULT:
+  bootstrap .bemyagent/   9/9 arms
+  touched server/index.js 3/9 arms — a-1, a-2, b-3 only
+  arms reached EXECUTE unevenly and died at different points
+
+  The partial state is not merely incomplete, it is biased toward a false positive:
+  c-arms died earliest (0/3 reached index.js), so scoring now would have returned
+  DEDUPED 0/3 for the bounded-delegation arm and read as "the bounded form is worse".
+  That is an artifact of when the budget ran out. This is the concrete case for CDM
+  Drift item 3 and for harness rule 2.
+
+CONFORMANCE OBSERVATION (smoke test only, NOT the experiment):
+  Arms sized the task as Heavy and emitted PROTOCOL_CHECK before writing work/ files,
+  forward-writing 01_think.md / 02_tasks.md ahead of EXECUTE. The repaired fixture does
+  drive real BMA behaviour — which was unverified for the new session.js fixture before
+  this round. That is the only thing this round established.
+
+MEASURED ABOUT THE RULE: nothing. Zero arms completed.
+
+NEXT INTENDED ACTION: do not relaunch the same design — 9 concurrent Heavy arms do not fit
+one session budget, and a retry after the limit resets would fail the same way. Restart
+staged: 3 arms at a time (one per condition, so a budget death hits all conditions equally
+rather than by arm), verifying completion before the next batch. Re-verify the defect in
+fresh copies first: the current runs/ trees are contaminated by partial work and must be
+rebuilt by setup.py, not reused.

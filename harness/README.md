@@ -94,6 +94,20 @@ accidental occasion in six arms; Milestone 14.1 found the fixture had no file ab
 `contextSlicingThreshold` at all — 158 lines total, largest 36 — so no read/slice/delegation rule could
 ever trigger. `fixture/server/session.js` (~300 lines) exists for that class of rule.
 
+**Batch arms across conditions, not within them.** A full round does not necessarily fit one
+session's token budget: Milestone 14.3 launched 9 Heavy-ceremony arms at once and all 9 died
+mid-flight on a session limit. The damage was not the lost round — it was the shape of what
+survived. Arms died at uneven points, and because they were launched arm-by-arm the c-arms
+died earliest: scoring that wreckage would have returned "the treatment is worse" as a clean
+result, entirely an artifact of when the budget ran out. **Run one arm per condition per
+batch**, so a budget death degrades every condition equally and shows up as a void round
+rather than as a finding. Verify a batch completed before starting the next.
+
+**A partial round is not a small round.** When arms die early, do not score what is there.
+The scorer will happily emit n/3 counts from half-finished trees and those counts read as
+data. Rebuild the run directories from scratch — partial work contaminates them — and say
+the round was void.
+
 ## Scoring
 
 Grep the generated `.bemyagent/` tree for the artifact the rule is supposed to
