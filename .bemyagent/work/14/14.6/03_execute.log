@@ -1,0 +1,60 @@
+2026-10-10 | 14.6 EXECUTE
+
+--- instrument build ---
+
+ACTION: vendored `tools/graphify` into each arm rather than installing the real `graphifyy`
+package. Reason: this round measures propensity to invoke, and a real install confounds it —
+a null would not distinguish "chose not to" from "tried and it errored or was slow". Also
+avoids installing third-party software on the user's machine. The real package becomes the
+next round's instrument IF invocation here is non-zero.
+
+CMD: ./tools/graphify query "presence online players"  (smoke test, d-1)
+RESULT: returned real nodes — session.js:48 presenceKey · :178 registerPresence ·
+  :189 dropPresence · :228 listOnline · :246 onlineCount. The tool genuinely parses the
+  arm's own files; it is simple, not fake.
+CMD: cat invocations/d-1.log
+RESULT: one logged call with timestamp and argv — logging works, and the log lives at an
+  absolute path outside the arm, so an arm cannot edit or notice it.
+
+CMD: setup2.py 3
+RESULT: 6 arms; line-52-only diff asserted programmatically for both conditions.
+
+--- pre-launch gates ---
+
+CMD: rm invocations/*.log   (clear the smoke-test entry — it would have scored as d-1 invoking)
+RESULT: 0 files remaining
+CMD: per-arm check: .bemyagent absent? tool present and executable? line 52 form?
+RESULT: 6/6 clean · tool present+executable 6/6 · d-1..d-3 permissive · e-1..e-3 procedural
+
+--- launch ---
+
+ACTION: batch 1 = d-1, e-1, one per condition, model pinned `sonnet`, identical prompt
+(the same leaderboard task as 14.3, so results are comparable to that round).
+STATUS: running. Nothing scored.
+
+NEXT INTENDED ACTION: verify both finished before launching batch 2 (d-2, e-2). Score only
+after all six, from the invocation logs rather than arm self-reports, separating orientation-
+time calls from calls made while working — "looked once" is not "worked with it".
+
+--- batch 1 complete, batch 2 launched ---
+
+RESULT: d-1 and e-1 both completed. Cost: d-1 50.1k tok / 11 tool uses / 63s ·
+e-1 49.4k / 9 / 60s.
+
+NOT SCORED. Invocation logs deliberately not opened — with the batch closed but the round
+open, reading them is scoring batch 1, which 02_tasks.md forbids.
+
+FLAG FOR SCORING TIME, not acted on now: these arms used ~10 tool calls in ~60s, against
+~55 calls in ~470s for the 14.3 arms on the same task and fixture. Both still bootstrapped
+.bemyagent/ and shipped 5 passing tests. A 5x gap in tool calls on an identical task is
+large enough that it may not be the same amount of work, which would make cost comparisons
+against 14.3 invalid. Check at scoring time whether these arms produced comparable artifacts
+(docs populated, TTEV files written, tests meaningful) before using any 14.3 contrast.
+Do not treat the speed as a result of the line-52 change: both conditions show it, and
+nothing in either phrasing would cause it.
+
+ACTION: launched batch 2 = d-2, e-2.
+STATUS: running.
+
+NEXT INTENDED ACTION: verify both finished, launch batch 3 (d-3, e-3), then score all six
+from the invocation logs.
