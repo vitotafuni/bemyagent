@@ -1,0 +1,18 @@
+# EXECUTE — 16.1
+
+## 2026-10-27 — instrument built: two-turn arms
+cmd: fixture verified (4/4); 9 arms built across 3 conditions; diff a/b/c confirmed the only
+delta is the log rule (routing row + rule, then verbatim vs summary wording)
+result: a single-prompt arm has no conversation, so the round needed arms that receive a second
+message. Built with SendMessage against the running agent. **Validated**: `count` is absent from
+`server/index.js` in all 9 arms, so every arm received and acted on turn 2.
+next intended action: launch in batches of three, one per condition; score only after all nine.
+
+## 2026-10-27 — all nine complete, scored
+result: see `03b_score_output.md`, saved before this verdict was written.
+  - Logs were read in full, not just matched. The regex found nothing because there is nothing:
+    every log holds **one entry, for turn 1 only**, 1-3 lines, 159-221 bytes.
+  - **b-1's "verbatim" log is not verbatim.** Its single line reads *"Turn: wire session.js into
+    index.js (POST /api/sessions, GET /api/online)"* — a summary. The user's actual message was
+    four clauses long. Only reading the file showed this; the scorer counted it as WRITTEN.
+next intended action: write `04_verify.md`, then record in `drafts/prompt-logs.md` and `05`.
