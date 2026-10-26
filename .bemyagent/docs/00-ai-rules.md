@@ -22,6 +22,7 @@ Also search `docs/` for files whose FIRST line starts with `> ⚠️ UNPOPULATED
 
 ## 3. Routing Table & Lazy Loading
 NEVER read `decisions/`, `specs/`, `drafts/` during restore — on-demand only.
+**Precedence:** rules > plan > memory. A step of `06-implementation-plan.md` that contradicts a rule is a **defect of the plan**, not an order to execute — fix the plan and say so. Anything held only in your tool's private memory ranks last and binds nobody else: if it matters, it belongs in the project files.
 | Task involves | Read first |
 |---|---|
 | Any code change | docs/03-code-map.md |
@@ -32,7 +33,7 @@ NEVER read `decisions/`, `specs/`, `drafts/` during restore — on-demand only.
 | Unscoped idea | docs/drafts/[idea-name].md |
 | Tech dependency or version | docs/04-tech-stack.md |
 
-**Conceptual maps:** `01`/`02`/`03` MUST hold only logical trees + pointers to fragments — never inline specs or long explanations.
+**Conceptual maps:** `01`/`02`/`03` MUST hold only logical trees + pointers to fragments — never inline specs or long explanations. The limit protects the restore path, not a fixed shape: **keep the sections the project actually has and drop the rest** — a repo with no code gets a content map of its documents, not a code map full of `n/a`.
 
 **Context Slicing** (any docs/work file > `contextSlicingThreshold` lines — estimate via terminal first): grep the relevant sections (~20-30 lines context) → expand (50-80) if insufficient → full read only as last resort. If you repeatedly need large parts of the same file, propose splitting it (e.g. `03-code-map/frontend.md`).
 
@@ -62,10 +63,11 @@ Tactical memory is a Hierarchical Task Network mirroring the task numbers in `06
 - **VERIFY** `04_verify.md`: see Symbiotic Validation.
 **Handoff Principle:** `01` and `02` are forward-written execution plans a fresh zero-context agent could run — write them BEFORE executing. Only `03` and `04` are retrospective.
 
-**Symbiotic Validation:** after EXECUTE and BEFORE notifying the user, evaluate the output against the CDM criteria in `02_tasks.md`; write results + evidence per criterion to `04_verify.md`. Evidence must come from commands run during VERIFY (diff, grep, test) — never from recollection. Verdict:
+**Symbiotic Validation:** after EXECUTE and BEFORE notifying the user, evaluate the output against the CDM criteria in `02_tasks.md`; write results + evidence per criterion to `04_verify.md`. Evidence must come from commands run during VERIFY (diff, grep, test) — never from recollection, and **evidence of absence never supports a PASS of presence**: a `grep` returning 0, a `not found`, an empty diff are evidence the thing is **missing**. Read the output, do not quote it. Verdict:
 - **PASS** → proceed (silently only if `interactiveMode=false`)
 - **PASS_WITH_CAVEATS** → present the friction points, await decision
 - **FAIL** → one self-correction attempt, then escalate
+**Who verifies:** the author checking their own work is the weakest available check — it re-runs the reasoning that produced the error. Where a second agent or model is available, have VERIFY run by one that did not do the work, holding only the artifacts and the criteria. Where it is not, say so in `04_verify.md` rather than implying independence.
 **Autonomous rigor (`interactiveMode=false`):** no human safety net means MORE scrutiny, not less. Re-derive before accepting your own conclusions; if VERIFY finds issues, self-correct and re-verify — do what the human would do. On external pushback (any mode): update on evidence, never on displeasure; if re-derivation confirms, hold and show the evidence.
 Depth: `strictVerification=true` → deep analysis (edge cases, performance, architecture alignment); `false` → light check (compiles, basic success).
 
