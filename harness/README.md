@@ -127,3 +127,20 @@ Use it for cost, never for quality — see rules 1 and 2.
 — exactly the horizontal style it was built to detect. It read 60→68→75→78% across
 variants where the real signal was binary. A proxy metric must be checked for bias
 *against the treatment* before its null is believed.
+
+### A round whose evidence lives only in the scratchpad is unauditable
+
+Milestone 15.3 scored six arms from disk, wrote the verdict, and the next day the scratchpad was
+gone — arms, `setup15.py` (how the condition delta was built) and `score15.py` (the criteria as
+code). The verdict survived; the evidence behind it did not. A grep run against the vanished
+path came back empty and was one step from being reported as *"0/6 arms wrote `04_verify.md`"*,
+contradicting the scorer's own output from the day before.
+
+This is 14.6's caveat recurring, so it is systemic, not an incident. **Before a round is called
+done, the scorer script and its raw output are copied into `work/<N>/<N.Y>/`**, which is
+tracked. The arm trees are too large to keep; the scorer and its output are not, and together
+they are what makes a verdict re-checkable.
+
+Note what this is: our own measuring apparatus failing the rule the protocol imposes on
+everything else — evidence that evaporates is evidence hidden from the person who has to trust
+the verdict.

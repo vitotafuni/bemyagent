@@ -1,0 +1,2 @@
+bootstrap (brownfield) -> done; next: edit server/index.js
+edited index.js, added api.test.js; next: npm test

@@ -1,7 +1,7 @@
 # AI Rules & TTEV Workflow
 
 ## 1. Self-Registration (idempotent, harness-proof)
-Identify your tool's native rule file (`AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, `.claude/CLAUDE.md`, …).
+Identify the rule file your tool actually **reads** (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, …). Register **once**: if several candidates exist, write the sentinel in the one the tool loads and make the others point at it — two sentinels in two files is a split, and a sentinel in a file the tool never loads is invisible. Where both `AGENTS.md` and `CLAUDE.md` are present, it goes in `CLAUDE.md`.
 Check its **content** — not just existence. The sentinel line is: `Read .bemyagent/docs/00-ai-rules.md before every task.`
 - **File missing** → create it with the directive block below.
 - **File exists but sentinel absent** → append the directive block.

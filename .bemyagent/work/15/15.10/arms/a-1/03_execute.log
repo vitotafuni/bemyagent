@@ -1,0 +1,1 @@
+2026-10-22 | 1.1 | POST /api/sessions, GET /api/online | PASS | npm test -> 6 pass 0 fail

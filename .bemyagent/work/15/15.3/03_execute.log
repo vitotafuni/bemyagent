@@ -1,0 +1,52 @@
+# EXECUTE — 15.3
+
+## 2026-10-21 — instrument check before spending any arm
+cmd: cp fixture → scratchpad/fixcheck; npm install; npm test
+result: installs silently, **tests 4 / pass 4 / fail 0**. The native-dependency trap that burned
+3 of 5 arms in an earlier milestone does not reproduce. `node_modules` will be pre-installed into
+every arm so no arm spends its run on it.
+next intended action: build 6 arms and diff the condition delta before launching anything.
+
+## 2026-10-21 — build arms, verify the delta IS the condition
+cmd: python3 setup15.py (copies fixcheck → exp15/{a,b}-{1,2,3}; strips any `.bemyagent/`,
+`AGENTS.md`, `CLAUDE.md`; writes the condition-specific `BEMYAGENT.md`); then diff a-1 vs b-1
+result: delta is exactly 2 insertions, both the Project-rules mechanism —
+`- **Sentinel present but no ## Project rules section** → append that section.` and the
+`## Project rules` block with its guide comment. Nothing else differs. All 6 arms report
+`node_modules=True clean=True`.
+next intended action: launch batch 1 = a-1 + b-1, one arm per condition, model pinned explicitly
+(the 14.4 probe found an unpinned tier floats).
+
+## 2026-10-21 — batch 1 complete
+cmd: launch a-1 (baseline) and b-1 (treatment), model-pinned, identical prompts but for the path
+result: both **completed**. a-1 ≈48.2k tokens / 8 tool uses; b-1 ≈46.7k / 7 — in line with the
+~48–51k of the previous round, so neither was truncated.
+  - **Anomaly, recorded not acted on:** b-1's hand-back report was the literal word
+    `placeholder`. Its work on disk is real and complete (full bootstrap, `work/1/1.1/` TTEV,
+    `server/` modified). The arm stays in the round **because scoring reads the disk, never the
+    arm's own report** — this is the first time that design choice has paid for itself.
+  - **Instrument validity check (not scoring):** b-1's rule file carries `## Project rules` at
+    line 7; a-1's does not. The treatment materialised, so the remaining 4 arms are not being
+    spent on a mechanism that failed to appear.
+  - **Uncontrolled variable found, and it is FEDERATION issue #3 reproducing live:** from the
+    *same* §1 text, a-1 registered in `AGENTS.md` and b-1 in `CLAUDE.md`. This does not break the
+    round — the directive block, and therefore the Project-rules section, travels into whichever
+    file the agent picks — but **scoring MUST search both files in every arm**, and a per-arm
+    note of which file was chosen is now part of the record. Third independent confirmation of
+    #3, and the first produced by us rather than reported to us.
+  - **NOT scored.** `02_tasks.md` forbids scoring before all 6 are in, and the prior round's
+    batch 1 read 2/2 vs 0/1 before finishing at 2/9.
+next intended action: launch batch 2 = a-2 + b-2; on completion verify both finished rather than
+stopped, then launch batch 3. Score only after all 6.
+
+## 2026-10-22 — the evidence evaporated, and it is systemic
+cmd: re-read the six arms to test an external claim about VERIFY evidence
+result: `exp15/` **gone** — the scratchpad was cleared between sessions. The first grep returned
+empty and would have read as "0/6 arms wrote `04_verify.md`", contradicting both the arms' own
+reports and this round's scorer run the day before. **A false negative was one step from being
+reported as a finding.** Also lost: `setup15.py` (how the condition delta was built) and
+`score15.py` (the criteria as code). `03b_score_output.md` preserves the scorer's output,
+recovered from the session transcript and labelled as unreproducible.
+next intended action: record the systemic failure in `05` and add the trap to `harness/README.md`
+— a round whose raw evidence lives only in the scratchpad is unauditable the moment it is
+cleared, which is 14.6's caveat recurring, not an incident.

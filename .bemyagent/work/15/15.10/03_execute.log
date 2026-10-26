@@ -1,0 +1,51 @@
+# EXECUTE — 15.10
+
+## 2026-10-22 — batch 1 launched, and VOID. Three design faults, all mine.
+cmd: fixture verified (4/4), condition delta verified (one line, l.80), arms built, a-1 + b-1 launched
+task as written: *"a move with an out-of-range cell index currently crashes. Make it return HTTP 400."*
+
+result: **round void. Not scored, batch 2 not launched.** Three independent faults:
+
+1. **The premise was false.** Out-of-range cells already returned 400 — `applyMove` throws and
+   the handler catches. There was no crash. **Both arms found this independently** and said so,
+   which is §5's premise spot-check working exactly as Decision 15 measured it (6/6 there, 2/2
+   here). But it means each arm spent its run discovering the premise was false and then fixing
+   something *else* — a-1 and b-1 did not do the same task, so there is nothing to compare.
+   **I built the task on an unverified premise, which is the specific thing §5 forbids.**
+2. **The task sat on the ceremony boundary and the arms split.** a-1 sized it **Standard** and
+   wrote `work/1/1.1/` with `01`,`02`,`04`; b-1 sized it **Micro** and wrote only `micro.log`.
+   Both were *correct* by the sizing rule. But Micro means no CDM, no Validation criteria and no
+   `04_verify.md` — so **the rule under test could not fire in half the arms.** This is harness
+   trap #2, "give the rule an occasion to fire", which `01_think.md`'s Saturation Check
+   explicitly claimed was covered. It was not: I verified that *a Standard task* writes
+   Validation criteria, then chose a task that is not reliably Standard.
+3. **Bootstrap produced a dangling entry point in b-1** — `AGENTS.md` written with the sentinel
+   pointing at `.bemyagent/docs/00-ai-rules.md`, a file that arm never created, alongside a
+   partial scaffold (no `02`,`04`,`06`, no templates). Recorded separately as a candidate issue;
+   it is not what this round was measuring.
+
+obstacles = 3 > `obstacleThreshold` 2 → pivot fired as pre-defined.
+
+next intended action: replace the task with one whose premise is **verified first**, and which is
+unambiguously Standard. Verified before writing it: `server/index.js` imports only express, path,
+`rules` and `store` — `server/session.js` (309 lines, ~20 functions including `createSession`,
+`listOnline`, `registerPresence`) is **orphaned, used by nothing**. Wiring it in touches
+`index.js` + a test at minimum, and the shipped suite covers only `rules.js`, so it will pass
+without covering the change — which is the separation COVERAGE needs.
+
+## 2026-10-22 — round 2, batch 1 complete. The fix took.
+cmd: rebuild arms on the verified premise (`session.js` orphaned, confirmed by reading
+`index.js`'s imports before writing the task); relaunch a-1 + b-1
+result: both **completed**, ~48.9k and ~48.3k tokens. **Both sized the task Standard and both
+wrote `01_think.md`, `02_tasks.md`, `04_verify.md`** — checked by file existence only, not
+content, since the form of the Validation criteria is one of the three scored measures and
+reading it now would be scoring. Fault #2 of round 1 is fixed: the rule under test now has an
+occasion to fire in every arm.
+  - Both arms built the same thing (`POST /api/sessions` + `GET /api/online`, `sweep()` before
+    `listOnline()`), so they are comparable — which round 1's false premise destroyed.
+  - a-1 skipped nothing; b-1 skipped `03_execute.log`. Noted, not scored: it is the same
+    0-of-10 next-action gap already recorded as Decision 21, not this round's question.
+  - **NOT scored.** Four arms still to come.
+next intended action: batch 2 = a-2 + b-2, launched; on completion verify both finished, then
+batch 3. Score only after all 6, and copy the scorer plus its raw output into this folder
+BEFORE writing the verdict — the rule 15.3 taught us by losing its own evidence.

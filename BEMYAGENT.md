@@ -3,6 +3,8 @@
 > **Mission**: Save tokens for the machine. Save orientation for the human.
 > Every file must serve one of these goals or it doesn't belong here.
 
+MIT licensed. This file is self-contained: copying it carries the protocol and this notice.
+
 This file instructs the AI to generate the `.bemyagent/` architecture: permanent rules (`00-ai-rules.md`), project docs, and task workspace. You MUST perform all steps sequentially. Do NOT ask permission between steps.
 
 ### Step 0: Discovery & Assessment
@@ -12,7 +14,8 @@ If your tool cannot create directories, list the required `mkdir` commands and a
    - **PLAN**: Write `.bemyagent/upgrade-plan.md` as a checkbox list in 5 sections: 1. Protocol Files (protocol-owned, overwrite-safe: `00-ai-rules.md`, templates — note key changes), 2. Settings (additive merge — additions, remaps `old → new` with values preserved, orphans), 3. Structural changes, 4. Project Files (user-owned — suggestions only, NEVER auto-overwritten), 5. Self-Registration files to regenerate. **STOP** — the user reviews, ticks items, approves.
    - **APPLY**: Execute checked items only. Atomic dir-level copy/move (never file-by-file enumeration). Backup before overwrite (`file.bak-YYYYMMDD`). On filename collision NEVER overwrite user files — ask.
    - **AUDIT**: Write `.bemyagent/work/upgrade-YYYY-MM-DD.log` (applied / skipped lists).
-   - **CLEANUP**: Delete `upgrade-plan.md` and `.bak` files. Report success and STOP.
+   - **CLEANUP**: Delete `upgrade-plan.md`. Delete a `.bak` **only** where the file it backs up is unchanged; keep every other `.bak` and list them in the AUDIT log.
+   - **TELL THE USER**: protocol files (`00-ai-rules.md`, templates) are **overwritten** by this step. Anything of your own written into them is lost. Project rules and local conventions belong in the project files — `05-decisions-and-issues.md` and your tool's rule file — which this step never overwrites.
 2. **BROWNFIELD** — codebase exists, no `.bemyagent/`: shallow, token-efficient scan only — root dir, dependency manifests, build scripts, top-level architecture. You MUST IGNORE lockfiles, vendor dirs (`node_modules`, `.venv`…), build outputs, deep source. Use findings to AUTO-FILL docs in Step 3. Never fabricate `work/` history.
 3. **GREENFIELD** — empty workspace: ask *"What are we building?"* and keep asking until you can write `01-overview.md`'s opening paragraph — what it does, for whom — without inventing or using `?`. Create nothing before that. Use the answer to AUTO-FILL Step 3.
 
@@ -26,7 +29,7 @@ The permanent rule file. Exact content:
 # AI Rules & TTEV Workflow
 
 ## 1. Self-Registration (idempotent, harness-proof)
-Identify your tool's native rule file (`AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, `.claude/CLAUDE.md`, …).
+Identify the rule file your tool actually **reads** (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, …). Register **once**: if several candidates exist, write the sentinel in the one the tool loads and make the others point at it — two sentinels in two files is a split, and a sentinel in a file the tool never loads is invisible. Where both `AGENTS.md` and `CLAUDE.md` are present, it goes in `CLAUDE.md`.
 Check its **content** — not just existence. The sentinel line is: `Read .bemyagent/docs/00-ai-rules.md before every task.`
 - **File missing** → create it with the directive block below.
 - **File exists but sentinel absent** → append the directive block.
@@ -129,7 +132,7 @@ Depth: `strictVerification=true` → deep analysis (edge cases, performance, arc
 
 ### Step 3: Generate Scaffold Files
 AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templates. If a doc must be created before its content is known, its first line MUST be `> ⚠️ UNPOPULATED — awaiting [what is missing]`. Fill in ONLY what the scan evidenced: mark unknowns with `?` instead of inventing, and link only to files that exist. Create a `_template.md` inside `decisions/`, `specs/`, `drafts/` and `_template_think.md` in `work/` from the content blocks below (block headings show the naming convention for real files, not the template filename).
-**Language:** write all content in the language the user is using in this conversation (this sets the project's default docs language; see rules §6). Filenames stay in English.
+**Language:** write all content in the language the user is using in this conversation, and **set `language` in `settings.json` to it** — the template ships `"en"` as a placeholder, and leaving it there makes later sessions switch the docs back (rules §6 reads the docs language from that field, not from the chat). Filenames stay in English.
 
 **`.bemyagent/settings.json`**
 ```json
@@ -224,7 +227,7 @@ AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templat
 **`.bemyagent/docs/specs/[feature-name].md`**
 ```markdown
 # [Feature]
-**Status**: idea | specced | in-progress | done | dropped
+**Status**: `todo` | `in-progress` | `done` | `blocked — [reason]` | `dropped`
 ## Description (one paragraph)
 ## Acceptance criteria
 - [ ] criterion
@@ -259,7 +262,8 @@ AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templat
 > High-level index. Execution traces live in `work/X/X.Y/`.
 
 ## Milestone 1 — [Name]
-**Goal**: one sentence | **Status**: done | in-progress | next
+**Goal**: one sentence | **Status**: `todo` | `in-progress` | `done` | `blocked — [reason]` | `dropped`
+Every Status cell starts with exactly one of those words, so Quick Resume can read it without guessing; `blocked` is followed by the reason.
 | Task | Description | Status |
 |---|---|---|
 | 1.1 | … | todo |
