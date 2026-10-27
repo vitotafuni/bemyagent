@@ -160,7 +160,8 @@
 | Task | Description | Status |
 |------|-------------|--------|
 | 16.1 | Round, 9 arms, **two-turn** (new instrument: a second message sent to the running arm, since a single-prompt arm has no conversation to log). **Problem CONFIRMED at 7/9** — a correction that changed the work left no durable trace anywhere. **Proposal REJECTED at 0/9** — no log contains the second turn; all four that exist hold one entry, written at bootstrap and abandoned. Verbatim produced a summary labelled as a transcript → `work/16/16.1/04_verify.md` | done |
-| 16.2 | The form that survived: **declare where the harness's own transcript lives** — one `settings.json` field, no write rule, no cadence. The harness writes it whether the agent remembers or not. Cost to state plainly: it abandons projects whose harness keeps no transcript | todo |
+| 16.2 | **Mechanism PROVED.** A `UserPromptSubmit` hook appends each prompt verbatim to `.bemyagent/log/` before the model sees it — pipe-tested (newlines, quotes, `$(whoami)` stayed literal: the text goes through `jq`, never a shell) then confirmed live. Answers both of 16.1's failures, because nothing is asked of the model. Experiment config and log are gitignored → `work/16/16.2/04_verify.md` | done |
+| 16.4 | **The open question is now the contract, not the mechanism**: which path, which format, how `01_think.md` and decisions cite it, and what a project whose harness has no hooks is told instead. BMA cannot ship a hook — it can only specify what must be true. That is a protocol change and needs the usual scrutiny | todo |
 | 16.3 | The problem remains open and is **not** closed by rejecting the remedy: 7/9 is too large to file away. Any future candidate must hang on an event the agent recognises while producing it — Decision 21's shape — not on a per-turn cadence, which is now measured at zero twice | todo |
 
 ## Backlog (unscheduled)
