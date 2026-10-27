@@ -60,10 +60,13 @@ NEVER read `decisions/`, `specs/`, `drafts/` during restore — on-demand only.
 | New feature | docs/specs/[feature-name].md |
 | Unscoped idea | docs/drafts/[idea-name].md |
 | Tech dependency or version | docs/04-tech-stack.md |
+| The user's exact words | the `conversationLog` folder, on demand |
 
 **Conceptual maps:** `01`/`02`/`03` MUST hold only logical trees + pointers to fragments — never inline specs or long explanations. The limit protects the restore path, not a fixed shape: **keep the sections the project actually has and drop the rest** — a repo with no code gets a content map of its documents, not a code map full of `n/a`.
 
 **Context Slicing** (any docs/work file > `contextSlicingThreshold` lines — estimate via terminal first): grep the relevant sections (~20-30 lines context) → expand (50-80) if insufficient → full read only as last resort. If you repeatedly need large parts of the same file, propose splitting it (e.g. `03-code-map/frontend.md`).
+
+**Conversation log (optional, written by your harness — never by you):** `conversationLog` in `settings.json` names a folder (`""` = off). The protocol does **not** write it: a rule telling an agent to append every turn measures at ~0, and an agent asked to quote “verbatim” paraphrases. If your harness can write it (a prompt hook, a transcript converter), point it there — one file per day, the user's message as received. NEVER read during Session Restore. Cite it (`<file> HH:MM`) instead of copying long quotes into THINK or decisions. Where no harness can write it, the folder stays empty and costs nothing.
 
 **Write Gate:** before creating or modifying ANY file in `docs/` or `work/`, you MUST:
 1. Re-read the Routing Table — does the content belong in an existing file?
@@ -145,7 +148,8 @@ AUTO-POPULATE `01`–`04` from the Step 0 findings — NEVER leave blank templat
   "autoModelSwitching": true,
   "autoCommit": false,
   "obstacleThreshold": 2,
-  "contextSlicingThreshold": 200
+  "contextSlicingThreshold": 200,
+  "conversationLog": ".bemyagent/log"
 }
 ```
 
