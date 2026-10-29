@@ -164,6 +164,15 @@
 | 16.4 | **Contract landed** (+4 lines): `conversationLog` field, Routing Table row, and a rule stating the protocol does not write it, naming both measured failures inline. Owner's call against the measured recommendation, on the ground that the log is **insurance for the human**, not a tool for the agent — guarantee 3. Labelled in `05` as landed on unmeasurable human value, not on evidence | done |
 | 16.3 | The problem remains open and is **not** closed by rejecting the remedy: 7/9 is too large to file away. Any future candidate must hang on an event the agent recognises while producing it — Decision 21's shape — not on a per-turn cadence, which is now measured at zero twice | todo |
 
+## Milestone 17.0 — RUNTIME_CHECK tag (DRT proposal, external)
+**Goal**: Measure the one surviving part of the DRT patch — does naming a command per criterion in `02_tasks.md` change which command the agent names? Full triage and the three rejections: `05` Engineering Learnings; working notes in `drafts/deterministic-runtime-triggers.md`.
+**Status**: todo
+
+| Task | Description | Status |
+|------|-------------|--------|
+| 17.1 | Round: baseline vs `[RUNTIME_CHECK: <command>]` in `02_tasks.md`, no loop clause and no template change (both rejected). Metric is **command quality — does the named command exercise the change?** — not the verdict, which 15.10 found at ceiling 3/3 in the baseline. The task must sit where the shipped suite does **not** cover the modified path, or the ceiling returns; 15.10's failure was exactly this, so verify the gap with a grep before writing the task | todo |
+| 17.2 | **The harm arm, and it outranks 17.1**: does binding a criterion to a command push arms toward a command that merely passes rather than one that touches the change? The mechanism predicts yes, and the rejected loop clause is that gradient written down. If it bites, 17.1 stops mattering and the finding is published as a rejection | todo |
+
 ## Backlog (unscheduled)
 - **Greenfield exit condition — the A/B was invalid** (kept for the method, the rule itself landed as Decision 19). Step 0.3 prescribes the *action* ("STOP and ask") but no *exit condition*: an agent that asks, receives a bare "ok", and considers the question asked is following the text. Four different behaviours were observed on that ambiguity. A candidate fix exists (create nothing until the answer names the project; explicit opt-in for an `UNPOPULATED` scaffold), but the A/B was **invalid** — subagents refuse coordinator messages on authority grounds regardless of the rule, and directory names leaked the hypothesis (neutral names: 1 refusal / 2 proceed; names revealing the gate: 3/3 refusals). 6/6 arms behaved identically. Consent-shaped rules are not measurable with the harness — this one needs testing by a human in a real session before it can land.
 - **Greenfield bootstrap** — resolved in Decision 17 (`UNPOPULATED` marker). Two of three proposed fixes were dropped after measurement; see Decision 17 in `05-decisions-and-issues.md`. Working notes stayed in local `drafts/` (untracked by design).
