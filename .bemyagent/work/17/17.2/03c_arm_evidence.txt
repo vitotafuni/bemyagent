@@ -1,0 +1,63 @@
+Round 17.2, 2026-10-31/11-01. Measured by execution against mutated trees, never by reading
+what an arm said it had verified.
+
+TREATMENT q10 q11 q12 (per-criterion [RUNTIME_CHECK: <command>])
+BASELINE  q7  q8  q9  (reused from 18.3, shipped protocol, same fixture/prompt/model/day)
+
+THE MUTATIONS
+  M1 — pre-registered in `02_tasks.md` before launch: delete the aggregate's WHERE filter, so
+       unfinished games and draws enter the count.
+  M2 — added AFTER seeing that M1 leaves the X and O numbers untouched in arms that zero-fill a
+       fixed key set, which makes M1 partly a test of assertion style rather than of detection:
+       replace `COUNT(*)` with `1`, turning "how many games won" into "has won at least once".
+       Labelled as added, reported separately, and not substituted for M1.
+  Both applied mechanically, one substitution per tree, asserted in the script.
+
+DETECTION — does the arm's suite go red when the change is broken?
+
+  arm | condition | M1   | M2   | catches either
+  ----+-----------+------+------+---------------
+  q10 | treatment | green| green| NO
+  q11 | treatment | green| RED  | yes
+  q12 | treatment | RED  | green| yes
+  q7  | baseline  | green| green| NO
+  q8  | baseline  | green| green| NO
+  q9  | baseline  | RED  | green| yes
+
+  Treatment 2/3, baseline 1/3. Not separation at N=3. **The tag does not improve detection.**
+
+COMPLIANCE — treatment 3/3 emitted the tag, 5 or 6 criteria each. Baseline 0/3, as expected.
+TEST FILES — treatment 3/3 wrote a test over the new path; baseline 1/3 (q7 and q8 shipped with
+  `npm test` at 4 pass, a suite that covers `rules.js` alone and none of their own change).
+
+THE HARM, AND IT IS NOT THE ONE PREDICTED
+
+The pre-registered harm was a COLLAPSE: the tag asks for one command per criterion, so arms were
+expected to converge on one cheap command where the baseline ran several kinds. **That did not
+happen.** Treatment arms named MORE commands than the baseline, 5 or 6 against 1 or 2.
+
+What the execution found instead: every command an arm named, run against both mutants.
+
+  q10: node -e reading index.html  0/0 | npm test 0/0 | node --test 0/0 | grep 0/0 | grep 0/0
+  q11: npm test 0/1 | node -e printing a status 0/0 | node --test 0/1 | grep 0/0 | grep 0/0
+  q12: npm test 1/0 | grep 0/0 | grep 0/0 | grep 0/0
+  (exit codes, M1/M2; 0 = green)
+
+  **9 of the 14 distinct named commands never go red under either mutation.**
+  That is 7 of 7 greps and 2 of 2 `node -e` one-liners: every single non-suite command the tag
+  produced is one that cannot fail on a wrong implementation. A grep matches a string that is
+  present whether or not the code behind it is right; both one-liners print a verdict and exit 0
+  regardless of what they printed.
+
+THE CLAUSE OFFERED THE EXIT AND 3/3 DECLINED IT
+
+The line under test ends: *"A criterion no single command can decide names none."* The criteria
+that produced the greps are exactly those — "the scoreboard sits above the board", "the client
+refetches after a win". **No arm left the tag off.** 3/3 manufactured a command instead.
+
+WHAT THIS DOES TO THE REJECTED EXIT-CODE CLAUSE
+
+The DRT patch's `EXIT_CODE: 0 → PASS` was rejected on argument in the triage. Under it, each of
+those 9 commands forces a PASS on a broken implementation, with a citation and a green exit code.
+The draft predicted *"a PASS with a valid citation, a green exit code and zero information about
+the change"*. That is now measured rather than argued.

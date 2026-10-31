@@ -13,3 +13,17 @@
 2026-10-31 — 3 arms launched (q10 q11 q12), prompt identical to the previous two rounds.
 → next: collect each arm's decisive commands, confirm the mutation breaks the behaviour in each
   tree, then run every collected command against the broken tree in both conditions.
+
+2026-11-01 — 3/3 arms complete. Scored by execution → `03c_arm_evidence.txt`, `mutate.py`,
+  `score_tags.py`.
+  Compliance 3/3, 5 or 6 tags each; baseline 0/3 as expected.
+  Detection: treatment 2/3, baseline 1/3 — a null, the tag buys none.
+  M1 was found weaker than intended (it leaves X and O intact where an arm zero-fills a fixed
+  key set), so M2 was ADDED and both reported; the pre-registered mutation was not replaced
+  after seeing its result.
+  The pre-registered harm (a collapse onto one cheap command) measured FALSE: treatment named
+  more commands than the baseline, not fewer.
+  The harm that did show: 9 of 14 named commands never go red under either mutation — 7 of 7
+  greps and 2 of 2 `node -e` one-liners. 3/3 arms declined the clause's own "names none" exit
+  and manufactured a command for criteria no command can decide.
+→ next: `04_verify.md`, close Milestone 17, drop 17.1, record in `05`, sweep ports.

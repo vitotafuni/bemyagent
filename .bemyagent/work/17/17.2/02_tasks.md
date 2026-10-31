@@ -53,10 +53,10 @@ escalates to a fresh six.
 
 ## Checklist
 
-- [ ] todo — sweep stray listeners
-- [ ] todo — build the treatment protocol, confirm a one-line delta against the shipped file
-- [ ] todo — build 3 arms, neutral names continuing the series
-- [ ] todo — launch in parallel, prompt verbatim from 18.2 and 18.3
-- [ ] todo — collect each arm's decisive commands; confirm the mutation breaks the behaviour
-- [ ] todo — run every collected command against the broken tree, both conditions
-- [ ] todo — copy raw results here, write `04_verify.md` against the three fixed readings
+- [x] verified — sweep stray listeners
+- [x] verified — build the treatment protocol, confirm a one-line delta against the shipped file
+- [x] verified — build 3 arms, neutral names continuing the series
+- [x] verified — launch in parallel, prompt verbatim from 18.2 and 18.3
+- [x] verified — collect each arm's decisive commands; confirm the mutation breaks the behaviour
+- [x] verified — run every collected command against the broken tree, both conditions
+- [x] verified — copy raw results here, write `04_verify.md` against the three fixed readings
