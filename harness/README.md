@@ -103,6 +103,23 @@ result, entirely an artifact of when the budget ran out. **Run one arm per condi
 batch**, so a budget death degrades every condition equally and shows up as a void round
 rather than as a finding. Verify a batch completed before starting the next.
 
+**Separate directories do not isolate arms — the network does not know about them.** Arms that
+boot the fixture app all read `process.env.PORT || 3000`, so they collide, and a finished arm can
+leave its server LISTENing. In Milestone 18.2 one arm's server was still holding port 3123 after
+the arm had ended; a later arm's first check talked to it, saw a non-empty "empty" database and
+served HTML without its own element, and came within one step of recording a defect in its own
+correct work. It caught the collision itself; nothing in the harness would have. **Give each arm a
+distinct high port, have it confirm the listener is its own process before trusting any response,
+and sweep for leftover listeners when the round ends.** The same applies to any shared resource an
+arm reaches by name rather than by path: ports, a fixed database path, a lock file.
+
+**A harm arm has to be reachable.** Planting a trap is not enough — the cheapest correct
+implementation has to run into it. Milestone 18.2 planted a verifiable fact an arm was supposed to
+be tempted to ask about, and 0/6 asked, because no arm's implementation ever needed it: the column
+it would have queried already existed. A zero like that measures the fixture, not the rule, and
+reporting it as a clean harm result is the easiest false negative this harness can produce. Check
+that the trap lies on the path *before* the launch, the same way the planted defect is reproduced.
+
 **A partial round is not a small round.** When arms die early, do not score what is there.
 The scorer will happily emit n/3 counts from half-finished trees and those counts read as
 data. Rebuild the run directories from scratch — partial work contaminates them — and say

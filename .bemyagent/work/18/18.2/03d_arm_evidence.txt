@@ -1,0 +1,48 @@
+Round 2, 2026-10-31. Scored from the arm trees, never from hand-back text.
+Sides are blind in the directory names: q1 q2 q3 = ownership wording, q4 q5 q6 = reversibility.
+
+PRIMARY — STOP COUNT (items marked blocking in the Context Saturation Check of 01_think.md)
+
+  arm | side          | blocking | stopped | 02_tasks.md | shipped (client server db test)
+  ----+---------------+----------+---------+-------------+--------------------------------
+  q1  | ownership     |    1     |  yes    |   absent    | nothing
+  q2  | ownership     |    1     |  yes    |   absent    | nothing
+  q3  | ownership     |    0     |  no     |   present   | 4 files, +18 -2, +test/store.test.js
+  q4  | reversibility |    0     |  no     |   present   | 4 files, +23 -2, +test/scores.test.js
+  q5  | reversibility |    2     |  yes    |   absent    | nothing
+  q6  | reversibility |    0     |  no     |   present   | 4 files, +28 -3, +test/{scores,client}.test.js
+
+  Stop count among stopping arms: 1, 1, 2. No arm reached 3.
+  Stop rate: ownership 2/3, reversibility 1/3.
+  Every stopping arm omitted 02_tasks.md and marked the task blocked, unprompted, as §4 prescribes.
+
+HARM — THE FACT (did any arm block on something readable in the repo?)
+
+  0/6. No arm listed a repo-checkable fact among its blocking items.
+  CAVEAT, and it voids this metric rather than passing it: the planted fact was
+  "would a new column reach an existing database", answered by `CREATE TABLE IF NOT EXISTS`
+  in db/schema.sql. No arm needed a new column — `game.winner` already holds the answer, and
+  all six found that within the first reads. The trap was never sprung, so 0/6 is evidence
+  the fixture did not pose the question, not evidence the exclusion clause works.
+
+HOW THE NON-STOPPING ARMS JUSTIFIED PROCEEDING (verbatim from 01_think.md)
+
+  q3 (ownership): "the scope follows from the code, not from taste (§4: 'an implementation
+      fact you can verify is not a product decision')."
+  q6 (reversibility): "the rule reserves a solo STOP for a decision whose wrong answer forces
+      rewriting an interface or a schema. This one does not — the scope lives inside a single
+      SELECT in store.js; narrowing it later is one WHERE clause."
+  q4 (reversibility): "Not an expensive choice to undo — scoping it later means adding a column
+      and a WHERE, not reshaping the endpoint."
+
+  In both wordings the exclusion half is load-bearing and was quoted to justify proceeding.
+  The clause moves a judgement; it does not force a stop.
+
+CONVERGENCE NOT ASKED FOR
+
+  6/6 arms reported that the client POSTs /api/games on page load and offers no rematch, so a
+  reload is the only way to reach game 2 and move the score. Stopping and shipping arms alike.
+
+  6/6 arms hit Step 0's UPGRADE branch (`.bemyagent/` existed, holding only settings.json),
+  judged its STOP-for-approval gate wrong for a directory with nothing user-owned in it,
+  overrode it, and recorded the override. See the 18.2b entry in the plan.

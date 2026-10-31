@@ -20,3 +20,29 @@ stopping early for reasons unrelated to the clause.
   uncontrolled variable in a round whose metric is how many items an arm chose to block on.
   Owner's call: resume the six, or rebuild and relaunch clean. Nothing is scored either way
   until 6/6 complete under one condition.
+
+2026-10-31 09:20 — **Round 2 launched, clean rebuild** (not a resume: resuming would leave the
+interruption as an uncontrolled variable in a count metric).
+  Arms rebuilt from the preserved setup into a fresh tree; both deltas re-verified at one line
+  each against the shipped `BEMYAGENT.md`; cross-side diff is the clause only.
+  Fixture premise re-checked in the built arm, not assumed: no `score` anywhere in
+  `client server db test`, `server/session.js` imported by nothing, `db/schema.sql` is
+  `CREATE TABLE IF NOT EXISTS` (the planted fact).
+  6 arms, identical prompt, 3 per side.
+→ next: score stop count + the fact + delivery from the arm trees once 6/6 complete.
+
+2026-10-31 — 6/6 arms complete under one condition. Scored from the trees.
+  Counts, the fact and delivery → `03d_arm_evidence.txt`; both deltas → `03b`/`03c`; setup → `setup.py`.
+  Stop count 1,1,2 among stopping arms; no arm reached 3. Stop rate 2/3 ownership, 1/3 reversibility.
+  The fact: 0/6, but the trap was never live (no arm needed a new column), so the metric is void
+  rather than passed.
+→ next: `04_verify.md`, then the plan and `05`.
+
+2026-10-31 — Instrument defect found during scoring, not by an arm's result.
+  `lsof` showed q4's fixture server still LISTENing on port 3123 after the arm had finished.
+  q6's first manual check had talked to that server, seen a non-empty "empty" database and HTML
+  without its own element, and nearly recorded a defect in its own work. q6 caught it, re-pinned
+  to a high port and verified the listener's own pid thereafter. Killed the leaked process.
+  Scope: the stop-count metric comes from `01_think.md` and is untouched. Only the delivering
+  arms' own verification could be affected, and of those only q6 overlapped q4 in time.
+→ next: write the rule into `harness/README.md` so the next round does not pay for this.
