@@ -57,10 +57,10 @@ repo's record. Report that instead of scoring an empty set.
 
 ## Checklist
 
-- [ ] todo — sweep stray listeners
-- [ ] todo — build the treatment protocol, confirm the delta is confined to the template block
-- [ ] todo — build 3 arms with `node_modules` present and untracked, no `.gitignore`
-- [ ] todo — verify the premise: naive enumeration and `git ls-files` must diverge
-- [ ] todo — launch in parallel, prompt verbatim from the previous rounds
-- [ ] todo — score (i) to (iv) by execution; copy raw outputs here
-- [ ] todo — write `04_verify.md` against the three fixed readings
+- [x] verified — sweep stray listeners
+- [x] verified — build the treatment protocol, confirm the delta is confined to the template block
+- [x] verified — build 3 arms with `node_modules` present and untracked, no `.gitignore`
+- [x] verified — verify the premise: naive enumeration and `git ls-files` must diverge
+- [x] verified — launch in parallel, prompt verbatim from the previous rounds
+- [x] verified — score (i) to (iv) by execution; copy raw outputs here
+- [x] verified — write `04_verify.md` against the three fixed readings

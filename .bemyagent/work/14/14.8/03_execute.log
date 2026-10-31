@@ -13,3 +13,14 @@
   command, so it scores zero on all three criteria by construction. Stated rather than spent.
 → next: score (i) runs, (ii) file set against `git ls-files`, (iii) re-runnable in a fresh copy
   from the command string alone, (iv) does it claim more than it derives.
+
+2026-11-01 — 3/3 arms complete. Scored by execution → `03c_arm_evidence.txt`, `score.py`.
+  (i) runs 3/3. (ii) precision 3/3, the prepared trap avoided by every arm; recall **0/3**.
+  (iii) re-runnable 3/3, identical file set in a pristine copy. (iv) **3/3** carry rows the
+  command cannot regenerate.
+  Shared cause nobody noticed: `git ls-files <globs> | xargs grep <pattern>` lets the grep
+  decide membership, so a file matching no symbol pattern leaves the inventory. Two arms
+  globbed `client/index.html` explicitly and still lost it.
+  The clause specified only the exclusion half and 3/3 met it exactly; the completeness half
+  was never written down and failed everywhere. Drafting error in the candidate.
+→ next: `04_verify.md`, open 14.9 with the three forced changes, record in `05`, sweep ports.

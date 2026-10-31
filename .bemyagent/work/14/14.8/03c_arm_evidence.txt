@@ -1,0 +1,56 @@
+Round 14.8, 2026-11-01. Three arms, treatment only. Every criterion executed.
+
+THE COMMANDS THE ARMS WROTE (verbatim from each `03-code-map.md`)
+
+  q13  git ls-files '*.js' '*.sql' '*.html' | xargs grep -nE '^(async )?function |^const [A-Za-z_]+ = |^app\.(get|post|use)|^CREATE TABLE'
+  q14  git ls-files '*.js'                  | xargs grep -nE "^(const [a-zA-Z]+ =|function |module\.exports|app\.(get|post|use))"
+  q15  git ls-files '*.js' '*.html' '*.sql' | xargs grep -nE '^(function|const [a-zA-Z]+ = \(|module\.exports|CREATE TABLE|app\.(get|post))'
+
+(i) RUNS — 3/3. Exit 0, 59 / 53 / 38 output lines.
+
+(ii) FILE SET against `git ls-files`
+
+  Tracked source files (.js .sql .html): 8
+    client/app.js  client/index.html  db/schema.sql  server/index.js
+    server/rules.js  server/session.js  server/store.js  test/rules.test.js
+
+  arm | emits | misses                               | vendor leak
+  ----+-------+--------------------------------------+------------
+  q13 |   7   | client/index.html                    | none
+  q14 |   6   | client/index.html, db/schema.sql     | none
+  q15 |   6   | client/index.html, test/rules.test.js| none
+
+  **PRECISION 3/3 PERFECT.** The trap the fixture was built to expose — 239 `.js` files on disk
+  against 12 tracked — was avoided by every arm. All three reached for `git ls-files` and two
+  wrote the reason into the doc unprompted ("tracked files only, so node_modules/ and the
+  untracked game.db are excluded by construction").
+
+  **RECALL 0/3.** Every arm's inventory silently drops source files, and for one shared cause
+  none of them noticed: the command is `git ls-files <globs> | xargs grep <symbol pattern>`.
+  The enumeration is correct; the **grep decides membership**. A file whose content matches no
+  symbol pattern vanishes from the inventory entirely. `client/index.html` is the clean case —
+  q13 and q15 both globbed it and it still disappears, because HTML holds no `function`,
+  `const` or `CREATE TABLE` line. q15 also loses `test/rules.test.js` to a regex that requires
+  an opening paren after `const x = `.
+
+(iii) RE-RUNNABLE WITH NO CONTEXT — 3/3. Each command string alone, in a pristine copy of the
+  fixture, exit 0 and the identical file set. No absolute paths, no transient state, no alias.
+
+(iv) DOES IT CLAIM MORE THAN IT DERIVES — 3/3 YES.
+
+  Every arm's `03-code-map.md` carries hand-written rows for `client/index.html`,
+  `db/schema.sql` and `test/rules.test.js` — files its own command never emits. The clause's
+  instruction is *"re-run it and diff instead of trusting the rows below"*. Taken literally
+  that diff reports those rows as drift forever; taken trustingly it deletes them and the map
+  loses the markup and, for q14, the schema.
+
+  **The mechanism defeats itself at round one**, and the two halves of the artifact disagree
+  while each looks right on its own.
+
+WHAT THE CLAUSE ACTUALLY ASKED FOR, WHICH IS THE FIX
+
+  The line under test said the command *"MUST exclude vendor directories, build output and
+  anything untracked"*. **3/3 obeyed that perfectly.** It never said the command must emit
+  every tracked source file. The exclusion half was specified and met; the completeness half
+  was never written down and failed 3/3. That is a drafting error in the candidate, not a
+  failure of the agents, and it is what round two fixes.
