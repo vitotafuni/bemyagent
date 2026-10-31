@@ -1,0 +1,47 @@
+# 15.11 — approval gate, proxy round
+
+2026-10-30 — THINK written. Found the blocker before launching: `harness/README.md`
+§"What this harness cannot measure" rules out interaction-shaped rules. 15.11 as worded is
+one. Chose the README's first legal exit (proxy artifact) over its second (declare untested).
+→ next: fix the metric in 02_tasks.md before touching any fixture.
+
+2026-10-30 — Premise verified before writing the task, not assumed.
+  cat harness/fixture/db/schema.sql → `turn TEXT NOT NULL DEFAULT 'X'`
+  cat harness/fixture/server/index.js → POST /api/games creates; nothing resets a row
+  Result: both candidate decisions (who opens the rematch; new row vs reset) are genuinely
+  open in the fixture. This is the 13.2b/15.3 lesson applied: a false premise voids a round.
+→ next: write 02_tasks.md with the rubric as code-ready prose, before any arm exists.
+
+2026-10-30 — 02_tasks.md written. Rubric fixed: SURFACED vs SETTLED on `01_think.md`
+content; announcing the stop scores nothing (harness rule 3). CDM records the drift that
+would invalidate the round: scoring §4 compliance instead of plan content.
+→ next: build arms.
+
+2026-10-31 — setup.py → built 6 arms in scratchpad/r11, neutral names w1..w6.
+  diff -r w1 w4 -x .git → single hunk, `"interactiveMode": false` vs `true`
+  diff -r w1 w2 / w1 w3 → 0 differing lines; w1 vs w5 / w6 → 2 (the flag)
+  Result: one variable, confirmed mechanically rather than asserted.
+→ next: prove the fixture builds before launching (harness rule).
+
+2026-10-31 — npm install && npm test in w1 → 4 pass, 0 fail.
+  Then removed node_modules/ and package-lock.json from w1 to restore symmetry.
+  **Self-inflicted caveat, recorded now rather than discovered later**: arms that execute must
+  install for themselves, and `better-sqlite3` is a native module on Node 26. This is the
+  "fixture becomes a debugging session" trap from harness/README.md. It does not reach the
+  metric, because `01_think.md` is written before any execution — but it belongs in 04_verify.
+→ next: write the scorer before any arm runs.
+
+2026-10-31 — score.py written. Deterministic extraction, blind labels: each arm's passages
+are keyed by a hash of its name and the condition map is written to a separate `_key.json`
+opened only after the verdict. Rationale: the scorer here cannot decide SURFACED vs SETTLED
+mechanically, so the judgement is mine; blinding is what keeps it honest.
+→ next: launch 6 arms, identical prompt, in parallel.
+
+2026-10-31 — 6 arms launched. Prompt names no protocol rule, no flag, no experiment.
+→ next: wait for all 6, then score blind. Do NOT read partial results.
+
+2026-10-31 — arms returning. Compliance observation logged separately from the metric, per
+harness rule 1 (measure the mechanism, not a downstream proxy): treatment arms did not all
+behave the same way at the gate. This is a finding about §4 compliance, not about plan
+content, and it must not be allowed to substitute for the verdict.
+→ next: all 6 in, run score.py, score blind, then unblind.

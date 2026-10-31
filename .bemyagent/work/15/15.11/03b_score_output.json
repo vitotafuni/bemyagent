@@ -1,0 +1,100 @@
+[
+  {
+    "label": "60c559",
+    "think": "<scratchpad>/r11/w1/.bemyagent/work/1/1.1/01_think.md",
+    "lines": 60,
+    "decision_1_first_move": [],
+    "decision_2_new_vs_reset": [
+      "feature is to surface that same \"new game\" as a control on the finished board.",
+      "1. **Client-only, reuse `POST /api/games`.** The endpoint already creates a fresh game; the",
+      "2. **`POST /api/games/:id/rematch` + a `rematch_of` column.** Links the new game to the",
+      "3. **Client-side board reset without the server.** Wipe the board in the DOM.",
+      "**(1) Client-only.** Estimated cost: low. The rematch is literally \"a new game\", and the"
+    ],
+    "stop_announcements": 0
+  },
+  {
+    "label": "06f8fa",
+    "think": "<scratchpad>/r11/w2/.bemyagent/work/1/1.1/01_think.md",
+    "lines": 69,
+    "decision_1_first_move": [
+      "| B | New endpoint `POST /api/games/:id/rematch` + `rematch_of` column | records the series; one round trip | schema + store + route + spec churn for no visible behaviour; the client still has to swap `gameId` either way |",
+      "| C | Reset the finished row in place (`board`/`turn`/`winner` back to defaults) | id never changes, so the client needs no `gameId` swap | destroys the finished game; `GET /api/games/:id` would silently return a different game than a second earlier; breaks the \"a finished game is immutable\" guard at `index.js:24` |"
+    ],
+    "decision_2_new_vs_reset": [
+      "has nothing else to offer: the only way to a new game today is a browser reload, because the",
+      "- [x] **Constraints** \u2014 `05-decisions-and-issues.md` 1 & 2: a new row, no server change",
+      "| C | Reset the finished row in place (`board`/`turn`/`winner` back to defaults) | id never changes, so the client needs no `gameId` swap | destroys the finished game; `GET /api/games/:id` would silently return a different game than a second earlier; breaks the \"a finished game is immutable\" guard at `index.js:24` |",
+      "- *Button left visible into the new game*: mitigated by setting `hidden` on **every** render",
+      "*Radically different:* drop the button and auto-start a new game ~2s after the result, so the"
+    ],
+    "stop_announcements": 0
+  },
+  {
+    "label": "55eae5",
+    "think": "<scratchpad>/r11/w3/.bemyagent/work/2/2.1/01_think.md",
+    "lines": 39,
+    "decision_1_first_move": [
+      "- [x] **Expected behavior** \u2014 clear from the spec, with **one assumption**: a rematch starts with `X`, like any new game. The alternative (alternate the starting mark, or let the loser start) would require the server to accept a starting mark, which `POST /api/games` does not; not requested, so not built. Recorded as an open question in the spec.",
+      "| A | **Client-only**: at game over reveal a control that calls the existing `POST /api/games` and swaps `gameId` | No API change, no schema change, no new endpoint to test or document. Satisfies the \"server owns the board\" decision \u2014 the empty board arrives from the server | The two games are unrelated in the database; a future running score or \"rematch chain\" would have to add the link later |",
+      "| B | **New endpoint** `POST /api/games/:id/rematch` + a `rematch_of` column | Lets the server refuse a rematch of an unfinished game, and is where an alternating starting mark would eventually live | A migration and an endpoint for one button. Nothing today reads the link; it is a guess about a feature nobody asked for |",
+      "The radically simpler alternative: no control at all \u2014 call `location.reload()` when the game ends. One line, and the players do get another game. Rejected: a reload is exactly the round-trip the request asks to avoid, it throws away the page for no reason, and it is indistinguishable from the \"reload loses your game\" defect recorded in `05-decisions-and-issues.md`. Not clearly superior; not taken."
+    ],
+    "decision_2_new_vs_reset": [
+      "- **Premise correction (the request's words vs the repo):** the request says \"without going back to the start screen\". There is no start screen. `client/app.js` POSTs a new game on load and renders the board immediately \u2014 the only way to get a second game today is to reload the page, which is itself the \"going back\" the request wants to avoid. So the feature is real; the thing being avoided is a reload, not a screen. Stated here because the wording would otherwise send a later reader looking for a screen that does not exist.",
+      "- [x] **Expected behavior** \u2014 clear from the spec, with **one assumption**: a rematch starts with `X`, like any new game. The alternative (alternate the starting mark, or let the loser start) would require the server to accept a starting mark, which `POST /api/games` does not; not requested, so not built. Recorded as an open question in the spec.",
+      "| C | **Reset the row in place** (`PUT /api/games/:id` blanking board/turn/winner) | No second row | Destroys the finished game \u2014 the table has `created_at` and an autoincrement id precisely because rows accumulate. Also makes \"the final board stays on screen until the rematch\" a state the server no longer holds. Rejected |",
+      "1. **The board is new but `gameId` still points at the finished game**, so the first click after a rematch gets a 409 and \u2014 because `api()` ignores the status \u2014 the error body is rendered and `[...game.board]` throws. \u2192 Mitigation: one function creates the game, assigns `gameId`, then renders, in that order; and the test plays a move *after* the rematch and asserts it landed on the new game, not just that the board looks empty.",
+      "2. A live run against the real server (`npm start` + curl): create a game, play `X` to a win, `POST /api/games`, and confirm the new row is `---------` / `X` / `winner: null` while the finished row still reads as it did."
+    ],
+    "stop_announcements": 0
+  },
+  {
+    "label": "879cc6",
+    "think": "<scratchpad>/r11/w4/.bemyagent/work/1/1.1/01_think.md",
+    "lines": 80,
+    "decision_1_first_move": [
+      "game stays readable. Cons: one more route, and the client must swap `gameId` \u2014 three lines."
+    ],
+    "decision_2_new_vs_reset": [
+      "**B \u2014 Reset the finished row in place (`UPDATE game SET board='---------', turn='X', winner=NULL`).**",
+      "**C \u2014 `POST /api/games/:id/rematch`: refuse unless that game is over, otherwise insert a new game.**",
+      "Drop the server entirely: make the client reset its own board and only talk to the API on the first",
+      "move of the new game. It is the smallest possible change and it would feel instant. It is also a"
+    ],
+    "stop_announcements": 2
+  },
+  {
+    "label": "bb349f",
+    "think": "<scratchpad>/r11/w5/.bemyagent/work/1/1.1/01_think.md",
+    "lines": 72,
+    "decision_1_first_move": [
+      "- [x] **Expected behavior** \u2014 `specs/rematch.md`. One assumption stated there and carried here: **the rematch always starts with X**, the table default. Not alternating, because nothing was asked for it.",
+      "score, or an alternating starter later. *Cons*: today it would do exactly what"
+    ],
+    "decision_2_new_vs_reset": [
+      "**A \u2014 Client-only, reuse `POST /api/games`.**",
+      "The endpoint already mints a fresh game from table defaults; that is exactly a",
+      "`game.winner` is set, and on click re-point `gameId` at the new row and render.",
+      "**C \u2014 Reset the finished row in place.**",
+      "that the rematch be a new row, and still needs a new endpoint since `saveGame`",
+      "- The API test proves the behaviour: a rematch is a **new row**, empty, X to play, with the finished game's record intact."
+    ],
+    "stop_announcements": 0
+  },
+  {
+    "label": "d5bc18",
+    "think": "<scratchpad>/r11/w6/.bemyagent/work/2/2.1/01_think.md",
+    "lines": 47,
+    "decision_1_first_move": [
+      "- [ ] **Dependencies** \u2014 one open point, not a dependency question: **who opens the rematch?** Tic-tac-toe courtesy usually alternates or lets the loser start; the schema has no column for it.",
+      "**Assumption stated and carried (0-1 rule):** the rematch opens with `X`, exactly like a first game, because `turn` defaults to `'X'` in `db/schema.sql` and `POST /api/games` takes no parameters. Alternating would be a server + schema change for an unrequested rule \u2014 recorded as decision 2 in `05-decisions-and-issues.md` and deferred in `drafts/rematch-extras.md`. Cheap to revisit: it is one `createGame` argument.",
+      "### Devil's Advocate \u2014 the radically different alternative"
+    ],
+    "decision_2_new_vs_reset": [
+      "1. **Reset the finished row** \u2014 `POST /api/games/:id/reset` setting `board='---------'`, `turn='X'`, `winner=NULL`.",
+      "2. **Reuse `POST /api/games`, client-only** \u2014 the rematch is simply the next game; the client adopts the new id."
+    ],
+    "stop_announcements": 2
+  }
+]

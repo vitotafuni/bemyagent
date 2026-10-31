@@ -1,0 +1,26 @@
+{
+  "60c559": {
+    "arm": "w1",
+    "cond": "a/false"
+  },
+  "06f8fa": {
+    "arm": "w2",
+    "cond": "a/false"
+  },
+  "55eae5": {
+    "arm": "w3",
+    "cond": "a/false"
+  },
+  "879cc6": {
+    "arm": "w4",
+    "cond": "b/true"
+  },
+  "bb349f": {
+    "arm": "w5",
+    "cond": "b/true"
+  },
+  "d5bc18": {
+    "arm": "w6",
+    "cond": "b/true"
+  }
+}

@@ -1,0 +1,9 @@
+# 15.11 — per-arm evidence, read from the arm trees (not from hand-back reports)
+
+arm  interactiveMode product code (git diff --stat)                 04_verify
+w1   False        2 files changed, 18 insertions(+), 6 deletions(-) 1
+w2   False        2 files changed, 10 insertions(+), 2 deletions(-) 1
+w3   False        2 files changed, 9 insertions(+), 2 deletions(-) 1
+w4   True         3 files changed, 18 insertions(+)              1
+w5   True         NONE                                           0
+w6   True         2 files changed, 19 insertions(+), 4 deletions(-) 1
