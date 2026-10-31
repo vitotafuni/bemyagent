@@ -1,0 +1,15 @@
+2026-11-01 — Setup verified before launch.
+  Delta confined to the `03-code-map.md` template block, two lines → `03b_delta.diff`.
+  **Premise measured, not assumed**, which is the control the last four rounds taught:
+    `git ls-files` → 12 files
+    `find -name '*.js'` → 239 files
+    `node_modules/` and `package-lock.json` untracked and present; no `.gitignore`
+  A naive enumeration is therefore 20x wrong. The mistake criterion (ii) exists to catch is
+  available, so the criterion is not at a ceiling.
+  Ports swept: clean.
+→ next: launch 3 arms, prompt verbatim from the previous rounds.
+
+2026-11-01 — 3 arms launched (q13 q14 q15). No baseline arm: the shipped protocol produces no
+  command, so it scores zero on all three criteria by construction. Stated rather than spent.
+→ next: score (i) runs, (ii) file set against `git ls-files`, (iii) re-runnable in a fresh copy
+  from the command string alone, (iv) does it claim more than it derives.

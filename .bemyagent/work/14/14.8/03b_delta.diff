@@ -1,0 +1,3 @@
+175a176,177
+> ## Inventory command
+> `<command>` — one deterministic command that enumerates this project's source files and their symbols, determined once from the stack. It MUST exclude vendor directories, build output and anything untracked. Re-run it and diff instead of trusting the rows below.
