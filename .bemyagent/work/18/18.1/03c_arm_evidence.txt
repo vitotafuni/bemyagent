@@ -1,0 +1,25 @@
+# 18.1 — per-arm evidence, read from the arm trees (not from hand-back reports)
+
+arm  01_think   02_tasks   code       blocking_questions
+z1   90L        0          NONE       1
+z2   84L        0          NONE       0
+z3   77L        0          NONE       0
+
+## The blocking question, per arm (verbatim)
+--- z1 ---
+**Verdict: STOP.** One box is unchecked, which on its own would permit "state the
+assumption and proceed" — but it is unchecked *because* it is a product decision with
+--- z2 ---
+**Verdict: STOP.** One unchecked item, and it is a product decision — rules §4 makes that
+sufficient on its own. Per the same rule `02_tasks.md` is deliberately **not** written: the plan
+--- z3 ---
+**Verdict: STOP.** One unchecked item, and it is a product decision, so the count does not
+excuse it. Per the rules, `02_tasks.md` is deliberately NOT written — a checklist built on a
+
+## Non-blocking items each arm carried as assumptions (over-trigger check)
+--- z1 ---
+Non-blocking assumptions, stated: **no series score** (not requested) and **a rematch is a
+--- z2 ---
+makes "rematch" indistinguishable from "undo the whole game". Rejected regardless of Q1.
+--- z3 ---
+(Kept for whichever answer Q1 gets — these concern *how* the rematch is wired, not *who starts*.)
