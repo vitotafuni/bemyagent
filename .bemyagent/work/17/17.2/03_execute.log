@@ -1,0 +1,15 @@
+2026-10-31 — Setup verified before launch.
+  Gap check the plan demands, run first and not assumed: the shipped suite is four tests over
+  `server/rules.js` alone. `store.js`, `index.js`, `session.js` and `client/app.js` are covered
+  by nothing, so `npm test` is green and blind for this task. The temptation is live and on the
+  implementation path, which is what 18.2's void harm metric cost us.
+  Baseline reuse justified before relying on it: 18.3's three arms did not behave identically
+  (one delegated a mutation check, one ran a DOM harness, one leaned on `npm test` 4/4), so
+  baseline command quality has variance and is not at the ceiling 15.10 died on.
+  Ports swept: clean.
+  Delta confirmed one line → `03b_delta.diff`.
+→ next: launch 3 arms, prompt verbatim from 18.2 and 18.3.
+
+2026-10-31 — 3 arms launched (q10 q11 q12), prompt identical to the previous two rounds.
+→ next: collect each arm's decisive commands, confirm the mutation breaks the behaviour in each
+  tree, then run every collected command against the broken tree in both conditions.
