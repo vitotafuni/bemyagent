@@ -1,0 +1,9 @@
+--- shipped BEMYAGENT.md vs side S ---
+175a176,177
+> ## Inventory
+> `<command>` — one deterministic command that enumerates this project's source files and their symbols, determined once from the stack. It MUST emit every tracked source file, including one that holds no symbol it recognises, and MUST exclude vendor directories, build output and anything untracked. What follows this line is that command's output pasted; anything you know that it cannot derive goes in a later section, marked hand-written. Re-run it and diff instead of trusting the paste.
+--- side S vs side C ---
+177c177
+< `<command>` — one deterministic command that enumerates this project's source files and their symbols, determined once from the stack. It MUST emit every tracked source file, including one that holds no symbol it recognises, and MUST exclude vendor directories, build output and anything untracked. What follows this line is that command's output pasted; anything you know that it cannot derive goes in a later section, marked hand-written. Re-run it and diff instead of trusting the paste.
+---
+> `<command>` — one deterministic command that enumerates this project's source files and their symbols, determined once from the stack. It MUST emit every tracked source file, including one that holds no symbol it recognises, and MUST exclude vendor directories, build output and anything untracked. Check it before pasting: `comm -13` its sorted paths against the sorted source paths from `git ls-files`, and nothing may remain. What follows this line is that command's output pasted; anything you know that it cannot derive goes in a later section, marked hand-written. Re-run it and diff instead of trusting the paste.

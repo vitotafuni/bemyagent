@@ -120,6 +120,14 @@ it would have queried already existed. A zero like that measures the fixture, no
 reporting it as a clean harm result is the easiest false negative this harness can produce. Check
 that the trap lies on the path *before* the launch, the same way the planted defect is reproduced.
 
+**Store the launch prompt verbatim, in the task folder.** A round's prompt is part of its
+instrument and it changes behaviour as much as the clause under test. 14.9's first batch was
+voided because the prompt had been reconstructed from a summary rather than copied: on the same
+fixture and the same setup script that gave 14.8 three code maps out of three, the reconstructed
+wrapper gave zero out of two, because both arms were sent down Step 0's approval branch instead.
+Nothing about either side of the experiment was involved. Write the prompt to `prompt.txt` next
+to the TTEV files, with the arm directory as the only substitution, and relaunch from that file.
+
 **A partial round is not a small round.** When arms die early, do not score what is there.
 The scorer will happily emit n/3 counts from half-finished trees and those counts read as
 data. Rebuild the run directories from scratch — partial work contaminates them — and say

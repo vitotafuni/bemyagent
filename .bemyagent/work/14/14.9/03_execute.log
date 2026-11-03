@@ -1,0 +1,86 @@
+2026-11-04 — Setup verified before launch.
+  Delta against the shipped protocol: two lines, confined to the `03-code-map.md` template block.
+  Cross-side delta: **one line, one sentence** (the `comm -13` check) → `03b_delta.diff`.
+  Side assignment confirmed by grep in the built arms: q16 q18 q20 side S (0 hits), q17 q19 q21
+  side C (1 hit).
+  **Premise re-measured inside a built arm**, not assumed:
+    `git ls-files` → 12 files
+    `find -name '*.js'` → 239 files
+    tracked source (.js .sql .html) → 8 files, the same set 14.8 scored
+    `node_modules` untracked, no `.gitignore`
+  The naive enumeration is therefore ~20x wrong and the precision criterion is not at a ceiling.
+  Ports swept before launch: clean (nothing of ours listening).
+→ next: launch in batches of two, one arm per condition per batch, per the harness rule learned
+  in 14.3. Batch 1 = q16 (S) + q17 (C).
+
+2026-11-04 — Batch 1 launched (q16 side S, q17 side C), model pinned, prompt verbatim from 14.8.
+
+2026-11-04 — **Handling rule fixed now, before any result is read.** q17 stopped at Step 0's
+  UPGRADE branch and asked its user to approve the upgrade plan. That is the protocol's own gate,
+  owned by the fixture's user role, which in a harness round is the operator; it is not a sandbox
+  denial and nothing is being laundered. 14.8 ran the identical prompt and 3/3 arms passed this
+  point, so the gate firing is variance, not a property of either side.
+  **Rule: any arm that stops at Step 0 receives one approval message, byte-identical across arms,
+  and nothing else.** Text: "Approved. Apply the upgrade plan as written, then carry out the
+  task." Recorded here before the recall metric is computed so the handling cannot become an
+  uncontrolled variable, which is the 18.2a lesson applied in advance.
+  Separately, for Milestone 19: this is the **first arm in this repo's record to stop at that gate
+  rather than override it**. 19.1's 6/6 override came from 18.2's arms. One arm is not a rate;
+  logged as a data point, not a finding.
+→ next: send q17 the approval, then score batch 1 once both arms are complete.
+
+2026-11-04 — **BATCH 1 VOID, not scored.** Neither arm produced the artifact under test, and for
+  one shared cause that is mine:
+    q17 (C) stopped at Step 0's UPGRADE gate and asked for approval. No scaffold, no code map.
+    q16 (S) did **not** stop, but wrote no scaffold either: it reported the gate unreachable,
+      skipped the protocol entirely and shipped the feature. No `03-code-map.md`.
+  **2/2 arms blocked or derailed by Step 0, 0/2 inventories produced.** 14.8 ran the same fixture
+  and the same setup script and got 3/3 code maps, so the difference is the launch prompt. 14.8's
+  wrapper was not stored verbatim; the one used here was reconstructed and is evidently not
+  equivalent. That is the defect: **a round whose prompt is reconstructed from a summary is not
+  the same round.**
+  By the 14.3a and 18.2a precedent the partial state is not scored, and here it is worse than
+  partial — the metric is recall over a file the arms never wrote.
+  The handling rule recorded above is **withdrawn before use**: approving mid-flight would leave
+  q16 writing its map *after* shipping code and q17 writing it *before*, which is an uncontrolled
+  variable sitting directly on the metric. Rebuilt clean instead, as 18.2b was.
+  **Fix, applied to all six arms equally:** the operator's standing approval for Step 0 moves
+  into the launch prompt itself, identical across sides, so the gate cannot fire asymmetrically.
+  The prompt is stored verbatim this time → `prompt.txt`.
+  **For Milestone 19, a third independent data point** and the first from outside 18.2: a
+  `.bemyagent/` holding only `settings.json` sent 2/2 arms down a path neither the protocol nor
+  the operator wanted, one stopping and one abandoning the protocol altogether. 19.1 recorded
+  6/6 overriding the gate; this is the same condition failing in the two other available ways.
+→ next: rebuild all six arms clean, store the prompt, relaunch batch 1.
+
+2026-11-04 — Round relaunched from `prompt.txt`. **Batch 1 complete, 2/2 arms produced
+  `03-code-map.md` with an `## Inventory` section**, which is what the void batch could not do.
+  Batch 2 (q18 S, q19 C) launched immediately.
+
+2026-11-04 — **Scorer amended after two arms, declared here before the other four land.**
+  q17's map holds the command string **truncated mid-quote**: `git ls-files client server test db
+  | while read f; do echo "== ` and then the output begins. The remainder (`$f"; grep …; done`)
+  is nowhere in the arm's tree — `grep -rn "while read f"` over `.bemyagent/` returns that one
+  line. The string in the file cannot be run.
+  So the pre-registered metric (ii), *"the paths the command emits"*, is not computable for that
+  arm from the artifact alone, while the thing a reader of the map actually gets — the pasted
+  inventory — is complete and sitting right there.
+  **Both are now scored, separately and labelled**, the 17.2 precedent for adding a measure after
+  seeing data rather than swapping one:
+    (ii-a) recall of the **command**, run in the arm's tree. Uncomputable where the string is
+           broken, and that is itself the (iv) result, not a gap in the data.
+    (ii-b) recall of the **pasted inventory**, counted from the file.
+  Nothing pre-registered is removed or relaxed.
+→ next: batch 2, then batch 3, then score all six on (i) to (vi) with both recall readings.
+
+2026-11-04 — 6/6 arms complete, three batches of two, one arm per condition per batch. Scored by
+  execution → `03c_arm_evidence.txt`, `score.py`, `commands.json`.
+  (ii) recall complete in **4 of 5 computable arms**, 2/3 on each side, against 14.8's 0/3. The
+  completeness sentence is on both sides and is what moved it. (iii) precision 6/6 clean.
+  (iv) re-runnable 5/5 of the runnable commands; q17's string is truncated inside its own map.
+  (v) **the pre-registered harm is live, 2/6**: q16 and q19 bought recall by deleting the grep.
+  (vi) pasted the output: **S 0/3, C 3/3**, with no arm anywhere leaving a trace of running the
+  `comm` check. Reported as an observation, not a result — pre-mortem 1 named this case.
+  Verdict PASS_WITH_CAVEATS, does not land → `04_verify.md`.
+  Ports swept after the arms: see below.
+→ next: sweep ports, update `06-implementation-plan.md` and `05-decisions-and-issues.md`, commit.

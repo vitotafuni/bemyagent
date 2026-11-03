@@ -1,0 +1,8 @@
+{
+ "q16": "git ls-files; ",
+ "q17": null,
+ "q18": "git ls-files -- server client test db | xargs grep -nE '^(function|const [a-zA-Z]+ = |app\\.(get|post))'",
+ "q19": "git ls-files | grep -E '\\.(js|html|sql)$' | sort",
+ "q20": "for f in $(git ls-files client server db test); do echo \"## $f\"; grep -nE \"^(async )?function |^const [A-Za-z]+ = |^CREATE TABLE|^test\\(|^app\\.(get|post)|<(div|p) id\" \"$f\"; done",
+ "q21": "git ls-files client db server test | while read f; do echo \"$f: $(grep -oE '^(async )?function \\w+|^const \\w+ =|^test\\(|CREATE TABLE[^(]*' \"$f\" | tr '\\n' ';')\"; done"
+}

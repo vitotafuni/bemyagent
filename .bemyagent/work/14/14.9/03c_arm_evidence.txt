@@ -1,0 +1,77 @@
+Round 14.9, 2026-11-04. Six arms, two sides, one sentence apart. Every criterion executed.
+Side S = completeness stated. Side C = the same, plus the `comm -13` cross-check named.
+Ground truth throughout: the 8 source files in HEAD (.js .sql .html), the same set 14.8 scored.
+
+THE COMMANDS THE ARMS WROTE (verbatim from each `03-code-map.md`)
+
+  q16 S  git ls-files;
+  q17 C  git ls-files client server test db | while read f; do echo "==        <<< TRUNCATED
+  q18 S  git ls-files -- server client test db | xargs grep -nE '^(function|const [a-zA-Z]+ = |app\.(get|post))'
+  q19 C  git ls-files | grep -E '\.(js|html|sql)$' | sort
+  q20 S  for f in $(git ls-files client server db test); do echo "## $f"; grep -nE "^(async )?function |^const [A-Za-z]+ = |^CREATE TABLE|^test\(|^app\.(get|post)|<(div|p) id" "$f"; done
+  q21 C  git ls-files client db server test | while read f; do echo "$f: $(grep -oE '^(async )?function \w+|^const \w+ =|^test\(|CREATE TABLE[^(]*' "$f" | tr '\n' ';')"; done
+
+  arm side cmd-runs  files 8  symbols 8  pasted 8  pasted-syms  precision  re-run
+  ---------------------------------------------------------------------------------
+  q16  S   yes         8/8      0/8        prose      prose      clean      same
+  q17  C   NO          n/a      n/a        8/8        8/8        clean      n/a
+  q18  S   yes         6/8      6/8        none       none       clean      same
+  q19  C   yes         8/8      0/8        8/8        0/8        clean      same
+  q20  S   yes         8/8      8/8        none       none       clean      same
+  q21  C   yes         8/8      7/8        8/8        7/8        clean      same
+
+(i) RUNS — 5/6. q17's command string is cut mid-quote inside the map and the remainder exists
+  nowhere in its tree. See (iv).
+
+(ii) RECALL — **the fix works, and it is the headline.** 14.8: complete 0/3. Here: complete in
+  **4 of the 5 computable arms**, on both sides. The two files 14.8 lost everywhere,
+  `client/index.html` and `db/schema.sql`, are present in every arm that pastes or emits a full
+  set. q18 is the single recall failure and it reproduced 14.8's exact pipeline,
+  `git ls-files <globs> | xargs grep <pattern>`, losing those same two files.
+  **Side makes no difference**: S is 2/3 complete, C is 2/3 complete with one uncomputable.
+  The completeness sentence is present on both sides, and it is what moved the number.
+
+(iii) PRECISION — 6/6 clean. No arm emitted a `node_modules` path. The trap that 14.8 cleared
+  is cleared again, which keeps the criterion live rather than retired.
+
+(iv) RE-RUNNABLE WITH NO CONTEXT — 5/5 of the runnable commands produce the identical file set
+  in a pristine copy. **q17 fails, and the way it fails is new.** Its command and its output were
+  written into the file in one operation and the string did not survive: the map holds
+  `git ls-files client server test db | while read f; do echo "== ` and then the output begins.
+  `grep -rn "while read f"` over its whole `.bemyagent/` returns that one broken line. The
+  instruction that makes the inventory derivable is the instruction that destroyed the deriving
+  command. Nothing in 14.8's weaker form could produce this.
+  (q20's command exits 1 in a pristine copy while emitting the complete set — `grep`'s no-match
+  convention on the last file of the loop, not a failure to enumerate. Recorded, not scored.)
+
+(v) HARM, SYMBOL YIELD — **pre-registered in `01_think.md` before launch, and it is live.**
+  **q16 (S) and q19 (C) collapsed to a bare file list.** `git ls-files;` and
+  `git ls-files | grep -E '\.(js|html|sql)$' | sort` have perfect recall, perfect precision,
+  re-run identically, and name **zero symbols**. They satisfy every completeness criterion by
+  deleting the half of the job that makes a code map worth having.
+  2 of 6 arms, **one on each side**, below the pre-registered threshold of 2 on a side, so
+  neither wording is disqualified. 14.8 produced no bare enumeration at all. The exit opened
+  when the clause started pushing on recall, which is exactly what the pre-registration said.
+
+(vi) IS THE INVENTORY THE COMMAND'S OUTPUT — declared before launch as a six-arm compliance
+  reading, not a comparison. It came back **split exactly along the sides: S 0/3, C 3/3.**
+    q16 pastes two lines of hand-written prose whose symbol names its command never emits.
+    q18 writes *"pasted output omitted; hand-written summary below"*.
+    q20 pastes nothing and refers the reader to the rows underneath.
+    q17, q19, q21 paste the output.
+  **No arm on either side left any trace of running the `comm` check** — zero hits across all six
+  trees, in the work files, the audit logs and the maps. So the sentence correlates with pasting
+  at 0/3 against 3/3 and there is no evidence of the mechanism that would explain it. Pre-mortem
+  1 in `01_think.md` named this case. At N=3, with the metric not pre-registered as a comparison
+  and the mechanism unevidenced, this is an observation to be re-tested, not a result.
+
+THE PATTERN ACROSS BOTH ROUNDS, WHICH IS WHAT THIS CANDIDATE HAS ACTUALLY TAUGHT
+
+  14.8: exclusion written as MUST → obeyed 3/3. Completeness not written at all → failed 3/3.
+  14.9: exclusion and completeness both MUST → obeyed 6/6 and 4/5. The symbols half carried only
+        in the descriptive opening (*"enumerates ... and their symbols"*) → failed 2/6.
+
+  Three levels, measured twice: **a MUST is obeyed, descriptive prose is obeyed most of the time,
+  silence is a hole.** The failing half of this clause has been, both rounds running, exactly the
+  half not written as an obligation — and each round's fix has moved the failure to the next
+  unobligated half rather than ending it.
