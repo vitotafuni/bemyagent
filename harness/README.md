@@ -128,6 +128,23 @@ wrapper gave zero out of two, because both arms were sent down Step 0's approval
 Nothing about either side of the experiment was involved. Write the prompt to `prompt.txt` next
 to the TTEV files, with the arm directory as the only substitution, and relaunch from that file.
 
+**Score the artifact against what it claims, not against what you seeded.** 14.13's scorer
+defined a forged line as one the *setup's* command does not emit. One control arm improved the
+command its own map names, so its block legitimately carried nine lines the seeded command cannot
+produce — its new test file. Under that definition the arm reads as forging exactly nine lines,
+the same count as the genuine forgery found a round earlier: a fabricated harm, in the control,
+manufactured by the instrument and pointing the way the author already expected. A derived
+artifact claims to be the output of *the command printed above it*; score it against that. The
+general form is the bias check this file already demands — run it against the arms, not only
+against the treatment.
+
+**Shared scratch is not isolation either.** The port rule above generalises: arms write capture
+files into the one scratchpad root under generic names (`inv_actual.txt`, `inv2.txt`, `blk3.txt`)
+and clobber each other. In 14.13 one arm's verifier saw a **false** drift from a file another run
+had overwritten. Scoring survived it only because every criterion re-runs inside the arm's own
+tree, which is the rule: a measurement that reads anything from shared scratch is measuring the
+other arms too.
+
 **A partial round is not a small round.** When arms die early, do not score what is there.
 The scorer will happily emit n/3 counts from half-finished trees and those counts read as
 data. Rebuild the run directories from scratch — partial work contaminates them — and say
@@ -136,8 +153,38 @@ the round was void.
 ## Scoring
 
 Grep the generated `.bemyagent/` tree for the artifact the rule is supposed to
-produce, and read the arms that disagree. At N=3 a real mechanism shows as clean
-separation (0/3 vs 3/3); anything narrower is noise and should be treated as a null.
+produce, and read the arms that disagree.
+
+**Decide what the control's rate is before you read the treatment's.** At N=3 three arms
+resolve a condition only where that condition is near-deterministic. The three outcomes
+below are not degrees of the same verdict, and collapsing them is how a round gets
+reported as something it did not measure:
+
+| Control | Treatment | Verdict | What it licenses |
+|---|---|---|---|
+| 0/3 | 3/3 | **the mechanism** | the rule lands |
+| 0/3 | 0/3 | **null** | the rule is deleted: tested properly, no effect |
+| 3/3 | 3/3 | **ceiling** | the rule is deleted, *and* the baseline already does it |
+| ~1–2/3 | anything | **under-powered** | nothing. Resolve it or say it is unresolved |
+
+A null and a ceiling both end with the rule not shipping, and only the second also says
+something true about the baseline, so the record has to name which one it was.
+
+**An under-powered round is not a null and must never be written up as one.** Where the
+control sits in the middle, three arms do not measure the condition, they draw from it.
+This is measured here, not reasoned: **14.12 and 14.13 ran the same control condition —
+byte-identical protocol, rules file, seeded map, prompt and model pin, verified file by
+file — and read 1/3 and 3/3.** At a true rate near 0.6 three arms return one hit about 29%
+of the time and three about 22%. One of those two rounds was going to be wrong whatever the
+candidate did, and 14.12's headline had to be corrected. 14.11 was refused on this
+arithmetic before it ran and was called *uninterpretable*; that is the right word and this
+section is where it should have lived.
+
+Raising N is the remedy for a round worth resolving, not a new default — separating 1/3
+from 3/3 with any confidence costs roughly ten arms a side. Most candidates here separate
+cleanly at three and do not need it. The cheap move is to ask, before designing the arms,
+whether the control plausibly sits at zero; where it does not, budget for the answer or
+pick a different question.
 
 `tokens.py` aggregates per-arm cost from session transcripts, cache-weighted:
 

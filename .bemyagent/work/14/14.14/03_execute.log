@@ -1,0 +1,19 @@
+# EXECUTE — 14.14
+
+Copied `harness/README.md` aside first, so the delta could be diffed rather than described.
+
+Three edits, applied by a script that asserts each anchor occurs exactly once before substituting:
+1. the Scoring rule replaced, not appended beside;
+2. `**Score the artifact against what it claims, not against what you seeded.**` inserted into the
+   instrument-rule list;
+3. `**Shared scratch is not isolation either.**` inserted beside it.
+
+Result: `diff` reports **three hunks, 51 changed lines**, and no fourth place.
+
+`git diff --stat -- BEMYAGENT.md` empty and `git diff --stat 3.3.0 HEAD -- BEMYAGENT.md` empty:
+the distributable is untouched, so no tag is due.
+
+`grep -c "anything narrower is noise"` → **0**. The collapsed claim is gone rather than contradicted
+further down, which was pre-mortem 2's risk.
+
+Next intended action: write `04_verify.md`, tick `02_tasks.md`, mark 14.14 done in `06`, commit.
