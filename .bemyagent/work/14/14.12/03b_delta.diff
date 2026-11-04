@@ -1,0 +1,60 @@
+2,11c2,49
+< | File | Symbols |
+< |---|---|
+< | client/app.js | `api`, `render`, `move` |
+< | client/index.html | `#board`, `#status` |
+< | db/schema.sql | `CREATE TABLE game` |
+< | server/index.js | `POST /api/games`, `GET /api/games/:id`, `POST /api/games/:id/moves` |
+< | server/rules.js | `applyMove`, `winnerOf` |
+< | server/session.js | `newSessionId`, `createSession`, `destroySession` |
+< | server/store.js | `createGame`, `getGame`, `saveGame` |
+< | test/rules.test.js | 4 tests |
+---
+> `git ls-files client server db test | while read f; do echo "== $f"; grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|^app\.(get|post)|^test\(|id="' "$f"; done`
+> 
+> It MUST emit every tracked source file, including one holding no symbol it recognises, and it
+> MUST name the symbols of every file that has any. Re-run it and diff instead of trusting the
+> output below.
+> 
+> ```
+> == client/app.js
+> 3:async function api(path, opts) {
+> 8:function render(game) {
+> 22:async function move(cell) {
+> == client/index.html
+> 10:<div id="board"></div>
+> 11:<p id="status">…</p>
+> == db/schema.sql
+> 2:CREATE TABLE IF NOT EXISTS game (
+> == server/index.js
+> 1:const express = require('express');
+> 2:const path = require('path');
+> 6:const app = express();
+> 10:app.post('/api/games', (req, res) => {
+> 15:app.get('/api/games/:id', (req, res) => {
+> 21:app.post('/api/games/:id/moves', (req, res) => {
+> 34:const port = process.env.PORT || 3000;
+> == server/rules.js
+> 1:const LINES = [
+> 7:function winnerOf(board) {
+> 16:function applyMove(board, turn, cell) {
+> == server/session.js
+> 23:function newSessionId() {
+> 60:function createSession(playerId, opts) {
+> 161:function destroySession(sessionId, opts) {
+> == server/store.js
+> 1:const Database = require('better-sqlite3');
+> 2:const fs = require('fs');
+> 3:const path = require('path');
+> 5:const db = new Database(process.env.DB_PATH || path.join(__dirname, '..', 'game.db'));
+> 8:const createGame = () => db.prepare('INSERT INTO game DEFAULT VALUES').run().lastInsertRowid;
+> 9:const getGame = (id) => db.prepare('SELECT * FROM game WHERE id = ?').get(id);
+> 10:const saveGame = (id, { board, turn, winner }) =>
+> == test/rules.test.js
+> 1:const test = require('node:test');
+> 2:const assert = require('node:assert');
+> 5:test('a completed row wins', () => {
+> 9:test('a full board with no line is a draw', () => {
+> 13:test('a move flips the turn', () => {
+> 19:test('an occupied cell is rejected', () => {
+> ```
