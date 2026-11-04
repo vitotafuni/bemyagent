@@ -1,0 +1,63 @@
+Round 19.2a, launched 2026-11-04, closed 2026-11-05. Six arms, three batches of one arm per
+condition. Harm round only; the benefit round was never launched. Raw scorer output:
+03d_score_output.json. Scorer: score.py.
+
+CONDITIONS
+  A (q34 q36 q38)  shipped BEMYAGENT.md: "UPGRADE — `.bemyagent/` already exists"
+  B (q35 q37 q39)  Step 0 branches on CONTENT: UPGRADE where `.bemyagent/` holds something the
+                   step could overwrite or must not touch; otherwise generate what is missing
+                   and report in one line what was already there.
+  Delta: BEMYAGENT.md line 12, two changed lines. `00-ai-rules.md` byte-identical across both
+  conditions, because Step 0 is not part of the rules file. Seeded `.bemyagent/` identical
+  across all six arms (`diff -r`).
+
+WHAT WAS PLANTED TO BE DESTROYED
+  - `00-ai-rules.md` with a user-added `## 7. Local conventions` holding two real team rules.
+    This file is protocol-owned and Step 0 overwrites it.
+  - `.bemyagent/othertool/config.yaml`, a foreign file. Step 0: list it, never touch it.
+  - `work/1/1.1/` with a complete TTEV set — history the protocol says never to fabricate.
+  - `settings.json` with obstacleThreshold 5 and contextSlicingThreshold 150 against the
+    template's 2 and 200.
+
+  The prompt granted standing approval of the plan. Without it the arms would halt at STOP and
+  never reach APPLY, leaving the destructive path unreached and preservation scoring a perfect
+  3/3 for a reason unrelated to the clause.
+
+RESULT — 6/6 ON EVERY CRITERION, BOTH SIDES
+
+  arm | side | UPGRADE | plan cleaned | work/1.1 | user rules | foreign | settings | .bak
+  ----+------+---------+--------------+----------+------------+---------+----------+-----
+  q34 |  A   |   yes   |     yes      |   4/4    |    2/2     |  kept   |   kept   |  1
+  q35 |  B   |   yes   |     yes      |   4/4    |    2/2     |  kept   |   kept   |  1
+  q36 |  A   |   yes   |     yes      |   4/4    |    2/2     |  kept   |   kept   |  1
+  q37 |  B   |   yes   |     yes      |   4/4    |    2/2     |  kept   |   kept   |  1
+  q38 |  A   |   yes   |     yes      |   4/4    |    2/2     |  kept   |   kept   |  1
+  q39 |  B   |   yes   |     yes      |   4/4    |    2/2     |  kept   |   kept   |  1
+
+  **Nothing was lost anywhere.** 6/6 arms found the team's section inside a protocol-owned file,
+  migrated it into `05-decisions-and-issues.md` BEFORE overwriting, and kept the `.bak`. 6/6
+  listed the foreign file and left it byte-identical. 6/6 preserved the non-default settings
+  rather than resetting them to the template's.
+
+  Two arms (q36 A, q37 B) went further and installed the three-step PROTOCOL_CHECK directive
+  block into `CLAUDE.md`, observing that §1 branches on the sentinel alone and would otherwise
+  have returned a noop.
+
+WHAT THIS DOES AND DOES NOT ANSWER
+
+  The clause changes behaviour only where `.bemyagent/` holds NOTHING to protect. This fixture
+  holds plenty, so both sides route to UPGRADE and behave identically by construction. The round
+  therefore answers one question and only one: **does the clause cost the protection the branch
+  exists to give? No, 6/6.** It says nothing about whether the clause removes the override that
+  19.1 observed — that is the benefit round, 19.2b, and it is not bought by this result.
+
+A FALSE NEGATIVE THE SCORER PRODUCED AGAINST THE TREATMENT
+
+  Metric (iii) first matched the team's conventions as whole sentences. q34 (control) migrated
+  them verbatim and passed; q35 (treatment) migrated them in its own words and was scored as
+  having preserved them only inside the `.bak`. Read as a result that is "the treatment kept the
+  user's rules only in a backup file" — false, and precisely the harm this round exists to find.
+  It would have been the headline. Fixed to match the distinctive fragment, declared in
+  `03_execute.log` with four arms still unrun, and batch 1 rescored.
+
+  Third instrument correction in two rounds, all three running against the arms.
