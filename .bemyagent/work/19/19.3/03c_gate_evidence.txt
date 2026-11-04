@@ -1,0 +1,79 @@
+arm   emitted  (in results)  governed files  named   coverage
+q28   6        0             4               4       4/4
+q29   3        0             5               2       2/5
+q30   7        0             3               3       3/3
+q31   3        0             12              3       3/12
+q32   2        0             5               2       2/5
+q33   4        0             4               4       4/4
+
+--- q28 governed files changed ---
+  [named] .bemyagent/docs/03-code-map.md
+  [named] .bemyagent/docs/05-decisions-and-issues.md
+  [named] .bemyagent/docs/06-implementation-plan.md
+  [named] .bemyagent/docs/specs/scoreboard.md
+--- q29 governed files changed ---
+  [     ] .bemyagent/docs/01-overview.md
+  [     ] .bemyagent/docs/03-code-map.md
+  [     ] .bemyagent/docs/05-decisions-and-issues.md
+  [named] .bemyagent/docs/06-implementation-plan.md
+  [named] .bemyagent/docs/specs/scoreboard.md
+--- q30 governed files changed ---
+  [named] .bemyagent/docs/03-code-map.md
+  [named] .bemyagent/docs/05-decisions-and-issues.md
+  [named] .bemyagent/docs/06-implementation-plan.md
+--- q31 governed files changed ---
+  [     ] .bemyagent/docs/01-overview.md
+  [     ] .bemyagent/docs/03-code-map.md
+  [     ] .bemyagent/docs/05-decisions-and-issues.md
+  [named] .bemyagent/docs/06-implementation-plan.md
+  [     ] .bemyagent/docs/decisions/_template.md
+  [     ] .bemyagent/docs/decisions/_template.md.bak-20261104
+  [     ] .bemyagent/docs/specs/_template.md
+  [     ] .bemyagent/docs/specs/_template.md.bak-20261104
+  [named] .bemyagent/docs/specs/scoreboard.md
+  [     ] .bemyagent/work/_template_think.md
+  [     ] .bemyagent/work/_template_think.md.bak-20261104
+  [named] .bemyagent/work/upgrade-2026-11-04.log
+--- q32 governed files changed ---
+  [     ] .bemyagent/docs/01-overview.md
+  [     ] .bemyagent/docs/03-code-map.md
+  [     ] .bemyagent/docs/05-decisions-and-issues.md
+  [named] .bemyagent/docs/06-implementation-plan.md
+  [named] .bemyagent/docs/specs/scoreboard.md
+--- q33 governed files changed ---
+  [named] .bemyagent/docs/03-code-map.md
+  [named] .bemyagent/docs/05-decisions-and-issues.md
+  [named] .bemyagent/docs/06-implementation-plan.md
+  [named] .bemyagent/docs/specs/scoreboard.md
+
+--- q28 emissions ---
+    PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=new feature needs a milestone/task number for the work/ folder to mirror
+    PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=Routing Table sends a new feature to specs/ and no spec file exists yet
+    PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md, reason=rules §6 requires the code map to be updated in the same response as a code change — new route, new store fu
+    PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=the lifetime-totals choice and the two rejected alternatives are a decision, and the code-map dr
+    PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md + 06-implementation-plan.md, reason=rules §6 — a milestone may only be marked done by diffing the spec's accept
+    PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=VERIFY surfaced an unhandled-rejection path in the pre-existing `api()` helper that the new call
+--- q29 emissions ---
+    PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=routing table sends a new feature to specs/; no existing spec file covers it
+    PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=new milestone/task index entry; existing file is the index, so updated not created
+    PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/01_think.md + 02_tasks.md, reason=TTEV forward-written plan for task 2.1 (exempt standard writes)
+--- q30 emissions ---
+    PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/01_think.md, reason=THINK file for new task 2.1 (standard TTEV write, Heavy ceremony)
+    PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=new milestone/task row; Routing Table sends docs/work creation here and no existing file holds th
+    PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/02_tasks.md, reason=TASK checklist + CDM for 2.1, written before EXECUTE per the Handoff Principle
+    PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md, reason=code change adds a route, a store function and a test file; §6 requires the map updated in the same response
+    PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=records where the tally lives (store query, not a score table) and one issue found while reading
+    PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=Milestone 2 / task 2.1 index entry
+    PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=close a known issue the verifier proved stale, and record one confirmed pre-existing bug found d
+--- q31 emissions ---
+    PROTOCOL_CHECK: target=.bemyagent/work/upgrade-2026-11-04.log, reason=Step 0 AUDIT requires the applied/skipped record of this upgrade; the Routing Table has no existing 
+    PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md + .bemyagent/docs/06-implementation-plan.md, reason=Routing Table sends a new feature to specs/ and requires th
+    PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/{01_think.md,02_tasks.md}, reason=standard TTEV writes for task 2.1 (exempt from the gate, logged for the trail); ceremony si
+--- q32 emissions ---
+    PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=routing table sends a new feature to specs/ before building
+    PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=the new feature needs a milestone/task number for work/ to mirror
+--- q33 emissions ---
+    PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=Routing Table sends a new feature to `docs/specs/[feature-name].md`; no existing spec covers the scoreb
+    PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=the feature needs a task number for `work/` to mirror; the plan is the only file that holds miles
+    PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md, reason=rules §6 requires the code map updated in the same response as the code change; its Inventory block is deriv
+    PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=same rule — the "tally is derived from `game.winner`, not stored" choice is a decision this task
