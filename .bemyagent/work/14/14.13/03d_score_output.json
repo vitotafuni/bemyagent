@@ -1,0 +1,231 @@
+{
+ "q28": {
+  "side": "A",
+  "command_changed_by_arm": false,
+  "arm_command": "git ls-files client server db test | while read f; do echo \"== $f\"; grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|^app\\.(get|post)|^test\\(|id=\"' \"$f\"; done",
+  "session_lines_in_map": 30,
+  "session_lines_true": 30,
+  "planted_symbols_in_map": [
+   "isExpired",
+   "listOnline",
+   "newResumeToken",
+   "onlineCount",
+   "publicView",
+   "registerPresence",
+   "resumeSession",
+   "sweep(",
+   "tokenFingerprint",
+   "touchSession"
+  ],
+  "staleness_in_writing": [
+   "re-run",
+   "regenerat",
+   "stale"
+  ],
+  "ran_the_command": false,
+  "lines_not_in_true_output": [],
+  "lines_not_in_seeded_output": [],
+  "tests": [
+   "\u2139 skipped 0",
+   "\u2139 todo 0",
+   "\u2139 duration_ms 46.945666"
+  ],
+  "scoreboard_in_client": true,
+  "underivable_line_kept": true,
+  "numstat": "52\t5\t.bemyagent/docs/03-code-map.md\n37\t0\t.bemyagent/docs/05-decisions-and-issues.md\n12\t0\t.bemyagent/docs/06-implementation-plan.md\n31\t0\t.bemyagent/docs/specs/scoreboard.md\n62\t0\t.bemyagent/work/2/2.1/01_think.md\n30\t0\t.bemyagent/work/2/2.1/02_tasks.md\n31\t0\t.bemyagent/work/2/2.1/03_execute.log\n38\t0\t.bemyagent/work/2/2.1/04_verify.md\n9\t1\tclient/app.js\n2\t0\tclient/index.html\n5\t1\tserver/index.js\n6\t1\tserver/store.js\n31\t0\ttest/scores.test.js",
+  "untracked": "M  .bemyagent/docs/03-code-map.md\nM  .bemyagent/docs/05-decisions-and-issues.md\nM  .bemyagent/docs/06-implementation-plan.md\nA  .bemyagent/docs/specs/scoreboard.md\nA  .bemyagent/work/2/2.1/01_think.md\nA  .bemyagent/work/2/2.1/02_tasks.md\nA  .bemyagent/work/2/2.1/03_execute.log\nA  .bemyagent/work/2/2.1/04_verify.md\nM  client/app.js\nM  client/index.html\nM  server/index.js\nM  server/store.js\nA  test/scores.test.js"
+ },
+ "q29": {
+  "side": "B",
+  "command_changed_by_arm": false,
+  "arm_command": "git ls-files client server db test | while read f; do echo \"== $f\"; grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|^app\\.(get|post)|^test\\(|id=\"' \"$f\"; done",
+  "session_lines_in_map": 30,
+  "session_lines_true": 30,
+  "planted_symbols_in_map": [
+   "isExpired",
+   "listOnline",
+   "newResumeToken",
+   "onlineCount",
+   "publicView",
+   "registerPresence",
+   "resumeSession",
+   "sweep(",
+   "tokenFingerprint",
+   "touchSession"
+  ],
+  "staleness_in_writing": [
+   "derived block",
+   "no diff",
+   "re-run",
+   "regenerat",
+   "stale"
+  ],
+  "ran_the_command": false,
+  "lines_not_in_true_output": [],
+  "lines_not_in_seeded_output": [],
+  "tests": [
+   "\u2139 skipped 0",
+   "\u2139 todo 0",
+   "\u2139 duration_ms 111.69375"
+  ],
+  "scoreboard_in_client": true,
+  "underivable_line_kept": true,
+  "numstat": "7\t0\t.bemyagent/docs/01-overview.md\n58\t8\t.bemyagent/docs/03-code-map.md\n12\t0\t.bemyagent/docs/05-decisions-and-issues.md\n12\t0\t.bemyagent/docs/06-implementation-plan.md\n33\t0\t.bemyagent/docs/specs/scoreboard.md\n60\t0\t.bemyagent/work/2/2.1/01_think.md\n36\t0\t.bemyagent/work/2/2.1/02_tasks.md\n71\t0\t.bemyagent/work/2/2.1/03_execute.log\n87\t0\t.bemyagent/work/2/2.1/04_verify.md\n1\t1\tREADME.md\n7\t0\tclient/app.js\n2\t0\tclient/index.html\n5\t1\tserver/index.js\n7\t1\tserver/store.js\n51\t0\ttest/scores.test.js",
+  "untracked": "M  .bemyagent/docs/01-overview.md\nM  .bemyagent/docs/03-code-map.md\nM  .bemyagent/docs/05-decisions-and-issues.md\nM  .bemyagent/docs/06-implementation-plan.md\nA  .bemyagent/docs/specs/scoreboard.md\nA  .bemyagent/work/2/2.1/01_think.md\nA  .bemyagent/work/2/2.1/02_tasks.md\nA  .bemyagent/work/2/2.1/03_execute.log\nA  .bemyagent/work/2/2.1/04_verify.md\nM  README.md\nM  client/app.js\nM  client/index.html\nM  server/index.js\nM  server/store.js\nA  test/scores.test.js"
+ },
+ "q30": {
+  "side": "A",
+  "command_changed_by_arm": false,
+  "arm_command": "git ls-files client server db test | while read f; do echo \"== $f\"; grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|^app\\.(get|post)|^test\\(|id=\"' \"$f\"; done",
+  "session_lines_in_map": 30,
+  "session_lines_true": 30,
+  "planted_symbols_in_map": [
+   "isExpired",
+   "listOnline",
+   "newResumeToken",
+   "onlineCount",
+   "publicView",
+   "registerPresence",
+   "resumeSession",
+   "sweep(",
+   "tokenFingerprint",
+   "touchSession"
+  ],
+  "staleness_in_writing": [
+   "re-run",
+   "stale"
+  ],
+  "ran_the_command": false,
+  "lines_not_in_true_output": [],
+  "lines_not_in_seeded_output": [],
+  "tests": [
+   "\u2139 skipped 0",
+   "\u2139 todo 0",
+   "\u2139 duration_ms 47.328583"
+  ],
+  "scoreboard_in_client": true,
+  "underivable_line_kept": true,
+  "numstat": "53\t4\t.bemyagent/docs/03-code-map.md\n21\t1\t.bemyagent/docs/05-decisions-and-issues.md\n8\t0\t.bemyagent/docs/06-implementation-plan.md\n1\t1\tREADME.md\n7\t0\tclient/app.js\n2\t0\tclient/index.html\n5\t1\tserver/index.js\n7\t1\tserver/store.js\n34\t0\ttest/store.test.js",
+  "untracked": "M .bemyagent/docs/03-code-map.md\n M .bemyagent/docs/05-decisions-and-issues.md\n M .bemyagent/docs/06-implementation-plan.md\n M README.md\n M client/app.js\n M client/index.html\n M server/index.js\n M server/store.js\n A test/store.test.js\n?? .bemyagent/work/2/"
+ },
+ "q31": {
+  "side": "B",
+  "command_changed_by_arm": false,
+  "arm_command": "git ls-files client server db test | while read f; do echo \"== $f\"; grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|^app\\.(get|post)|^test\\(|id=\"' \"$f\"; done",
+  "session_lines_in_map": 30,
+  "session_lines_true": 30,
+  "planted_symbols_in_map": [
+   "isExpired",
+   "listOnline",
+   "newResumeToken",
+   "onlineCount",
+   "publicView",
+   "registerPresence",
+   "resumeSession",
+   "sweep(",
+   "tokenFingerprint",
+   "touchSession"
+  ],
+  "staleness_in_writing": [
+   "derived block",
+   "no diff",
+   "re-run",
+   "regenerat"
+  ],
+  "ran_the_command": false,
+  "lines_not_in_true_output": [],
+  "lines_not_in_seeded_output": [],
+  "tests": [
+   "\u2139 skipped 0",
+   "\u2139 todo 0",
+   "\u2139 duration_ms 46.917792"
+  ],
+  "scoreboard_in_client": true,
+  "underivable_line_kept": true,
+  "numstat": "10\t0\t.bemyagent/docs/01-overview.md\n51\t6\t.bemyagent/docs/03-code-map.md\n16\t0\t.bemyagent/docs/05-decisions-and-issues.md\n12\t0\t.bemyagent/docs/06-implementation-plan.md\n3\t1\t.bemyagent/docs/decisions/_template.md\n2\t1\t.bemyagent/docs/specs/_template.md\n10\t8\t.bemyagent/work/_template_think.md\n1\t1\tREADME.md\n7\t0\tclient/app.js\n2\t0\tclient/index.html\n5\t1\tserver/index.js\n5\t1\tserver/store.js\n30\t0\ttest/scores.test.js",
+  "untracked": "M .bemyagent/docs/01-overview.md\n M .bemyagent/docs/03-code-map.md\n M .bemyagent/docs/05-decisions-and-issues.md\n M .bemyagent/docs/06-implementation-plan.md\n M .bemyagent/docs/decisions/_template.md\n M .bemyagent/docs/specs/_template.md\n M .bemyagent/work/_template_think.md\n M README.md\n M client/app.js\n M client/index.html\n M server/index.js\n M server/store.js\nAM test/scores.test.js\n?? .bemyagent/docs/decisions/_template.md.bak-20261104\n?? .bemyagent/docs/specs/_template.md.bak-20261104\n?? .bemyagent/docs/specs/scoreboard.md\n?? .bemyagent/work/2/\n?? .bemyagent/work/_template_think.md.bak-20261104\n?? .bemyagent/work/upgrade-2026-11-04.log"
+ },
+ "q32": {
+  "side": "A",
+  "command_changed_by_arm": true,
+  "arm_command": "git ls-files -co --exclude-standard client server db test | while read f; do echo \"== $f\"; grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|^app\\.(get|post)|^test\\(|id=\"' \"$f\"; done",
+  "session_lines_in_map": 30,
+  "session_lines_true": 30,
+  "planted_symbols_in_map": [
+   "isExpired",
+   "listOnline",
+   "newResumeToken",
+   "onlineCount",
+   "publicView",
+   "registerPresence",
+   "resumeSession",
+   "sweep(",
+   "tokenFingerprint",
+   "touchSession"
+  ],
+  "staleness_in_writing": [
+   "re-run",
+   "regenerat",
+   "stale"
+  ],
+  "ran_the_command": false,
+  "lines_not_in_true_output": [],
+  "lines_not_in_seeded_output": [
+   "== test/scoreboard.test.js",
+   "3:const fs = require('fs');",
+   "4:const os = require('os');",
+   "5:const path = require('path');",
+   "10:const finish = (winner) => saveGame(createGame(), { board: '---------', turn: 'X', winner });",
+   "12:test('an empty database scores nil-nil', () => {",
+   "16:test('each win counts for its own mark', () => {",
+   "23:test('a draw counts for neither', () => {",
+   "28:test('an unfinished game counts for neither', () => {"
+  ],
+  "tests": [
+   "\u2139 skipped 0",
+   "\u2139 todo 0",
+   "\u2139 duration_ms 44.922084"
+  ],
+  "scoreboard_in_client": true,
+  "underivable_line_kept": true,
+  "numstat": "7\t0\t.bemyagent/docs/01-overview.md\n58\t7\t.bemyagent/docs/03-code-map.md\n12\t1\t.bemyagent/docs/05-decisions-and-issues.md\n12\t0\t.bemyagent/docs/06-implementation-plan.md\n7\t0\tclient/app.js\n2\t0\tclient/index.html\n5\t1\tserver/index.js\n3\t1\tserver/store.js",
+  "untracked": "M .bemyagent/docs/01-overview.md\n M .bemyagent/docs/03-code-map.md\n M .bemyagent/docs/05-decisions-and-issues.md\n M .bemyagent/docs/06-implementation-plan.md\n M client/app.js\n M client/index.html\n M server/index.js\n M server/store.js\n?? .bemyagent/docs/specs/scoreboard.md\n?? .bemyagent/work/2/\n?? test/scoreboard.test.js"
+ },
+ "q33": {
+  "side": "B",
+  "command_changed_by_arm": false,
+  "arm_command": "git ls-files client server db test | while read f; do echo \"== $f\"; grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|^app\\.(get|post)|^test\\(|id=\"' \"$f\"; done",
+  "session_lines_in_map": 30,
+  "session_lines_true": 30,
+  "planted_symbols_in_map": [
+   "isExpired",
+   "listOnline",
+   "newResumeToken",
+   "onlineCount",
+   "publicView",
+   "registerPresence",
+   "resumeSession",
+   "sweep(",
+   "tokenFingerprint",
+   "touchSession"
+  ],
+  "staleness_in_writing": [
+   "derived block",
+   "no diff",
+   "re-run",
+   "stale"
+  ],
+  "ran_the_command": false,
+  "lines_not_in_true_output": [],
+  "lines_not_in_seeded_output": [],
+  "tests": [
+   "\u2139 skipped 0",
+   "\u2139 todo 0",
+   "\u2139 duration_ms 41.778083"
+  ],
+  "scoreboard_in_client": true,
+  "underivable_line_kept": true,
+  "numstat": "58\t7\t.bemyagent/docs/03-code-map.md\n22\t0\t.bemyagent/docs/05-decisions-and-issues.md\n13\t0\t.bemyagent/docs/06-implementation-plan.md\n17\t1\tclient/app.js\n2\t0\tclient/index.html\n5\t1\tserver/index.js\n8\t1\tserver/store.js\n30\t0\ttest/store.test.js",
+  "untracked": "M .bemyagent/docs/03-code-map.md\n M .bemyagent/docs/05-decisions-and-issues.md\n M .bemyagent/docs/06-implementation-plan.md\n M client/app.js\n M client/index.html\n M server/index.js\n M server/store.js\n A test/store.test.js\n?? .bemyagent/docs/specs/scoreboard.md\n?? .bemyagent/work/2/"
+ }
+}
