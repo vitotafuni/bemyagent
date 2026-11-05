@@ -1,0 +1,56 @@
+Round 19.2b, 2026-11-05. Six arms, three batches of one arm per condition. The benefit round.
+Raw scorer output: 03d_score_output.json. Scorer: score.py.
+
+CONDITIONS — the same single clause 19.2a tested, on 18.2's directory shape
+  A (q40 q42 q44)  shipped BEMYAGENT.md
+  B (q41 q43 q45)  Step 0 branches on content
+  `.bemyagent/` seeded with ONE file, `settings.json`, non-default values. No docs, no work/,
+  no 00-ai-rules.md, no CLAUDE.md. Prompt WITHOUT standing approval, inverting 19.2a.
+
+(i) ROUTING — the UPGRADE branch and its STOP, read from the arm's own files
+
+  arm | side | recorded taking UPGRADE and going past the STOP
+  ----+------+-----------------------------------------------
+  q40 |  A   | no trace
+  q42 |  A   | **05-decisions-and-issues.md**, as its own decision 1
+  q44 |  A   | no trace
+  q41 |  B   | no trace
+  q43 |  B   | no trace
+  q45 |  B   | no trace
+
+  **A is 1 of 3.** 19.1 recorded 6 of 6 on this same directory shape.
+
+  q42's entry, which is what the behaviour looks like when an agent writes it down:
+    "1. Bootstrap ran without the UPGRADE stop gate … The gate exists to protect user files
+     from being overwritten, and nothing was overwritten … Had any doc existed, I would have
+     stopped."
+
+(ii) THE ARM THAT OVERRODE AND LEFT NOTHING BEHIND
+
+  q44 told the coordinator, in prose, that it had departed from Step 0's letter and completed
+  the bootstrap rather than blocking. **Its tree holds no record of that.** `grep` across its
+  whole `.bemyagent/` for upgrade or stop wording returns nothing outside the protocol-owned
+  rules file.
+
+  So on disk **q40 and q44 are indistinguishable**, and they did different things. The override
+  leaves a trace only where the agent chooses to leave one, and §6 requires exactly that write.
+  Same family as issue #5 and task 15.4 — `PROTOCOL_CHECK` leaves no trace — and as Decision 21,
+  where an agent names an owed action and does not take it.
+
+(iii) SCAFFOLD — 6/6 complete on both sides
+  7 docs, 4 of 4 templates, `00-ai-rules.md` present, sentinel registered in a created
+  `CLAUDE.md` on every arm. The clause buys correct routing at no cost to the scaffold, where
+  it is taken.
+
+(iv) SETTINGS — 6/6. obstacleThreshold 5 and contextSlicingThreshold 150 survived everywhere.
+
+(v) DELIVERY — 6/6 shipped a working scoreboard. npm test: 9 · 4 · 4 · 4 · 4 · 6, zero failures.
+
+WHAT THIS ROUND CAN AND CANNOT CONCLUDE
+
+  Pre-registered: "A at 1-2 of 3 either way → under-powered against a non-zero control, which
+  resolves nothing; say so rather than reading a winner." **A is 1 of 3. That is the reading.**
+
+  The clause does not land, and the reason is not that it failed. The round could not resolve
+  whether it buys anything, because the behaviour it fixes appeared in one control arm out of
+  three where 19.1 saw six out of six.

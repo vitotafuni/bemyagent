@@ -1,0 +1,218 @@
+{
+ "q40": {
+  "side": "A",
+  "upgrade_plan_left": false,
+  "upgrade_log": [],
+  "upgrade_plan_named_in_transcript": false,
+  "upgrade_decided_in_docs": [],
+  "override_language": [],
+  "docs": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "templates_present": [
+   "docs/decisions/_template.md",
+   "docs/specs/_template.md",
+   "docs/drafts/_template.md",
+   "work/_template_think.md"
+  ],
+  "rules_file": true,
+  "sentinel_registered": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150
+  },
+  "tests": [
+   "\u2139 pass 9",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true
+ },
+ "q41": {
+  "side": "B",
+  "upgrade_plan_left": false,
+  "upgrade_log": [],
+  "upgrade_plan_named_in_transcript": false,
+  "upgrade_decided_in_docs": [],
+  "override_language": [
+   "override"
+  ],
+  "docs": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "templates_present": [
+   "docs/decisions/_template.md",
+   "docs/specs/_template.md",
+   "docs/drafts/_template.md",
+   "work/_template_think.md"
+  ],
+  "rules_file": true,
+  "sentinel_registered": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150
+  },
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true
+ },
+ "q42": {
+  "side": "A",
+  "upgrade_plan_left": false,
+  "upgrade_log": [],
+  "upgrade_plan_named_in_transcript": true,
+  "upgrade_decided_in_docs": [
+   ".bemyagent/docs/05-decisions-and-issues.md"
+  ],
+  "override_language": [
+   "override"
+  ],
+  "docs": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "templates_present": [
+   "docs/decisions/_template.md",
+   "docs/specs/_template.md",
+   "docs/drafts/_template.md",
+   "work/_template_think.md"
+  ],
+  "rules_file": true,
+  "sentinel_registered": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150
+  },
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true
+ },
+ "q43": {
+  "side": "B",
+  "upgrade_plan_left": false,
+  "upgrade_log": [],
+  "upgrade_plan_named_in_transcript": false,
+  "upgrade_decided_in_docs": [],
+  "override_language": [
+   "override"
+  ],
+  "docs": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "templates_present": [
+   "docs/decisions/_template.md",
+   "docs/specs/_template.md",
+   "docs/drafts/_template.md",
+   "work/_template_think.md"
+  ],
+  "rules_file": true,
+  "sentinel_registered": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150
+  },
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true
+ },
+ "q44": {
+  "side": "A",
+  "upgrade_plan_left": false,
+  "upgrade_log": [],
+  "upgrade_plan_named_in_transcript": true,
+  "upgrade_decided_in_docs": [],
+  "override_language": [
+   "override"
+  ],
+  "docs": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "templates_present": [
+   "docs/decisions/_template.md",
+   "docs/specs/_template.md",
+   "docs/drafts/_template.md",
+   "work/_template_think.md"
+  ],
+  "rules_file": true,
+  "sentinel_registered": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150
+  },
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true
+ },
+ "q45": {
+  "side": "B",
+  "upgrade_plan_left": false,
+  "upgrade_log": [],
+  "upgrade_plan_named_in_transcript": false,
+  "upgrade_decided_in_docs": [],
+  "override_language": [
+   "override"
+  ],
+  "docs": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "templates_present": [
+   "docs/decisions/_template.md",
+   "docs/specs/_template.md",
+   "docs/drafts/_template.md",
+   "work/_template_think.md"
+  ],
+  "rules_file": true,
+  "sentinel_registered": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150
+  },
+  "tests": [
+   "\u2139 pass 6",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true
+ }
+}

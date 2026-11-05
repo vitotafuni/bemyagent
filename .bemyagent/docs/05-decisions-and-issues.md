@@ -344,6 +344,17 @@
 
 - **19.3's 55% may be a floor, not a ceiling** (observed in 19.2a, recorded rather than folded in). Two arms installed the three-step `PROTOCOL_CHECK` directive block into `CLAUDE.md` themselves, noting §1 branches on the sentinel alone. 19.3 measured Write Gate coverage in trees where that block was **absent** from the file the tool actually loads. Different condition, so the figures are not comparable, and 19.3's verdict is left as it was measured.
 
+
+- **The benefit round could not resolve itself: control 1 of 3 where 19.1 saw 6 of 6** (Milestone 19.2b, 6 arms, 2026-11-05). Same clause as 19.2a, on 18.2's directory shape — `.bemyagent/` holding only `settings.json` — and the prompt **withheld** standing approval, inverting 19.2a, because a pre-approved plan erases the behaviour at the STOP. Scaffold 6/6, settings 6/6, delivery 6/6. **Routing: A 1/3, B 0/3.** The pre-registered reading for a control at 1–2 of 3 is `under-powered`, which licenses nothing → `work/19/19.2b/04_verify.md`.
+
+- **A third way for a candidate not to land, and the vocabulary existed because 14.14 added it.** Not rejected on mechanism, not null, not at a ceiling: **unresolvable at this budget**. Raising N is the documented remedy at roughly ten arms a side, and it is not worth paying here, because 19.2a already showed the clause buys nothing where there *is* something to protect. The whole case rests on a behaviour this round puts between 1 in 3 and 6 in 6 depending on a prompt nobody kept. **Milestone 19 closes with Step 0 unchanged.**
+
+- **An arm overrode the gate and left nothing behind, which downgrades 19.1's consolation.** 19.1's finding was that 6/6 arms overrode the STOP *and documented it*. In 19.2b q44 reported in prose that it had departed from Step 0's letter and bootstrapped rather than blocking; `grep` across its whole `.bemyagent/` finds no record outside the protocol-owned rules file. **On disk q44 and q40 are indistinguishable and they did different things.** The documentation happens when the agent chooses to write it. Same family as issue #5 (`PROTOCOL_CHECK` leaves no trace) and Decision 21 (an agent names an owed action and does not take it). **This is a sharper problem than the branch condition, and rewording Step 0 does not touch it.**
+
+- **19.1's rate cannot be compared with anything, because its prompt was not stored.** The rule now in `harness/README.md` came from 14.9a, where a round was voided for exactly this. 19.1 predates it. A measured rate whose instrument is unrecoverable is a number, not evidence, and this is the second time that has cost a conclusion.
+
+- **Fourth instrument correction in three rounds, and the first that ran toward the hypothesis.** 19.2b's metric (i) read routing from `upgrade-plan.md` and the audit log, and an arm that takes UPGRADE and proceeds *without* the STOP writes neither — so it was indistinguishable from an arm that never took the branch. Scored as written, that arm would have been recorded as not routing to UPGRADE, on the control side, manufacturing support for my own clause. Amended by adding the arm's own `docs/` as a further on-disk artifact, declared before batch 3 launched, nothing pre-registered removed. The previous three corrections all ran *against* the arms; the direction varies, the lesson does not.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.
