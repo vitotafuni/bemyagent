@@ -366,6 +366,13 @@
 
 - **19.4 earned its lines on the first round that ran under it**, which is the only evidence it will get for a while: the rule binds the measuring apparatus, not the distributable, so it has no round of its own. Without it the round would have published 65% against 63% and a denominator nobody had looked at.
 
+
+- **15.9 does not get a round on this fixture, and a probe said so for free** (15.9a, zero arms, 2026-11-05). 19.2a's fixture carried two hand-added team conventions; 14.13, 19.2b and 15.4 ran the same fixture family and task without them, so the comparison was already paid for. **Convention 1 has no occasion at all** — the only new route takes no input, so a rule about 4xx shapes cannot fire. **Convention 2's stated behaviour is already near-universal**: a test that reaches across a layer appears in **2 of the 18 arms never told not to**, and 0 of 6 with the convention. 0/6 against 2/18 is an absent occasion, not separation → `work/15/15.9a/probe.md`.
+
+- **A round needs a convention whose violation is the cheap path.** These two cost nothing to follow on this fixture, which is exactly why the control already follows them. That is the constraint 15.9 now carries, and it is the 14.1 failure restated: the fixture had no file above the slicing threshold, so no delegation rule could ever have fired.
+
+- **An observation from 15.9a, recorded and not believed.** Among arms that added a test file, **6 of 6 holding the convention named it after the module it exercises** (`store.test.js`) against **3 of 13 without** (the rest named it after the feature). Not pre-registered; compares across rounds rather than within one, which 14.12 against 14.13 showed can swing a condition from 1/3 to 3/3 in a day; and a filename is a visible correlate of a convention rather than the behaviour it describes, which is harness rule 1. Written down so it is not rediscovered as news.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.

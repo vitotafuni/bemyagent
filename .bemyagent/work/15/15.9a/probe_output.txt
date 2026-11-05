@@ -1,0 +1,32 @@
+=== r192a (convention present) ===
+  q34   store.test.js                named after the LAYER    cross-layer: no
+  q35   store.test.js                named after the LAYER    cross-layer: no
+  q36   store.test.js                named after the LAYER    cross-layer: no
+  q37   store.test.js                named after the LAYER    cross-layer: no
+  q38   store.test.js                named after the LAYER    cross-layer: no
+  q39   store.test.js                named after the LAYER    cross-layer: no
+  --> cross-layer 0/6 | layer-named 6 | feature-named 0 | no new file 0
+=== r1413 (none) ===
+  q28   scores.test.js               named after the FEATURE  cross-layer: no
+  q29   scores.test.js               named after the FEATURE  cross-layer: scores.test.js
+  q30   store.test.js                named after the LAYER    cross-layer: no
+  q31   scores.test.js               named after the FEATURE  cross-layer: no
+  q32   scoreboard.test.js           named after the FEATURE  cross-layer: no
+  q33   store.test.js                named after the LAYER    cross-layer: no
+  --> cross-layer 1/6 | layer-named 2 | feature-named 4 | no new file 0
+=== r192b (none) ===
+  q40   store.test.js                named after the LAYER    cross-layer: no
+  q41   —                            no new test file         cross-layer: no
+  q42   —                            no new test file         cross-layer: no
+  q43   —                            no new test file         cross-layer: no
+  q44   —                            no new test file         cross-layer: no
+  q45   scores.test.js               named after the FEATURE  cross-layer: no
+  --> cross-layer 0/6 | layer-named 1 | feature-named 1 | no new file 4
+=== r154 (none) ===
+  q46   scores.test.js               named after the FEATURE  cross-layer: no
+  q47   —                            no new test file         cross-layer: no
+  q48   scores.test.js               named after the FEATURE  cross-layer: no
+  q49   scores.test.js               named after the FEATURE  cross-layer: no
+  q50   scores.test.js               named after the FEATURE  cross-layer: scores.test.js
+  q51   scores.test.js               named after the FEATURE  cross-layer: no
+  --> cross-layer 1/6 | layer-named 0 | feature-named 5 | no new file 1
