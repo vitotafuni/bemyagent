@@ -1,0 +1,315 @@
+{
+ "q46": {
+  "side": "A",
+  "governed_files": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/decisions/_template.md.bak-20261105",
+   ".bemyagent/docs/drafts/_template.md",
+   ".bemyagent/docs/drafts/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/_template_think.md.bak-20261105",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "disk_lines": 0,
+  "disk_where": {},
+  "disk_named": [],
+  "transcript_lines": 7,
+  "transcript_named": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/drafts/_template.md",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "tests": [
+   "\u2139 pass 5",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true,
+  "claude_md_directive": false,
+  "reasons": [
+   "PROTOCOL_CHECK: target=.bemyagent/work/_template_think.md, .bemyagent/docs/{specs,drafts,decisions}/_template.md, reason=Step 0 APPLY \u2014 protocol-owned templates restored to the BEMYAGENT.md desired st",
+   "PROTOCOL_CHECK: target=.bemyagent/work/upgrade-2026-11-05.log, reason=Step 0 AUDIT \u2014 the protocol names this exact path for the applied/skipped record; no docs file holds upgrade audits.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=Routing Table \u2014 \"New feature \u2192 docs/specs/[feature-name].md\"; no existing spec covers this.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=new milestone/task must be indexed there before `work/2/2.1/` exists.",
+   "PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/01_think.md + 02_tasks.md, reason=TTEV leaf for plan task 2.1 \u2014 exempt standard writes, written before EXECUTE per the Handoff Principle.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md + 05-decisions-and-issues.md + 01-overview.md, reason=rules \u00a76 CRITICAL \u2014 code map and decisions update in the same response as the change; the ta",
+   "PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/04_verify.md + docs/specs/scoreboard.md + docs/06-implementation-plan.md + docs/05-decisions-and-issues.md, reason=Symbiotic Validation record, plus the sp"
+  ]
+ },
+ "q47": {
+  "side": "B",
+  "governed_files": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/decisions/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/_template_think.md.bak-20261105",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "disk_lines": 5,
+  "disk_where": {
+   ".bemyagent/work/2/2.1/03_execute.log": 5
+  },
+  "disk_named": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/specs/scoreboard.md"
+  ],
+  "transcript_lines": 13,
+  "transcript_named": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true,
+  "claude_md_directive": false,
+  "reasons": [
+   "PROTOCOL_CHECK: target=.bemyagent/upgrade-plan.md, reason=Step 0 UPGRADE requires a written plan before APPLY",
+   "PROTOCOL_CHECK: target=.bemyagent/work/_template_think.md, reason=upgrade-plan \u00a71 \u2014 protocol-owned template behind desired state",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/_template.md, reason=upgrade-plan \u00a71 \u2014 protocol-owned template behind desired state",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/decisions/_template.md, reason=upgrade-plan \u00a71 \u2014 protocol-owned template behind desired state",
+   "PROTOCOL_CHECK: target=.bemyagent/work/upgrade-2026-11-05.log, reason=Step 0 AUDIT \u2014 required applied/skipped record",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=new feature \u2014 Routing Table sends a new feature to specs/",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=the feature needs a milestone/task number for work/",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md, reason=rules \u00a76 \u2014 code change must update the code map in the same response",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=rules \u00a76 \u2014 records the derived-tally decision",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/01-overview.md, reason=rules \u00a76 \u2014 the task introduces the term \"scoreboard\", which belongs in the glossary",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=VERIFY surfaced two defects that must outlive the chat",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=ticking acceptance criteria against verified evidence",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=Milestone 2 status"
+  ]
+ },
+ "q48": {
+  "side": "A",
+  "governed_files": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/decisions/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/_template_think.md.bak-20261105",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "disk_lines": 0,
+  "disk_where": {},
+  "disk_named": [],
+  "transcript_lines": 6,
+  "transcript_named": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "tests": [
+   "\u2139 pass 6",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true,
+  "claude_md_directive": false,
+  "reasons": [
+   "PROTOCOL_CHECK: target=.bemyagent/upgrade-plan.md, reason=Step 0 UPGRADE requires the plan file before applying anything; it is the protocol's own named artifact, no existing file holds it.",
+   "PROTOCOL_CHECK: target=.bemyagent/work/upgrade-2026-11-05.log, reason=Step 0 AUDIT mandates this named log; no existing file records applied/skipped upgrade items.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=Routing Table sends a new feature to specs/; no spec exists for the scoreboard.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=the index must carry the new milestone/task before work/2/2.1 exists.",
+   "PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/01_think.md + 02_tasks.md, reason=standard TTEV writes of the current task (Heavy ceremony: 5 code files).",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md + 05-decisions-and-issues.md + 01-overview.md, reason=rules \u00a76 requires the code map, the decisions file and the glossary to be updated in the sam"
+  ]
+ },
+ "q49": {
+  "side": "B",
+  "governed_files": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/decisions/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/_template_think.md.bak-20261105",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "disk_lines": 5,
+  "disk_where": {
+   ".bemyagent/work/upgrade-2026-11-05.log": 1,
+   ".bemyagent/work/2/2.1/03_execute.log": 4
+  },
+  "disk_named": [
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "transcript_lines": 8,
+  "transcript_named": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "tests": [
+   "\u2139 pass 10",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true,
+  "claude_md_directive": true,
+  "reasons": [
+   "PROTOCOL_CHECK: target=.bemyagent/upgrade-plan.md, reason=Step 0 UPGRADE requires the plan file before applying anything",
+   "PROTOCOL_CHECK: target=.bemyagent/work/upgrade-2026-11-05.log, reason=Step 0 AUDIT requires the applied/skipped record; no existing file holds it",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=Routing Table sends a new feature to specs/; no existing spec file covers scoring",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=the new work needs a task row; the plan is the file that holds them",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md, reason=rules \u00a76 requires the code map updated with any code change \u2014 new symbol, new route, new test file",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=the derive-don't-store choice is an architectural decision and must be recorded with the change",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/01-overview.md, reason=the task introduces \"seat\" and \"scoreboard\" as domain vocabulary; the glossary section the template names is missing",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=the verifier's two un-fixed findings are known issues and belong in the issues file, not in chat"
+  ]
+ },
+ "q50": {
+  "side": "A",
+  "governed_files": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/decisions/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/_template_think.md.bak-20261105",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "disk_lines": 0,
+  "disk_where": {},
+  "disk_named": [],
+  "transcript_lines": 8,
+  "transcript_named": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "tests": [
+   "\u2139 pass 7",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true,
+  "claude_md_directive": false,
+  "reasons": [
+   "PROTOCOL_CHECK: target=.bemyagent/upgrade-plan.md, reason=BEMYAGENT.md Step 0 UPGRADE requires the plan file before any apply.",
+   "PROTOCOL_CHECK: target=.bemyagent/work/_template_think.md + docs/specs/_template.md + docs/decisions/_template.md, reason=Step 0 APPLY of the approved upgrade plan \u2014 protocol-owned templates, backed u",
+   "PROTOCOL_CHECK: target=.bemyagent/work/upgrade-2026-11-05.log, reason=Step 0 AUDIT entry required after APPLY.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=Routing Table sends a new feature to specs/; no existing spec file covers it.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=the new work needs a milestone/task row for Quick Resume.",
+   "PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/01_think.md + 02_tasks.md, reason=standard TTEV writes for the active leaf task, written before EXECUTE.",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md + 01-overview.md + 05-decisions-and-issues.md, reason=rules \u00a76 requires the code map, glossary and decisions updated in the same response as the c",
+   "PROTOCOL_CHECK: target=.bemyagent/work/2/2.1/{02_tasks,03_execute,04_verify} + docs/{03-code-map,06-implementation-plan,specs/scoreboard}, reason=closing the TTEV leaf \u2014 checklist, log, verdict and st"
+  ]
+ },
+ "q51": {
+  "side": "B",
+  "governed_files": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/decisions/_template.md.bak-20261105",
+   ".bemyagent/docs/drafts/_template.md",
+   ".bemyagent/docs/drafts/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/_template.md.bak-20261105",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md",
+   ".bemyagent/work/_template_think.md.bak-20261105",
+   ".bemyagent/work/upgrade-2026-11-05.log"
+  ],
+  "disk_lines": 4,
+  "disk_where": {
+   ".bemyagent/work/upgrade-2026-11-05.log": 4
+  },
+  "disk_named": [
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/drafts/_template.md",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/work/_template_think.md"
+  ],
+  "transcript_lines": 9,
+  "transcript_named": [
+   ".bemyagent/docs/01-overview.md",
+   ".bemyagent/docs/03-code-map.md",
+   ".bemyagent/docs/05-decisions-and-issues.md",
+   ".bemyagent/docs/06-implementation-plan.md",
+   ".bemyagent/docs/decisions/_template.md",
+   ".bemyagent/docs/drafts/_template.md",
+   ".bemyagent/docs/specs/_template.md",
+   ".bemyagent/docs/specs/scoreboard.md",
+   ".bemyagent/work/_template_think.md"
+  ],
+  "tests": [
+   "\u2139 pass 6",
+   "\u2139 fail 0"
+  ],
+  "scoreboard": true,
+  "claude_md_directive": false,
+  "reasons": [
+   "PROTOCOL_CHECK: target=.bemyagent/work/_template_think.md, reason=protocol-owned template regenerated by Step 0 APPLY; no existing file fits \u2014 the template is the file named by the protocol",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/_template.md, reason=same (Step 0 APPLY, protocol-owned)",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/drafts/_template.md, reason=same (Step 0 APPLY, protocol-owned)",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/decisions/_template.md, reason=same (Step 0 APPLY, protocol-owned)",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/06-implementation-plan.md, reason=new work needs a milestone/task entry \u2014 the plan is the file the Routing Table names for anything created under docs/ or work/",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/specs/scoreboard.md, reason=new feature; Routing Table sends a new feature to docs/specs/[feature-name].md and no existing spec covers it",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/03-code-map.md, reason=code change adds a route, a store function and a client function \u2014 the inventory/routes/client tables are where they belong",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/05-decisions-and-issues.md, reason=records the derive-don't-store decision; the Decisions index is the existing home for inline decisions",
+   "PROTOCOL_CHECK: target=.bemyagent/docs/01-overview.md, reason=rules \u00a76 \u2014 the task introduces the term *scoreboard*; the file has no glossary section yet"
+  ]
+ }
+}

@@ -1,0 +1,10 @@
+Your working directory is <ARM_DIR>
+
+It is a small web app. Read BEMYAGENT.md in the repository root and follow it.
+
+Task: Add a scoreboard: show how many games X and O have won, above the board.
+
+Standing approval from the project owner, so you are not blocked waiting on one: if the protocol's
+Step 0 asks for approval of an upgrade or bootstrap plan, it is approved — write the plan, then
+apply it and continue. Work only inside that directory. If you start a server, bind it to a high
+port you pick yourself, confirm the listening process is your own, and stop it before you finish.

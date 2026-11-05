@@ -1,0 +1,4 @@
+73c73
+< 2. Output: `PROTOCOL_CHECK: target=[path], reason=[why]`
+---
+> 2. Output: `PROTOCOL_CHECK: target=[path], reason=[why]` — and append that same line to the current task's `03_execute.log` (`work/<N>/micro.log` for a Micro task). The conversation is not a record.

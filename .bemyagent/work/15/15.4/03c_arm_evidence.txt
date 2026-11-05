@@ -1,0 +1,68 @@
+Round 15.4, 2026-11-05. Six arms, three batches of one arm per condition; batch 2 died on a
+session limit, was voided and rebuilt. Raw scorer output 03d_score_output.json, scorer score.py.
+
+CONDITIONS — one sentence in §3 Write Gate step 2, present in BOTH BEMYAGENT.md and 00-ai-rules.md
+  A (q46 q48 q50)  Output: `PROTOCOL_CHECK: target=[path], reason=[why]`
+  B (q47 q49 q51)  the same, and append that line to the current task's `03_execute.log`
+                   (`micro.log` for Micro). "The conversation is not a record."
+
+(i) THE TRACE ON DISK — clean separation, and true by construction
+
+  arm | side | lines on disk | where
+  ----+------+---------------+-------------------------------------------------
+  q46 |  A   |       0       | —
+  q48 |  A   |       0       | —
+  q50 |  A   |       0       | —
+  q47 |  B   |       5       | work/2/2.1/03_execute.log
+  q49 |  B   |       5       | 03_execute.log ×4, upgrade-2026-11-05.log ×1
+  q51 |  B   |       4       | **upgrade-2026-11-05.log ×4, and nothing in 03_execute.log**
+
+  **B 3/3, A 0/3.** Issue #5 is real and reproduced: the control gated 25 of its 28 governed
+  writes and a reader of the repository can see none of them.
+
+(ii) COVERAGE IN THE CONVERSATION — the comparison, and it is FLAT
+
+  A 25/28 = 89%.  B 24/28 = 85%.  The obligation does not change how many governed writes get
+  gated. It buys a record, not compliance.
+
+(iii) HARM — BATCHING AND PLACEMENT, PARTLY LIVE
+
+  q47: lines at log 4-5 and 38-40 of 50. Three of five sit AFTER the step entries describing the
+       code changes they gate — the opposite of "proceed only after step 2".
+  q49: lines at 4-6 and 56 of 63. Same shape.
+  q51: put all four in the Step 0 audit log and none in `03_execute.log`.
+
+  **The clause names a file that does not exist when half the gated writes happen.** Step 0's
+  writes come before any task folder, so there is nowhere to append. Two arms resolved it by
+  using the upgrade log, one of them exclusively. That is a drafting defect in the candidate,
+  the same family as 14.8's — the half that was specified was met, the half never written down
+  was invented three different ways.
+
+(iv) HARM — DELIVERY. 6/6 shipped a working scoreboard. npm test 5 · 4 · 6 · 10 · 7 · 6, zero
+  failures anywhere. No cost.
+
+(v) REASONS. Both sides cite the rule doing the work, not the rule's text: "Routing Table sends a
+  new feature to specs/", "rules §6 requires the code map updated in the same response",
+  "no existing file holds this". No degradation under the obligation.
+
+THE DENOMINATOR WAS WRONG, AND 19.4's CHECK IS WHAT FOUND IT
+
+  Opening the arms at each end of metric (ii) — q46 best at 10/14, q48 worst at 6/12 — showed the
+  unnamed files were almost all `*.bak-20261105`: backups Step 0's APPLY creates as a side effect
+  of its own overwrite rule, not documents an agent chooses to write. Counting them as governed
+  writes depresses coverage on both sides.
+
+  Recomputed without them: **A 89%, B 85%**, against the 65% and 63% the first run printed.
+
+  **This corrects a figure already published.** 19.3 reported Write Gate coverage at 18/33 = 55%.
+  Rerun on the same data excluding protocol-generated backups: **18/30 = 60%**. The entry in `05`
+  is amended rather than quietly left.
+
+  Note also the spread: 19.3's six arms gave 60% on the shipped protocol, 15.4's three control
+  arms give 89%. Same protocol, same fixture family, measured a day apart. That is the control-
+  rate instability 14.14 wrote into `harness/README.md`, appearing for the third time.
+
+THE CONFOUND, CHECKED ON ALL SIX
+  q49 (B) installed the §1 PROTOCOL_CHECK directive block into `CLAUDE.md`, which the seed
+  carries only as a bare sentinel. **1 of 6, and on the treatment side.** q49's coverage is
+  6/9 — the joint lowest — so the confound did not inflate the figure it could have inflated.
