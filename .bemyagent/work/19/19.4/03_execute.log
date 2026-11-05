@@ -1,0 +1,14 @@
+# EXECUTE — 19.4
+
+Copied `harness/README.md` aside first so the delta could be diffed rather than described.
+
+One insertion, into the instrument-rule list before *"Store the launch prompt verbatim"*. `diff`
+reports **one hunk** and no other edit. `git diff --stat -- BEMYAGENT.md` empty and empty against
+`3.3.0`: the distributable is untouched, no tag due.
+
+Read back against pre-mortem 1 — does the rule demand a fact or only an assertion. It demands the
+`04_verify.md` line to **name the arms read, at each end of the metric**. A name cannot be
+written without opening the arm. An agent could still name two arms without reading them, which
+is a lie rather than a gap, and no rule in this file prevents a lie.
+
+Next intended action: write `04_verify.md`, record 19.4 in `06`, commit.

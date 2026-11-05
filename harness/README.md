@@ -120,6 +120,30 @@ it would have queried already existed. A zero like that measures the fixture, no
 reporting it as a clean harm result is the easiest false negative this harness can produce. Check
 that the trap lies on the path *before* the launch, the same way the planted defect is reproduced.
 
+**Check the scorer before you believe it, and write down which arms you read.** Before a
+metric's number goes into a verdict, open the arm at **each end** of that metric — the one it
+scores best and the one it scores worst — and confirm the score matches what the arm actually
+did. Record it in `04_verify.md` as one line per metric, **naming the arms**: *"(ii) read q32
+(worst) and q28 (best) — scores match what the trees show"*. A line that names arms cannot be
+written without opening them; a line that only asserts a check was made is the `Layers:` header
+from rule 3, which hit 100% compliance and changed nothing.
+
+Four scorer defects in three rounds, each caught by reading an arm rather than a number, each
+one a false headline if it had not been:
+
+| Round | The defect | Would have reported |
+|---|---|---|
+| 14.13 | a forged line defined as one the *seeded* command cannot emit | nine forged lines in a control arm that had merely improved the command its map names |
+| 19.3 | governed writes counted from any Bash command with a `.bemyagent/` path near a redirect, sweeping up `diff`s that *read* the rules file | "first governed write preceded by a check: NO, 6 of 6" |
+| 19.2a | the user's migrated conventions matched as whole sentences | the treatment preserving the user's rules only inside a backup file |
+| 19.2b | routing read from `upgrade-plan.md` and the audit log, which an arm that skips the STOP writes neither of | the control never taking the branch the candidate was written to fix |
+
+Three ran against the arms and one toward the candidate, so this is not a rule about watching
+for bias in your own favour. **A scorer is an instrument built by the person who wants an
+answer, and until this rule nothing in this harness checked it.** Where a verdict rests on a
+single metric, hand that metric's definition and the trees to an agent that did not write the
+scorer — §4's own reasoning about who verifies, applied to the measuring apparatus.
+
 **Store the launch prompt verbatim, in the task folder.** A round's prompt is part of its
 instrument and it changes behaviour as much as the clause under test. 14.9's first batch was
 voided because the prompt had been reconstructed from a summary rather than copied: on the same
