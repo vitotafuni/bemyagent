@@ -210,6 +210,53 @@ cleanly at three and do not need it. The cheap move is to ask, before designing 
 whether the control plausibly sits at zero; where it does not, budget for the answer or
 pick a different question.
 
+## What a round costs
+
+Measured 2026-11-05 over this project's 119 agent transcripts, with `cost.py` in
+`.bemyagent/work/20/20.1/`:
+
+| | total | per agent |
+|---|---|---|
+| cache read | 289.4 M | 2.43 M |
+| cache write | 16.7 M | 140 k |
+| output | 5.6 M | 47 k |
+| uncached input | 10 k | 86 |
+
+Weighted at cache-read 0.1×, cache-write 1.25×, output 5×: **≈ 78 M equivalent, ≈ 653 k per
+agent.** Cache read is 93% of the raw total, which is the structural driver — an arm re-reads a
+large context at every step, and a raw token sum is therefore meaningless.
+
+**An arm is not an agent.** Most arms spawn a second agent for the independent VERIFY §4 asks
+for, so **a six-arm round is about twelve agents, ≈ 7.8 M equivalent.** Price a round before
+authorising it: four rounds and one voided batch in a single day hit a session limit, which was
+arithmetic rather than bad luck.
+
+State the other half of the number too. That day's four rounds changed **zero lines** of
+`BEMYAGENT.md`. That is the expected outcome here — most candidates do not land — but it is the
+figure that decides whether the next round is worth 7.8 M.
+
+## Which model the arms run
+
+The rule above says **pin** the model. It does not say which, and the choice was inherited rather
+than argued: Opus, because the coordinator runs Opus and the record started there.
+
+The case for keeping it was comparability with past rounds. **That case is weak on this harness's
+own evidence**: 14.12 and 14.13 read the identical condition at 1/3 and 3/3, and the Write Gate's
+coverage read 60% and 89% a day apart. Cross-round comparison is already untrustworthy, so little
+is lost by changing tier, and the design protects itself anyway because control and treatment sit
+in the same batch and the control is re-measured every time.
+
+Against keeping it: **BMA ships to everyone and has only ever been measured on the most expensive
+tier.** A clause that lands on one tier and not another is a finding about the protocol.
+
+If the tier changes, three things hold: control and treatment in the same batch, the tier written
+into `prompt.txt` and the round's log, and no comparison against another tier's numbers without
+saying so. Two things do not change — the explicit pin, and the second agent arms spawn for
+VERIFY, which is where they have found real defects in their own work.
+
+Whether a cheaper tier needs more turns for the same task is a measurement, not an assumption:
+read it off `cost.py` after the first round that uses one.
+
 `tokens.py` aggregates per-arm cost from session transcripts, cache-weighted:
 
 ```

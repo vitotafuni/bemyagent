@@ -1,0 +1,17 @@
+# EXECUTE — 20.1
+
+Zero agents, as the task requires: rounds are paused.
+
+Copied `harness/README.md` aside first. `cost.py` written and run over this session's 119 agent
+transcripts; its output saved to `cost_output.txt` beside it, so the figures in the README are
+re-checkable rather than recollected.
+
+One insertion into `harness/README.md`, two sections, placed before the `tokens.py` paragraph
+they extend. `diff` against the pre-edit copy reports **one hunk**. `git diff --stat --
+BEMYAGENT.md` empty: the distributable is untouched, no tag due.
+
+Four entries appended to `05`, before Known issues: the pause and its reason, the question never
+asked, the measured cost of a round, and the tier decision. New Milestone 20 in `06` with 20.1
+done and 20.2 recorded as needing the user's go-ahead.
+
+Next intended action: write `04_verify.md`, commit.

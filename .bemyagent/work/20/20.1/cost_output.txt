@@ -1,0 +1,9 @@
+agents: 119
+  uncached input           10,276   per agent         86
+  cache write          16,674,084   per agent    140,118
+  cache read          289,371,837   per agent  2,431,696
+  output                5,595,530   per agent     47,021
+
+weighted equivalent: 77,767,714   per agent 653,510
+NOTE: an arm is not an agent. Most arms spawn a second agent for the independent
+VERIFY in §4, so a six-arm round is about twelve agents.
