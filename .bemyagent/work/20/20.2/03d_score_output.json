@@ -1,0 +1,89 @@
+{
+ "q52": {
+  "side": "P",
+  "defects": [
+   "api() does not check res.ok",
+   "reload starts a new game vs the overview's claim",
+   "session.js is imported by nothing",
+   "the 'draws are not displayed' issue is stale"
+  ],
+  "n": 4,
+  "weighted": 1083930,
+  "raw": {
+   "inp": 136,
+   "out": 78450,
+   "cc": 217516,
+   "cr": 4196490
+  }
+ },
+ "q53": {
+  "side": "N",
+  "defects": [
+   "reload starts a new game vs the overview's claim"
+  ],
+  "n": 1,
+  "weighted": 428709,
+  "raw": {
+   "inp": 66,
+   "out": 23302,
+   "cc": 140695,
+   "cr": 1362651
+  }
+ },
+ "q54": {
+  "side": "P",
+  "defects": [
+   "reload starts a new game vs the overview's claim",
+   "session.js is imported by nothing",
+   "the 'draws are not displayed' issue is stale"
+  ],
+  "n": 3,
+  "weighted": 636603,
+  "raw": {
+   "inp": 92,
+   "out": 45993,
+   "cc": 130268,
+   "cr": 2437113
+  }
+ },
+ "q55": {
+  "side": "N",
+  "defects": [],
+  "n": 0,
+  "weighted": 323368,
+  "raw": {
+   "inp": 68,
+   "out": 20057,
+   "cc": 67618,
+   "cr": 1384927
+  }
+ },
+ "q56": {
+  "side": "P",
+  "defects": [
+   "reload starts a new game vs the overview's claim",
+   "session.js is imported by nothing",
+   "the 'draws are not displayed' issue is stale"
+  ],
+  "n": 3,
+  "weighted": 850418,
+  "raw": {
+   "inp": 114,
+   "out": 58810,
+   "cc": 171076,
+   "cr": 3424098
+  }
+ },
+ "q57": {
+  "side": "N",
+  "defects": [],
+  "n": 0,
+  "weighted": 258969,
+  "raw": {
+   "inp": 48,
+   "out": 17436,
+   "cc": 66241,
+   "cr": 889400
+  }
+ }
+}

@@ -1,0 +1,97 @@
+# EXECUTE — 20.2
+
+## Setup, 2026-11-06
+
+Port sweep before building: only `*:8080`, code-server.
+
+Verified before launch:
+
+- **P seed identical to 15.4's**, compared at the two rounds' setup commits by `git ls-tree -r`
+  blob hashes, not by working tree — q46 has already run and its tree has moved. Identical.
+  The three P arms identical to each other.
+- **N arms hold no protocol at any point**: no `BEMYAGENT.md`, no `.bemyagent/`, no `CLAUDE.md`
+  in the working tree, and `git ls-tree -r HEAD` matches **0** paths naming either. Nothing was
+  deleted after a commit that could be recovered.
+- **Both shapes build and pass**: `npm test` → 4 pass, 0 fail on q52 and q53.
+- **Both prompts stored.** Their only difference is the two protocol sentences — *"Read
+  BEMYAGENT.md … and follow it"* and the Step 0 standing approval — which is the condition
+  itself and not a second variable. An N arm has no Step 0 to approve.
+
+**The steady-state framing is deliberate and flatters BMA**: the P arms start from a populated,
+committed `.bemyagent/`, so the protocol's setup cost is sunk and only per-task behaviour is
+compared. Written in `01_think.md` before launch so it is not read later as an accident.
+
+Next intended action: launch batch 1 — q52 (P), q53 (N).
+
+## Batch 1 — q52 (P), q53 (N). Both completed.
+
+**(i) The mutation.** Defined semantically and identically for both: *a drawn game counts as a
+win for X*, applied by reading each arm's own tally query because they are written differently.
+The exact per-arm edit is recorded in `mutate.py` rather than reconstructed, the arm's
+`store.js` is restored afterwards, and `git status` is compared before and after — unchanged on
+both, so the measurement did not contaminate either tree.
+
+| | q52 (P) | q53 (N) |
+|---|---|---|
+| (i) mutation | **RED — 2 tests fail** | **GREEN — 0 fail** |
+| (iii) `npm test` as delivered | 8 pass 0 fail | 4 pass 0 fail |
+| (iv) subagent tokens | 99,079 | 57,502 |
+
+q53 added **no test at all** for the tally it wrote. It verified it thoroughly — a live server, a
+throwaway database, five games played through the API, and a cross-check against the rows — and
+that verification left with the session. q52 wrote `test/scores.test.js`, which is why the
+mutation turns it red.
+
+That is the distinction metric (i) exists to measure, and it is not about effort: q53's checking
+was arguably more thorough than q52's own. It was not **repeatable**, which is the property the
+repository keeps and the session does not.
+
+One arm per side is not a rate. Batch 2 launched.
+
+Next intended action: await batch 2 — q54 (P), q55 (N).
+
+## Batch 2 — q54 (P), q55 (N). Both completed. The P side is not uniform.
+
+| | q54 (P) | q55 (N) |
+|---|---|---|
+| (i) mutation | **GREEN — 0 fail** | **GREEN — 0 fail** |
+| (iii) `npm test` as delivered | 4 pass 0 fail | 4 pass 0 fail |
+| (iv) subagent tokens | 76,944 | 51,633 |
+
+**q54 added no test either**, and it carries the protocol. `test/` holds only the fixture's
+original `rules.test.js`. It verified live and thoroughly — a seeded database through the real
+API, the served markup checked for element order, the unmodified `client/app.js` driven in a
+`vm` against the live server — and it wrote `04_verify.md` stating plainly that the check was a
+self-check because no second model was available.
+
+So after four arms the mutation reads **P 1 of 2, N 0 of 2**, not the clean separation batch 1
+suggested. One protocol arm wrote a test file and one did not, and §4's text is the reason:
+`strictVerification: false` asks for a light check, and the protocol nowhere says *write a
+regression test*. It says produce evidence from commands run during VERIFY, and q54 did exactly
+that.
+
+That is worth stating before the last batch rather than after: **if the protocol wins here it
+wins on a property it never asked for**, which would make the mechanism unevidenced in the sense
+of harness rule 1 even at 3/3.
+
+Next intended action: await batch 3 — q56 (P), q57 (N).
+
+## Batch 3 — q56 (P), q57 (N). All six scored.
+
+**(i) mutation: P 2/3 (q52, q56), N 0/3.** **(ii) defects, raw: P 10/18, N 1/18** — corrected
+below. **(iii) 6/6 both sides deliver.** **(iv) P costs 2.54× N.**
+
+### Metric (ii) corrected, and the correction moves against the protocol
+
+Two of the six pre-registered defects are stated verbatim in documents only a P arm has: the
+`server/session.js is imported by nothing` ⚠️ line in the seeded `03-code-map.md`, and the stale
+"draws are not displayed" issue in the seeded `05`. An N arm has neither file. Counting them
+measures **what P was told, not what P noticed**, and it inflated P from 4 to 10.
+
+On the four defects observable from the code alone: **P 2, 1, 1 against N 1, 0, 0.** The ranges
+overlap and the separation is gone.
+
+Found by 19.4's check, by opening the arms at each end of the metric rather than reading its
+total. Both figures are kept.
+
+Port sweep at close: only `*:8080`, code-server.

@@ -1,0 +1,67 @@
+Round 20.2, 2026-11-06. Six arms, three batches of one arm per condition. The first round in this
+repository with no candidate clause: the variable is the protocol's presence.
+
+CONDITIONS
+  P (q52 q54 q56)  fixture + BEMYAGENT.md + a populated, committed .bemyagent/ (15.4's seed,
+                   verified identical at both rounds' setup commits by blob hash)
+  N (q53 q55 q57)  the same fixture, no BEMYAGENT.md, no .bemyagent/, no CLAUDE.md, confirmed
+                   absent from the working tree AND from `git ls-tree -r HEAD`
+  Steady state was chosen deliberately to flatter P: the protocol's setup cost is sunk.
+
+(i) DO THE TESTS HAVE TEETH — mutation: a drawn game counts as a win for X
+
+  Applied per arm by reading its own tally query, exact edits recorded in mutate.py, store.js
+  restored afterwards, `git status` identical before and after on all six.
+
+  q52 P  RED  (2 tests fail)      q53 N  GREEN
+  q54 P  GREEN                    q55 N  GREEN
+  q56 P  RED  (1 test fails)      q57 N  GREEN
+
+  **P 2/3, N 0/3.** Below this harness's bar of 3/3 against 0/3.
+
+  The two GREEN results that matter:
+  - **q54 carries the protocol and wrote no test at all.** It verified live and thoroughly — a
+    seeded database through the real API, served markup checked for element order, the unmodified
+    client driven in a `vm` — and said plainly in `04_verify.md` that this was a self-check.
+    §4 with `strictVerification: false` asks for a light check and **never asks for a regression
+    test**, so q54 complied exactly.
+  - **q57 has no protocol and wrote three tests**, and is still GREEN: none of them creates a
+    draw. Having tests and having tests with teeth are different properties, and a count of test
+    files would have scored q57 level with q52.
+
+(ii) PRE-EXISTING DEFECTS SURFACED — and the metric had to be corrected twice
+
+  Raw, against the six defects fixed in 02_tasks.md:   P 10/18, N 1/18.
+
+  **That number is wrong in P's favour, and 19.4's check is what found it.** Two of the six are
+  not discoverable by an N arm, because the protocol's own seeded documents hand them to P:
+    - `server/session.js is imported by nothing` — stated verbatim as a ⚠️ line in the seeded
+      `03-code-map.md`;
+    - `the "draws are not displayed" issue is stale` — the issue only exists in the seeded `05`.
+  An N arm has neither file. Counting them measures what P was told, not what P noticed.
+
+  On the four defects observable from the code alone:
+
+    P   q52: 2   q54: 1   q56: 1     total 4/12
+    N   q53: 1   q55: 0   q57: 0     total 1/12
+
+  **The ranges overlap.** P ∈ [1,2], N ∈ [0,1]. There is no clean separation left.
+
+(iii) DELIVERY — 6/6 both sides. Every arm shipped a working scoreboard above the board, derived
+  from the `game` table, with the suite green as delivered.
+
+(iv) COST — weighted tokens (cache read 0.1x, cache write 1.25x, output 5x)
+
+    P  q52 1,083,930   q56 850,418   q54 636,603      total 2,570,951
+    N  q53   428,709   q55 323,368   q57 258,969      total 1,011,046
+
+  **P costs 2.54x N** for the same delivered feature.
+
+THE HONEST SUMMARY
+
+  On the question as posed — does the shipped protocol beat no protocol on this task — the answer
+  is **no, not by this round's measures, and it costs 2.5x to find that out.**
+
+  What survives: (i) at 2/3 against 0/3 is suggestive and below the bar, and the only property
+  that separated at all is repeatability of the check, not its thoroughness. The N arms verified
+  carefully; their verification left with the session.
