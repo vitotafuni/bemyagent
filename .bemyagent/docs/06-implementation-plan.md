@@ -210,7 +210,7 @@
 
 ## Milestone 20.0 — Harness cost and research cadence
 **Goal**: price a round before authorising it, and know where its question came from.
-**Status**: in-progress — 20.1 and 20.2 done. **20.2 is the first measurement of the protocol as a whole**, and it says the protocol does not beat its own absence on a small clean task, at 2.54× the tokens. Candidate rounds remain paused at the user's request; the obvious follow-up (a task exceeding one context window) is deliberately **not scheduled by me**.
+**Status**: in-progress — 20.1 and 20.2 done. **20.2 is the first measurement of the protocol as a whole**, and its verdict was **narrowed the same day after the user's objections**: it measured only machine-observable value while the protocol's primary audience is the human; it ran one task in one unbroken context, so the context-reset mechanism TTEV exists for **never had an occasion to fire**; and it priced both sides on one tier, when the scaffolding exists to support weaker reasoning and a tenth-cost tier inverts the economics. Candidate rounds remain paused at the user's request; the obvious follow-up (a task exceeding one context window) is deliberately **not scheduled by me**.
 
 | Task | Description | Status |
 |------|-------------|--------|

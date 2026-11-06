@@ -84,3 +84,72 @@ pattern the user stopped two days ago.
    `01-overview.md`, which only P has. Keeping it is the conservative choice — removing it would
    take N to 0/12 and widen the gap.
 4. **Cost is weighted, not priced.** Ratios, not money; re-check before quoting.
+
+---
+
+## Amendment, 2026-11-06, after the user read the verdict
+
+Three objections from the user. Two are design faults in this round, and the verdict is narrowed
+accordingly rather than defended.
+
+### 1. The protocol's primary audience is the human, and this round measured only the machine
+
+*"il protocollo serve anche a garantire all'uomo di poter interagire con la macchina senza perdere
+il controllo e capire cosa viene fatto. quindi tutta la documentazione viene prodotta più per
+l'uomo che per la macchina."*
+
+Correct, and it is not a footnote. Every metric here — mutation survival, defects surfaced,
+delivery, tokens — is machine-observable by construction, because `harness/README.md` rules out
+measuring anything that needs a human in the loop, the same limit that stopped 15.11 and 19.3.
+So **the protocol's main claimed value was not tested and is not denied by this round.** The
+verdict applies to machine-observable value only, and the headline is amended to say so.
+
+One mechanical shadow of the human claim **is** measurable and was not measured: whether a fresh
+agent holding only the repository can resume the work. That is the Handoff Principle's own claim,
+and it is the honest proxy for *a human can see what was done*.
+
+### 2. The round never gave the protocol's main mechanism an occasion to fire
+
+*"bma prevede di pulire spesso il contesto e ripartire solo dal minimo comune denominatore di
+contesto mentre su una serie di task eseguiti tutti dallo stesso agente forse perdiamo colpi."*
+
+This is the strongest objection and it is a methodological fault by this harness's own rules.
+TTEV, Session Restore and the `01`–`04` files exist **for context resets**. Every arm here ran
+**one task in one unbroken context**, where restoring from documents buys nothing because nothing
+was lost. The N arms were never asked to resume anything, so they never paid the price the
+protocol exists to avoid.
+
+That is the same failure as 15.9a and 14.1: a rule measured where its occasion is absent. By the
+rule I applied to 15.9 two days ago, **this round should not have been read as a verdict on the
+protocol, only on the protocol in a single-shot task.**
+
+The design it implies, stated and not scheduled: a *series* of tasks on one fixture with the
+context cleared between them, P restoring from `.bemyagent/` and N restoring from whatever it can
+reconstruct.
+
+### 3. The tier is part of the question, not a cost detail
+
+*"tutte le pratiche inserite per forzare un modello 'povero' … se le valutiamo da un punto di
+vista di puro consumo sono a sfavore di bma … ma sappiamo benissimo che sonnet costa 10 volte di
+meno di opus alto."*
+
+Also right, and it cuts two ways. Devil's Advocate, the anti-drift CDM and the ceremony sizing
+are scaffolding for weaker reasoning, so **measuring them on the strongest available model is the
+condition least likely to show their benefit** — the mirror image of the flattering-condition
+choice made in `01_think.md`, and in the opposite direction.
+
+And the economics change the comparison entirely: a protocol overhead of 2.54× on a tier that
+costs roughly a tenth is not 2.54× worse, it is several times cheaper than the same work without
+the protocol on the expensive tier. **20.2 compared P and N on one tier and therefore priced the
+protocol in the one way that cannot answer the question the user is asking.** 20.1 already
+recorded that BMA ships to everyone and has only ever been measured on the most expensive tier.
+
+### The verdict, narrowed
+
+**On a single-shot, four-file feature, in a small clean codebase, with the scaffold pre-installed,
+on the most expensive model, and measured only on machine-observable outcomes, the protocol does
+not beat its absence and costs 2.54×.**
+
+Every clause in that sentence is a condition this round chose, and three of them are conditions
+under which the protocol could not win. What was measured stands; what it was read to mean does
+not.
