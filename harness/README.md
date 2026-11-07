@@ -26,6 +26,48 @@ store → API → client → tests). Feature requests against it — "add online
 with reconnect and ELO ratings" — cut through every layer at once and exceed one
 context window, which is what makes decomposition rules observable.
 
+## Five things a round must establish before it runs
+
+Written 2026-11-07 after an audit found that most of this record's rejections may be artifacts of
+the tier they were measured on. Each line is a question with a wrong answer, not advice.
+
+**1. Which regime is this rule for, and is the control in it?** BMA's scaffolding exists to get
+good work out of an agent that would not produce it unaided. Measure it on the strongest model
+and you are testing it where it is least needed. **The baseline's tier is part of the hypothesis,
+not a setting.** Most rejections here took the shape *the baseline already does this* — which is
+a claim about the baseline. If that baseline is stronger than the one the rule was written for,
+the rejection says nothing about the rule.
+
+**2. Is it a redundancy rejection or a harm rejection?** They do not deserve equal trust.
+*The clause causes damage* holds or strengthens on a weaker model — a weaker agent will not
+forge fewer blocks or invent fewer unfalsifiable commands. *The baseline already does it*
+collapses the moment the baseline changes. **Auditing a redundancy rejection costs only the
+control**, because the claim is about the control: re-measure it on the weaker tier and no
+treatment arm is needed until it falsifies.
+
+**3. Does the mechanism get an occasion, on this fixture, in this shape?** Already a rule above,
+and still the most repeated failure here: 14.1 had no file over the slicing threshold, 18.2's
+trap lay off the path, 15.9a's convention forbade something agents never do, and **20.2 measured
+a protocol built for context resets by running one task in one unbroken context.** A mechanism
+that cannot fire cannot be measured, and the round will still print numbers.
+
+**4. How many observations does each metric actually have?** N=3 reads only clean separation, so
+a metric with **one observation per arm** — did the mutation go red — can resolve almost nothing,
+while a metric with **ten per arm** — how many of this arm's governed writes were gated — carries
+real power at the same price. **Prefer per-occasion metrics over per-arm ones**; it is free, and
+it is the only lever on this harness's weakest property.
+
+**5. What does the answer cost, and is it worth that?** Every pre-mortem in the week this was
+written argued validity — interpretability, occasion, control rate — and **not one argued price.**
+A round is ≈ 7.8 M weighted tokens (see *What a round costs*). A pre-mortem that cannot conclude
+*too expensive for what it can tell us* is incomplete.
+
+And one the harness cannot do but should stop pretending about: **the protocol's primary audience
+is the human**, and every metric here is machine-observable by construction. The nearest honest
+proxy is mechanical and has never been run — **can a fresh agent holding only the repository
+resume the work?** That is the Handoff Principle's own claim, and it is the shadow of *a person
+can see what was done*.
+
 ## The four rules, learned the hard way
 
 **1. Measure the mechanism, not the outcome.** "Does the glossary contain the new

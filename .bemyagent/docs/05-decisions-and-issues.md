@@ -415,6 +415,11 @@
 
 - **The pre-mortems were pointed at correctness and never at price.** Every `01_think.md` this week carries a Pre-mortem and a Devil's Advocate; re-read, they argue only about validity — interpretability, occasion, control rate — and **not one asks whether the answer is worth what it costs**. A pre-mortem that cannot say *too expensive for what it can tell us* is incomplete, and that gap is what let this week happen.
 
+
+- **Per-occasion metrics beat per-arm metrics, free** (20.6, 2026-11-07). N=3 reads only clean separation, so a metric with one observation per arm — did the mutation go red — resolves almost nothing, while a metric with ten per arm — how many of this arm's governed writes were gated — carries real power at identical cost. 15.4's coverage was 28 observations across three arms; 20.2's mutation was three. **This is the only free lever on the harness's weakest property**, and it was available all week without being used.
+
+- **The protocol's audience is the human and the nearest honest proxy has never been run**: can a fresh agent holding only the repository resume the work? That is the Handoff Principle's own claim and the mechanical shadow of *a person can see what was done*. Every metric in this record is machine-observable by construction, which is a limit of the harness, not evidence about the protocol.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.
