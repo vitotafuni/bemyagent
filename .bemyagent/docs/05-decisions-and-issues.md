@@ -404,6 +404,17 @@
 
 - **20.2's verdict, as it now stands**: *on a single-shot, four-file feature, in a small clean codebase, with the scaffold pre-installed, on the most expensive model, and measured only on machine-observable outcomes, the protocol does not beat its absence and costs 2.54×.* Every clause in that sentence is a condition the round chose, and three of them are conditions under which the protocol could not win. **What was measured stands; what it was read to mean does not.**
 
+
+- **The record's rejections may be artifacts of a baseline too capable to need the rule** (20.4 audit, zero agents, 2026-11-07, requested by the user). BMA's scaffolding exists to get good work out of an agent that would not produce it unaided, and **every round since 2026-10-27 measured it on the strongest available model** — the regime where it is least needed. Most rejections took the shape *the baseline already does this, so the clause buys nothing*, which is **a statement about the baseline, not about the clause**. Of 24 commits: 6 instrument findings stand unconditionally, 4 rejections on harm hold or strengthen on a weaker tier, and the fragile core is **18.3, 14.13, 15.11 and 19.2a** → `work/20/20.4/audit.md`.
+
+- **Rejections on harm are robust; rejections on redundancy are fragile.** A clause refused because it *causes* damage — 17.2's unfalsifiable commands, 14.9's deleted grep, 14.12's forged block, 15.4's under-reporting record — would plausibly cause the same or more on a weaker model. A clause refused because the baseline already did the job depends entirely on that baseline. **This distinction should govern how much a verdict is trusted, and it was not being made.**
+
+- **Auditing a redundancy rejection costs only the control.** The claim is about the baseline, so a cheap-tier control alone confirms or falsifies it; no treatment arm is needed until it falsifies. 18.3 and 14.13 are 3+3 cheap arms, and 18.1's treatment numbers are already in hand at surfaced 0/3 → 3/3. **Nine cheap arms cover the two questions that matter most.**
+
+- **`autoModelSwitching` measures zero, on the rule that would have saved the money.** It was `true` in every seeded `settings.json` this week. Across the **30 subagents the arms spawned: 0 used a cheaper model, 29 specified no model at all, and 0 arms even name the setting.** The 29 unpinned spawns are also the exact failure 14.4 documented and `harness/README.md` forbids — committed by the arms against their own verifiers, unnoticed across four rounds, which made the verifier tier a free variable in all of them.
+
+- **The pre-mortems were pointed at correctness and never at price.** Every `01_think.md` this week carries a Pre-mortem and a Devil's Advocate; re-read, they argue only about validity — interpretability, occasion, control rate — and **not one asks whether the answer is worth what it costs**. A pre-mortem that cannot say *too expensive for what it can tell us* is incomplete, and that gap is what let this week happen.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.
