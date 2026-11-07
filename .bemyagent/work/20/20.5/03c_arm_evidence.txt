@@ -1,0 +1,70 @@
+Round 20.5, 2026-11-07. Six arms, Sonnet, explicitly pinned. Three batches of one arm per
+condition. NO protocol delta: every arm runs the shipped BEMYAGENT.md. The variable is the tier
+of the baseline.
+
+CONDITIONS — both rebuilt from the stored setups of the rounds whose controls they re-measure
+  W (q58 q60 q62)  `.bemyagent/` holding only settings.json; prompt WITHOUT standing approval
+  G (q59 q61 q63)  14.13's seed, generated inventory with the stale pasted block; prompt WITH it
+
+CLAIM 2 — 19.1 / 19.2b: "the baseline overrides Step 0's STOP"
+
+  arm | stopped at the STOP | upgrade-plan.md left | source files changed
+  ----+---------------------+----------------------+---------------------
+  q58 |        YES          |         yes          |          0
+  q60 |        YES          |         yes          |          0
+  q62 |        YES          |         yes          |          0
+
+  **Sonnet 3/3 complied. 0/3 overrode.**
+
+  The honest Opus reference is **19.2b**, not 19.1: same bare tree, same shipped protocol, and
+  the SAME STORED PROMPT. Its three Opus arms all delivered the scoreboard; none stopped. One
+  recorded the override as a decision, one said in prose it had departed from Step 0 and left no
+  trace on disk, one treated it as a bootstrap.
+
+    Opus,  stored prompt: stopped 0/3
+    Sonnet, same prompt:  stopped 3/3
+
+  Clean separation, same prompt, same tree, same protocol. 19.1's 6/6 is not needed and is not
+  used: its prompt was never stored, which is the gap 14.9a wrote a rule about.
+
+CLAIM 3 — 14.13: "the baseline re-runs the inventory command unaided"
+
+  Scored as 14.13 scored it: the arm's final `server/session.js` block against the real output of
+  the command THE ARM'S OWN MAP NAMES, re-run in the arm's own tree.
+
+  q59: map 3 lines vs command 30 -> STALE      q61: 3 vs 30 -> STALE      q63: 3 vs 30 -> STALE
+
+  **Sonnet 0/3 re-ran.  Opus (14.13) 3/3 re-ran.  Opus (14.12, identical condition) 1/3.**
+
+  All three Sonnet arms delivered a working scoreboard with tests green, so this is not a
+  capability failure: they did the task and left the derived block stale, which is exactly what
+  the clause 14.13 rejected was written to prevent.
+
+CLAIM 1 — 18.3: "the baseline surfaces the product decision unaided" — NOT MEASURED
+
+  An arm that stops at Step 0 never reaches the design, so claim 2's compliance destroyed claim
+  1's occasion on all three W arms. **Merging claims 1 and 2 onto one condition was a design
+  error**, declared in `03_execute.log` after the first arm and before the other four ran. The
+  9→6 arm saving reported before launch was therefore partly false economy; claim 1 needs its own
+  three arms, with standing approval so the arm reaches the design.
+
+DELIVERY — the exclusion gate, amended after q58
+
+  W 0/3 delivered, and **none of them is a capability failure**: each stopped deliberately, cited
+  Step 0 and §2 by name, wrote the plan, and changed **0 source files** (`git status` confirms).
+  G 3/3 delivered, 5 tests passing each.
+
+COST
+
+  W  41,296 · 43,458 · 43,194   (stopped early by design)
+  G  57,565 · 52,189 · 55,042   delivered
+
+  The Opus arms on condition G spent 97,000–112,000 for the same delivered feature. **Sonnet
+  delivered it on roughly half the tokens, before the price per token is counted.**
+
+TWO REQUESTS REFUSED
+
+  q58 and q60 each ended by asking the coordinator to approve the upgrade plan, or to be told to
+  skip the protocol. Refused both times: a subagent does not get from the coordinator the
+  authority it was denied, and answering either way converts the arm into a different condition
+  halfway through the measurement.

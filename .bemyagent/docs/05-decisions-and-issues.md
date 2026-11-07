@@ -420,6 +420,19 @@
 
 - **The protocol's audience is the human and the nearest honest proxy has never been run**: can a fresh agent holding only the repository resume the work? That is the Handoff Principle's own claim and the mechanical shadow of *a person can see what was done*. Every metric in this record is machine-observable by construction, which is a limit of the harness, not evidence about the protocol.
 
+
+- **Two milestone-closing rejections were artifacts of the tier, and both reverse cleanly** (Milestone 20.5, 6 Sonnet arms, 2026-11-07). No protocol delta: the variable is the baseline's model. **Step 0's STOP — Opus stopped 0/3, Sonnet 3/3**, same tree, same shipped protocol, same stored prompt (19.2b's; 19.1's 6/6 is not used because its prompt was never stored). **The inventory re-run — Opus 3/3, Sonnet 0/3**, and all three Sonnet arms shipped the feature with tests green, so it is behaviour and not incapacity → `work/20/20.5/04_verify.md`.
+
+- **Milestone 19 reopens, and the user's hypothesis is measured.** It closed concluding Step 0's branch condition was wrong because 6/6 overrode the STOP. **The gate is not a rule that fails to land: it lands on the agents it was written for, and is overridden by the ones capable enough to judge it pointless.** The three Sonnet arms wrote the plan, stopped, stated they had no user to approve it, and changed **0 source files**.
+
+- **The generated-code-map line reopens.** 14.13 closed it at a ceiling — the control re-ran the command unaided 3/3, so the clause had nothing to buy. On Sonnet the control re-runs it **0/3 while still shipping the feature**, which is exactly the drift the clause existed to catch. Neither clause now *lands*: neither has been measured as a treatment on this tier. They were **rejected for the wrong reason**, and their rounds are owed a re-run against a baseline that needs them.
+
+- **Every rejection shaped *the baseline already does this* is presumed tier-bound until re-measured.** Two of the four 20.4 named are now reversed. **15.11 and 19.2a's absent harm remain**, and 19.2a ranks next because its failure mode is data loss.
+
+- **This vindicates the scaffolding in a way no round this week could.** BMA's practices exist to get good work out of an agent that would not produce it unaided. Measured on an agent that produces it unaided, they look like ceremony. **That is not evidence against the scaffolding; it is evidence the measurement was taken in the wrong regime** — an error the record has been accumulating since at least Milestone 18.
+
+- **Merging two claims onto one condition was a design error, and the saving it bought was false.** Claim 1 (18.3, does the baseline surface the product decision) needs an arm that reaches the design. All three W arms stopped at Step 0, so **claim 2's compliance destroyed claim 1's occasion** and claim 1 is unmeasured. Declared after the first arm and before the other four ran, not in VERIFY. Three more arms with standing approval would close it.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.
