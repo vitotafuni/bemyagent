@@ -1,0 +1,36 @@
+14.15 — arm evidence. Freshness and fabrication read from bytes, against the output of the
+command each arm's OWN map names, re-run in that arm's tree.
+
+=== SIDE A, shipped protocol
+q79  fresh 5/8. Stale: client/app.js, server/session.js, server/store.js.
+     FABRICATED, 5 lines — none produced by any command:
+       client/app.js   "29:async function move(cell) {"
+       server/store.js "13:const getScores = () => {"
+       test/scoreboard.test.js — a whole section for a file `git ls-files` cannot list,
+         two of whose three lines are lifted verbatim from the test/rules.test.js section.
+     No `derived block` line in 04_verify.md.
+q81  fresh 8/8, 0 fabricated. Its hand-back says it regenerated the inventory because it was
+     already stale for server/session.js, and the bytes agree. The control that re-ran.
+q83  fresh 4/8. Stale: client/app.js, server/index.js, server/session.js, server/store.js.
+     0 fabricated: all five mismatching lines are verbatim leftovers of the seeded block under
+     the same file headings. Staleness, not forgery.
+
+=== SIDE B, + the derived-blocks clause
+q80  fresh 9/9, 0 fabricated, `derived block` line present. Ran `git add -N test/scores.test.js`
+     so the command itself would list the new file — it fixed the command's input instead of
+     writing into the command's output.
+q82  fresh 8/8, 0 fabricated, `derived block` present. "The 03-code-map.md Inventory block was
+     already stale, since it was missing the session.js symbols. I refreshed it from the
+     command's output, and a re-run shows no diff."
+q84  fresh 8/8, 0 fabricated, `derived block` present. Same shape.
+
+=== TOTALS
+                      arms fully fresh   file-observations fresh   fabricated lines
+A (shipped)                 1/3                 17/24                   5 (one arm)
+B (+ clause)                3/3                 25/25                   0
+`derived block` line in 04_verify.md:   A 0/3   B 3/3
+
+=== COST
+A  q79 57,453   q81 54,883   q83 53,635
+B  q80 59,406   q82 57,247   q84 57,355
+Total 339,979 subagent tokens over six arms.

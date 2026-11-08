@@ -451,6 +451,16 @@
 
 - **Three rounds were needed to land one sentence, and the first two were the wrong shape.** 19.2a rejected it for an absence of harm it had no occasion to cause. Milestone 19 then closed on 6/6 Opus arms overriding the gate, which measured the strongest model's judgement rather than the rule. Only after 20.5 reversed the tier reading and 20.7 confirmed the harm was absent where content exists did the treatment round become worth running. **The sequence that works is: establish the regime, then the harm, then the mechanism.**
 
+- **The derived-blocks clause is a null at N=3, and does not land** (Milestone 14.15, 6 Sonnet arms, 2026-11-08). The treatment is at ceiling — **3/3 arms fresh, 25/25 file-observations, 0 fabricated lines, and 3/3 recorded the `derived block` line in `04_verify.md`** — but the control is **1/3 fully fresh**, which is a split, and the reading fixed before launch calls a split a null. Not enough evidence, not evidence of no effect → `work/14/14.15/04_verify.md`.
+
+- **The pre-registration was defective and was honoured as written anyway.** `02_tasks.md` defined freshness **per occasion** (eight files × three arms, 24 observations a side) and then wrote the reading **per arm**. Per occasion the round separates, 17/24 against 25/25; per arm it does not, 1/3 against 3/3. **A reading that was ambiguous before launch cannot be resolved afterwards in the direction the data favours** — repairing it after seeing the numbers would have produced a landing, and that is exactly what writing it down first exists to prevent.
+
+- **The shipped protocol permits a derived block to be written by hand, and an arm did it unprompted.** q79 invented a `test/scoreboard.test.js` section for a file `git ls-files` cannot list, lifting two of its three lines from another file's section. 14.12's failure reproduced in the arm **without** the clause. The pre-mortem had predicted the opposite — that the clause would tempt the forgery — and the clause's three arms fabricated nothing.
+
+- **A control rate is a sample, not a property of a tier.** 20.5 read three Sonnet controls stale 3/3 on `session.js`; 14.15, same seed and same prompt, has a control fresh 8/8. 14.14's finding arriving a second time, and this time it corrects a reading of ours from the day before.
+
+- **Third scorer defect of the week, third caught by opening an arm.** The scorer counted any line the command does not output as forged, merging fabrication with ordinary staleness. Recovering each arm's seeded block from its own setup commit separates them: q79 fabricated 5, q83 was merely stale. The uncorrected figure would have read *two control arms forged ten lines* and been wrong about one of them.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.
