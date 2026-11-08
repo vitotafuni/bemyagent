@@ -1,0 +1,68 @@
+# EXECUTE — 20.3
+
+2026-11-08 — Setup verified before launch.
+  Ports swept after 14.15 and still clean: ARD 3283, Docker 3307, Ollama 49290 only.
+  Six arms built from `work/20/20.2/setup.py` — arm names, an arm filter and the overwrite
+  guard the only edits. The blanket `rmtree` 15.4 paid for is left in the file behind
+  `if False:` so the next reader sees what was removed.
+  **Two inherited-instrument traps caught before launch, both from copying 20.2's scorers:**
+   - `mutate.py`'s `EDITS` is per-arm SQL lifted from what 20.2's arms wrote. Renaming the keys
+     carried them onto arms whose code does not exist yet, where the mutation would have been
+     applied to the wrong source or silently reported `n/a` on arms whose tests were never
+     exercised. **Blanked; filled only after the arms run.**
+   - `score.py`'s `AGENT` map points at 20.2's transcripts. Renamed, it would have scored the
+     wrong agents. **Blanked.**
+  **The validation check itself was wrong twice and is recorded that way.**
+   - First attempt diffed the live `r202` trees. Those arms have since done their work, so the
+     diff showed their scoreboards, not the seed. Corrected to compare each tree **at its own
+     setup commit**.
+   - Second attempt read file contents as text and died on a binary file. Corrected to compare
+     **git blob hashes**: same name and same hash is byte-identical with no decoding.
+  Result → `03b_delta.txt`: S seed vs 20.2's P seed, 726 files each, **differing only on
+  `BEMYAGENT.md`** — 19.5's Step 0 line, which cannot fire on a populated `.bemyagent/`.
+  O seed vs 20.2's N seed, 10 files each, **no difference at all**. S vs S and O vs O identical.
+  All three O arms hold no `BEMYAGENT.md`, no `.bemyagent/`, no `CLAUDE.md`, no `AGENTS.md`.
+  Both prompts stored verbatim before launch, byte-identical to 20.2's.
+→ next: batch 1 — q85 (S, Sonnet pinned), q86 (O, Opus pinned).
+
+2026-11-08 — Batch 1 complete: q85 (S, Sonnet+protocol), q86 (O, Opus, no protocol).
+  55 k / 48 k subagent tokens.
+  `EDITS` built by reading each arm's own tally query, as the design requires:
+    q85 "SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY winner"
+    q86 "SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner"
+  Metric (i) — a drawn game made to count as a win for X, each arm's own suite re-run:
+    **q85 RED, 1 failure. q86 GREEN, 0 failures.** Both trees verified unchanged afterwards.
+  The mechanism is visible in the hand-backs and in the trees: q85 wrote `test/score.test.js`
+  and ran 5 tests; **q86 wrote no test at all and ran the unchanged 4-test suite.** The
+  expensive model delivered the feature and left the suite exactly as it found it.
+→ next: batch 2 — q87 (S), q88 (O), already launched.
+
+2026-11-08 — Batch 2 complete: q87 (S), q88 (O). 55 k / 52 k subagent tokens.
+  `EDITS` extended from each arm's own query. Metric (i): **q87 RED (1 failure), q88 GREEN
+  (0).** Both trees unchanged afterwards. 2/2 on the primary.
+  Worth recording because it cuts against a lazy reading: **q88's own verification was the
+  most thorough of any arm in this round.** It drove `client/app.js` against a live server
+  under a DOM stub, played an X win, an O win, a draw, a second X win and an abandoned game,
+  and confirmed the tally moved only on the first four. It then left **nothing in the
+  repository**: no test, suite unchanged at 4. The difference the mutation detects is not
+  care, it is **where the check is put**. 20.2 found the same distinction pointing the other
+  way, and noted then that a check that stays in the repository is not something §4 asks for.
+→ next: batch 3 — q89 (S), q90 (O), already launched.
+
+2026-11-08 — Batch 3 complete: q89 (S), q90 (O). 54 k / 52 k subagent tokens.
+  All six complete. `EDITS` and `AGENT` filled from this round's arms only. Scorer output
+  saved before the verdict → `03d_score_output.json`, `03c_arm_evidence.txt`.
+  Ports swept after: no 47xxx, 48xxx or 87xx listener left.
+  **(i) S RED 3/3, O GREEN 0/3. Clean separation.** Every tree verified unchanged after the
+  mutation.
+  19.4 check — both ends of every metric opened and named:
+    (i) The ends are the sides. Opened all six `test/` directories: **q85 added
+      `score.test.js`, q87 added `store.test.js`, q89 extended `rules.test.js`** — all three
+      suites run 5. **q86, q88 and q90 left `test/` exactly as seeded** and run 4. The metric
+      is reading what it claims to read.
+    (ii) Ends are q85 and q89 at 1 defect against q87, q88, q90 at 0. Opened q85: it names the
+      reload-starts-a-new-game contradiction with `01-overview.md`. q86's single hit is
+      `session.js` being imported by nothing. **No separation; 2 against 1 over six arms.**
+    (iv) Ends are q89 at 250,225 weighted and q90 at 312,394. Opened both transcripts' raw
+      counters: the gap is cache-read volume, not output.
+→ next: `04_verify.md`.

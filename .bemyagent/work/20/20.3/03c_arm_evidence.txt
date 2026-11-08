@@ -1,0 +1,15 @@
+20.3 — arm evidence. Metric (i) is read by mutating each arm's own tally and running
+that arm's own suite; this file records WHAT each arm left in the repository.
+
+q85 [S] test files now: ['rules.test.js', 'score.test.js']
+      seeded: ['rules.test.js']   suite: ['ℹ pass 5', 'ℹ fail 0']   [' 4 files changed, 19 insertions(+), 2 deletions(-)']
+q87 [S] test files now: ['rules.test.js', 'store.test.js']
+      seeded: ['rules.test.js']   suite: ['ℹ pass 5', 'ℹ fail 0']   [' 4 files changed, 21 insertions(+), 3 deletions(-)']
+q89 [S] test files now: ['rules.test.js']
+      seeded: ['rules.test.js']   suite: ['ℹ pass 5', 'ℹ fail 0']   [' 5 files changed, 30 insertions(+), 2 deletions(-)']
+q86 [O] test files now: ['rules.test.js']
+      seeded: ['rules.test.js']   suite: ['ℹ pass 4', 'ℹ fail 0']   [' 4 files changed, 24 insertions(+), 3 deletions(-)']
+q88 [O] test files now: ['rules.test.js']
+      seeded: ['rules.test.js']   suite: ['ℹ pass 4', 'ℹ fail 0']   [' 4 files changed, 32 insertions(+), 3 deletions(-)']
+q90 [O] test files now: ['rules.test.js']
+      seeded: ['rules.test.js']   suite: ['ℹ pass 4', 'ℹ fail 0']   [' 4 files changed, 28 insertions(+), 3 deletions(-)']

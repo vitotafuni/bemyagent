@@ -1,0 +1,13 @@
+== S/q85 seed vs 20.2 P/q52 seed
+   files 726 vs 726 | only here - | only there - | differing ['BEMYAGENT.md']
+== O/q86 seed vs 20.2 N/q53 seed
+   files 10 vs 10 | only here - | only there - | differing -
+== S vs S
+   files 726 vs 726 | only here - | only there - | differing -
+== O vs O
+   files 10 vs 10 | only here - | only there - | differing -
+
+Expected: the S pair differs on BEMYAGENT.md only (19.5's Step 0 line); O pair not at all.
+q86 protocol files present: none
+q88 protocol files present: none
+q90 protocol files present: none

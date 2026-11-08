@@ -461,6 +461,16 @@
 
 - **Third scorer defect of the week, third caught by opening an arm.** The scorer counted any line the command does not output as forged, merging fabrication with ordinary staleness. Recovering each arm's seeded block from its own setup commit separates them: q79 fabricated 5, q83 was merely stale. The uncorrected figure would have read *two control arms forged ten lines* and been wrong about one of them.
 
+- **A cheap tier with the protocol beat an expensive tier without it, and used fewer tokens doing it** (Milestone 20.3, 6 arms, 2026-11-08). Three Sonnet arms on the shipped protocol against three Opus arms with no protocol file of any kind, same batches, 20.2's seeds and instruments unchanged. **(i) tests with teeth: S 3/3 RED, O 0/3 — clean separation.** (ii) defects 2 against 1, no separation. (iii) 6/6 delivered. **(iv) S cost 0.87× the weighted tokens of O** → `work/20/20.3/04_verify.md`.
+
+- **The user's break-even was t = r, and t came in below 1.** 20.2 measured the protocol's overhead at 2.54× against no protocol **on the same tier**, and that figure stands. 20.3 changes two things at once and shows the overhead is paid out of a budget that shrinks faster: the cheaper tier running the protocol spent **fewer tokens** than the expensive tier running nothing. The money ratio then follows from the tier price ratio, which this round does not measure.
+
+- **The separating metric measures where a check is put, not how carefully the work was checked.** Every protocol arm left a test behind; every no-protocol arm left `test/` exactly as seeded. But q88's own verification was the **most thorough in the round** — it drove the client under a DOM stub through a win, a draw, a rejected move and an abandoned game — and q90 **named the omission itself**: *"I did not add an automated test … Say the word and I'll add one."* The expensive model checked more and left less. One side's verification ends when the agent stops; the other's is in the repository tomorrow.
+
+- **The round cannot separate the tier from the protocol, and says so.** Two variables move together by design. **A third condition, Opus + protocol, would separate them**; it was rejected on price and is the obvious next round. Until it runs, the honest claim is about the pair, not about the protocol alone.
+
+- **Inherited scorers carry inherited per-arm tables.** 20.2's `mutate.py` holds the SQL each of **its** arms wrote and its `score.py` holds **its** agent ids. Copied under new arm names they would have mutated the wrong source and scored the wrong transcripts, reporting `n/a` for arms whose tests were never exercised. Both blanked at build and filled per batch from the arms' own code. **A scorer is not reusable just because its logic is** — the tables that make it specific have to be rebuilt every time.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.

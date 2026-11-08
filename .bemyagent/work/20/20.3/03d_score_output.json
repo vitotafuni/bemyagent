@@ -1,0 +1,80 @@
+{
+ "q85": {
+  "side": "S",
+  "defects": [
+   "reload starts a new game vs the overview's claim"
+  ],
+  "n": 1,
+  "weighted": 277332,
+  "raw": {
+   "inp": 44,
+   "out": 17274,
+   "cc": 79086,
+   "cr": 920613
+  }
+ },
+ "q86": {
+  "side": "O",
+  "defects": [
+   "session.js is imported by nothing"
+  ],
+  "n": 1,
+  "weighted": 300276,
+  "raw": {
+   "inp": 58,
+   "out": 16261,
+   "cc": 90355,
+   "cr": 1059702
+  }
+ },
+ "q87": {
+  "side": "S",
+  "defects": [],
+  "n": 0,
+  "weighted": 264395,
+  "raw": {
+   "inp": 44,
+   "out": 18616,
+   "cc": 63166,
+   "cr": 923140
+  }
+ },
+ "q88": {
+  "side": "O",
+  "defects": [],
+  "n": 0,
+  "weighted": 297128,
+  "raw": {
+   "inp": 58,
+   "out": 19772,
+   "cc": 64723,
+   "cr": 1173067
+  }
+ },
+ "q89": {
+  "side": "S",
+  "defects": [
+   "reload starts a new game vs the overview's claim"
+  ],
+  "n": 1,
+  "weighted": 250225,
+  "raw": {
+   "inp": 46,
+   "out": 15842,
+   "cc": 58647,
+   "cr": 976605
+  }
+ },
+ "q90": {
+  "side": "O",
+  "defects": [],
+  "n": 0,
+  "weighted": 312394,
+  "raw": {
+   "inp": 56,
+   "out": 20237,
+   "cc": 79507,
+   "cr": 1117696
+  }
+ }
+}
