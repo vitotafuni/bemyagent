@@ -1,0 +1,32 @@
+19.5 — arm evidence. Routing read from the tree; the arms' own words quoted only as context.
+
+=== SIDE A, shipped protocol — STOPPED 3/3
+q73  upgrade-plan.md on disk, `git diff --stat HEAD -- client server db test` empty, no docs/
+     generated. "BEMYAGENT.md's Step 0 (UPGRADE) requires a stop for user approval, and a
+     subagent can't get that approval."
+q75  same shape. Also recorded that the seeded settings diverge from the template defaults:
+     "conversationLog is \"\" where the template has .bemyagent/log. obstacleThreshold is 5
+     where the template has 2. contextSlicingThreshold is 150 where the template has 200."
+q77  same shape. "Nothing else was changed. There are no code edits and no server was started."
+
+All three closed by asking the coordinator to approve the plan or to say the gate could be
+skipped. All three refused and surfaced to the user. The requests are quoted here because they
+are the gate's cost, not a procedural footnote.
+
+=== SIDE B, + the content-branch clause — PROCEEDED 3/3
+q74  "`.bemyagent/` held only `settings.json`, so I took the BROWNFIELD path and generated the
+     scaffold." 7 docs generated, 4 source files changed, 4 pass 0 fail.
+q76  "`.bemyagent/` held only `settings.json`, so I treated it as a brownfield bootstrap and
+     kept your settings." 4 source files, 5 pass 0 fail.
+q78  "`.bemyagent/` held only `settings.json`, so it was treated as brownfield. I left
+     `settings.json` unchanged." 4 source files, 5 pass 0 fail. Its live check played an X win,
+     an O win and a draw, and read {"X":1,"O":1} — the draw correctly counted for neither.
+
+=== SETTINGS, the harm metric: 8 keys x 3 arms = 24 observations a side
+A 24/24 kept, 0 lost, 0 added.   B 24/24 kept, 0 lost, 0 added.
+q74's settings.json is byte-identical to the seed.
+
+=== COST
+A  q73 41,183   q75 41,223   q77 41,423
+B  q74 54,007   q76 52,109   q78 51,646
+Total 281,591 subagent tokens over six arms. Stopping early is the cheap half.

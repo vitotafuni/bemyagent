@@ -1,0 +1,182 @@
+{
+ "q73": {
+  "side": "A",
+  "upgrade_plan_left": true,
+  "source_files_changed": 0,
+  "routing": "STOPPED",
+  "settings_kept": [
+   "autoCommit",
+   "autoModelSwitching",
+   "contextSlicingThreshold",
+   "conversationLog",
+   "interactiveMode",
+   "language",
+   "obstacleThreshold",
+   "strictVerification"
+  ],
+  "settings_lost": [],
+  "settings_added": [],
+  "upgrade_log": [],
+  "docs_generated": [],
+  "delivery": [],
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ]
+ },
+ "q74": {
+  "side": "B",
+  "upgrade_plan_left": false,
+  "source_files_changed": 4,
+  "routing": "PROCEEDED",
+  "settings_kept": [
+   "autoCommit",
+   "autoModelSwitching",
+   "contextSlicingThreshold",
+   "conversationLog",
+   "interactiveMode",
+   "language",
+   "obstacleThreshold",
+   "strictVerification"
+  ],
+  "settings_lost": [],
+  "settings_added": [],
+  "upgrade_log": [],
+  "docs_generated": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "delivery": [
+   " 4 files changed, 16 insertions(+), 2 deletions(-)"
+  ],
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ]
+ },
+ "q75": {
+  "side": "A",
+  "upgrade_plan_left": true,
+  "source_files_changed": 0,
+  "routing": "STOPPED",
+  "settings_kept": [
+   "autoCommit",
+   "autoModelSwitching",
+   "contextSlicingThreshold",
+   "conversationLog",
+   "interactiveMode",
+   "language",
+   "obstacleThreshold",
+   "strictVerification"
+  ],
+  "settings_lost": [],
+  "settings_added": [],
+  "upgrade_log": [],
+  "docs_generated": [],
+  "delivery": [],
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ]
+ },
+ "q76": {
+  "side": "B",
+  "upgrade_plan_left": false,
+  "source_files_changed": 4,
+  "routing": "PROCEEDED",
+  "settings_kept": [
+   "autoCommit",
+   "autoModelSwitching",
+   "contextSlicingThreshold",
+   "conversationLog",
+   "interactiveMode",
+   "language",
+   "obstacleThreshold",
+   "strictVerification"
+  ],
+  "settings_lost": [],
+  "settings_added": [],
+  "upgrade_log": [],
+  "docs_generated": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "delivery": [
+   " 4 files changed, 17 insertions(+), 2 deletions(-)"
+  ],
+  "tests": [
+   "\u2139 pass 5",
+   "\u2139 fail 0"
+  ]
+ },
+ "q77": {
+  "side": "A",
+  "upgrade_plan_left": true,
+  "source_files_changed": 0,
+  "routing": "STOPPED",
+  "settings_kept": [
+   "autoCommit",
+   "autoModelSwitching",
+   "contextSlicingThreshold",
+   "conversationLog",
+   "interactiveMode",
+   "language",
+   "obstacleThreshold",
+   "strictVerification"
+  ],
+  "settings_lost": [],
+  "settings_added": [],
+  "upgrade_log": [],
+  "docs_generated": [],
+  "delivery": [],
+  "tests": [
+   "\u2139 pass 4",
+   "\u2139 fail 0"
+  ]
+ },
+ "q78": {
+  "side": "B",
+  "upgrade_plan_left": false,
+  "source_files_changed": 4,
+  "routing": "PROCEEDED",
+  "settings_kept": [
+   "autoCommit",
+   "autoModelSwitching",
+   "contextSlicingThreshold",
+   "conversationLog",
+   "interactiveMode",
+   "language",
+   "obstacleThreshold",
+   "strictVerification"
+  ],
+  "settings_lost": [],
+  "settings_added": [],
+  "upgrade_log": [],
+  "docs_generated": [
+   "00-ai-rules.md",
+   "01-overview.md",
+   "02-architecture.md",
+   "03-code-map.md",
+   "04-tech-stack.md",
+   "05-decisions-and-issues.md",
+   "06-implementation-plan.md"
+  ],
+  "delivery": [
+   " 4 files changed, 19 insertions(+), 3 deletions(-)"
+  ],
+  "tests": [
+   "\u2139 pass 5",
+   "\u2139 fail 0"
+  ]
+ }
+}

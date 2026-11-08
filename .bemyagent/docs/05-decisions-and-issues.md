@@ -443,6 +443,14 @@
 
 - **A rejection that holds on two tiers is worth more than one that was never challenged.** 18.3 and 19.2a entered this week as the weakest entries in the record and leave it as two of the strongest. The audit did not only overturn verdicts; it also promoted the ones that survived it.
 
+- **Decision: Step 0's UPGRADE branches on content, not on the directory existing** (Milestone 19.5, 6 Sonnet arms, 2026-11-08). **The first change to `BEMYAGENT.md` since 2026-10-27.** Clean separation on the mechanism: the shipped protocol **stopped 3/3** at a gate guarding a `.bemyagent/` that held one settings file, writing a plan and changing **0 source files**; with the clause, **3/3 took the brownfield path, kept the settings and shipped**. Harm null on its third independent reading — 19.2a on Opus 6/6 both sides, 20.7 on Sonnet 9/9 against 9/9 with real user content present, and here **24/24 against 24/24** per settings key → `work/19/19.5/04_verify.md`.
+
+- **The gate's cost is an escalation, not just a delay.** All three control arms ended by asking the coordinator to approve the plan or to say the gate could be skipped. All three were refused, because a subagent hand-back carries no user authority and answering would also have destroyed the measurement. **A gate that guards nothing still generates a request for a human decision**, which is the part that does not show up in a delivery metric.
+
+- **The clause narrows the gate, it does not remove it.** Wherever `.bemyagent/` holds a `docs/` or `work/` file, or any file the protocol does not name, the review still stands — 20.7 put six arms through exactly that case and all six preserved everything, including a team-authored section that the upgrade had to overwrite.
+
+- **Three rounds were needed to land one sentence, and the first two were the wrong shape.** 19.2a rejected it for an absence of harm it had no occasion to cause. Milestone 19 then closed on 6/6 Opus arms overriding the gate, which measured the strongest model's judgement rather than the rule. Only after 20.5 reversed the tier reading and 20.7 confirmed the harm was absent where content exists did the treatment round become worth running. **The sequence that works is: establish the regime, then the harm, then the mechanism.**
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.

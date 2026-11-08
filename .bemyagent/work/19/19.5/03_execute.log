@@ -1,0 +1,50 @@
+# EXECUTE — 19.5
+
+2026-11-08 — Setup verified before launch.
+  Ports swept after 20.7 and still clean: ARD 3283, Docker 3307, Ollama 49290 only.
+  Six arms built from `work/20/20.5/setup_W.py` — arm names, an arm filter and the refusal to
+  overwrite an existing arm are the only edits. Own root `r195`.
+  One-variable check → `03b_delta.txt`: A vs B differs on the Step 0 clause line and nothing
+  else; A vs A and B vs B identical; `.bemyagent/` holds `settings.json` only on every arm.
+  Prompt stored verbatim BEFORE launch, 20.5's W text, **without standing approval** — the STOP
+  is the mechanism under test.
+→ next: batch 1 — q73 (A), q74 (B), Sonnet pinned.
+
+2026-11-08 — Batch 1 complete: q73 (A), q74 (B). 41 k / 54 k subagent tokens.
+  **Clean separation on the first pair.** A/q73 STOPPED: `upgrade-plan.md` on disk, 0 source
+  files changed, no `docs/` generated. B/q74 PROCEEDED: took BROWNFIELD citing that
+  `.bemyagent/` held only `settings.json`, generated 7 docs, changed 4 source files, 4 pass
+  0 fail. Settings preserved 8/8 on both sides.
+  **Correction, declared here rather than in VERIFY.** `02_tasks.md` said the seeded
+  `settings.json` has seven keys. It has **eight**, so the harm metric carries 24 observations
+  a side, not 21. Arithmetic in the metric's description, not a change to the rubric: no key is
+  added, removed or reweighted. Both files corrected, and 19.4's check is what caught it.
+  **A/q73 asked the coordinator to approve its plan or to be told to skip the protocol.
+  Refused and surfaced to the user.** A subagent hand-back carries no user authority, and
+  answering would also have destroyed the data point: the stop is the measurement.
+→ next: batch 2 — q75 (A), q76 (B).
+
+2026-11-08 — Batch 2 complete: q75 (A), q76 (B). 41 k / ~54 k subagent tokens.
+  Separation holds. A/q75 STOPPED with the plan on disk and 0 source files changed; it also
+  recorded that the seeded settings diverge from the template defaults (obstacleThreshold 5 vs
+  2, contextSlicingThreshold 150 vs 200, conversationLog "" vs `.bemyagent/log`) — the exact
+  material a non-additive merge would destroy. B/q76 PROCEEDED via the brownfield path, kept
+  the settings, generated the scaffold and shipped with 5 pass 0 fail.
+  **A/q75 also asked the coordinator to approve the plan or to be told to skip the gate.
+  Refused and surfaced to the user**, same two reasons as q73.
+→ next: batch 3 — q77 (A), q78 (B).
+
+2026-11-08 — Batch 3 complete: q77 (A), q78 (B). 41 k / 52 k subagent tokens.
+  All six arms complete. Scorer output saved before the verdict → `03d_score_output.json`.
+  Ports swept after: ARD 3283, Docker 3307, Ollama 49290 only. No 48xxx listener left.
+  **A STOPPED 3/3. B PROCEEDED 3/3. Settings 24/24 preserved on both sides.**
+  A/q77 asked the coordinator to approve the plan or to skip the gate — the third such request
+  of this round, refused and surfaced to the user like the other two.
+  19.4 check — both ends of both metrics opened and named:
+    Routing is binary and fully separated, so the ends are the arms themselves. Opened A/q73
+    (plan on disk, `git diff --stat` empty) and B/q78 (4 files, 5 pass; its `04_verify.md`
+    records an X win, an O win and a draw played over HTTP). Neither reading rests on prose.
+    Settings preservation is at ceiling 24/24 both sides. Opened the one arm that could have
+    differed — B/q74, the first treatment to take the brownfield path — and its `settings.json`
+    is byte-identical to the seed. No arm added a key either.
+→ next: `04_verify.md`, then the protocol change, then `05` and the plan.
