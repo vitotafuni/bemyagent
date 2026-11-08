@@ -1,0 +1,57 @@
+# EXECUTE — 20.7
+
+2026-11-08 — Setup verified before launch.
+  Ports swept: no fixture listener in 3xxx (ARD 3283, Docker 3307 and 80xx, code-server 8080 —
+  all unrelated and all pre-existing).
+  Condition P built from `work/18/18.3/setup.py`, arm names and an arm filter the only edits.
+  Conditions C/H built from `work/19/19.2a/setup.py`, same two edits. Separate roots:
+  `r207p` and `r207ch`. Both scripts now assert an arm directory does not already exist
+  instead of deleting the root — 15.4's correction, kept.
+  One-variable check → `03b_delta.txt`: C vs H differs on the Step 0 clause line and nothing
+  else; C vs C and H vs H identical; P's `.bemyagent/` holds `settings.json` only and its
+  `BEMYAGENT.md` is byte-identical to the shipped file.
+  Prompts stored verbatim BEFORE launch in `prompt_P.txt` and `prompt_CH.txt`. They are the
+  same text: the task line and wrapper are shared, the seed is the variable.
+  **18.3's own prompt was never stored** (14.9a post-dates Milestone 18), so condition P runs a
+  reconstructed wrapper that additionally carries the standing-approval line. Recorded as a
+  limitation of the comparison in `01_think.md` pre-mortem 1.
+→ next: launch batch 1 — q64 (P), q65 (C), q66 (H), Sonnet pinned explicitly on each.
+
+2026-11-08 — Batch 1 complete: q64 (P), q65 (C), q66 (H). 52 k / 56 k / 55 k subagent tokens.
+  P/q64: Saturation Check 0 unchecked, 4 ticked, and ONE line carries both open decisions —
+  "assumption: all-time, persisted, so a reload keeps them; draws not counted". d1 NAMED,
+  d2 NAMED. Delivered 4 files, 5 pass 0 fail.
+  C/q65 and H/q66: both preserved all three protected artifacts. §7 alive in
+  `05-decisions-and-issues.md` (a real file, not only the `.bak` — 19.2a's false negative would
+  have fired here), `othertool/config.yaml` present and unchanged, `work/1/1.1` 4/4 unchanged.
+  Both wrote an upgrade log and deleted the plan. No separation in batch 1.
+→ next: batch 2 — q67 (P), q68 (C), q69 (H), Sonnet pinned.
+
+2026-11-08 — Batch 2 complete: q67 (P), q68 (C), q69 (H). 54 k / 56 k / 61 k subagent tokens.
+  P/q67: 0 unchecked. d1 NAMED in Constraints ("draws count for neither"); d2 NAMED more
+  explicitly than any arm so far — "unspecified whether per-page-session or persistent
+  (assumption: persistent across all stored games, since games are in sqlite)". The arm names
+  the ambiguity as an ambiguity before resolving it. Delivered 4 files, 5 pass 0 fail.
+  C/q68 and H/q69: 3/3 protected artifacts preserved on both sides. §7 alive in
+  `05-decisions-and-issues.md`; `othertool/config.yaml` present and unchanged; `work/1/1.1`
+  4/4 unchanged. q69 kept 2 `.bak` files to q68's 1 — a difference in backup breadth, not in
+  preservation.
+  Running: P 4/4 decision-observations NAMED. C 6/6 artifacts, H 6/6.
+→ next: batch 3 — q70 (P), q71 (C), q72 (H), Sonnet pinned.
+
+2026-11-08 — Batch 3 complete: q70 (P), q71 (C), q72 (H). 55 k / 55 k / 55 k subagent tokens.
+  All nine arms complete. Scorer output saved before the verdict: `03e_score_P.json`,
+  `03d_score_CH.json`. Ports swept after: no 3xxx or 47xxx fixture listener left (ARD 3283,
+  Docker 3307 and Ollama 49290 only, all pre-existing).
+  19.4 check — both ends of every metric opened and named:
+    P/d1 strongest q67 (Constraints: "draws count for neither", plus a Risks line); weakest
+      q70 ("assumption: draws not shown"). q70 is the borderline call of this round and is
+      scored NAMED; the raw line is in `03e_score_P.json` for a reader who disagrees.
+    P/d2 strongest q67 ("unspecified whether per-page-session or persistent"); weakest q70
+      ("counts persist across reloads").
+    C/H preservation is at ceiling on both sides, so the ends are the `.bak` counts: q69 kept
+      three backups, q65 two. Opened both — the extra file is `05-decisions-and-issues.md.bak`,
+      a wider backup, not a different preservation outcome.
+  Totals: P 6/6 decision-observations NAMED, 0 blocking items 3/3, delivered 3/3, 5 pass 0 fail
+  3/3. C 9/9 protected artifacts, H 9/9.
+→ next: `04_verify.md` against the readings fixed in `02_tasks.md`, then `05` and the plan.

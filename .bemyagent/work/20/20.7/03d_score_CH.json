@@ -1,0 +1,237 @@
+{
+ "q65": {
+  "side": "C",
+  "upgrade_log": [
+   "upgrade-2026-11-08.log"
+  ],
+  "upgrade_plan_left": false,
+  "work11_present": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "work11_unchanged": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "codemap_changed": true,
+  "decisions_changed": true,
+  "user_lines_alive": [
+   "with a 4xx, never a bare string",
+   "never reach across one"
+  ],
+  "user_lines_where": [
+   ".bemyagent/docs/00-ai-rules.md.bak-20261108",
+   ".bemyagent/docs/05-decisions-and-issues.md"
+  ],
+  "foreign_present": true,
+  "foreign_unchanged": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150,
+   "conversationLog": ""
+  },
+  "baks": [
+   "00-ai-rules.md.bak-20261108"
+  ]
+ },
+ "q66": {
+  "side": "H",
+  "upgrade_log": [
+   "upgrade-2026-11-08.log"
+  ],
+  "upgrade_plan_left": false,
+  "work11_present": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "work11_unchanged": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "codemap_changed": true,
+  "decisions_changed": true,
+  "user_lines_alive": [
+   "with a 4xx, never a bare string",
+   "never reach across one"
+  ],
+  "user_lines_where": [
+   ".bemyagent/docs/00-ai-rules.md.bak-20261108",
+   ".bemyagent/docs/05-decisions-and-issues.md"
+  ],
+  "foreign_present": true,
+  "foreign_unchanged": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150,
+   "conversationLog": ""
+  },
+  "baks": [
+   "00-ai-rules.md.bak-20261108"
+  ]
+ },
+ "q68": {
+  "side": "C",
+  "upgrade_log": [
+   "upgrade-2026-11-08.log"
+  ],
+  "upgrade_plan_left": false,
+  "work11_present": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "work11_unchanged": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "codemap_changed": true,
+  "decisions_changed": true,
+  "user_lines_alive": [
+   "with a 4xx, never a bare string",
+   "never reach across one"
+  ],
+  "user_lines_where": [
+   ".bemyagent/docs/00-ai-rules.md.bak-20261108",
+   ".bemyagent/docs/05-decisions-and-issues.md"
+  ],
+  "foreign_present": true,
+  "foreign_unchanged": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150,
+   "conversationLog": ""
+  },
+  "baks": [
+   "00-ai-rules.md.bak-20261108"
+  ]
+ },
+ "q69": {
+  "side": "H",
+  "upgrade_log": [
+   "upgrade-2026-11-08.log"
+  ],
+  "upgrade_plan_left": false,
+  "work11_present": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "work11_unchanged": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "codemap_changed": true,
+  "decisions_changed": true,
+  "user_lines_alive": [
+   "with a 4xx, never a bare string",
+   "never reach across one"
+  ],
+  "user_lines_where": [
+   ".bemyagent/docs/00-ai-rules.md.bak-20261108",
+   ".bemyagent/docs/05-decisions-and-issues.md"
+  ],
+  "foreign_present": true,
+  "foreign_unchanged": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150,
+   "conversationLog": ""
+  },
+  "baks": [
+   "00-ai-rules.md.bak-20261108",
+   "05-decisions-and-issues.md.bak-20261108"
+  ]
+ },
+ "q71": {
+  "side": "C",
+  "upgrade_log": [
+   "upgrade-2026-11-08.log"
+  ],
+  "upgrade_plan_left": false,
+  "work11_present": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "work11_unchanged": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "codemap_changed": true,
+  "decisions_changed": true,
+  "user_lines_alive": [
+   "with a 4xx, never a bare string",
+   "never reach across one"
+  ],
+  "user_lines_where": [
+   ".bemyagent/docs/00-ai-rules.md.bak-20261108",
+   ".bemyagent/docs/05-decisions-and-issues.md"
+  ],
+  "foreign_present": true,
+  "foreign_unchanged": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150,
+   "conversationLog": ""
+  },
+  "baks": [
+   "00-ai-rules.md.bak-20261108"
+  ]
+ },
+ "q72": {
+  "side": "H",
+  "upgrade_log": [
+   "upgrade-2026-11-08.log"
+  ],
+  "upgrade_plan_left": false,
+  "work11_present": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "work11_unchanged": [
+   ".bemyagent/work/1/1.1/01_think.md",
+   ".bemyagent/work/1/1.1/02_tasks.md",
+   ".bemyagent/work/1/1.1/03_execute.log",
+   ".bemyagent/work/1/1.1/04_verify.md"
+  ],
+  "codemap_changed": true,
+  "decisions_changed": true,
+  "user_lines_alive": [
+   "with a 4xx, never a bare string",
+   "never reach across one"
+  ],
+  "user_lines_where": [
+   ".bemyagent/docs/00-ai-rules.md.bak-20261108",
+   ".bemyagent/docs/05-decisions-and-issues.md"
+  ],
+  "foreign_present": true,
+  "foreign_unchanged": true,
+  "settings": {
+   "obstacleThreshold": 5,
+   "contextSlicingThreshold": 150,
+   "conversationLog": ""
+  },
+  "baks": [
+   "00-ai-rules.md.bak-20261108"
+  ]
+ }
+}

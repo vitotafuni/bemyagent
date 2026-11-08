@@ -1,0 +1,19 @@
+== C (q65) vs H (q66): expect the Step 0 clause line only
+diff -r -x node_modules -x .git <scratchpad>/r207ch/q65/BEMYAGENT.md <scratchpad>/r207ch/q66/BEMYAGENT.md
+12c12
+< 1. **UPGRADE** — `.bemyagent/` already exists:
+---
+> 1. **UPGRADE** — `.bemyagent/` holds something this step could overwrite or must not touch: any `docs/` or `work/` file, or any file this protocol does not name. **Branch on content, not on the directory existing.** Where it holds none of those — empty, or only `settings.json`, whose merge is additive and destroys nothing — there is nothing to review: go to BROWNFIELD or GREENFIELD, generate what is missing, and report in one line what was already there:
+
+== C vs C (q65 vs q68): expect identical
+(identical)
+== H vs H (q66 vs q69): expect identical
+(identical)
+== P arm .bemyagent contents (expect settings.json only)
+q64 ['settings.json']
+q67 ['settings.json']
+q70 ['settings.json']
+== P arms identical to each other
+(identical)
+== P protocol byte-identical to the shipped one
+True

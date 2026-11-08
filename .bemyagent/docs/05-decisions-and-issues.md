@@ -433,6 +433,16 @@
 
 - **Merging two claims onto one condition was a design error, and the saving it bought was false.** Claim 1 (18.3, does the baseline surface the product decision) needs an arm that reaches the design. All three W arms stopped at Step 0, so **claim 2's compliance destroyed claim 1's occasion** and claim 1 is unmeasured. Declared after the first arm and before the other four ran, not in VERIFY. Three more arms with standing approval would close it.
 
+- **The last two fragile verdicts hold on the weak tier** (Milestone 20.7, 9 Sonnet arms, three conditions, 2026-11-08). **18.3 holds**: the baseline named the open product decision in **6 of 6 observations** (two decisions × three arms), 0 blocking items 3/3, delivered 3/3. 18.1's ownership clause stays rejected, now on two tiers. **19.2a holds**: the content-branch clause cost no protection, **9/9 against 9/9** protected artifacts, with the occasion fired — all six arms overwrote `00-ai-rules.md` and all six moved the team's §7 into `05` first → `work/20/20.7/04_verify.md`.
+
+- **20.4's fragile core is now fully audited.** Of the four rejections shaped *the baseline already does this*: **14.13 and the Step 0 STOP reversed** (20.5), **18.3 and 19.2a held** (20.7), and **15.11 is explained rather than re-run**. No commit in the queue rests on an unexamined baseline any more.
+
+- **15.11's mechanism is observed on both tiers, which is why it needs no round of its own.** Its null said the approval gate buys nothing because §4's Saturation Check has already converted the open question into a stated assumption. On Opus, w6 wrote *"(0-1 rule)"* while doing exactly that. On Sonnet, 20.7's q67 writes *"Unknown: 0-1 (scope of 'won') → assumption stated"*. Same rule, same conversion, two tiers.
+
+- **The content-branch clause has a measured benefit for the first time, and it comes from two rounds read together.** In 20.5's W — bare `.bemyagent/`, no standing approval — Sonnet **stopped 3/3** at a gate guarding a directory that held one settings file. In 20.7's P — same seed, approval granted — all three arms ran the **full UPGRADE ceremony over that same empty directory** and then delivered. In 20.7's C/H, where content does exist, the clause costs **nothing**. **It still does not land**: both halves are control measurements, and the clause has never run as a treatment on the bare seed without standing approval. That round is what Milestone 19 is owed, and this is now the best-supported candidate in the backlog.
+
+- **A rejection that holds on two tiers is worth more than one that was never challenged.** 18.3 and 19.2a entered this week as the weakest entries in the record and leave it as two of the strongest. The audit did not only overturn verdicts; it also promoted the ones that survived it.
+
 ## Known issues
 ### AI forgets to pause
 - **Symptom**: The AI ignores the "Handoff" rule and proceeds straight to execution.

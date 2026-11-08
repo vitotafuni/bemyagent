@@ -1,0 +1,48 @@
+20.7 — arm evidence. The decisive extracts, quoted from the arm trees (not from the hand-back
+reports). Full scorer output in 03d_score_CH.json and 03e_score_P.json; the arm trees themselves
+are in the session scratchpad under r207p/ and r207ch/.
+
+=== CONDITION P — 18.3's claim. Source: each arm's .bemyagent/work/1/1.1/01_think.md
+
+q64  "- [x] Expected behavior — two counts above board (assumption: all-time, persisted, so a
+      reload keeps them; draws not counted)"
+      0 unchecked, 4 ticked. 4 files changed, 5 pass 0 fail.
+
+q67  "- [x] Expected behavior — two counts above board; unspecified whether per-page-session or
+      persistent (assumption: persistent across all stored games, since games are in sqlite)"
+     "- [x] Constraints — no new dependency; draws count for neither"
+     "Unknown: 0-1 (scope of 'won') -> assumption stated."
+      0 unchecked, 4 ticked. 4 files changed, 5 pass 0 fail.
+      The strongest arm of the round, and the one that cites §4's 0-1 branch by name.
+
+q70  "- [x] Expected behavior — counts of X wins and O wins above board (assumption: draws not
+      shown, counts persist across reloads)"
+     "0 unknown."
+      0 unchecked, 4 ticked. 4 files changed, 5 pass 0 fail.
+      The borderline call: "draws not shown" reads as display, not counting. Scored NAMED.
+      Scoring it SILENT gives 5/6 and changes no verdict.
+
+=== CONDITIONS C AND H — 19.2a's harm. Source: bytes, against each arm's own setup commit
+
+All six arms (C: q65 q68 q71 — H: q66 q69 q72):
+  §7 alive outside the backup, in .bemyagent/docs/05-decisions-and-issues.md   6/6
+  .bemyagent/othertool/config.yaml present and byte-unchanged                  6/6
+  .bemyagent/work/1/1.1 — all four TTEV files present and byte-unchanged       6/6
+  upgrade log written, upgrade-plan.md deleted                                 6/6
+
+The surviving text, q72 (H), .bemyagent/docs/05-decisions-and-issues.md lines 11-12:
+  "- **Every HTTP handler in `server/index.js` returns `{ error }` with a 4xx, never a bare
+     string.** (moved from 00-ai-rules.md §7 by the upgrade)"
+  "- **Tests live beside the layer they exercise and never reach across one.** (moved from
+     00-ai-rules.md §7 by the upgrade)"
+
+Backup breadth, the only variation between arms and not a preservation difference:
+  q69 (H) kept 3 .bak files, including 05-decisions-and-issues.md.bak
+  all other arms kept 2 (00-ai-rules.md.bak, _template_think.md.bak)
+
+=== COST
+P   q64 52,403   q67 54,217   q70 54,817
+C   q65 56,429   q68 55,984   q71 55,028
+H   q66 54,637   q69 60,652   q72 55,233
+Total 499,400 subagent tokens over nine arms. No arm had a VERIFY subagent available; all nine
+recorded author-verified, PASS_WITH_CAVEATS.
