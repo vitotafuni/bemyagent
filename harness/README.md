@@ -322,34 +322,72 @@ Use it for cost, never for quality — see rules 1 and 2.
 variants where the real signal was binary. A proxy metric must be checked for bias
 *against the treatment* before its null is believed.
 
-### No control arm here has ever been clean
+### No control arm here has ever been clean, and half of all arms read the protocol
 
 Found 20.9, 2026-11-09, by an arm saying so out loud. r93x wrote *"The AGENTS.md rules file lives
 in the parent bemyagent project and governs that project's own docs, so I did not apply its docs
-workflow."* **It never opened that file.** The transcripts show it arriving as an injected
-attachment, alongside the session's `MEMORY.md`, under *"IMPORTANT: These instructions OVERRIDE any
-default behavior."*
+workflow."* **Measured 20.10, 2026-11-09, across every subagent transcript this session holds.**
 
 Every arm this project has run receives the parent repository's `AGENTS.md` — *"Read
-`.bemyagent/docs/00-ai-rules.md` before every task."* — and the session's memory index. So **"no
-protocol file of any kind" has never been the condition it was labelled.** The control is handed a
-one-line instruction to read the protocol, in a tree where that file does not exist. It affects
-every protocol-presence round: 20.2, 20.3, 20.8, 20.9. It is also the whole of the "memory rules
-leak across directories" note recorded three times — not a leak, an injection.
+`.bemyagent/docs/00-ai-rules.md` before every task."* — and the session's memory index, delivered
+as an `instructions` attachment and rendered into the arm's own request under *"IMPORTANT: These
+instructions OVERRIDE any default behavior and you MUST follow them exactly as written."*
+**118 arm launches, 118 carrying it.** 20.9 recorded that no arm opened `AGENTS.md`, which is
+true, and left the wrong impression: the arms opened the file it points at.
 
-Two consequences, and they are not symmetric:
+**58 of 118 arm launches called `<repo>/.bemyagent/docs/00-ai-rules.md`
+by absolute path** — the real file, 107 lines, the shipped protocol in full. **57 of the 58 did it
+at their first or second tool call**, before reading the tree they were given, and all 47 that read
+their own copy at all read the parent's first. **13 of 25 independent VERIFY agents** did the same.
+Nothing else leaked: **no arm, of 118, ever opened `05-decisions-and-issues.md` or
+`06-implementation-plan.md`** — one research agent quoted the path of the first inside a report,
+and that is the only hit in 174 agents.
+
+So **"no protocol file of any kind" has never been the condition it was labelled** — 20.2, 20.3,
+20.8, 20.9 — and in a clause round the exposure is worse than a label defect: the arm reads the
+**unmutated** text first. 14.13 (6/6) and 15.4 (8/8) are the two rounds whose mutated file an arm
+could also fetch clause-free from the parent; 19.2a's q39 and 18.2's q5 each read the parent
+`BEMYAGENT.md` and lose their condition outright. 14.15, 18.3, 19.5, 20.5 and 20.7 are 0/30 — the
+one protocol change in this window is not exposed.
+
+The census is only as wide as its matcher. The first pass recognised two arm-naming conventions
+out of six and dropped nine trees without saying so; the independent VERIFY found them, and the
+count moved from 49 to 58. **Key an audit of arms on the whole path, never on the arm's name** —
+`r182/q1` and `r182b/q1` are different arms.
+
+Three consequences, and they are not symmetric:
 
 - **A benefit reading is understated.** The contamination pushes the control toward the protocol's
   behaviour, so a gap measured in the protocol's favour is a floor. 20.8's 5/6 against 0/9 survives.
 - **A harm reading is inflated**, and harm readings are the ones this record trusts most (question
   2). Every rejection shaped *the clause causes damage* was taken against a control that had been
   told a protocol exists.
+- **A clause round where the arms read the parent is measuring a weakened manipulation.** Its null
+  is a floor on the clause's effect, not a reading of it.
+
+**And the exposure bought nothing.** The twelve arms given no protocol file produced **0 TTEV
+artifacts and 0 `PROTOCOL_CHECK`s**, nine of them after reading all 107 lines. The text in context
+is not the mechanism; the protocol installed as the tree's governing file is. That is the most
+useful thing this defect produced, and it was free.
 
 **It is not fixable from inside the session.** The injection is keyed to the session's primary
 working directory, not to the arm's: the arms already run from a scratchpad outside the repository
 and receive it anyway. A clean control needs arms launched from a session whose project directory is
 not this repository. **Until that round is run, no verdict here may claim an uncontaminated
 control** — say which direction the contamination pushes the reading instead.
+
+### Check isolation at the boundary the agent can reach, not the one you built
+
+19.2a fixed this criterion before launch and ticked it: *"The condition cannot leak through the
+rules file — PASS, `00-ai-rules.md` byte-identical across sides (`cmp`)."* The `cmp` was real and
+the reasoning was sound. It compared **arm against arm** — the boundary the setup script builds —
+while the leak came in by absolute path from a repository the script never mentions, at the arm's
+first tool call, in the same round that wrote the criterion down.
+
+An arm is not confined to its tree. It holds a shell, the harness hands it the parent project's
+instruction file, and anything reachable from that path is inside the experiment. Before a round
+runs, ask what the arm can **reach**, not what the setup **wrote**: a `cmp` between conditions
+proves the conditions differ, never that nothing else was available.
 
 ### A round whose evidence lives only in the scratchpad is unauditable
 

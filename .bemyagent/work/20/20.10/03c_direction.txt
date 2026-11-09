@@ -1,0 +1,46 @@
+20.10 — DIRECTION: what each round mutates, and which way a parent read pushes its verdict
+
+round  what the setup mutates          arms  read  direction of the defect
+14.8   no protocol delta               3     1     no clause to defeat; both sides equally exposed
+14.9   no protocol delta               8     1     no clause to defeat; both sides equally exposed
+14.12  no protocol delta               6     1     no clause to defeat; both sides equally exposed
+14.13  mirror+BEMYAGENT.md mutated     6     6     B read the clause-free A text: the manipulation is contradicted in context
+14.15  mirror+BEMYAGENT.md mutated     6     0     not exposed
+15.4   mirror+BEMYAGENT.md mutated     8     8     B read the clause-free A text: the manipulation is contradicted in context
+17.2   no protocol delta               3     1     no clause to defeat; both sides equally exposed
+18.2   no protocol delta               12    7     no clause to defeat; both sides equally exposed
+18.3   no protocol delta               3     0     not exposed
+19.2a  BEMYAGENT.md only               6     5     the mirror carries no clause either way: the manipulation survives
+19.2b  BEMYAGENT.md only               6     6     the mirror carries no clause either way: the manipulation survives
+19.5   BEMYAGENT.md only               6     0     not exposed
+20.2   no-protocol control present     6     6     the control read the protocol in full: benefit understated, harm inflated
+20.3   no-protocol control present     6     3     the control read the protocol in full: benefit understated, harm inflated
+20.5   no protocol delta               6     0     not exposed
+20.7   BEMYAGENT.md only               9     0     not exposed
+20.8   no-protocol control present     3     1     the control read the protocol in full: benefit understated, harm inflated
+20.9   no-protocol control present     6     3     the control read the protocol in full: benefit understated, harm inflated
+
+--- F4  order of the parent read -----------------------------------------------------------
+  exposed arm launches: 58
+  parent read at the arm's 1st or 2nd tool call: 57
+  parent read BEFORE the arm's own copy        : 47 of 47 that read their own copy at all
+  latest parent read, by call index            : 3
+
+--- F5  the independent VERIFY agents ------------------------------------------------------
+  VERIFY agents identified: 25   that called the parent rules file: 13
+  14.13  B          q31    parent@call 1
+  14.13  A          q28    parent@call 1
+  19.2a  B          q35    parent@call 0
+  15.4   A          q50    parent@call 0
+  19.2a  B          q37    parent@call 0
+  14.13  B          q29    parent@call 0
+  20.2   P          q52    parent@call 0
+  14.13  A          q28    parent@call 0
+  14.13  B          q33    parent@call 0
+  19.2a  A          q38    parent@call 0
+  18.3   -          q7     parent@call 0
+  17.2   -          q11    parent@call 0
+  undeclared-          w3     parent@call 0
+
+--- F6  the parent's own record ------------------------------------------------------------
+  agents of any role that called 05-decisions-and-issues.md or 06-implementation-plan.md: 1 of 174

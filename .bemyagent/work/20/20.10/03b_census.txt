@@ -1,0 +1,152 @@
+20.10 — CENSUS: every arm launch, and whether it called a protocol file in the PARENT repo
+
+A read is counted ONLY from the arm's own tool_use input containing
+<repo>/.bemyagent/docs/00-ai-rules.md — never from body text,
+which the arm's own copy shares word for word. BMA = called the parent BEMYAGENT.md.
+
+round  side       arm   runs parent  own copy  ceremony on disk
+14.8   -          q13   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.8   -          q14   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.8   -          q15   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.9   BMA.s.md   q16   2    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.9   BMA.c.md   q17   2    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.9   BMA.s.md   q18   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.9   BMA.c.md   q19   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.9   BMA.s.md   q20   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.9   BMA.c.md   q21   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.12  H          q22   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.12  G          q23   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.12  H          q24   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.12  G          q25   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.12  H          q26   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.12  G          q27   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.13  A          q28   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+14.13  B          q29   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+14.13  A          q30   1    READ    no        01_think,02_tasks,03_execute,04_verify
+14.13  B          q31   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+14.13  A          q32   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+14.13  B          q33   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+14.15  A          q79   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.15  B          q80   1    -       no        01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.15  A          q81   1    -       no        01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.15  B          q82   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.15  A          q83   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+14.15  B          q84   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+15.4   A          q46   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+15.4   B          q47   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+15.4   A          q48   2    READ    yes       01_think,02_tasks,03_execute,04_verify
+15.4   B          q49   2    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+15.4   A          q50   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+15.4   B          q51   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+17.2   -          q10   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+17.2   -          q11   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+17.2   -          q12   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+18.2   BMA.own.md q1    2    READ BMAyes       01_think,02_tasks,PROTOCOL_CHECK   r182/q1 r182b/q1
+18.2   BMA.own.md q2    2    READ    yes       01_think,02_tasks,PROTOCOL_CHECK   r182/q2 r182b/q2
+18.2   BMA.own.md q3    2    READ BMAyes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK   r182/q3 r182b/q3
+18.2   BMA.rev.md q4    2    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK   r182/q4 r182b/q4
+18.2   BMA.rev.md q5    2    READ BMAyes       01_think,02_tasks,PROTOCOL_CHECK   r182/q5 r182b/q5
+18.2   BMA.rev.md q6    2    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK   r182/q6 r182b/q6
+18.3   -          q7    1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+18.3   -          q8    1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+18.3   -          q9    1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2a  A          q34   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+19.2a  B          q35   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2a  A          q36   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2a  B          q37   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2a  A          q38   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+19.2a  B          q39   1    BMA     yes       01_think,02_tasks,03_execute,04_verify
+19.2b  A          q40   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2b  B          q41   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2b  A          q42   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2b  B          q43   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2b  A          q44   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.2b  B          q45   1    READ    yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.5   A          q73   1    -       no        NONE
+19.5   B          q74   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.5   A          q75   1    -       no        NONE
+19.5   B          q76   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+19.5   A          q77   1    -       no        NONE
+19.5   B          q78   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.2   P          q52   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+20.2   P          q54   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+20.2   P          q56   1    READ    yes       01_think,02_tasks,03_execute,04_verify
+20.2   N          q53   1    READ    no        NONE
+20.2   N          q55   1    READ    no        NONE
+20.2   N          q57   1    READ    no        NONE
+20.3   P          q85   1    -       no        01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.3   P          q87   1    -       yes       01_think,02_tasks,03_execute,04_verify
+20.3   P          q89   1    -       no        01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.3   N          q86   1    READ    no        NONE
+20.3   N          q88   1    READ    no        NONE
+20.3   N          q90   1    READ    no        NONE
+20.5   A          q59   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.5   A          q61   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.5   A          q63   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.5   A          q58   1    -       no        NONE
+20.5   A          q60   1    -       no        NONE
+20.5   A          q62   1    -       no        NONE
+20.7   A          q65   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.7   B          q66   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.7   A          q68   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.7   B          q69   1    -       yes       01_think,02_tasks,03_execute,04_verify
+20.7   A          q71   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.7   B          q72   1    -       no        01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.7   -          q64   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.7   -          q67   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.7   -          q70   1    -       yes       01_think,02_tasks,03_execute,04_verify,PROTOCOL_CHECK
+20.8   N          q91   1    READ    no        NONE
+20.8   N          q92   1    -       no        NONE
+20.8   N          q93   1    -       no        NONE
+20.9   H          r85x  1    READ    no        PROTOCOL_CHECK
+20.9   H          r87x  1    -       no        01_think
+20.9   H          r89x  1    -       yes       01_think,PROTOCOL_CHECK
+20.9   C          r91x  1    -       no        NONE
+20.9   C          r92x  1    READ    no        NONE
+20.9   C          r93x  1    READ    no        NONE
+
+arm launches 109   parent reads 49   holes 0: none
+
+arm trees named by no setup script's ARMS dict - experiments that pre-date the setup-script
+convention. Counted, not attributed:
+  r11/w1        1 launch(es)  READ  parent@[1]
+  r11/w2        1 launch(es)  READ  parent@[3]
+  r11/w3        1 launch(es)  READ  parent@[1]
+  r11/w4        1 launch(es)  READ  parent@[1]
+  r11/w5        1 launch(es)  READ  parent@[1]
+  r11/w6        1 launch(es)  READ  parent@[1]
+  r18/z1        1 launch(es)  READ  parent@[1]
+  r18/z2        1 launch(es)  READ  parent@[1]
+  r18/z3        1 launch(es)  READ  parent@[1]
+unclassified agents (prompt matches neither an arm opening nor a VERIFY opening): 31
+  undeclareda-1   <agent-id>  parent@-1
+  18.2   q6    <agent-id>  parent@-1
+  undeclaredb-1   <agent-id>  parent@-1
+  undeclaredarm-2 <agent-id>  parent@-1
+  undeclaredc-1   <agent-id>  parent@-1
+  undeclareda-2   <agent-id>  parent@-1
+  undeclaredb-2   <agent-id>  parent@-1
+  undeclareda-2   <agent-id>  parent@-1
+  undeclareda-1   <agent-id>  parent@-1
+  undeclaredb-2   <agent-id>  parent@-1
+  undeclareda-2   <agent-id>  parent@-1
+  undeclaredarm-1 <agent-id>  parent@-1
+  15.4   q46   <agent-id>  parent@-1
+  undeclaredb-3   <agent-id>  parent@-1
+  undeclaredb-1   <agent-id>  parent@-1
+  15.4   q48   <agent-id>  parent@-1
+  undeclaredb-1   <agent-id>  parent@-1
+  19.2b  q45   <agent-id>  parent@0
+  undeclareda-1   <agent-id>  parent@-1
+  18.2   q3    <agent-id>  parent@-1
+  undeclaredc-3   <agent-id>  parent@-1
+  undeclaredb-3   <agent-id>  parent@-1
+  undeclaredc-2   <agent-id>  parent@-1
+  undeclareda-1   <agent-id>  parent@-1
+  undeclaredb-1   <agent-id>  parent@-1
+  undeclaredb-3   <agent-id>  parent@-1
+  undeclareda-3   <agent-id>  parent@-1
+  undeclaredb-2   <agent-id>  parent@-1
+  undeclareda-3   <agent-id>  parent@-1
+  undeclareda-3   <agent-id>  parent@-1
+  18.3   q9    <agent-id>  parent@-1

@@ -1,0 +1,110 @@
+# EXECUTE — 20.10
+
+No arms launched. Every observation comes from this session's 201 subagent transcripts.
+
+cmd: ls subagents/ | wc -l ; glob agent-*.jsonl
+result: 402 entries, 201 agent transcripts and 201 `.meta.json` siblings
+next: find where the injected instruction is actually delivered, and in what form
+
+cmd: scan every transcript for `Read .bemyagent/docs/00-ai-rules.md before every task.`
+result: present in 178 as `{"type":"attachment","attachment":{"type":"instructions","files":[
+  {"path":".../bemyagent/AGENTS.md","type":"Project",...},{"path":".../memory/MEMORY.md",
+  "type":"AutoMem",...}]}`, and in 183 `api-request-blob` records rendered into the arm's own
+  request under *"IMPORTANT: These instructions OVERRIDE any default behavior and you MUST follow
+  them exactly as written."*
+note: 20.9 quoted that header from this session's own reminder; it is now confirmed in the arms'
+  own requests. The delivery path is `instructions` attachment → rendered system-reminder.
+next: the instruction names a path — count the arms that followed it
+
+cmd: wc -l -c .bemyagent/docs/00-ai-rules.md
+result: 107 lines, 14267 bytes — the shipped protocol in full, a verbatim substring of
+  BEMYAGENT.md. Two control arms used `head -100`, which reaches §7: 93% of the file, §4 included.
+next: write score.py
+
+cmd: python3 -I score.py 03d_score_output.json   (first run)
+result: AssertionError from `ast.literal_eval` — 20.8's setup reassigns ARMS from a dict
+  comprehension. OBSTACLE 1. Fixed: non-literal assignments skipped.
+next: re-run
+
+cmd: python3 -I score.py 03d_score_output.json
+result: 88 arm launches, 15 holes — every arm of 14.8, 17.2, 18.2 and 18.3 unattributed.
+  OBSTACLE 2: the role rule assumed one launch-prompt opening ("Your working directory is"),
+  and the arms were launched over four months with four. Fixed: role read off the VERIFY markers
+  for the verifiers and off four arm openings for the arms, with anything matching neither
+  printed as `unclassified` rather than guessed at.
+next: re-run and check the classification
+
+cmd: python3 -I score.py ; count roles
+result: 109 arm launches, 20 VERIFY agents, 6 unclassified, 0 holes. 14.9 and 18.2 really do
+  have two launches per arm; 15.4's q48 and q49 were re-run.
+next: per-round direction
+
+cmd: python3 -I report.py
+result: OBSTACLE 3 — the mutation classifier read `treat(` out of the source and called 20.2 a
+  clause round. 20.2's setup was copied from one and still carries a dead `treat()` branch for a
+  side no arm has. Fixed: classify by the sides that exist first.
+next: re-run
+
+cmd: python3 -I report.py
+result: OBSTACLE 4 — 19.2a labelled mirror-mutated, which contradicts its own recorded criterion
+  *"00-ai-rules.md byte-identical across sides (cmp) — PASS"*. Read 19.2a's `treat()`: it
+  returns the text untouched where the anchor is absent, and its anchor is Step 0's UPGRADE line,
+  which the mirror does not contain. **19.2a's PASS is correct and the classifier was wrong.**
+  Fixed: count each round's own ANCHOR in BEMYAGENT.md and in the mirror as they stood at that
+  round's commit, via `git show`, instead of trusting the call's presence.
+next: re-run
+
+cmd: python3 -I report.py
+result: 19.5 fell to "no protocol delta" — its own commit is the one that replaced its anchor,
+  so the anchor is already gone at that tree. Same defect, one step further: read at the
+  commit's PARENT, which is the tree the arms were built from. Re-run: 19.5 back to
+  "BEMYAGENT.md only", 20.7 "BEMYAGENT.md only" matching its setup's own comment, 14.13 and 15.4
+  the only two rounds whose mutated file is one an arm could also read unmutated in the parent.
+next: pivot check — four obstacles against `obstacleThreshold` 2
+
+cmd: re-read "Approaches Considered" in 01_think.md as §4's Dynamic Pivot requires
+result: all four obstacles are in attribution and classification, none in the needle. Approach 1
+  (grep and count) is still wrong for the reasons written before launch; approach 3 (re-run the
+  arms clean) is still impossible from this session. Approach 2 stands. Pivot considered and
+  declined, reported here rather than to the user mid-round (`interactiveMode=false`).
+next: the three pre-registered unknowns
+
+cmd: python3 -I report.py ; F4 F5 F6
+result: F4 CONFIRMED and sharper than predicted — all 49 exposed launches read the parent file
+  at their **1st or 2nd tool call**, the highest index being 1, and all 38 that read their own
+  copy at all read the parent's first. F5 CONFIRMED — 11 of 20 independent VERIFY agents reached
+  it too, including 14.13's and 15.4's, which judged the arms' work holding the unmutated text.
+  F6 CONFIRMED — **0 of 135** agents ever called `05-decisions-and-issues.md` or
+  `06-implementation-plan.md`. The leak is the protocol and nothing else in the record.
+next: read each affected round's own verdict before saying what the defect costs it
+
+cmd: read 14.13, 15.4, 19.2a, 18.2 `04_verify.md`
+result: 14.13 ceiling, clause not shipped. 15.4 trace lands, clause not shipped. 19.2a tie, 19.2b
+  authorised and nothing more. 18.2 PASS_WITH_CAVEATS, does not land. **No clause ever shipped on
+  a round whose manipulation was defeated.** 19.5, the one protocol change in this window, is
+  0/6 exposed.
+next: 04_verify.md, then an independent VERIFY by an agent that did not do this work
+
+cmd: launch an independent VERIFY — a Sonnet agent holding the six questions and the raw
+     transcripts, none of this round's numbers, its own scripts in its own scratch directory
+result: **it contradicted the census and it was right.** Its question-2 count was 58 against this
+  round's 49. The matcher recognised `q<N>` and `r<N>x` and nothing else, so four arm populations
+  that pre-date the setup-script convention — `r11/w*`, `r18/z*`, `exp/runs/*`, `gf/arm-*` — were
+  never looked for. It also separated `r182/q1` from `r182b/q1`, two different arms sharing a name.
+  OBSTACLE 5, and the only one of the five that reading my own output would never have caught.
+next: re-key score.py on the whole relative path and re-run everything
+
+cmd: python3 -I score.py ; python3 -I report.py
+result: **118 arm launches over 114 distinct trees, 58 parent reads — exact agreement with the
+  verifier.** Nine trees belong to no `ARMS` dict; counted and listed, not attributed. Three
+  figures move: F4's worst case from index 1 to **index 3** (`r11/w2`), F5 from 11/20 to
+  **13/25**, F6 from 0 to **1 of 174** — a research agent quoting the absolute path of
+  `05-decisions-and-issues.md` inside a report, **no arm**. The per-round direction table is
+  unchanged, and so is the finding: **0 of 12 controls wrote a single artifact.**
+next: correct `04_verify.md`, `harness/README.md` and 20.9's addendum to the reconciled figures
+
+cmd: grep the committed record for the superseded figures
+result: `01_think.md` and `02_tasks.md` still say 201 transcripts and 45%, and they stay that way —
+  they were forward-written before the measurement and the Handoff Principle makes only `03` and
+  `04` retrospective. The entries above them in this log keep the figures they had at the time.
+next: close

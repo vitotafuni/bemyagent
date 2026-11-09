@@ -70,7 +70,8 @@ you MUST follow them exactly as written."*
 
 **Every arm this project has ever run was handed the parent repository's `AGENTS.md` and the
 session's `MEMORY.md`, as overriding project instructions.** All three control arms in this round
-mention `AGENTS.md`; none opened it. This also explains the "memory leak across directories"
+mention `AGENTS.md`; none opened it — **but see the addendum below: two of them opened the file it
+points at.** This also explains the "memory leak across directories"
 recorded three times (q79, q89, r89x): it was never a leak the arms went looking for, it is an
 injection they all receive.
 
@@ -88,6 +89,25 @@ working directory, not to the arm's own directory — the arms already run from 
 the repository and receive it anyway. A clean control needs arms launched from a session whose
 project directory is not this repository. Recorded in `harness/README.md`; no round should claim an
 uncontaminated control until that is done.
+
+### Addendum, 2026-11-09 — the injection is not a dead pointer, and 20.10 measured it
+
+Both sentences above are true of `AGENTS.md` and leave the wrong impression. 20.10 counted, across
+every subagent transcript this session holds, the arms that called
+`<repo>/.bemyagent/docs/00-ai-rules.md` — the file `AGENTS.md` points
+at — by absolute path in a tool call.
+
+**r92x and r93x did, at their first tool call. So did r85x.** Across the whole project, **58 of 118
+arm launches**, including **9 of the 12** arms labelled *no protocol file of any kind*: 20.2 3/3,
+20.3 3/3, 20.8 1/3, this round 2/3 on the control side. They did not receive a pointer to a missing
+file. They received the shipped protocol, 107 lines, in full, before looking at the tree they were
+given.
+
+The direction of bias recorded above is unchanged and is now measured rather than inferred. What
+the measurement adds is that the exposure was **inert**: those twelve arms wrote **0** TTEV files
+and emitted **0** `PROTOCOL_CHECK`s. The text in context is not the mechanism.
+
+→ `work/20/20.10/04_verify.md`
 
 ## What this does not say
 
