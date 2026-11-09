@@ -84,7 +84,8 @@ knowing a protocol should exist. So **benefit readings are understated, not infl
 against 0/9 survives this, and if anything the true gap is wider. A **harm** reading would be
 inflated by it, and harm readings are the ones this record has trusted most (20.6 Q2).
 
-**It is not fixable from inside this session.** The injection is per-session, keyed to the primary
+**It is not fixable from inside this session** — *wrong, and corrected in the addendum below:
+it is fixable, by a different launcher.* The injection is per-session, keyed to the primary
 working directory, not to the arm's own directory — the arms already run from a scratchpad outside
 the repository and receive it anyway. A clean control needs arms launched from a session whose
 project directory is not this repository. Recorded in `harness/README.md`; no round should claim an
@@ -108,6 +109,15 @@ the measurement adds is that the exposure was **inert**: those twelve arms wrote
 and emitted **0** `PROTOCOL_CHECK`s. The text in context is not the mechanism.
 
 → `work/20/20.10/04_verify.md`
+
+### Addendum, 2026-11-09 — and the last paragraph above is wrong too
+
+*"Not fixable from inside this session"* was reasoning about the harness, not a measurement of it.
+A `claude -p` launched with its working directory inside the arm's own tree receives **no project
+instructions at all**: `"type":"instructions"` 0 records, `AGENTS.md` 0, `00-ai-rules.md` 0, the
+OVERRIDE header 0. A clean arm is buildable, and 20.11 is the round that builds one.
+
+→ `work/20/20.11/03_execute.log`
 
 ## What this does not say
 

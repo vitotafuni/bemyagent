@@ -1,0 +1,68 @@
+# 20.11 — EXECUTE
+
+## 2026-11-09 — feasibility, before any ceremony
+
+`command claude --version` → 2.1.308. Found that the user's shell defines `claude` as a function
+wrapping `command claude` with a `mktemp -d` config dir; a headless run through it would have no
+auth and no readable transcript. Next: probe whether a run from outside the repository receives the
+parent's project instructions.
+
+Built `scratchpad/probe211`, one `marker.txt`, no rules file of any kind. Ran
+`command claude -p "Read marker.txt..." --model haiku --allowedTools Read --output-format json`
+with cwd = the probe dir. Returned the file's contents, `permission_denials: []`. Next: read its
+own transcript for the injection.
+
+Located the transcript by session id, not by guessing the slug — the slug is the full `/private/tmp`
+path, not the directory name:
+`<claude-config>/projects/-private-tmp-...-scratchpad-probe211/<session-id>-....jsonl`.
+Counts: `"type":"instructions"` **0**, `bemyagent/AGENTS.md` **0**, `00-ai-rules.md` **0**,
+`OVERRIDE any default behavior` **0**, `MEMORY.md` **3** — all three the memory tool's own
+boilerplate in the system prompt, and the probe's own `memory/` directory was created empty.
+**A clean arm is buildable.** Next: size the round and write the ceremony.
+
+## Ceremony
+
+Heavy — six trees, a new launcher, three instruments. `PROTOCOL_CHECK` emitted for `01_think.md` +
+`02_tasks.md`, and separately for `launch.sh`. Both written before any tree was touched; the fact
+table in `02_tasks.md` is pre-registered with nothing in it observed.
+
+Decision recorded in THINK and worth repeating here: **the P side is in the round to prove the
+launcher is alive.** A clean control reading 0/3 on a launcher never observed to produce anything
+else is a floor, not a null.
+
+## Build
+
+`setup.py` derived from 20.8's: `diff` from the `ONLY` line onward is **empty**, so the docstring
+and the `ARMS` dict are the only changes. Six trees built in `scratchpad/r2011/`, `npm install`
+each: P arms 726 tracked files, N arms 10 — the same asymmetry 20.3 and 20.8 have, since the P
+branch's second commit lands after `npm install`. Next: seed identity against the reference trees.
+
+Seed identity taken at each arm's **first commit**, not its working tree — the reference arms were
+worked on by their agents and their working trees are modified. `git ls-tree -r <root>`,
+node_modules excluded, mode+hash+path sorted:
+**q94 q95 q96 identical to r203/q85 (24 blobs each), q97 q98 q99 identical to r208/q91 (10 blobs
+each). 102 blob comparisons, 0 diff lines** (`03b_seed.txt`). Next: confirm a headless arm can run
+a shell command before spending six Sonnet arms.
+
+Obstacle 1, and the one the pre-mortem named first: in `-p` mode an unpermitted tool call is
+denied, not queued. Smoke-tested the full flag set on the probe tree:
+`echo permissions-ok && node --version` ran, `probe.out` was written, `permission_denials: []`,
+3 turns. The launcher's roster is sufficient. Next: launch the six arms.
+
+## Obstacle 2 — stopped here
+
+`launch.sh q94 q95 q96 q97 q98 q99` was **denied by the auto-mode permission classifier**, reason
+`[Create Unsafe Agents]`. The objection is not to this fixture: it is to starting six detached
+agent processes holding `Bash` with no interactive gate. That is a fair reading of what the command
+does, and the narrower rosters that would pass cannot run `npm test` or `curl`, which metrics (i),
+(iii) and (v) require.
+
+**No workaround was attempted.** Relaunching the same arms through the Agent tool is available and
+would be the exact contamination the round exists to remove, so it is not a fallback — it is the
+condition under test.
+
+Round state: **pre-registered and blocked before launch.** Six trees stand built and seed-verified
+at `scratchpad/r2011/`, the launcher is written and smoke-tested on a one-shot, and nothing in the
+fact table has been observed. If the user grants the permission, step 4 runs as written and no
+reading changes; if they decline, the trees cost nothing and the pre-registration stands as a
+record of what was predicted before any data existed.

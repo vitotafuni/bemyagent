@@ -1,0 +1,8 @@
+# 20.11 — seed identity, taken at each arm's first commit, node_modules excluded
+
+q94  vs r203/q85 (Sonnet+BMA)   IDENTICAL  24 blobs
+q95  vs r203/q85 (Sonnet+BMA)   IDENTICAL  24 blobs
+q96  vs r203/q85 (Sonnet+BMA)   IDENTICAL  24 blobs
+q97  vs r208/q91 (Sonnet-none)  IDENTICAL  10 blobs
+q98  vs r208/q91 (Sonnet-none)  IDENTICAL  10 blobs
+q99  vs r208/q91 (Sonnet-none)  IDENTICAL  10 blobs

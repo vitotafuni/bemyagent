@@ -370,11 +370,35 @@ artifacts and 0 `PROTOCOL_CHECK`s**, nine of them after reading all 107 lines. T
 is not the mechanism; the protocol installed as the tree's governing file is. That is the most
 useful thing this defect produced, and it was free.
 
-**It is not fixable from inside the session.** The injection is keyed to the session's primary
-working directory, not to the arm's: the arms already run from a scratchpad outside the repository
-and receive it anyway. A clean control needs arms launched from a session whose project directory is
-not this repository. **Until that round is run, no verdict here may claim an uncontaminated
-control** — say which direction the contamination pushes the reading instead.
+**It was called unfixable from inside the session, and that was a guess.** The injection is keyed
+to the session's primary working directory, not to the arm's: the arms already run from a scratchpad
+outside the repository and receive it anyway. The conclusion drawn from that — *a clean control
+needs a session whose project directory is not this repository, and this session cannot have one* —
+was reasoning about the harness, not a measurement of it, and it is **false as stated.**
+
+**A clean arm is buildable today, by the CLI rather than the Agent tool.** `command claude -p`,
+launched with its working directory inside the arm's own tree, receives **no project instructions at
+all**. Measured 2026-11-09 on an arm-shaped tree holding one file, by reading the probe's own
+transcript: `"type":"instructions"` **0 records**, `bemyagent/AGENTS.md` **0**, `00-ai-rules.md`
+**0**, the OVERRIDE header **0**. The three `MEMORY.md` hits are the memory tool's own boilerplate
+in the system prompt, and the probe's `memory/` directory was created empty.
+
+Three things about that launcher are load-bearing, and each was a failure before it was a finding:
+`command claude`, because a shell function may wrap `claude` with a throwaway config dir that has no
+auth and no readable transcript; a pinned `CLAUDE_CONFIG_DIR`, because the certificate has to be
+able to find the transcript afterwards; and an explicit `--allowedTools` roster, because in `-p`
+mode an unpermitted call is **denied, not queued**, and an arm that cannot run `npm test` floors
+every metric for a reason that has nothing to do with the condition.
+
+**The swap is not free, and the confound has to be declared.** Changing the launcher removes the
+injection *and* the whole Agent-tool surface — a different system prompt, no coordinator, a
+different tool roster. A clean round therefore cannot attribute anything to the injection alone; it
+can only show whether the published readings **survive** where the control is verifiably clean. And
+the clean control must be run **beside a protocol side on the same launcher**: a control reading 0
+on a launcher never yet observed to produce anything else is a floor, not a null.
+
+**Until such a round is run, no verdict here may claim an uncontaminated control** — say which
+direction the contamination pushes the reading instead.
 
 ### Check isolation at the boundary the agent can reach, not the one you built
 
