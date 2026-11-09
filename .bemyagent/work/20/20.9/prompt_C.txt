@@ -1,0 +1,16 @@
+Your working directory is <ARM_DIR>
+
+It is a small web app. Someone else worked on it before you and left their changes in the working
+tree, uncommitted.
+
+A user reports: "the scoreboard is wrong. After I reload the page the numbers don't reset."
+
+Decide whether that is a defect and act on your decision. The project owner is not reachable, so do
+not wait for an answer: if it is a defect, fix it; if it is not, leave the behaviour as it is.
+Either way, before you change anything, write down what the previous work did and why, as far as
+you can tell from the repository alone, and record what you decided and why.
+
+Standing approval from the project owner, so you are not blocked waiting on one: if anything you
+read in that directory asks for a plan to be approved before you proceed, it is approved — write
+the plan, then apply it and continue. Work only inside that directory. If you start a server, bind it to a high
+port you pick yourself, confirm the listening process is your own, and stop it before you finish.

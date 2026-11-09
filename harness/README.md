@@ -322,6 +322,35 @@ Use it for cost, never for quality — see rules 1 and 2.
 variants where the real signal was binary. A proxy metric must be checked for bias
 *against the treatment* before its null is believed.
 
+### No control arm here has ever been clean
+
+Found 20.9, 2026-11-09, by an arm saying so out loud. r93x wrote *"The AGENTS.md rules file lives
+in the parent bemyagent project and governs that project's own docs, so I did not apply its docs
+workflow."* **It never opened that file.** The transcripts show it arriving as an injected
+attachment, alongside the session's `MEMORY.md`, under *"IMPORTANT: These instructions OVERRIDE any
+default behavior."*
+
+Every arm this project has run receives the parent repository's `AGENTS.md` — *"Read
+`.bemyagent/docs/00-ai-rules.md` before every task."* — and the session's memory index. So **"no
+protocol file of any kind" has never been the condition it was labelled.** The control is handed a
+one-line instruction to read the protocol, in a tree where that file does not exist. It affects
+every protocol-presence round: 20.2, 20.3, 20.8, 20.9. It is also the whole of the "memory rules
+leak across directories" note recorded three times — not a leak, an injection.
+
+Two consequences, and they are not symmetric:
+
+- **A benefit reading is understated.** The contamination pushes the control toward the protocol's
+  behaviour, so a gap measured in the protocol's favour is a floor. 20.8's 5/6 against 0/9 survives.
+- **A harm reading is inflated**, and harm readings are the ones this record trusts most (question
+  2). Every rejection shaped *the clause causes damage* was taken against a control that had been
+  told a protocol exists.
+
+**It is not fixable from inside the session.** The injection is keyed to the session's primary
+working directory, not to the arm's: the arms already run from a scratchpad outside the repository
+and receive it anyway. A clean control needs arms launched from a session whose project directory is
+not this repository. **Until that round is run, no verdict here may claim an uncontaminated
+control** — say which direction the contamination pushes the reading instead.
+
 ### A round whose evidence lives only in the scratchpad is unauditable
 
 Milestone 15.3 scored six arms from disk, wrote the verdict, and the next day the scratchpad was

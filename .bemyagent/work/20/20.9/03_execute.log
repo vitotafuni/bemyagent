@@ -1,0 +1,142 @@
+# 20.9 — EXECUTE
+
+## 2026-11-09 — build
+PROTOCOL_CHECK: target=.bemyagent/work/20/20.9/, reason=new A/B round, the Handoff Principle's own
+claim. §3 Routing Table re-read, 06-implementation-plan.md read.
+
+No arms were built: the six trees already exist from 20.3 and 20.8. They were **copied** to
+scratchpad/r209 under neutral names (r85x … r93x — the greenfield A/B showed directory names that
+reveal the hypothesis change behaviour 3/3), so the originals survive for later rounds.
+03b_copies.txt: all six copies match their sources on both working-tree status and a hash of every
+file under client/ server/ test/ db/ .bemyagent/.
+
+Premise verified false on all six trees before the prompt was written: every tally is
+`WHERE winner IN ('X','O')` with no session, time or limit filter.
+
+Prompts: the two differ by exactly one sentence, confirmed by diff. The standing-approval sentence
+was rewritten to be condition-neutral — the first draft named "the protocol's Step 0", which would
+have been a second difference and a hint to the control that something was missing.
+
+Next intended action: launch r85x, then alternate conditions one arm at a time.
+
+## batch 1 — r85x (H)
+Returned. **Verdict: not a defect. Changed no code and no tests.** Named `getScore()`, the singular
+route `GET /api/score` (q85 is the only arm that spelled it singular), the `#score` div above
+`#board`, `loadScore()`, and `test/score.test.js` — and gave the reason, citing task 2.1's choice
+of counting from the table over client counters and the "board lives on the server" decision. Also
+read its predecessor's VERIFY verdict (PASS_WITH_CAVEATS, client JS never run in a browser).
+
+Surfaced one extra defect out of scope — the client POSTs a new game on every page load, so a
+reload does not resume the board, contradicting `01-overview.md` — and correctly reasoned it does
+**not** cause the reported symptom, since unfinished games never count. Wrote a draft, a decision
+line, a known issue and one micro.log line, with PROTOCOL_CHECK on each. Started no server.
+Predecessor's changes and `.bak` files untouched.
+
+Next intended action: launch r91x, the first control arm.
+
+## batch 1 — r91x (C)
+Returned. **Verdict: not a defect. Changed no application code.** Named `getScores()`,
+`GET /api/scores`, the client wiring, and reached all-time scope — explicitly as **inference**:
+*"the README says the board lives server-side and the schema stores every game … No commit
+message, issue or spec documents the intent, so this is inference."* It also weighed reversibility:
+*"Resetting would throw away data, while a persistent score is easy to hide or reset later."*
+Wrote its report to a new untracked `DECISION.md` at the repository root.
+
+**Two claims checked before recording them as fabrication, and both are true.** The arm cited a
+`README.md` and a `reset()` in `server/session.js`. `git ls-tree` shows README.md is tracked at
+setup, and `session.js` defines `reset()` at line 288 — the fixture's session.js carries 20+
+functions, far more than the three its code map names. A fabrication charge here would have been
+the scorer's error, not the arm's. **Metric (c) scores 0 for r91x, verified, not assumed.**
+
+Next intended action: launch r87x (H).
+
+## pre-registration amended mid-round, declared
+After r85x and r91x and before the remaining four launched, `02_tasks.md` gained **metric (e), the
+epistemic status of the why**: CITED / INFERRED / ASSERTED / ABSENT. The two arms that had already
+returned agreed on the behaviour and differed in how they knew it — one attributed the reason to
+task 2.1, the other labelled it inference unprompted. The fact table (b) asks what the predecessor
+did; the Handoff Principle claims the reasoning survives, and nothing in 02 was reading for that.
+
+It covers four of six arms as a pre-registration and is flagged as such on the other two. This is a
+defect of my own pre-registration, declared in the round rather than repaired after the data — 14.15
+is the precedent for not repairing it quietly.
+
+## batch 2 — r87x (H)
+Returned. **Verdict: not a defect. No code touched**, 5 pass 0 fail, no server started. Named
+`getScores()`, `GET /api/scores`, `#scores`, `showScores()` and `test/store.test.js` — all correct
+for this arm. **Quoted its predecessor's `01_think.md` directly**: the client-side counter was
+rejected because it is *"lost on reload"*, and the stated assumption was *"won = all persisted
+games, across reloads"*. Cross-checked that against the README and the committed server-side-board
+decision rather than taking it on trust. Ruled out a session-scoped tally and deleting rows, and
+left the owner one open question — an explicit reset action, with a *"scores since"* marker
+proposed as safer than deleting games. Wrote a draft, a decision line, a new task 2.2 and a
+micro.log line.
+
+Next intended action: launch r92x (C).
+
+## batch 2 — r92x (C)
+Returned. **Verdict: not a defect. No source files changed.** Named `getScores()`,
+`GET /api/scores`, the scoreboard line and the New Game button its predecessor added. Reached
+all-time scope as **inference**, stated as such: *"nothing in it explains the change, but the README
+says the board lives server-side."* **It verified the tally empirically** — two games won by X on a
+throwaway DB returned `{"X":2,"O":0}` — which no protocol arm has done so far. Port 48317 confirmed
+free after the run. Wrote `DECISION.txt` at the repository root.
+
+### third fabrication candidate, third time the arm was right
+r92x said `db/schema.sql` *"is titled 'game persistence'"*. The file's own first line is
+`-- Local hot-seat tic-tac-toe. Single-device play, no accounts.` and it contains no such phrase.
+But the README's Layout block reads `db/schema.sql       game persistence schema` — the phrase
+exists in the repository, describing exactly that file. Loose attribution, correct content,
+traceable source. **(c) = 0 for r92x.** Its other quotation, *"the board lives server-side"*, is
+verbatim in the README.
+
+Three fabrication candidates opened in this round, three arms vindicated. Recorded because the
+pattern is about the **scorer**: the instinct to flag a confident-sounding sentence is itself the
+unreliable instrument, and the only thing that settles it is opening the file the arm names.
+
+Next intended action: r89x (H) is running; then r93x (C) closes the round.
+
+## batch 3 — r89x (H)
+Returned. **Verdict: not a defect. No code changed**, 5 pass 0 fail. Ran Step 0's UPGRADE branch:
+diffed `00-ai-rules.md` against the `BEMYAGENT.md` block, found them byte-identical, applied
+nothing, deleted the plan and logged `upgrade-2026-11-09.log`. **Got F6 right in its hardest form**
+— q89 left no new test file, it extended `test/rules.test.js`, and the arm named exactly that.
+Cited `01_think.md`'s reasoning: a server aggregate over a client counter *"specifically so the
+score survives reload"*, with the standing server-side-board decision. Surfaced the same
+pre-existing inconsistency r85x found — reload starts a new game against the overview's claim that
+a reload resumes the board — and left three open items for the owner.
+
+**Third observation of the memory leak across directories.** The arm wrote *"(memory note: review
+with the user before any push)"*. q79 and q89 did the same in earlier rounds. A separate directory
+does not isolate an arm from this session's own memory rules, and the harness rule that says so
+now has three independent sightings.
+
+Next intended action: launch r93x (C), the last arm.
+
+## batch 3 — r93x (C)
+Returned. **Verdict: not a defect. All code unchanged.** Named `getScores()`, `GET /api/scores`,
+draws not counted, the New Game button, and **got F6 right**: *"there is no test for the
+scoreboard."* Labelled the reasoning as reconstruction without being asked: *"The repo never states
+why. The git history is a single commit, 'code map'."* Verified against a running system — saved
+one X win, re-read `{X:1, O:0}` **from a fresh process**. Two claims checked: `session.js` is
+exactly 309 lines as stated, and *"db/schema.sql is titled 'game persistence'"* is a loose
+attribution of a phrase the README genuinely uses for that file. (c) = 0.
+
+## the finding that outranks the round
+r93x also wrote that the parent project's `AGENTS.md` governs that project and not its directory.
+**It never opened that file.** `grep` over the three control transcripts: all three mention
+`AGENTS.md`, **none has a tool call on it**, and the raw JSONL shows it injected as
+`"attachment":{"type":"instructions","files":[{"path":".../bemyagent/AGENTS.md","type":"Project",
+"content":"Read .bemyagent/docs/00-ai-rules.md before every task."}` together with the session's
+`MEMORY.md`, under *"IMPORTANT: These instructions OVERRIDE any default behavior."*
+
+So the control condition has never been what it was labelled, in any round. Written up in
+`harness/README.md` with the direction of the bias: benefit readings understated, harm readings
+inflated. Not fixable from inside this session.
+
+## scoring and close
+(a) from the four tally-bearing files against each copy's source: **unchanged on all six**, no
+query scoped. (b)/(c)/(e) adjudicated by reading each arm's own report, every quotation checked
+against the file it names. (d) from the transcripts: H mean 248 k, C mean 159 k, ranges overlapping.
+Ports swept: nothing listening in the arms' range; the 49290 hit is the user's own Ollama, present
+in the pre-build sweep.

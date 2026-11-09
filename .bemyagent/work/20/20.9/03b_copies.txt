@@ -1,0 +1,7 @@
+# 20.9 — each resume copy against its source: tracked-file hashes + working-tree status
+q85 -> r85x  status=same  files=same
+q87 -> r87x  status=same  files=same
+q89 -> r89x  status=same  files=same
+q91 -> r91x  status=same  files=same
+q92 -> r92x  status=same  files=same
+q93 -> r93x  status=same  files=same

@@ -1,0 +1,320 @@
+{
+ "r85x": {
+  "side": "H",
+  "truth": {
+   "F5": "/api/score",
+   "F6": "yes"
+  },
+  "tally_query_now": "SELECT * FROM game WHERE id = ?",
+  "query_scoped": false,
+  "diff_vs_source": {
+   "server/store.js": "unchanged",
+   "server/index.js": "unchanged",
+   "client/app.js": "unchanged",
+   "client/index.html": "unchanged"
+  },
+  "files_changed": 19,
+  "weighted": 304285,
+  "raw": {
+   "inp": 30,
+   "out": 15033,
+   "cc": 135733,
+   "cr": 594246
+  },
+  "statements": {
+   "F1 server tally": [
+    "read()\\na=\\\"draws excluded); no score table, no client counters.",
+    "js` counts rows where `game.",
+    "js counts rows where `game."
+   ],
+   "F2 draws": [
+    "winner IN ('X','O')` over ALL stored\\ngames (draws and open games excluded); `GET /api/score` in server/index.",
+    "read()\\na=\\\"draws excluded); no score table, no client counters.",
+    "winner` is X or O across all stored games, so draws and open games are excluded.",
+    "Draws and open games are excluded."
+   ],
+   "F3 unfinished": [
+    "winner IN ('X','O')` over ALL stored\\ngames (draws and open games excluded); `GET /api/score` in server/index.",
+    "Unfinished games stay in the table (never\\n  counted).",
+    "winner` is X or O across all stored games, so draws and open games are excluded.",
+    "Unfinished games never count toward the score, so it does not cause the reported symptom.",
+    "Draws and open games are excluded.",
+    "Unfinished games never count toward the score, so this does not cause the reported symptom."
+   ],
+   "F4 all-time": [
+    "\\nAssumption stated there: \\\"won\\\" = all persisted games, since games persist across reloads.",
+    "Persistence across reload is the stated rule\\n(01-overview: \\\"Games are persisted so a page reload resumes the same board\\\"; 05: \\\"board lives on the\\nserver\\\"; 2.",
+    "The numbers surviving a reload is\\nthe point of approach A; resetting them would need deleting or hiding stored games, which no\\ndocument asks for.",
+    "** The score is a lifetime count over persisted games by design; no code changed.",
+    "winner` is X or O across all stored games, so draws and open games are excluded.",
+    "- Persisting the score across reloads is the intended design."
+   ],
+   "F5 route": [
+    "winner IN ('X','O')` over ALL stored\\ngames (draws and open games excluded); `GET /api/score` in server/index.",
+    "- `GET /api/score` returns those counts.",
+    "\\n- `GET /api/score` in server/index."
+   ],
+   "F6 prior test": []
+  }
+ },
+ "r87x": {
+  "side": "H",
+  "truth": {
+   "F5": "/api/scores",
+   "F6": "yes"
+  },
+  "tally_query_now": "SELECT * FROM game WHERE id = ?",
+  "query_scoped": false,
+  "diff_vs_source": {
+   "server/store.js": "unchanged",
+   "server/index.js": "unchanged",
+   "client/app.js": "unchanged",
+   "client/index.html": "unchanged"
+  },
+  "files_changed": 19,
+  "weighted": 173405,
+  "raw": {
+   "inp": 26,
+   "out": 9228,
+   "cc": 65156,
+   "cr": 457942
+  },
+  "statements": {
+   "F1 server tally": [
+    "Consistent with the committed decision \\\"the board lives on the server\\\" and README \\\"the board lives server-side\\\".",
+    "The count is derived from stored games; nothing \\\"forgets\\\" on reload.",
+    "- That matches the README (\"the board lives server-side\") and the committed decision that the board lives on the server.",
+    "This matches README (\\\"board lives server-side\\\") and the committed decision that the board lives on the server."
+   ],
+   "F2 draws": [
+    "winner IN ('X','O')` grouped by winner; draws and open games not counted.",
+    "js` counts X and O wins in the `game` table and ignores draws and open games.",
+    "js counts X/O wins from the game table (draws and open games ignored); GET /api/scores in server/index."
+   ],
+   "F3 unfinished": [
+    "winner IN ('X','O')` grouped by winner; draws and open games not counted.",
+    "js` counts X and O wins in the `game` table and ignores draws and open games.",
+    "js counts X/O wins from the game table (draws and open games ignored); GET /api/scores in server/index."
+   ],
+   "F4 all-time": [
+    "01_think rejected a client-side counter (B) because it is lost on reload, and states the assumption \\\"won = all persisted games, across reloads\\\".",
+    "\\n\\n## Verdict: not a defect (behaviour intended and documented)\\n- Persistence across reloads is the design, stated in 3 places above.",
+    "replace(\\\"\\\\n## Engineering Learnings\\\",\\\"- **Scores not resetting on reload is intended (2026-11-09, no owner available).",
+    "The persistence is intended and documented, so I left behaviour unchanged and recorded the previous work and my decision in `.",
+    "It states the assumption \"won = all persisted games, across reloads\".",
+    "- The numbers surviving a reload is the intended design, stated in the README, the decisions and the task 2."
+   ],
+   "F5 route": [
+    "\\n- Added `GET /api/scores` (index.",
+    "- `GET /api/scores` is in `server/index.",
+    "js counts X/O wins from the game table (draws and open games ignored); GET /api/scores in server/index."
+   ],
+   "F6 prior test": []
+  }
+ },
+ "r89x": {
+  "side": "H",
+  "truth": {
+   "F5": "/api/scores",
+   "F6": "yes"
+  },
+  "tally_query_now": "SELECT * FROM game WHERE id = ?",
+  "query_scoped": false,
+  "diff_vs_source": {
+   "server/store.js": "unchanged",
+   "server/index.js": "unchanged",
+   "client/app.js": "unchanged",
+   "client/index.html": "unchanged"
+  },
+  "files_changed": 18,
+  "weighted": 267136,
+  "raw": {
+   "inp": 40,
+   "out": 17231,
+   "cc": 77464,
+   "cr": 841118
+  },
+  "statements": {
+   "F1 server tally": [
+    "1) added a server-side win tally on purpose.",
+    "1) built the scoreboard as a persistent server aggregate on purpose (see the decision above and `01-overview.",
+    "md chose a server aggregate over a client counter (B) explicitly because a client counter resets on reload and breaks \\\"the board lives on the server\\\".",
+    "result: Not a defect: the scoreboard persists across reloads by documented design (server-side win tally), so no code was changed, and the previous work and my verdict are recorded in the project docs.",
+    "md picked a server aggregate over a client counter specifically so the score survives reload, in line with the standing decision \\\"the board lives on the server\\\"."
+   ],
+   "F2 draws": [
+    "\\n- Counts are correct: draws and unfinished games excluded; npm test 5/5.",
+    "Draws and unfinished games are excluded.",
+    "js (COUNT of game rows with winner X/O; draws and unfinished excluded), GET /api/scores in server/index."
+   ],
+   "F3 unfinished": [
+    "\\n- Counts are correct: draws and unfinished games excluded; npm test 5/5.",
+    "Draws and unfinished games are excluded.",
+    "js (COUNT of game rows with winner X/O; draws and unfinished excluded), GET /api/scores in server/index."
+   ],
+   "F4 all-time": [
+    "md`: state survives reload).",
+    "It noted that each page load starts a new game, so totals grow across reloads.",
+    "\\n\\n## Verdict: not a defect\\n- Persistence across reload is the documented, intended behaviour; the number is a lifetime win tally, not a session score.",
+    "2 | verdict only, no code change: scoreboard persistence is by design | PASS | npm test -> 5 pass 0 fail; decision in 05, draft scoreboard-reload.",
+    "It also noted that every page load starts a new game, so totals grow across reloads.",
+    "- Totals surviving a reload is the documented design, not a side effect."
+   ],
+   "F5 route": [
+    "js, COUNT of `game` rows with winner X/O), `GET /api/scores`, `#scores` in index.",
+    "js`, `GET /api/scores`, a `#scores` line in `client/index.",
+    "js (COUNT of game rows with winner X/O; draws and unfinished excluded), GET /api/scores in server/index."
+   ],
+   "F6 prior test": []
+  }
+ },
+ "r91x": {
+  "side": "C",
+  "truth": {
+   "F5": "/api/scores",
+   "F6": "no"
+  },
+  "tally_query_now": "SELECT * FROM game WHERE id = ?",
+  "query_scoped": false,
+  "diff_vs_source": {
+   "server/store.js": "unchanged",
+   "server/index.js": "unchanged",
+   "client/app.js": "unchanged",
+   "client/index.html": "unchanged"
+  },
+  "files_changed": 5,
+  "weighted": 93738,
+  "raw": {
+   "inp": 18,
+   "out": 4042,
+   "cc": 39375,
+   "cr": 242918
+  },
+  "statements": {
+   "F1 server tally": [
+    "\\n- Why (inferred from the diff and the README only): the committed README says the\\n  board \\\"lives server-side\\\" and the schema persists every game, so the scoreboard was\\n  built as an all-time tally derived from that persisted history, not as per-page state.",
+    "\\n- The scoreboard surviving a reload is a direct consequence of the server-side\\n  persistence design.",
+    "\\n- Why, inferred from the repo alone: the README says \\\"the board lives server-side\\\" and the schema stores every game.",
+    "\\n- The numbers surviving a reload follow directly from the server-side persistence design."
+   ],
+   "F2 draws": [],
+   "F3 unfinished": [],
+   "F4 all-time": [
+    "md <<'EOF'\\n# Scoreboard persistence across reload: decision\\n\\n## What the previous (uncommitted) work did, and why\\n- store.",
+    "\\n- Why (inferred from the diff and the README only): the committed README says the\\n  board \\\"lives server-side\\\" and the schema persists every game, so the scoreboard was\\n  built as an all-time tally derived from that persisted history, not as per-page state.",
+    "\\n- The scoreboard surviving a reload is a direct consequence of the server-side\\n  persistence design.",
+    "\\n- Why, inferred from the repo alone: the README says \\\"the board lives server-side\\\" and the schema stores every game.",
+    "So the scoreboard looks like an all-time tally built from that stored history, not per-page state.",
+    "\\n- The numbers surviving a reload follow directly from the server-side persistence design."
+   ],
+   "F5 route": [
+    "js: GET /api/scores exposes it.",
+    "js` exposes that count as `GET /api/scores`."
+   ],
+   "F6 prior test": []
+  }
+ },
+ "r92x": {
+  "side": "C",
+  "truth": {
+   "F5": "/api/scores",
+   "F6": "no"
+  },
+  "tally_query_now": "SELECT * FROM game WHERE id = ?",
+  "query_scoped": false,
+  "diff_vs_source": {
+   "server/store.js": "unchanged",
+   "server/index.js": "unchanged",
+   "client/app.js": "unchanged",
+   "client/index.html": "unchanged"
+  },
+  "files_changed": 5,
+  "weighted": 203636,
+  "raw": {
+   "inp": 32,
+   "out": 9331,
+   "cc": 82371,
+   "cr": 539855
+  },
+  "statements": {
+   "F1 server tally": [
+    "\\n- Why (inferred): README says the board lives server-side and db/schema.",
+    "The scoreboard is derived from those records, i.",
+    "The only stated design is server-side persistence.",
+    "\\n- Why, inferred from the repo alone: nothing in it explains the change, but the README says \\\"the board lives server-side\\\" and `db/schema.",
+    "Games are durable records, so the scoreboard is an all-time tally derived from them."
+   ],
+   "F2 draws": [
+    "Draws and unfinished games are not counted.",
+    "Draws and unfinished games are not counted."
+   ],
+   "F3 unfinished": [
+    "Draws and unfinished games are not counted.",
+    "Draws and unfinished games are not counted."
+   ],
+   "F4 all-time": [
+    "an all-time tally across games and reloads.",
+    "The numbers are correct; they are persistent by design.",
+    "Games are durable records, so the scoreboard is an all-time tally derived from them.",
+    "The scores persist by design.",
+    "Scores are a persisted all-time tally by design and are counted correctly, so I left the code unchanged and recorded the reasoning in DECISION."
+   ],
+   "F5 route": [
+    "The previous work added a scoreboard, a `/api/scores` endpoint and a \"New game\" button.",
+    "5; PID=$(lsof -ti tcp:48317 -sTCP:LISTEN); echo \\\"listener pid=$PID\\\"; ps -o pid,ppid,command -p $PID\\nB=http://localhost:48317\\nmv(){ curl -s -XPOST -H 'content-type: application/json' -d \\\"{\\\\\\\"cell\\\\\\\":$2}\\\" $B/api/games/$1/moves >/dev/null; }\\ncurl -s -XPOST $B/api/games >/dev/null; for c in 0 3 1 4 2; do mv 1 $c; done\\ncurl -s -XPOST $B/api/games >/dev/null; for c in 0 1 3 2 6 5 7 8 4; do mv 2 $c; done\\ncurl -s $B/api/games/2; echo; curl -s $B/api/scores; echo\\nkill $PID; sleep .",
+    "js: GET /api/scores exposes it.",
+    "\\n- Verified on a temp DB: after 2 X wins /api/scores returned {\\\"X\\\":2,\\\"O\\\":0}, matching the games played.",
+    "js` exposes it as `GET /api/scores`.",
+    "After two games that X won, `/api/scores` returned `{\\\"X\\\":2,\\\"O\\\":0}`, which is correct."
+   ],
+   "F6 prior test": []
+  }
+ },
+ "r93x": {
+  "side": "C",
+  "truth": {
+   "F5": "/api/scores",
+   "F6": "no"
+  },
+  "tally_query_now": "SELECT * FROM game WHERE id = ?",
+  "query_scoped": false,
+  "diff_vs_source": {
+   "server/store.js": "unchanged",
+   "server/index.js": "unchanged",
+   "client/app.js": "unchanged",
+   "client/index.html": "unchanged"
+  },
+  "files_changed": 5,
+  "weighted": 180363,
+  "raw": {
+   "inp": 32,
+   "out": 8598,
+   "cc": 68298,
+   "cr": 519686
+  },
+  "statements": {
+   "F1 server tally": [
+    "The scoreboard is the previous worker's uncommitted feature, and it counts wins stored in sqlite.",
+    "Inferred from the code:\\n  the tally is derived from persisted games, not from client state.",
+    "That fits README\\n  (\\\"the board lives server-side\\\") and schema.",
+    "That fits the README (\\\"the board lives server-side\\\") and the schema comment (\\\"single-device play, no accounts\\\")."
+   ],
+   "F2 draws": [
+    "\\n  Draws are not counted.",
+    "Draws are not counted."
+   ],
+   "F3 unfinished": [],
+   "F4 all-time": [
+    "\\n\\n## Decision: NOT a defect; behaviour left unchanged\\n- The scores are a running total of won games stored in the database, so they persist\\n  across reloads and server restarts by construction.",
+    "** The scores are a running total of recorded wins, so surviving a reload is by design."
+   ],
+   "F5 route": [
+    "md <<'EOF'\\n# Scoreboard: \\\"numbers don't reset after reload\\\"\\n\\n## What the previous (uncommitted) work did, and why (inferred from the repo only)\\n- Added a scoreboard: GET /api/scores (server/index.",
+    "\\n- The server has a new `GET /api/scores`, backed by `store."
+   ],
+   "F6 prior test": [
+    "`npm test` passes 4 of 4, which are the existing rules tests; there is no test for the scoreboard."
+   ]
+  }
+ }
+}
