@@ -1,0 +1,90 @@
+# 20.8 — EXECUTE
+
+## 2026-11-09 — build
+PROTOCOL_CHECK: target=.bemyagent/work/20/20.8/, reason=new A/B round, the missing cell of the
+20.2 x 20.3 factorial. §3 Routing Table re-read, 06-implementation-plan.md read.
+
+setup.py derived from 20.2/setup.py. Three changes, all declared: the arm table (q91 q92 q93, all
+on the N branch), an arm filter on argv, and an overwrite guard replacing the blanket rmtree. The
+unused P branch is kept so the N seed is visibly the same code path 20.2 and 20.3 ran.
+prompt.txt = 20.2/prompt_N.txt, copied, not retyped.
+
+Next intended action: build the three arms, then blob-hash their seeds against 20.2's N arms and
+20.3's O arms before launching anything.
+
+## build result
+built 3 arms in scratchpad/r208.
+03b_delta.txt: every one of q91 q92 q93 is byte-identical at its setup commit to all six prior
+no-protocol arms (q53 q55 q57 from 20.2, q86 q88 q90 from 20.3) — 10 files, 0 diff lines, 18
+comparisons. The condition is the same condition, not a reconstruction of it.
+
+## batch shape — declared deviation
+The comparators ran two arms concurrently (one per condition). This round has one condition, so
+there is no interleaving to preserve, and three concurrent arms would expose a port interaction the
+comparators never had. **The three arms run one at a time.** That removes a failure mode rather
+than adding one; it does not reproduce the comparators' concurrency exactly, and neither choice
+could.
+
+Next intended action: launch q91 on Sonnet with prompt.txt verbatim, ARM_DIR substituted.
+
+## batch 1 — q91
+Returned. Delivered: getScores() in server/store.js, GET /api/scores, markup above #board,
+loadScores() on load and on game end. Verified live with curl against a throwaway DB.
+**Added no tests** — its own words, and `npm test` still 4/4. Port 47913, listener confirmed its
+own and stopped, temp DB deleted. Nothing committed, four files modified in the working tree.
+Agent id recorded in score.py's AGENT table at scoring time, not now.
+
+Next intended action: launch q92, same prompt, same model, one arm at a time.
+
+## batch 2 — q92
+Returned. Delivered: GET /api/scores from the existing `game.winner` column, `#scoreboard` above
+the board, refreshed on load and on a win. Went further than q91 and **added a New Game button**,
+on its own reasoning that the app had no way to start a second game and the scoreboard would never
+pass 1 — the same unprompted product observation 20.2 and 20.3 saw on both sides. Verified live on
+port 47213 against a temporary DB, listener confirmed and killed. **Added no tests**, `npm test`
+4 passing. Nothing committed.
+
+Next intended action: launch q93, last arm.
+
+## batch 3 — q93
+Returned. Same shape as q92: GET /api/scores, `#scores` heading above the board, refresh on load
+and on a win, and **a New Game button it added on its own reasoning** ("the scores could never go
+past one win"). Verified on port 48213 against a throwaway DB, listener confirmed and stopped.
+**Added no tests**, 4 passing. Nothing committed.
+
+## ports
+Swept before the build and after the last arm. Nothing listening in the 40000–59999 range the arms
+were told to use. The one hit on 49290 is the user's own Ollama, present in the pre-build sweep.
+
+## instruments
+mutate.py was rebuilt once, before any arm was scored. The first version carried 20.2's shape —
+hand-written per-arm (old, new) pairs — which puts a transcription step between an arm's code and
+the edit applied to it. It now **derives** both mutations from each arm's own `server/store.js` by
+an assertion-guarded substitution, and prints the literal pairs to `03c_arm_evidence.txt`, which is
+what the hand table existed to provide.
+
+Cross-check before trusting it: the derived pairs were compared against the published tables of
+20.2 and 20.3. **12 of 12 prior arms match exactly, 0 mismatches.** That confirms the transform is
+faithful and, in the other direction, that both published tables were right.
+
+## M1 — 15 arms, 20.2's mutation unchanged
+Published readings reproduced exactly, three days and two rounds later: q52 RED, q54 GREEN, q56 RED
+(Opus+BMA 2/3); q53 q55 q57 GREEN (Opus-none 0/3); q85 q87 q89 RED (Sonnet+BMA 3/3); q86 q88 q90
+GREEN (Opus-none 0/3). New cell: **q91 q92 q93 GREEN — Sonnet-none 0/3.**
+`tree-unchanged=True` on all fifteen.
+
+## M2 — 15 arms, the pre-registered second mutation
+Identical to M1 on fourteen arms. **q57 is the single disagreement: GREEN on M1, RED on M2** with
+2 failures. It is the arm 20.2 recorded as *"GREEN with tests (3 tests, still GREEN)"*. Its tests
+do pin per-player numbers; they do not cover draw semantics. The disagreement is the finding M2 was
+pre-registered to look for.
+
+## score.py
+AGENT filled with this round's three ids only. SIDE extended to all fifteen so the tree metrics
+cover every cell. Delivery proxies (`scores_route`, `client_markup`) return false for four arms both
+published rounds recorded as delivering — q85 and q89 among them — so the column is **read only for
+q91–q93**, where it is corroborated by each arm's own live curl evidence, and the comparators keep
+their published delivery figures.
+
+Next intended action: write 04_verify.md, then update 05-decisions-and-issues.md and
+06-implementation-plan.md in the same response as the change.

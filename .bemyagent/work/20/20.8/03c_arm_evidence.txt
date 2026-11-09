@@ -1,0 +1,76 @@
+# 20.8 - the literal mutation applied to each arm, derived from that arm's own server/store.js
+
+== q52  Opus+BMA
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q53  Opus-none
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+
+== q54  Opus+BMA
+   original: SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q55  Opus-none
+   original: SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q56  Opus+BMA
+   original: SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q57  Opus-none
+   original: SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q85  Sonnet+BMA
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY 1
+
+== q86  Opus-none
+   original: SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q87  Sonnet+BMA
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY 1
+
+== q88  Opus-none
+   original: SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q89  Sonnet+BMA
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY 1
+
+== q90  Opus-none
+   original: SELECT winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS wins FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q91  Sonnet-none
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X', 'O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IN ('X', 'O') GROUP BY 1
+
+== q92  Sonnet-none
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY 1
+
+== q93  Sonnet-none
+   original: SELECT winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY winner
+   M1      : SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IS NOT NULL GROUP BY 1
+   M2      : SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game WHERE winner IN ('X','O') GROUP BY 1

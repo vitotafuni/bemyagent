@@ -1,0 +1,15 @@
+q52  Opus+BMA       RED (tests catch it)     M2 fail=2 tree-unchanged=True
+q53  Opus-none      GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q54  Opus+BMA       GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q55  Opus-none      GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q56  Opus+BMA       RED (tests catch it)     M2 fail=1 tree-unchanged=True
+q57  Opus-none      RED (tests catch it)     M2 fail=2 tree-unchanged=True
+q85  Sonnet+BMA     RED (tests catch it)     M2 fail=1 tree-unchanged=True
+q86  Opus-none      GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q87  Sonnet+BMA     RED (tests catch it)     M2 fail=1 tree-unchanged=True
+q88  Opus-none      GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q89  Sonnet+BMA     RED (tests catch it)     M2 fail=1 tree-unchanged=True
+q90  Opus-none      GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q91  Sonnet-none    GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q92  Sonnet-none    GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q93  Sonnet-none    GREEN (tests miss it)    M2 fail=0 tree-unchanged=True

@@ -1,0 +1,21 @@
+# 20.8 — seed validation by git blob hash, each tree at its OWN setup commit
+# same name + same hash = byte-identical. No decoding, so a binary file cannot break it.
+
+q91 vs q53: 10 files, diff lines 0
+q91 vs q55: 10 files, diff lines 0
+q91 vs q57: 10 files, diff lines 0
+q91 vs q86: 10 files, diff lines 0
+q91 vs q88: 10 files, diff lines 0
+q91 vs q90: 10 files, diff lines 0
+q92 vs q53: 10 files, diff lines 0
+q92 vs q55: 10 files, diff lines 0
+q92 vs q57: 10 files, diff lines 0
+q92 vs q86: 10 files, diff lines 0
+q92 vs q88: 10 files, diff lines 0
+q92 vs q90: 10 files, diff lines 0
+q93 vs q53: 10 files, diff lines 0
+q93 vs q55: 10 files, diff lines 0
+q93 vs q57: 10 files, diff lines 0
+q93 vs q86: 10 files, diff lines 0
+q93 vs q88: 10 files, diff lines 0
+q93 vs q90: 10 files, diff lines 0

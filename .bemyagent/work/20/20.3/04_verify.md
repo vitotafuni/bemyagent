@@ -94,8 +94,10 @@ ratio only decides how large the margin is.
    here reads the documents a human would read.
 3. **The round changes two variables at once** — tier and protocol — by design. It cannot say
    how much of the result is the protocol and how much is Opus-without-scaffolding behaving
-   like an agent with no reason to write a test. **A third condition, Opus + protocol, would
-   separate them**, was rejected on price, and is the obvious next round.
+   like an agent with no reason to write a test. ~~**A third condition, Opus + protocol, would
+   separate them**, was rejected on price, and is the obvious next round.~~ **Struck 2026-11-09,
+   see the addendum below — that condition had already been measured when this was written, and
+   it is not the one missing.**
 4. **(i) rewards leaving a test**, which is close to rewarding the protocol for asking for one.
    The defence is that §4 does **not** ask for a test: 20.2 recorded a protocol arm that wrote
    no test, verified live and thoroughly, and complied exactly. The behaviour is downstream of
@@ -104,3 +106,36 @@ ratio only decides how large the margin is.
 
 ## Cost of the round
 ≈ 316 k subagent tokens raw over six arms; weighted, 1.70 M.
+
+---
+
+## Addendum, 2026-11-09 — point 3 was wrong, and the round it asked for was not the one owed
+
+**Opus + protocol is 20.2's P side.** Same task, same stored prompt, same seed, and metric (i) is
+the same instrument: `20.3/mutate.py` is `20.2/mutate.py` with the tree path and the per-arm SQL
+changed, docstring included. This file's own validation step compared the S seed against 20.2's P
+seed by git blob hash — 726 files, differing only on `BEMYAGENT.md`. The comparator was open on
+the desk while its condition was being recorded as unmeasured.
+
+What the four conditions read on metric (i), one mutation, one scorer:
+
+| | protocol | no protocol |
+|---|---|---|
+| **Opus** | **2/3** — 20.2 P: q52 RED, q54 GREEN, q56 RED | **0/3** 20.2 N · **0/3** 20.3 O |
+| **Sonnet** | **3/3** — 20.3 S: q85, q87, q89 all RED | **20.8** |
+
+The empty cell was never Opus. It is **Sonnet without the protocol**, the cheapest arm in the
+matrix, and it is the one that decides whether this round's headline belongs to the protocol or
+to Sonnet. The round this file called *"the obvious next round"* would have spent three Opus arms
+re-measuring a published cell; 20.8 spends three Sonnet arms on the cell that is actually absent.
+
+**The failure mode is worth more than the correction.** Nothing in `harness/README.md` asks, before
+authorising a round, whether the condition it proposes has already been run. 20.1 priced rounds and
+20.6 asked five questions about validity; neither asks the cheapest question of all. The grid above
+took one `grep` over two files already in the repository.
+
+One reading that survives unchanged: the same condition — Opus, no protocol — was measured twice,
+two days apart, and metric (i) reproduced **exactly** (0/3, 0/3) while weighted cost moved 1.11×
+(337 k against 303 k mean). On this task the binary teeth reading is cross-round stable and the
+cost column is not. That is what licenses comparing 20.8's arms against cells run on other days,
+and it is also why 20.8 reads cost within tier.

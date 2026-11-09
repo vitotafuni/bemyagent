@@ -26,10 +26,19 @@ store → API → client → tests). Feature requests against it — "add online
 with reconnect and ELO ratings" — cut through every layer at once and exceed one
 context window, which is what makes decomposition rules observable.
 
-## Five things a round must establish before it runs
+## Six things a round must establish before it runs
 
 Written 2026-11-07 after an audit found that most of this record's rejections may be artifacts of
 the tier they were measured on. Each line is a question with a wrong answer, not advice.
+
+**0. Has this condition already been run?** Added 2026-11-09, after 20.3's verdict closed by
+naming *Opus + protocol* as the owed next round. That condition was 20.2's P side — same task,
+same stored prompt, the same seed 20.3 had itself blob-hash-compared against, and metric (i) the
+same instrument down to the docstring. Three Opus arms were nearly spent re-measuring a published
+cell while the genuinely empty cell, Sonnet without the protocol, went unnamed. **Before pricing a
+round, draw the grid of conditions this record already holds and mark the one being proposed.** It
+is a grep over files already in the repository, it is the cheapest question on this list, and it
+is the only one whose wrong answer wastes the entire budget rather than the verdict.
 
 **1. Which regime is this rule for, and is the control in it?** BMA's scaffolding exists to get
 good work out of an agent that would not produce it unaided. Measure it on the strongest model
