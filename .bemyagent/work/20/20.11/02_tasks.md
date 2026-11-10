@@ -36,6 +36,25 @@ Predicting them is not a free pass: the round is written to notice a floor, and 
 **(vi) is the round's own point** and has 18 observations — three counts on each of six arms — which
 is the per-occasion shape 20.6's question 4 asks for, at no extra cost.
 
+## Amendment, 2026-11-10 — (vi) was wrong for the P side, fixed before any arm exists
+
+As first written, (vi) predicted **0 instruction records on all six arms.** That is false by
+construction for q94–q96: each holds its own `CLAUDE.md`, the harness will inject it as project
+instructions under the OVERRIDE header, and that injection **is the treatment arriving.** Scored as
+written, the certificate would have called the protocol side contaminated and, by this file's own
+rule, voided it. Found while writing `certificate.py`, with no arm launched and no transcript in
+existence. (vi) is replaced by:
+
+| | metric | predicted | what would reverse it |
+|---|---|---|---|
+| **(vi-a)** | instruction records whose file lies **outside the arm's own directory** | **0 on all six** | any such record: that arm is contaminated whatever it did |
+| **(vi-b)** | tool calls naming the parent repository's absolute path | **0 on all six** | any such call |
+| **(vi-c)** | instruction records of any kind | **N 0 · 0 · 0 · P exactly one each, the arm's own `CLAUDE.md`** | a P arm with none means the certificate cannot see an injection, and its zeros on N mean nothing |
+
+**(vi-c) is a positive control for the certificate itself.** The probe's 0 was absence of evidence,
+which §4 forbids from supporting a claim on its own; a P arm whose own rules file shows up in the
+same count, by the same reader, is what makes the N side's zero a reading.
+
 ## Honesty declaration (14.15's precedent)
 
 Nothing in the table above has been observed. No arm exists yet. One adjacent fact **is** already

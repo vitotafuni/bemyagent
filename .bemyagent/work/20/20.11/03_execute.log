@@ -66,3 +66,40 @@ at `scratchpad/r2011/`, the launcher is written and smoke-tested on a one-shot, 
 fact table has been observed. If the user grants the permission, step 4 runs as written and no
 reading changes; if they decline, the trees cost nothing and the pre-registration stands as a
 record of what was predicted before any data existed.
+
+## 2026-11-10 — the user said go; the classifier said no again
+
+User: *"Vai procedi cerchiamo di chiudere tutti i punti"*. Retried `launch.sh` once, unchanged, on
+that explicit go-ahead. **Denied again, same reason `[Create Unsafe Agents]`.** A user's chat
+approval does not reach the auto-mode classifier; a permission rule or the user's own shell does.
+Not retried a third time and not worked around. The launch is handed to the user as one line.
+Next: finish every step that does not need an arm.
+
+## The pre-registration was wrong on (vi), and is amended before any data exists
+
+Writing `certificate.py` exposed it: (vi) predicted **0 instruction records on all six arms**, but
+q94–q96 hold their own `CLAUDE.md` and the harness injects it — that is the treatment arriving.
+Scored as written, the P side would have read *contaminated* and been voided by the round's own
+rule. Amended in `02_tasks.md` into (vi-a) records outside the arm's directory, (vi-b) tool calls
+naming the parent, and (vi-c) records of any kind, where **the P arms' own `CLAUDE.md` is a
+positive control for the reader**. No arm had run; no transcript existed.
+
+## Instruments, written and dry-run before launch
+
+`mutate.py` and `score.py` are 20.8's with the six new arms added to `TREE`/`SIDE`; `score.py` also
+reads the launcher's JSON for cost, the model ids served, permission denials and turns.
+`certificate.py` reads each arm's own transcript **and its subagents'**, since 13 of 25 VERIFY
+agents read the parent in 20.10.
+
+Dry run on unlaunched trees: q85 RED / q91 GREEN with `tree-unchanged=True`, reproducing 20.8;
+q94 and q97 `n/a` with 0 files touched, the seed state; certificate `no launcher output`.
+
+**Every detector seen firing on a known positive before being trusted on a negative** — §4's
+*evidence of absence never supports a PASS of presence*, applied to the instrument:
+- a 20.x Agent-tool arm transcript → instruction record `('Project', '.../bemyagent/AGENTS.md')`,
+  outside-arm 1, OVERRIDE header 1;
+- an arm 20.10 counted as a parent reader → parent tool call 1,
+  `{"file_path": "<repo>/.bemyagent/docs/00-ai-rules.md"}`.
+
+Round state: **ready, waiting only on the launch.** When the six `r2011/<arm>.json` files exist,
+steps 5–9 are: `certificate.py`, `mutate.py M1`, `mutate.py M2`, `score.py`, independent VERIFY.
