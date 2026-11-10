@@ -1,0 +1,44 @@
+# 13.1b — EXECUTE
+
+Found 13.1's artifacts were never committed (`git log -- '.bemyagent/work/13*'` empty; the 13.1/13.2
+commit carries the numbers only). Started over on the current text. Next: check what the text is.
+
+`00-ai-rules.md` 107 lines, **90 of 90 non-empty lines verbatim in `BEMYAGENT.md`** — a cut is a
+protocol change. Next: evidence before verdicts.
+
+Grepped 20 rule keywords over `05-decisions-and-issues.md`: many returned 0. Re-grepped over the
+plan, `work/` and the commit log before reading 0 as "unmeasured": Context Slicing, Surgical scope
+and Brevity are in 13.2 (INCONCLUSIVE); Brevity was *strengthened* by two commits and never
+measured; Precedence landed in 15.5; Who verifies in 15.8; glossary's declarative sibling measured
+0/8 in Milestone 11. Next: the table.
+
+`classify.py`, 41 units. Coverage printed lines 62 and 66 unclaimed — the TTEV-files header and the
+VERIFY pointer. Folded in as N. **42 units, 0 unclaimed lines.**
+**P 21 units 2138 tok 62% · D 13 units 736 tok 21% · N 8 units 565 tok 16%.** Next: verdicts.
+
+First pass: 1 TRIM (Conversation log, 153 tok), 4 QUEUE (Context Slicing, Decomposition, Brevity,
+Glossary use). Put each through its own overlap check before reporting it:
+
+- **TRIM fails.** `05-decisions-and-issues.md` L229: the two measured failures are named inline
+  *"so nobody re-proposes them"*. Removing them reverses a recorded decision on no new evidence.
+- **Context Slicing fails as a cut**: it is the semantics of `contextSlicingThreshold`, a live
+  setting; cutting it is a migration.
+- **Brevity fails**: the overlap with harness defaults was observed on Claude Code only, and the
+  protocol ships to every harness.
+- **Glossary use fails**: 25 tokens, below the cost of a release.
+- **Decomposition**: medium cost of failure, untested in either direction.
+
+**Obstacle 1** (a proposed cut contradicted by the record). All five re-labelled; the four
+declarative ones as KEEP-untested. **Result: nothing to cut on inspection.** Next: independent
+VERIFY.
+
+Deviation recorded: `01_think.md` and `02_tasks.md` were written after the steps above.
+
+## VERIFY returned — AGREE WITH CORRECTIONS
+
+8 of 42 classes disputed (602 tok); the Pivot written before VERIFY ran says more than two means
+the categories cannot be cut by. **Honoured as written.** Five evidence entries wrong or overstated
+(units 1, 12, 21, 28, 35) — each re-checked against `05`/`06` before accepting: all held. Conversation
+log's rejection restated on portability; Context Slicing's on the live key; Multi-Agent Parallelism
+evaluated as KEEP-untested. Withdrew our own "below the cost of a release" reason: 3.4.0 is due
+anyway. `classify.py` now prints both readings: **D 21% ours, 13% VERIFY's; 13.1's 42% outside both.**
