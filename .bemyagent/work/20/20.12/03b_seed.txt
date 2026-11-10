@@ -1,0 +1,7 @@
+# 20.12 — seed identity, taken at each arm's first commit, node_modules excluded
+
+q100  vs r203/q85 IDENTICAL · vs r2011/q94 IDENTICAL  24 blobs
+q101  vs r203/q85 IDENTICAL · vs r2011/q94 IDENTICAL  24 blobs
+q102  vs r203/q85 IDENTICAL · vs r2011/q94 IDENTICAL  24 blobs
+
+prompt.txt vs 20.3/prompt_P.txt: identical (cmp silent)

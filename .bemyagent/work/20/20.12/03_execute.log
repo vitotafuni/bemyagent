@@ -1,0 +1,27 @@
+# 20.12 — EXECUTE
+
+## 2026-11-10 — build, before any launch
+
+User, after 20.11's report: *"Se devi fare altri test prima di dichiarare che tutto è completo
+procedi."* 20.11's comparison is the one test owed, so this round runs it.
+
+`setup.py` derived from 20.11's by script: `diff` from the `ONLY` line onward **empty**; docstring
+and `ARMS` are the only changes. Three trees built in `scratchpad/r2012/`. Seed at first commit:
+**q100 q101 q102 identical to r203/q85 and to r2011/q94, 24 blobs each** (`03b_seed.txt`).
+
+The check 20.11 never ran, run first this time: `prompt.txt` copied from `20.3/prompt_P.txt`,
+`cmp` silent; `cmp` against `prompt_N.txt` differs. `launch.sh` is 20.11's with `R=r2012` and the
+header comment changed; `diff` shows nothing else. Next: launch q100 q101 q102.
+
+## 2026-11-10 — the classifier said no, and the instruments were finished while it did
+
+`launch.sh q100 q101 q102` **denied by the auto-mode classifier, `[Create Unsafe Agents]`** — the
+third time on this launcher, and the outcome the memory note predicted. Not retried, not worked
+around. The launch goes back to the user. Next: finish everything that does not need an arm.
+
+`mutate.py`, `score.py`, `certificate.py` derived from 20.11's; `diff` shows only the new arms, the
+per-arm round directory, and in the certificate metric (vii). Dry run: q97–q99 certificate
+reproduces 20.11 (0 records, 0 outside, 0 parent calls, 0 OVERRIDE); q100–q102 `no launcher
+output`. **(vii) seen firing before being trusted:** a 20.3 P transcript of q85 → treatment
+sentence present; 20.11's q94 → absent, arm dir present. The detector separates the two prompts.
+Round state: **built, instrumented, waiting on the launch.**
