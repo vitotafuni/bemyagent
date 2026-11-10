@@ -103,3 +103,63 @@ q94 and q97 `n/a` with 0 files touched, the seed state; certificate `no launcher
 
 Round state: **ready, waiting only on the launch.** When the six `r2011/<arm>.json` files exist,
 steps 5–9 are: `certificate.py`, `mutate.py M1`, `mutate.py M2`, `score.py`, independent VERIFY.
+
+## 2026-11-10 — launched
+
+User: *"Lancia tu e ti autorizzo sono da telefono"*. Auto mode was off by then, so the call went
+through the ordinary permission prompt rather than the classifier. `launch.sh q94 q95 q96 q97 q98
+q99`, unchanged since the smoke test, detached, all six in parallel. Next: on completion, read
+`launch.status` for six exit codes, then the certificate first — an arm that is not clean is
+reported as such before any of its readings is looked at.
+
+## Results, in the order the pre-registration said to read them
+
+`launch.status`: six `exit=0`. Launcher JSON: `is_error` False, `permission_denials` 0, model
+`claude-sonnet-5-5` on all six. Turns P 15/20/27, N 5/4/6 — low enough to suspect the launcher;
+read delivery before believing anything else, as the pre-mortem said. Both reports read: both
+arms delivered. Next: the certificate, before any reading.
+
+**(vi) certificate — 18 of 18 as amended** (`03c_certificate.json`). Outside-arm records 0 on all
+six; parent-repo tool calls 0 on all six; N arms 0 instruction records, each P arm exactly one, its
+own `CLAUDE.md`. No arm spawned a subagent. **q97 q98 q99 are the first clean controls this project
+has run.** Next: teeth.
+
+**(i)/(v) teeth.** `mutate.py`: q94 q96 q97 GREEN on M1 and M2; q95 q98 q99 `n/a`. Obstacle 1:
+three queries the regex does not match. Per 20.8's own procedure, re-read by hand
+(`mutate_by_hand.py`): q95 no `WHERE`, q99 `COUNT(*) n`; both GREEN on both mutations, trees
+unchanged; q98 has no server tally (localStorage). **P 0/3, N 0/2 + 1 not applicable.** Next: score.
+
+**(ii)** test cases added: **P 0/3, N 0/3** — every arm at the seeded 4. **(iii)** obstacle 2: the
+markup regex misses `id="scores"` on all three P arms and q98 has no server side at all; read by
+hand, **6/6 delivered** (`03f_hand_reads.md`). **(iv)** weighted: P 151 k · 132 k · 124 k, N 42 k ·
+35 k · 46 k.
+
+**Pivot fired: P below 2/3 on (i).** Its premise was a launcher that breaks arms; these arms deliver,
+run and stop servers, and the P side runs the full ceremony. Before writing a verdict, checked
+20.8's mechanism: **each P arm's Verification Plan predicts its artifact, 3/3** — all three plan a
+live API check, none plans a test, and none writes one.
+
+Found while reading their `04_verify.md`: **the launcher's `--allowedTools` omits the Agent tool**,
+so no arm could spawn §4's second agent, and all three said so under §4's fallback clause. A launcher
+difference this round introduced and `01_think.md` named only generically ("a different tool
+roster"). Recorded, not attributed.
+
+Port sweep: one node listener, PID 726 on :8080, started 2026-10-21, cwd the user's home —
+code-server, not an arm. No arm process and no temp database left. Next: independent VERIFY.
+
+## VERIFY, and what it changed
+
+Independent VERIFY re-ran every instrument to identical output and found **the P arms were sent the
+N prompt**: `cmp prompt.txt ../20.3/prompt_N.txt` → identical. Confirmed. Also confirmed: comparators
+q85 q87 q89 never spawned a verifier either (the Agent-tool contrast in `03f` withdrawn); (iii) is 5/6
+by its pre-registered definition (6/6 withdrawn). VERIFY's third correction — *q85's plan names no
+test* — re-checked against `02_tasks.md` and found **right about 20.8's wording, wrong about the
+mechanism**: q85 names it in `02`'s Validation, and the plan as `01` + `02` predicts the artifact 9/9.
+`04_verify.md` briefly withdrew the mechanism on VERIFY's word before `02` was read; restored.
+
+Post-VERIFY sweep: all twelve `store.js` files carry no `CASE WHEN`, so every mutation was restored.
+`pgrep` found a shell from **14.15's q80**, started 2026-11-08 21:54, blocked for two days on
+`cat > server/_tmp` with no stdin, holding no port, with edits to its scored tree queued behind it.
+Parent: this session's `claude --continue`. Killed the shell and its `cat` only. The arm then
+reported finished; `find -newermt` shows **no file in its tree touched after 11-08 21:57.**
+README gains *sweep processes, not only listeners*.

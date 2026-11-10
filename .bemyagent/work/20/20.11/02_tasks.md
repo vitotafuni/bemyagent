@@ -8,15 +8,15 @@ text, with a protocol side on the same launcher to prove the instrument is alive
 
 | # | Step | Status |
 |---|---|---|
-| 1 | `setup.py` for 20.11: 20.8's code path, `ARMS = q94 q95 q96 → P, q97 q98 q99 → N` | todo |
-| 2 | Build six trees in `scratchpad/r2011/`, `npm install` each | todo |
-| 3 | Byte-identity of each new tree against r203/q85 (P) and r208/q91 (N), before any launch | todo |
-| 4 | Launch six headless arms, 20.8's `prompt.txt` verbatim, Sonnet, stdout captured per arm | todo |
-| 5 | Certificate: grep each arm's own transcript for the injection, per arm | todo |
-| 6 | `mutate.py M1` and `M2` over the six new arms | todo |
-| 7 | `score.py` over the six new arms | todo |
-| 8 | Independent VERIFY by an agent that did not do the work | todo |
-| 9 | `04_verify.md`, `05-decisions-and-issues.md`, `06-implementation-plan.md`, commit | todo |
+| 1 | `setup.py` for 20.11: 20.8's code path, `ARMS = q94 q95 q96 → P, q97 q98 q99 → N` | done |
+| 2 | Build six trees in `scratchpad/r2011/`, `npm install` each | done |
+| 3 | Byte-identity of each new tree against r203/q85 (P) and r208/q91 (N), before any launch | done — 102 blobs, 0 diff |
+| 4 | Launch six headless arms, 20.8's `prompt.txt` verbatim, Sonnet, stdout captured per arm | done — all six exit 0 |
+| 5 | Certificate: grep each arm's own transcript for the injection, per arm | done — 18/18 as amended |
+| 6 | `mutate.py M1` and `M2` over the six new arms | done — mutate.py + mutate_by_hand.py |
+| 7 | `score.py` over the six new arms | done |
+| 8 | Independent VERIFY by an agent that did not do the work | verified — prompt error found |
+| 9 | `04_verify.md`, `05-decisions-and-issues.md`, `06-implementation-plan.md`, commit | done |
 
 ## The readings, fixed before any arm is launched
 

@@ -1,0 +1,27 @@
+== M1 (a drawn game counts as a win for X)
+q94  CLI Sonnet+BMA GREEN (tests miss it)    M1 fail=0 tree-unchanged=True
+q95  CLI Sonnet+BMA n/a                      no recorded edit
+q96  CLI Sonnet+BMA GREEN (tests miss it)    M1 fail=0 tree-unchanged=True
+q97  CLI Sonnet-none GREEN (tests miss it)    M1 fail=0 tree-unchanged=True
+q98  CLI Sonnet-none n/a                      no recorded edit
+q99  CLI Sonnet-none n/a                      no recorded edit
+
+== M2 (X's and O's totals swapped)
+q94  CLI Sonnet+BMA GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q95  CLI Sonnet+BMA n/a                      no recorded edit
+q96  CLI Sonnet+BMA GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q97  CLI Sonnet-none GREEN (tests miss it)    M2 fail=0 tree-unchanged=True
+q98  CLI Sonnet-none n/a                      no recorded edit
+q99  CLI Sonnet-none n/a                      no recorded edit
+q95 M1  GREEN (tests miss it)    fail=0 tree-unchanged=True
+     old: SELECT winner, COUNT(*) AS n FROM game GROUP BY winner
+     new: SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game GROUP BY 1
+q95 M2  GREEN (tests miss it)    fail=0 tree-unchanged=True
+     old: SELECT winner, COUNT(*) AS n FROM game GROUP BY winner
+     new: SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) AS n FROM game GROUP BY 1
+q99 M1  GREEN (tests miss it)    fail=0 tree-unchanged=True
+     old: SELECT winner, COUNT(*) n FROM game WHERE winner IN ('X','O') GROUP BY winner
+     new: SELECT CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner, COUNT(*) n FROM game WHERE winner IS NOT NULL GROUP BY 1
+q99 M2  GREEN (tests miss it)    fail=0 tree-unchanged=True
+     old: SELECT winner, COUNT(*) n FROM game WHERE winner IN ('X','O') GROUP BY winner
+     new: SELECT CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner, COUNT(*) n FROM game WHERE winner IN ('X','O') GROUP BY 1

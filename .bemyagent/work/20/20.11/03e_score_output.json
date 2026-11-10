@@ -1,0 +1,368 @@
+{
+ "q52": {
+  "test_files": [
+   "rules.test.js",
+   "scores.test.js"
+  ],
+  "test_files_added": [
+   "scores.test.js"
+  ],
+  "test_cases": 8,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 18,
+  "side": "Opus+BMA"
+ },
+ "q53": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": false,
+  "client_markup": true,
+  "files_touched": 4,
+  "side": "Opus-none"
+ },
+ "q54": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 10,
+  "side": "Opus+BMA"
+ },
+ "q55": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "side": "Opus-none"
+ },
+ "q56": {
+  "test_files": [
+   "rules.test.js",
+   "scores.test.js"
+  ],
+  "test_files_added": [
+   "scores.test.js"
+  ],
+  "test_cases": 8,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 18,
+  "side": "Opus+BMA"
+ },
+ "q57": {
+  "test_files": [
+   "rules.test.js",
+   "scores.test.js"
+  ],
+  "test_files_added": [
+   "scores.test.js"
+  ],
+  "test_cases": 7,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 6,
+  "side": "Opus-none"
+ },
+ "q85": {
+  "test_files": [
+   "rules.test.js",
+   "score.test.js"
+  ],
+  "test_files_added": [
+   "score.test.js"
+  ],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": false,
+  "client_markup": true,
+  "files_touched": 18,
+  "side": "Sonnet+BMA"
+ },
+ "q86": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": false,
+  "client_markup": true,
+  "files_touched": 4,
+  "side": "Opus-none"
+ },
+ "q87": {
+  "test_files": [
+   "rules.test.js",
+   "store.test.js"
+  ],
+  "test_files_added": [
+   "store.test.js"
+  ],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 18,
+  "side": "Sonnet+BMA"
+ },
+ "q88": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "side": "Opus-none"
+ },
+ "q89": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": false,
+  "files_touched": 16,
+  "side": "Sonnet+BMA"
+ },
+ "q90": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "side": "Opus-none"
+ },
+ "q91": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "weighted": 284451,
+  "raw": {
+   "inp": 42,
+   "out": 13103,
+   "cc": 122721,
+   "cr": 654928
+  },
+  "side": "Sonnet-none"
+ },
+ "q92": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "weighted": 75086,
+  "raw": {
+   "inp": 16,
+   "out": 5827,
+   "cc": 18287,
+   "cr": 230767
+  },
+  "side": "Sonnet-none"
+ },
+ "q93": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "weighted": 84320,
+  "raw": {
+   "inp": 18,
+   "out": 6398,
+   "cc": 20813,
+   "cr": 262965
+  },
+  "side": "Sonnet-none"
+ },
+ "q94": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": false,
+  "files_touched": 8,
+  "weighted": 151036,
+  "raw": {
+   "inp": 20,
+   "out": 6597,
+   "cc": 53883,
+   "cr": 506782
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 15,
+  "is_error": false,
+  "side": "CLI Sonnet+BMA"
+ },
+ "q95": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": false,
+  "files_touched": 8,
+  "weighted": 132177,
+  "raw": {
+   "inp": 20,
+   "out": 6609,
+   "cc": 43648,
+   "cr": 445522
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 20,
+  "is_error": false,
+  "side": "CLI Sonnet+BMA"
+ },
+ "q96": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": false,
+  "files_touched": 8,
+  "weighted": 123621,
+  "raw": {
+   "inp": 26,
+   "out": 6820,
+   "cc": 32799,
+   "cr": 484963
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 27,
+  "is_error": false,
+  "side": "CLI Sonnet+BMA"
+ },
+ "q97": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "weighted": 41942,
+  "raw": {
+   "inp": 10,
+   "out": 1733,
+   "cc": 17337,
+   "cr": 115959
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 5,
+  "is_error": false,
+  "side": "CLI Sonnet-none"
+ },
+ "q98": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": false,
+  "scores_route": false,
+  "client_markup": true,
+  "files_touched": 2,
+  "weighted": 35241,
+  "raw": {
+   "inp": 8,
+   "out": 1187,
+   "cc": 16455,
+   "cr": 87301
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 4,
+  "is_error": false,
+  "side": "CLI Sonnet-none"
+ },
+ "q99": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "weighted": 45800,
+  "raw": {
+   "inp": 12,
+   "out": 1935,
+   "cc": 17102,
+   "cr": 147355
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 6,
+  "is_error": false,
+  "side": "CLI Sonnet-none"
+ }
+}

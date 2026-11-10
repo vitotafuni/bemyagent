@@ -1,0 +1,125 @@
+{
+ "q94": {
+  "side": "P",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [
+    [
+     "Project",
+     "<scratchpad>/r2011/q94/CLAUDE.md"
+    ]
+   ],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 2
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  }
+ },
+ "q95": {
+  "side": "P",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [
+    [
+     "Project",
+     "<scratchpad>/r2011/q95/CLAUDE.md"
+    ]
+   ],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 2
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  }
+ },
+ "q96": {
+  "side": "P",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [
+    [
+     "Project",
+     "<scratchpad>/r2011/q96/CLAUDE.md"
+    ]
+   ],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 2
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  }
+ },
+ "q97": {
+  "side": "N",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  }
+ },
+ "q98": {
+  "side": "N",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  }
+ },
+ "q99": {
+  "side": "N",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  }
+ }
+}

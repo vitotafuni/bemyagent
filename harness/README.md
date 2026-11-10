@@ -164,6 +164,14 @@ distinct high port, have it confirm the listener is its own process before trust
 and sweep for leftover listeners when the round ends.** The same applies to any shared resource an
 arm reaches by name rather than by path: ports, a fixed database path, a lock file.
 
+**Sweep processes, not only listeners.** A listener sweep finds what holds a port, and an arm can
+hang holding none. One 14.15 arm ran `cat > server/_tmp` with no input: its shell sat on stdin
+for **two days**, through two rounds' sweeps, with the rest of its command chain — edits to a tree
+already scored and committed — queued behind it. It was found by `pgrep` during 20.11, not by any
+port check, and ended without touching the tree. When the round ends, look for any process whose
+working directory or command line is inside an arm tree, and stop it before the next round reads
+anything from that tree.
+
 **A harm arm has to be reachable.** Planting a trap is not enough — the cheapest correct
 implementation has to run into it. Milestone 18.2 planted a verifiable fact an arm was supposed to
 be tempted to ask about, and 0/6 asked, because no arm's implementation ever needed it: the column
@@ -202,6 +210,16 @@ fixture and the same setup script that gave 14.8 three code maps out of three, t
 wrapper gave zero out of two, because both arms were sent down Step 0's approval branch instead.
 Nothing about either side of the experiment was involved. Write the prompt to `prompt.txt` next
 to the TTEV files, with the arm directory as the only substitution, and relaunch from that file.
+
+**Verbatim from the right file: a reproduction takes each side's prompt from the round that ran
+that side.** 20.11 stored its prompt verbatim and still sent the wrong one. It copied `prompt.txt`
+from 20.8 — which had only a no-protocol side — and gave it to both sides, so the protocol arms
+never got 20.3's *"Read BEMYAGENT.md in the repository root and follow it"* or its standing Step 0
+approval. `cmp` against 20.3's `prompt_N.txt` returned identical; nobody ran it until the
+independent verifier did, after the arms had spent their budget. The seed check that preceded it
+was thorough — 102 blob comparisons — and checked everything except the one input that differed by
+side. **Before a reproduction launches, `cmp` each side's prompt against the file the original
+round launched that side from**, and name both files in `01_think.md`.
 
 **Score the artifact against what it claims, not against what you seeded.** 14.13's scorer
 defined a forged line as one the *setup's* command does not emit. One control arm improved the
@@ -397,8 +415,16 @@ can only show whether the published readings **survive** where the control is ve
 the clean control must be run **beside a protocol side on the same launcher**: a control reading 0
 on a launcher never yet observed to produce anything else is a floor, not a null.
 
-**Until such a round is run, no verdict here may claim an uncontaminated control** — say which
-direction the contamination pushes the reading instead.
+**Certified on six arms, 2026-11-10 (20.11).** The launcher above held on a real round: the three
+no-protocol arms carry **no instruction record, no parent-repository path and no OVERRIDE header**
+in their own transcripts, and the same reader, in the same pass, **did** find each protocol arm's
+own `CLAUDE.md` — the positive control that turns the zeros into a reading. An independent verifier
+re-ran it to the same bytes. **Clean controls now exist.** What 20.11 could not do is compare
+anything against them: its protocol side was sent the wrong prompt (above), so no published
+reading has yet been reproduced on this launcher.
+
+**Until a round compares against a certified control, no verdict here may claim an uncontaminated
+one** — say which direction the contamination pushes the reading instead.
 
 ### Check isolation at the boundary the agent can reach, not the one you built
 

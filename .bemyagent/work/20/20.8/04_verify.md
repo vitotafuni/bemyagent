@@ -53,7 +53,9 @@ carries a **Verification Plan written before EXECUTE**, and it predicts that arm
 - **q56** — *"new unit tests cover the tally query directly … a win for X, a win for O, **a draw**,
   an unfinished game"*. Wrote it. 8 cases. RED.
 - **q85 / q87 / q89** — *"Unit test for getScores"*, *"Unit test for scores"*. All three wrote one.
-  RED.
+  RED. *(Corrected 2026-11-10: those two lines are q87's and q89's. q85's Verification Plan names no
+  new test; its `02_tasks.md` Validation does — "npm test passes incl. new score test". See the
+  addendum below.)*
 - **q54** — the plan names **no test**: *"npm test still green (4 tests)"* plus live curl against a
   throwaway DB. Wrote none. GREEN. The one protocol arm that did not plan a test is the one
   protocol arm without teeth.
@@ -120,6 +122,18 @@ variance, which is the thing that makes an N=3 cost reading weak in the first pl
    large round, and they share a task, a fixture and a prompt.
 6. **The task has never changed.** Every arm since 15.4 has added a scoreboard to the same
    tic-tac-toe app. A protocol that only ever helps on this task would read identically.
+
+### Addendum, 2026-11-10 — the 6/6 holds for the plan, not for the Verification Plan alone
+
+20.11's independent verifier found that q85's `01_think.md` Verification Plan names no new test, and
+that the line quoted for it above belongs to q87. Re-checked against the trees: q85 names the test in
+`02_tasks.md`'s Validation instead. **Taken as `01` + `02` — the two files the protocol requires before
+EXECUTE — the plan predicts the artifact 6/6 here, and 9/9 with 20.11's three protocol arms**, none
+of which named a new test in either file and none of which wrote one. In the wording used above,
+*"Verification Plan in `01_think.md`"*, the figure is **5/6**. The mechanism stands; the sentence
+stating it was narrower than the evidence and cited the wrong arm.
+
+→ `work/20/20.11/03f_hand_reads.md`
 
 ## Cost of the round
 Three Sonnet arms, 444 k weighted tokens over the three, plus 30 `npm test` runs across fifteen
