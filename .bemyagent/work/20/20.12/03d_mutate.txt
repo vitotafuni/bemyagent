@@ -1,0 +1,6 @@
+q100  CLI Sonnet+BMA/P RED (tests catch it)     M1 fail=1 tree-unchanged=True
+q101  CLI Sonnet+BMA/P RED (tests catch it)     M1 fail=1 tree-unchanged=True
+q102  CLI Sonnet+BMA/P GREEN (tests miss it)    M1 fail=0 tree-unchanged=True
+q100  CLI Sonnet+BMA/P RED (tests catch it)     M2 fail=1 tree-unchanged=True
+q101  CLI Sonnet+BMA/P RED (tests catch it)     M2 fail=1 tree-unchanged=True
+q102  CLI Sonnet+BMA/P GREEN (tests miss it)    M2 fail=0 tree-unchanged=True

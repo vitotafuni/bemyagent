@@ -84,7 +84,7 @@ def tree(arm):
     }
 
 res = {}
-for arm in sorted(SIDE):
+for arm in (sys.argv[1:] or sorted(SIDE)):   # 20.12: r202 trees were emptied by the tmp cleaner on 11-11
     r = tree(arm)
     if arm in AGENT:
         a = tokens(AGENT[arm])

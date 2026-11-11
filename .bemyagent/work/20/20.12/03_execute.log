@@ -25,3 +25,59 @@ reproduces 20.11 (0 records, 0 outside, 0 parent calls, 0 OVERRIDE); q100–q102
 output`. **(vii) seen firing before being trusted:** a 20.3 P transcript of q85 → treatment
 sentence present; 20.11's q94 → absent, arm dir present. The detector separates the two prompts.
 Round state: **built, instrumented, waiting on the launch.**
+
+## 2026-11-10 — launched
+
+User: *"Riprova ora a rilanciare"*, auto mode off. `launch.sh q100 q101 q102`, unchanged since the
+commit, detached, three in parallel. Next: on completion, `launch.status` for three exit codes,
+then the certificate with (vii) first — an arm whose prompt lacks the treatment sentence voids the
+round before any reading is looked at.
+
+## Results, in the pre-registered order
+
+`launch.status`: three `exit=0`, `.err` files empty. **(vii) prompt arrived 3/3**: each main
+transcript's first user message holds the treatment sentence and the arm's own directory; the
+controls q97–q99 read False on the sentence, True on the directory. **(vi) certificate 9/9 on the
+new arms**: one instruction record each, the arm's own `CLAUDE.md`; 0 outside the arm; 0 parent
+calls; no subagent transcripts (`03c_certificate.json`). Next: teeth.
+
+**(i)/(v) teeth** (`03d_mutate.txt`): q100 RED/RED, q101 RED/RED, **q102 GREEN/GREEN**; every tree
+unchanged after restore. The regex matched all three queries, so no hand derivation this time.
+**P 2/3 against N 0/2 + 1 n/a.** Below the 3/3 predicted; not below the 2/3 Pivot line.
+
+Obstacle: `score.py` crashed on `r202/q52` — **the r202 trees were emptied at 2026-11-11 00:00**:
+directories kept, files gone, `.git` included. Inferred cause, not verified: a periodic `/tmp`
+cleaner acting on files untouched for days (r202 is from 11-06; r203 11-08, r208 11-09 and r2011
+11-09/10 are intact). Not this round's arms; `score.py` gained an arm filter, and only the nine
+compared arms were scored. Next: score.
+
+**(ii)** test files added: **P 2/3** (q100 `scoreboard.test.js`, q101 `store.test.js`; q102 none,
+4 cases). **(iii)** delivery: **3/3** (tally, route, markup on all three). **(iv)** weighted:
+P 170 k · 164 k · 165 k, N 42 k · 35 k · 46 k.
+
+**Mechanism, read before VERIFY**: q100's and q101's `02_tasks.md` carry a checklist step named
+*test*; q102's has none, and its Validation is `npm test` plus a curl. The plan predicts the
+artifact again, 3/3 — 12/12 with 20.11 and 20.8 counted in.
+
+Sweep: one node listener, PID 726 on :8080, code-server as in 20.11; no process naming r2012.
+Also seen: all three P arms ran Step 0 UPGRADE under the prompt's standing approval (`.bak`
+files, an `upgrade-2026-11-10.log`), as 20.3's prompt invites. Next: independent VERIFY.
+
+## VERIFY, and what it changed
+
+Independent VERIFY re-ran every instrument to identical output, ran each arm's own tally on the
+same seeded data (orig `{X:1,O:2}`, M1 `{X:3,O:2}`, M2 `{X:2,O:1}`) to show the mutation applied
+on q102 too — **its GREEN is a real miss**, its only tests are the four seeded rules tests — and
+confirmed the seed also matches the controls' 10 app blobs, the served model and CLI version on
+all six arms. Five corrections, each re-checked here:
+1. **(ii) is a reversed prediction**, by its own pre-registered reversal clause (q102 at the
+   seeded four). The log above reported it as a count without saying so.
+2. **Only q100 and q101 backed up and replaced templates.** q102 wrote an upgrade log reading
+   *applied: none*; 0 `.bak` files in its `docs/`.
+3. **r202 was not emptied whole**: q52 keeps 161 files, 4 outside `.git`/`node_modules`; q53 9.
+4. **The sweep missed `/tmp`**: q101 left `/tmp/tpl-rules.md` and `/tmp/q101.log` (*"listening on
+   48731"*), against the prompt's *work only inside that directory*. Read, then removed. Controls
+   q97 and q99 also used `/tmp` in 20.11; not a certificate metric.
+5. **The comparison is the whole protocol package against a bare tree** — files, seeded docs,
+   `CLAUDE.md`, the treatment sentence **and** the standing-approval clause — plus committed vs
+   untracked `node_modules`. 20.3's design, inherited, now named.

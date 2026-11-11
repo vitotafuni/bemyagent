@@ -1,0 +1,200 @@
+{
+ "q100": {
+  "test_files": [
+   "rules.test.js",
+   "scoreboard.test.js"
+  ],
+  "test_files_added": [
+   "scoreboard.test.js"
+  ],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 20,
+  "weighted": 170262,
+  "raw": {
+   "inp": 20,
+   "out": 8812,
+   "cc": 58915,
+   "cr": 525390
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 12,
+  "is_error": false,
+  "side": "CLI Sonnet+BMA/P"
+ },
+ "q101": {
+  "test_files": [
+   "rules.test.js",
+   "store.test.js"
+  ],
+  "test_files_added": [
+   "store.test.js"
+  ],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 19,
+  "weighted": 164420,
+  "raw": {
+   "inp": 20,
+   "out": 8257,
+   "cc": 56849,
+   "cr": 520546
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 11,
+  "is_error": false,
+  "side": "CLI Sonnet+BMA/P"
+ },
+ "q102": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 9,
+  "weighted": 165315,
+  "raw": {
+   "inp": 22,
+   "out": 7555,
+   "cc": 55527,
+   "cr": 581093
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 12,
+  "is_error": false,
+  "side": "CLI Sonnet+BMA/P"
+ },
+ "q97": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "weighted": 41942,
+  "raw": {
+   "inp": 10,
+   "out": 1733,
+   "cc": 17337,
+   "cr": 115959
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 5,
+  "is_error": false,
+  "side": "CLI Sonnet-none"
+ },
+ "q98": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": false,
+  "scores_route": false,
+  "client_markup": true,
+  "files_touched": 2,
+  "weighted": 35241,
+  "raw": {
+   "inp": 8,
+   "out": 1187,
+   "cc": 16455,
+   "cr": 87301
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 4,
+  "is_error": false,
+  "side": "CLI Sonnet-none"
+ },
+ "q99": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 4,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 4,
+  "weighted": 45800,
+  "raw": {
+   "inp": 12,
+   "out": 1935,
+   "cc": 17102,
+   "cr": 147355
+  },
+  "models": [
+   "claude-sonnet-5-5"
+  ],
+  "permission_denials": [],
+  "turns": 6,
+  "is_error": false,
+  "side": "CLI Sonnet-none"
+ },
+ "q85": {
+  "test_files": [
+   "rules.test.js",
+   "score.test.js"
+  ],
+  "test_files_added": [
+   "score.test.js"
+  ],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": false,
+  "client_markup": true,
+  "files_touched": 18,
+  "side": "Sonnet+BMA"
+ },
+ "q87": {
+  "test_files": [
+   "rules.test.js",
+   "store.test.js"
+  ],
+  "test_files_added": [
+   "store.test.js"
+  ],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": true,
+  "files_touched": 18,
+  "side": "Sonnet+BMA"
+ },
+ "q89": {
+  "test_files": [
+   "rules.test.js"
+  ],
+  "test_files_added": [],
+  "test_cases": 5,
+  "tally_in_store": true,
+  "scores_route": true,
+  "client_markup": false,
+  "files_touched": 16,
+  "side": "Sonnet+BMA"
+ }
+}

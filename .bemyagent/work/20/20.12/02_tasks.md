@@ -8,15 +8,15 @@ contamination footnote.
 
 | # | Step | Status |
 |---|---|---|
-| 1 | `setup.py`: 20.11's with `ARMS = q100 q101 q102 → P`, output `scratchpad/r2012/` | todo |
-| 2 | Build three trees, seed identity at first commit against `r203/q85` | todo |
-| 3 | `prompt.txt` copied from `20.3/prompt_P.txt`; `cmp` must be silent **before** launch | todo |
-| 4 | Launch three headless arms, 20.11's `launch.sh` with `R` and the prompt file changed only | todo |
-| 5 | Certificate on the three new arms; first user message read from each transcript | todo |
-| 6 | Teeth M1 and M2 (`mutate.py`, then by hand where the regex misses) | todo |
-| 7 | `score.py` over the new arms and q97–q99 | todo |
-| 8 | Independent VERIFY | todo |
-| 9 | `04_verify.md`, `05`, `06`, commit | todo |
+| 1 | `setup.py`: 20.11's with `ARMS = q100 q101 q102 → P`, output `scratchpad/r2012/` | done |
+| 2 | Build three trees, seed identity at first commit against `r203/q85` | done |
+| 3 | `prompt.txt` copied from `20.3/prompt_P.txt`; `cmp` must be silent **before** launch | done |
+| 4 | Launch three headless arms, 20.11's `launch.sh` with `R` and the prompt file changed only | done |
+| 5 | Certificate on the three new arms; first user message read from each transcript | done |
+| 6 | Teeth M1 and M2 (`mutate.py`, then by hand where the regex misses) | done |
+| 7 | `score.py` over the new arms and q97–q99 | done |
+| 8 | Independent VERIFY | verified — five corrections |
+| 9 | `04_verify.md`, `05`, `06`, commit | done |
 
 ## The readings, fixed before any arm is launched
 

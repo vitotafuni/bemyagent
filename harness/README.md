@@ -455,3 +455,9 @@ they are what makes a verdict re-checkable.
 Note what this is: our own measuring apparatus failing the rule the protocol imposes on
 everything else — evidence that evaporates is evidence hidden from the person who has to trust
 the verdict.
+
+**The scratchpad also decays while a session is still open.** At 2026-11-11 00:00 the 20.2 arm
+trees, five days old, lost most of their files — app sources and most of `.git` — while trees
+from 11-08 onward were untouched (inferred: a periodic `/tmp` cleaner; not verified). A scorer
+that walks every arm it knows crashed on them. Score the arms a round compares, by name, and
+do not plan a later round on an old tree without checking it is still whole.

@@ -1,0 +1,137 @@
+{
+ "q100": {
+  "side": "P",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [
+    [
+     "Project",
+     "<scratchpad>/r2012/q100/CLAUDE.md"
+    ]
+   ],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 2
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "treatment_sentence_in_prompt": true,
+  "prompt_has_arm_dir": true
+ },
+ "q101": {
+  "side": "P",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [
+    [
+     "Project",
+     "<scratchpad>/r2012/q101/CLAUDE.md"
+    ]
+   ],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 2
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "treatment_sentence_in_prompt": true,
+  "prompt_has_arm_dir": true
+ },
+ "q102": {
+  "side": "P",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [
+    [
+     "Project",
+     "<scratchpad>/r2012/q102/CLAUDE.md"
+    ]
+   ],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 2
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "treatment_sentence_in_prompt": true,
+  "prompt_has_arm_dir": true
+ },
+ "q97": {
+  "side": "N",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "treatment_sentence_in_prompt": false,
+  "prompt_has_arm_dir": true
+ },
+ "q98": {
+  "side": "N",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "treatment_sentence_in_prompt": false,
+  "prompt_has_arm_dir": true
+ },
+ "q99": {
+  "side": "N",
+  "session": "<session-id>",
+  "transcripts": 1,
+  "subagent_transcripts": 0,
+  "main": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "subagents": {
+   "instruction_records": [],
+   "outside_arm_dir": [],
+   "parent_repo_tool_calls": [],
+   "override_header": 0
+  },
+  "treatment_sentence_in_prompt": false,
+  "prompt_has_arm_dir": true
+ }
+}
