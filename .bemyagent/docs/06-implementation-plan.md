@@ -1,6 +1,28 @@
 # Implementation plan
 > This document is the high-level Table of Contents (Index) for the project. For the historical execution trace and thought process, refer to the corresponding `.bemyagent/work/X/X.Y/` folders.
 
+## Resume here
+*Written 2026-11-11 at the end of the session that closed Milestones 13–20. Delete each line when it is done; delete the section when it is empty.*
+
+**Nothing is in progress.** Every row below is `done` or `dropped`, and every dropped row says what would reopen it.
+
+**Waiting on the user, not on an agent:**
+1. **Push.** 41 commits are ahead of `origin/main` (public), none pushed: the agent's session has no SSH key. From the user's own shell: `git push origin main && git push origin 3.4.0`. Review first — `git log --oneline origin/main..HEAD`. Outside `.bemyagent/` the commits change only `harness/README.md` and one line of `BEMYAGENT.md`.
+2. **Tag `3.4.0` exists locally only**, annotated, on `0df8e6d`. It releases the one protocol change since `3.3.0`: Step 0 branches on content (19.5). `BEMYAGENT.md` is unchanged from that commit to HEAD, so the tag is still correct. No commit and no tag carries a co-author or session line; keep it that way.
+
+**Where the evidence stands** (read the linked file before quoting a number):
+- Protocol against none, on certified clean controls: a test with teeth in **2/3 against 0/2** → `work/20/20.12/04_verify.md`. Smaller than 20.3's 3/3 on contaminated controls; costs about 4× the tokens.
+- The plan predicts the artifact in **12/12** arms: an arm writes a test iff its plan names one → same file.
+- With the protocol installed and a prompt that does not name it: ceremony 3/3, test 0/3, **observed, not a reading** → `work/20/20.11/04_verify.md`.
+- Handoff Principle: null on this fixture → `work/20/20.9/04_verify.md`.
+
+**Not scheduled — the user's call:**
+- **A second fixture** is the next real lever: four of the nine dropped rows reopen only with one, and every null above is a null *on a ten-file app*.
+- Separate the package: which of protocol files, seeded docs, the treatment sentence and the standing approval produces the test. 20.12 compared them as a block.
+- 20.11's silent-prompt observation as a pre-registered round.
+
+**How to run arms** → `harness/README.md`. Clean arms launch with `claude -p` from inside the arm's tree; auto mode refuses that launch, so the user turns it off first. Scratchpad trees older than about five days may be gone.
+
 ## Milestone 1.0 — Initial BEMYAGENT Protocol Definition
 **Goal**: Create a robust, self-bootstrapping template for AI agent context management.
 **Status**: done
