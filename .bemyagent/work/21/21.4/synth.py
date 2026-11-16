@@ -31,7 +31,7 @@ class T:
         return r
 
     def instructions(self, path=None, n_override=2, extra_files=()):
-        files = [{"type": "Project", "path": path or self.arm + "/CLAUDE.md", "content": " ".join([OVR] * n_override)}]
+        files = [{"type": "Project", "path": path or self.arm + "/CLAUDE.md", "content": " ".join([OVR] * n_override) + " Read .bemyagent/docs/00-ai-rules.md before every task."}]
         files += [dict(f) for f in extra_files]
         return self._base("attachment", attachment={"type": "instructions", "files": files})
 

@@ -9,6 +9,7 @@
 | Express | ^4.19 | Harness fixture API layer | Gives the fixture a real API seam to slice through |
 | better-sqlite3 | ^13 | Harness fixture persistence | Native module — see compatibility note below |
 | Python | 3 (stdlib) | `harness/tokens.py` | No third-party packages, runs anywhere |
+| git-filter-repo | Latest (Homebrew) | One-off maintenance of the unpushed history (21.6) | The tool git's own documentation names in place of `filter-branch`; replaces text from a table. Not needed to use or build the project |
 
 ## Known compatibility issues and workarounds
 - **Token Limits:** Large codebases can still overwhelm context. Workaround: strict enforcement of the Lazy Loading rule inside `BEMYAGENT.md`.

@@ -24,6 +24,7 @@ from synth import numbered, RULES
 TR, OUTD, CFG = ST / "trees", ST / "out", ST / "cfg" / "projects"
 RULES_C = (ROOT / RULES).read_text()
 BEM = (ROOT / "BEMYAGENT.md").read_text()
+T1B = (HERE / "prompt_t1b.txt").read_text()
 T1 = (HERE / "prompt_t1.txt").read_text(); T2 = (HERE / "prompt_t2.txt").read_text(); TC = (HERE / "prompt_compact.txt").read_text()
 LINES = RULES_C.splitlines()
 HEADS = [i for i, l in enumerate(LINES) if l.startswith("## ")]
@@ -71,7 +72,7 @@ def auto_boundary(t, c=None):
 def make(name, after, turn1="whole", boundaries=1, summary="A summary of the work so far.", extra_after_boundary=None,
          proven=1, with_t2=True, cert="ok", before_boundary=None, preserve=None, t2json=None, t2_prompt=True,
          status_after=None, t2_exit=0, before_status=None, snap_rules=None, setup_orig=None, cp_exit=None, t2_raw=None,
-         after_tokens=20000, extra_status="", tree_rules=None, snap_instr=None, cert_dotdot=None, junk_lines=(), meta=None, small_before=None, claude_md=None):
+         after_tokens=20000, extra_status="", tree_rules=None, snap_instr=None, cert_dotdot=None, junk_lines=(), meta=None, small_before=None, claude_md=None, four=False, t1b_actions=None):
     c = Ctx(name); build_tree(name, tree_rules)
     if snap_rules is not None:          # the turn-1 snapshot: the rules as the arm's file held them when the window opened
         sd = OUTD / "snap" / f"{name}.t1"; (sd / ".bemyagent/docs").mkdir(parents=True, exist_ok=True)
@@ -84,6 +85,10 @@ def make(name, after, turn1="whole", boundaries=1, summary="A summary of the wor
     if turn1 == "whole": t.tool("Read", {"file_path": c.rules}, numbered(FULL))
     elif turn1 == "slice": t.tool("Bash", {"command": f"head -50 {c.rules}"}, first(50))
     write_edit(t, c); t.assistant_text("done")
+    if four:                             # D1: turn 1b, a second small feature, before the compaction
+        t.user(T1B)
+        (t1b_actions or (lambda t, c: write_edit(t, c)))(t, c)
+        t.assistant_text("done 1b")
     if small_before:                     # C6: a small main-chain record last before the boundary
         t.tokens = small_before; t.assistant_text("small"); t.tokens = 50000
     if before_boundary: before_boundary(t, c)
@@ -117,6 +122,7 @@ def make(name, after, turn1="whole", boundaries=1, summary="A summary of the wor
     bb = max(boundaries - 1, 0) if before_status is None else before_status
     ba = boundaries if status_after is None else status_after
     with open(OUTD / "launch.status", "a") as f:
+        if four: f.write(f"{name} prompts t1_sha=x t1b_sha=y cp_sha=z t2_sha=w\n{name} t1b exit=0 resumed_from=x\n")
         f.write(f"{name} memory_existed=0 files=0\n{name} boundaries_before={bb}\n"
                 f"{name} compaction_proven={proven} by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before={bb} boundaries_after={ba}\n"
                 f"{name} t2 exit={t2_exit} resumed_from=x\n" + (f"{name} cp exit={cp_exit}\n" if cp_exit is not None else "") + extra_status.replace("ARM", name))
@@ -157,7 +163,7 @@ case("two_slices_union", "two slices that together cover every line stay a slice
 case("handed_8_summary", "every line of the rules handed back by the summary", lambda t, c: write_edit(t, c), {"i": "none", "ii_all": True, "eligible": False, "kind_has": "user{CompactSummary,VisibleInTranscriptOnly}"}, summary="Notes:\n" + FULL)
 case("handed_8_file_attachment", "every line handed back by a file attachment of the rules file", lambda t, c: write_edit(t, c), {"ii_all": True, "eligible": False, "kind_has": "attachment/file", "rules_records": ("rules", False)},
      extra_after_boundary=lambda t, c: t.file_attachment(c.rules, FULL))
-case("handed_partial_attachment", "sections 1-3 handed back by a partial file attachment: reported, the arm stays", lambda t, c: write_edit(t, c), {"ii_part": True, "elig_by_half": True, "rules_records": ("rules", True)},
+case("handed_partial_attachment", "sections 1-3 handed back by a partial file attachment: reported, the arm stays", lambda t, c: write_edit(t, c), {"ii_part": True, "eligible": False, "reason_has": "names the rules file", "rules_records": ("rules", True)},
      extra_after_boundary=lambda t, c: t.file_attachment(c.rules, upto3, start=1, num=HEADS[3], total=len(LINES)))
 case("handed_headings_only", "a summary that lists only the eight heading lines: n of N, reported, the arm stays (N4)", lambda t, c: write_edit(t, c), {"ii_part": True, "eligible": True}, summary=heads_only)
 case("handed_text_without_marks", "the whole text of the rules without its `## ` marks in the summary: all lines counted (N4)", lambda t, c: write_edit(t, c), {"ii_part": True, "eligible": False, "reason_has": "x + n ="}, summary=re.sub(r"(?m)^## ", "", FULL))
@@ -375,6 +381,32 @@ case("c8_unparsed_line", "C8/T11: a line after the boundary that is not JSON: co
 case("c8_metadata_not_object", "C8/T12: the boundary's metadata is a string: flagged, no traceback, the read goes on", lambda t, c: write_edit(t, c), {"md_shape": "not an object", "flag_has": "metadata is not an object"}, meta="oops")
 case("c8_metadata_absent", "C8/T12: the boundary has no metadata: flagged", lambda t, c: write_edit(t, c), {"md_shape": "absent", "flag_has": "metadata is absent"}, meta="absent")
 
+# =========================================================== Amendment 4 (D1-D6, G1-G3, X1, P1), written from its text
+def touch_five(t, c):
+    for k in range(5): t.tool("Edit", {"file_path": f"{c.arm}/client/f{k}.js", "old_string": "a", "new_string": "b"}, "edited")
+case("d1_design_four", "D1: a four-call arm (turn 1, turn 1b, compaction, turn 2) is read as four calls", read_rules(), {"i": "whole", "eligible": True, "design": "4 calls"}, four=True)
+case("d1_design_three", "D1: q901's three-call design is still read as it was", read_rules(), {"i": "whole", "eligible": True, "design": "3 calls"})
+case("d2_reference_after_boundary", "D2: a compact_file_reference to the rules file after the boundary: the occasion was not produced, the arm leaves", read_rules(), {"i": "whole", "eligible": False, "reason_has": "names the rules file", "occ_kinds": ["reference"]}, four=True, extra_after_boundary=lambda t, c: t.file_reference(c.rules))
+case("d2_text_attachment_after_boundary", "D2: a file attachment of the rules after the boundary", read_rules(), {"eligible": False, "reason_has": "names the rules file", "occ_kinds": ["text-attachment"]}, four=True, extra_after_boundary=lambda t, c: t.file_attachment(c.rules, FULL))
+case("d2_name_only_attachment", "D2: any other attachment that names the rules file", read_rules(), {"eligible": False, "occ_kinds": ["name"]}, four=True, extra_after_boundary=lambda t, c: t.other_attachment("skill_listing", content="see .bemyagent/docs/00-ai-rules.md"))
+case("d2_instruction_attachment_is_not_one", "D2: the instruction attachment (it names the file by the sentinel) is not counted", read_rules(), {"i": "whole", "eligible": True, "occ_kinds": []}, four=True)
+case("d2_files_touched", "D2: seven distinct files touched before the boundary (rules, app.js, five more in turn 1b): printed", read_rules(), {"occ_files": 7, "eligible": True}, four=True, t1b_actions=lambda t, c: touch_five(t, c))
+case("d4_ivb_whole", "D4: turn 1b starts with a whole read of the rules: (iv-b) whole, deciding nothing", read_rules(), {"ivb": "whole", "i": "whole", "eligible": True}, four=True, t1b_actions=lambda t, c: (t.tool("Read", {"file_path": c.rules}, numbered(FULL)), write_edit(t, c)))
+case("d4_ivb_none", "D4: turn 1b never reads the rules: (iv-b) none; the arm is unaffected", read_rules(), {"ivb": "none", "i": "whole", "eligible": True}, four=True)
+case("d4_ivb_null_three_call", "D4: a three-call transcript has no turn-1b prompt: (iv-b) null with the reason", read_rules(), {"ivb": None, "eligible": True})
+case("x1_rules_in_write_result", "X1: lines of K in the result of an Edit that does not name the rules file are listed", lambda t, c: t.tool("Edit", {"file_path": c.app, "old_string": "a", "new_string": "b"}, "edited\n" + "\n".join(KLINES[:60])), {"other_call_rules": 1, "ii_n": 0, "flag_has": "did not name the rules file", "eligible": True})
+case("x1_failed_edit_result", "X1: the same in a failed Edit inside the window, before the first write that succeeds", lambda t, c: (t.tool("Edit", {"file_path": c.app, "old_string": "a", "new_string": "b"}, "file has not been read yet\n" + "\n".join(KLINES[:60]), is_error=True), write_edit(t, c)), {"other_call_rules": 1, "flag_has": "did not name the rules file"})
+
+case("d6_empty_content_blob", "D6: a blob copy before the first tool result whose content is an empty list: read, 0 lines, no flag, the arm stays", lambda t, c: write_edit(t, c), {"ii_n": 0, "unreadable": 0, "eligible": True, "no_flag": "cannot be read as text"},
+     extra_after_boundary=lambda t, c: raw(t, "api-request-blob", hash="a1" * 32, message={"role": "user", "content": [], "output_config": {"effort": "high"}}))
+case("d6_text_blocks_blob_with_rules", "D6: a blob whose text blocks hold the rules before the first tool result: counted", lambda t, c: write_edit(t, c), {"ii_all": True, "unreadable": 0, "eligible": False},
+     extra_after_boundary=lambda t, c: raw(t, "api-request-blob", hash="a2" * 32, message={"role": "user", "content": [{"type": "text", "text": FULL}]}))
+case("d6_unknown_block_type", "D6: a blob whose content has a block of an unknown type: unreadable, flagged", lambda t, c: write_edit(t, c), {"unreadable": 1, "flag_has": "cannot be read as text", "eligible": True},
+     extra_after_boundary=lambda t, c: raw(t, "api-request-blob", hash="a3" * 32, message={"role": "user", "content": [{"type": "zzz_unknown", "data": "x"}]}))
+case("d6_content_not_string_or_list", "D6: a blob whose content is a number: unreadable", lambda t, c: write_edit(t, c), {"unreadable": 1, "eligible": True},
+     extra_after_boundary=lambda t, c: raw(t, "api-request-blob", hash="a4" * 32, message={"role": "user", "content": 7}))
+case("d6_hash_resolves_to_empty_blob", "D6: a copy listing a hash that resolves to a stored blob with empty content: read, 0 lines", lambda t, c: write_edit(t, c), {"ii_n": 0, "unreadable": 0, "eligible": True},
+     before_boundary=lambda t, c: raw(t, "api-request-blob", hash="b" * 64, message={"role": "user", "content": []}), extra_after_boundary=lambda t, c: raw(t, "api-request", tail=["b" * 64]))
 build_tree("other_arm")
 for name, what, after, exp, kw in CASES:
     kw = {k: v for k, v in kw.items() if k != "changed"}
@@ -388,7 +420,7 @@ seq("q115", read_rules()); seq("q116", read_rules(), summary=FULL); seq("q117", 
 # ---- certificate cases
 FAKE_BASE = str(ST / "fake_base")
 def cmake(name, tweak=None, status_sha_ok=True, cp_sid=None, first_user=None, instr_path=None, n_override=2, model=synth.MODEL, cwd_out=False,
-          models_in_result=("claude-sonnet-5-5",), after=None, t1read="whole", summary="A summary of the work so far.", post=None, preserve=False, cert_extra=None, after_tokens=20000, pres_ids=None, extra_md=None, claude_md=None, rules_override=None, small_before=None, meta=None, junk_lines=()):
+          models_in_result=("claude-sonnet-5-5",), after=None, t1read="whole", summary="A summary of the work so far.", post=None, preserve=False, cert_extra=None, after_tokens=20000, pres_ids=None, extra_md=None, claude_md=None, rules_override=None, small_before=None, meta=None, junk_lines=(), four=False, t1b_sid=None, t1b_prompt=None, t1b_hash_ok=True):
     c = Ctx(name); build_tree(name, rules_override)
     if claude_md is not None: (TR / name / "CLAUDE.md").write_text(claude_md)
     sid = f"{name}-sid"; t = synth.T(c.arm, sid)
@@ -400,6 +432,7 @@ def cmake(name, tweak=None, status_sha_ok=True, cp_sid=None, first_user=None, in
     elif t1read == "part": t.tool("Read", {"file_path": c.rules, "limit": 40}, numbered(first(40)), model=model)
     elif t1read == "prefix": t.tool("Read", {"file_path": c.rules}, "\n".join(f"L{i + 1}| {l}" for i, l in enumerate(LINES)), model=model)
     write_edit(t, c); t.assistant_text("done", model=model)
+    if four: t.user(t1b_prompt if t1b_prompt is not None else T1B); write_edit(t, c); t.assistant_text("done 1b", model=model)
     if small_before: t.tokens = small_before; t.assistant_text("small"); t.tokens = 50000
     if tweak: tweak(t, c)
     if cwd_out:
@@ -412,7 +445,7 @@ def cmake(name, tweak=None, status_sha_ok=True, cp_sid=None, first_user=None, in
     if post: post(t, c)
     t.manual_compact_tail()
     t.user(T2)
-    (after or (lambda t, c: (t.tool("Read", {"file_path": c.rules}, numbered(FULL)), write_edit(t, c))))(t, c)
+    (after or (lambda t, c: (t.tool("Bash", {"command": f"head -40 {RULES}"}, first(40)), write_edit(t, c))))(t, c)      # the default pilot's turn 2 reads a slice
     t.assistant_text("fin")
     path = t.write(CFG)
     for jl in junk_lines:
@@ -420,13 +453,14 @@ def cmake(name, tweak=None, status_sha_ok=True, cp_sid=None, first_user=None, in
     mu = {m: {"inputTokens": 1, "cacheCreationInputTokens": 1, "cacheReadInputTokens": 1, "outputTokens": 1} for m in models_in_result}
     (OUTD / f"{name}.t1.json").write_text(json.dumps({"session_id": sid, "is_error": False, "modelUsage": mu, "permission_denials": []}))
     (OUTD / f"{name}.t2.json").write_text(json.dumps({"session_id": sid, "is_error": False, "modelUsage": mu, "permission_denials": []}))
+    if four: (OUTD / f"{name}.t1b.json").write_text(json.dumps({"session_id": t1b_sid or sid, "is_error": False, "modelUsage": mu, "permission_denials": []}))
     with open(OUTD / f"{name}.cp.jsonl", "w") as f:
         f.write(json.dumps({"type": "system", "subtype": "init", "session_id": cp_sid or sid}) + "\n")
         f.write(json.dumps({"type": "system", "subtype": "compact_boundary", "session_id": cp_sid or sid, "compact_metadata": {"trigger": "manual", "pre_tokens": 60000}}) + "\n")
         f.write(json.dumps({"type": "result", "session_id": cp_sid or sid, "is_error": False, "modelUsage": mu}) + "\n")
     good = lambda x: x if status_sha_ok else "0" * 64
     with open(OUTD / "launch.status", "a") as f:
-        f.write(f"{name} prompts t1_sha={good(sha(T1.replace('<ARM_DIR>', c.arm)))} cp_sha={sha(TC)} t2_sha={sha(T2)}\n{name} t1 exit=0\n{name} memory_existed=0 files=0\n{name} boundaries_before=0\n{name} cp exit=0\n"
+        f.write(f"{name} prompts t1_sha={good(sha(T1.replace('<ARM_DIR>', c.arm)))}{(' t1b_sha=' + (sha(T1B) if t1b_hash_ok else '0' * 64)) if four else ''} cp_sha={sha(TC)} t2_sha={sha(T2)}\n{name} t1 exit=0\n{(name + ' t1b exit=0 resumed_from=x' + chr(10)) if four else ''}{name} memory_existed=0 files=0\n{name} boundaries_before=0\n{name} cp exit=0\n"
                 f"{name} compaction_proven=1 by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1\n{name} t2 exit=0 resumed_from=x\n")
     return c
 
@@ -452,6 +486,12 @@ ccase("c_dotdot_report", "cd .. inside the arm: counted, not gating", {"clean": 
 ccase("c_prompt_changed", "turn 1's first user message is not the prompt", {"design_ok": False}, first_user="Do something else")
 ccase("c_hash_wrong", "the launcher's hash of a prompt differs from the file's", {"design_ok": False}, status_sha_ok=False)
 ccase("c_override_extra", "three OVERRIDE headers per two records", {"clean": False, "term": "override_header_ok"}, n_override=3)
+ccase("c4_four_calls_ok", "D1: a four-call arm: four sessions equal, the turn-1b prompt and its hash checked", {"clean": True, "design_ok": True, "calls": 4}, four=True)
+ccase("c4_t1b_session_differs", "D1: turn 1b reports another session id", {"design_ok": False, "same": False}, four=True, t1b_sid="elsewhere")
+ccase("c4_t1b_prompt_missing", "D1: the turn-1b prompt record is not the prompt", {"design_ok": False}, four=True, t1b_prompt="Something else entirely")
+ccase("c4_t1b_hash_wrong", "D1: the launcher's hash of the turn-1b prompt differs from the file's", {"design_ok": False}, four=True, t1b_hash_ok=False)
+ccase("c4_three_calls_still_ok", "D1: the three-call design (q901) is certified as it was", {"clean": True, "design_ok": True, "calls": 3})
+ccase("c_p1_non_object_lines", "P1: transcript lines that are JSON but not objects: dropped and counted, no traceback", {"clean": True, "unparsed": 2}, junk_lines=('"a string"', "[1, 2]"))
 ccase("c_summary_quotes_header", "N7: a summary that quotes the instruction header once: the failing term is named", {"clean": False, "term": "override_header_ok"}, summary="Instructions said: OVERRIDE any default behavior. A scoreboard was added.")
 for name, what, exp, kw in CERT: cmake(name, **kw)
 d2 = CFG / "-another-project"; d2.mkdir(exist_ok=True); (d2 / "c_two-sid.jsonl").write_text("{}\n")
@@ -474,10 +514,10 @@ pcase("p_unclean_term", "a tool call names the repo: the failing term is printed
 pcase("p_second_model_usage", "N7/A6: a second model in modelUsage is printed, not a stop", True, ["second model in usage (printed, not a stop)=['claude-haiku-4']"], models_in_result=("claude-sonnet-5-5", "claude-haiku-4"))
 pcase("p_search_only", "B1: turn 2 only searches the rules (a count): not attempted, the pilot is not stopped for it", True, after=lambda t, c: (t.tool("Bash", {"command": f"grep -c zzzz {RULES}"}, "0"), write_edit(t, c)))
 pcase("p_fences_summary", "B2/R2: a code fence and a table rule in the summary: a fact, not a stop", True, ["short lines hit (fact, decides nothing): "], summary="```\nx\n```\n|---|---|\n")
-pcase("p_sentinel_record", "B2/R2: the instruction text (the sentinel) carried by a record after the boundary: not a stop", True, post=lambda t, c: t.other_attachment("note", content=INSTR))
+pcase("p_sentinel_record", "B2/R2 + D2: the instruction text (it names the rules file) carried by an attachment of another type after the boundary: n = 0, but D2's occasion gate stops", False, ["[occasion]"], post=lambda t, c: t.other_attachment("note", content=INSTR))
 pcase("p_rules_in_other_record_type", "B3/R3b: the rules text in a record of an unnamed type after the boundary: counted, the pilot stops", False, ["(ii) handed back"], post=lambda t, c: t._base("custom-note", content={"x": FULL}))
 pcase("p_request_copy_before_call", "B12(b): a request copy with the rules text before the arm's first call counts: the pilot stops", False, ["(ii) handed back"], post=lambda t, c: t._base("api-request-blob", message={"role": "user", "content": FULL}))
-pcase("p_request_copy_after_call", "B12(b): the same copy after the arm's first call is left out: no stop", True, ["request copies left out: 1"], after=lambda t, c: (t.tool("Read", {"file_path": c.rules}, numbered(FULL)), t._base("api-request-blob", message={"role": "user", "content": FULL}), write_edit(t, c)))
+pcase("p_request_copy_after_call", "B12(b): the same copy after the arm's first call is left out: no stop", True, ["request copies left out: 1"], after=lambda t, c: (t.tool("Bash", {"command": f"head -40 {RULES}"}, first(40)), t._base("api-request-blob", message={"role": "user", "content": FULL}), write_edit(t, c)))
 pcase("p_rest_of_turn", "B12(a): the rules in an attachment after the first write: the pilot stops on the rest-of-turn count", False, ["[(ii) rest of turn 2]"], after=lambda t, c: (t.tool("Read", {"file_path": c.rules}, numbered(FULL)), write_edit(t, c), t.file_attachment(c.rules, FULL)))
 pcase("p_no_shrink", "B5/R3c: the context did not shrink at the boundary", False, ["[context shrink]"], after_tokens=60000)
 pcase("p_preserved_ids_missing", "B5/R3a: preserved records named but not in the file", False, ["[preserved fields]"], pres_ids=["nope1", "nope2"])
@@ -485,6 +525,8 @@ pcase("p_preserved_bad_shape", "B5/R3a: a preserved field of an unexpected shape
 pcase("p_unknown_metadata_key", "B5/R3d: a key in the boundary's metadata the reader does not know: its name is printed", False, ["[boundary metadata]", "keptRecords"], extra_md={"keptRecords": ["x"]})
 pcase("p_x_nonzero", "C3/T5a: the instruction file holds 5 lines of K: the tree is not the designed one", False, ["[instruction file]"], claude_md=INSTR + "\n".join(KLINES[:5]) + "\n")
 pcase("p_snapshot_k_wrong", "C3/T5: the snapshot's rules file gives 85 of the 86 lines of K", False, ["[snapshot rules file]"], rules_override=RULES_C.replace(KLINES[0] + "\n", "", 1))
+pcase("p_copy_empty_content", "D6: a blob copy with an empty content list before the first tool result: not a stop", True, post=lambda t, c: t._base("api-request-blob", hash="a5" * 32, message={"role": "user", "content": []}))
+pcase("p_copy_unknown_block", "D6: a blob copy with an unknown block type: a stop", False, ["[request copies]"], post=lambda t, c: t._base("api-request-blob", hash="a6" * 32, message={"role": "user", "content": [{"type": "zzz_unknown"}]}))
 pcase("p_copy_unreadable", "C5/T4: a request copy before the first tool result that cannot be read as text", False, ["[request copies]"], post=lambda t, c: t._base("api-request", tail=["f" * 64]))
 pcase("p_pairs_disagree", "C6/T6c: the two token pairs disagree on the direction", False, ["[token numbers]", "disagree"], small_before=2000)
 pcase("p_rules_in_other_result", "C7/T10: the result of an `ls` carries lines of K", False, ["[rules in another call's result]"], after=lambda t, c: (t.tool("Read", {"file_path": c.rules}, numbered(FULL)), t.tool("Bash", {"command": "ls client"}, "app.js\n" + "\n".join(KLINES[:60])), write_edit(t, c)))
@@ -492,11 +534,16 @@ pcase("p_unparsed_line", "C8/T11: a transcript line that does not parse", False,
 pcase("p_metadata_not_object", "C8/T12: the boundary's metadata is not an object: a stop with that reason, no traceback", False, ["[boundary metadata]", "not an object"], meta="oops")
 pcase("p_metadata_absent", "C8/T12: the boundary has no metadata", False, ["[boundary metadata]", "absent"], meta="absent")
 pcase("p_unplaced_print", "C2: cat F > /dev/null in turn 2: unplaced, a warning, no stop", True, ["cannot place"], after=lambda t, c: (t.tool("Bash", {"command": f"cat {RULES} > /dev/null"}, ""), write_edit(t, c)))
+pcase("p_control_whole", "D3 outcome 2: the occasion produced, every gate passed, the control read whole: its own verdict, exit 3, no marker", "WHOLE", ["THE CONTROL READ WHOLE"], four=True, after=lambda t, c: (t.tool("Read", {"file_path": c.rules}, numbered(FULL)), write_edit(t, c)))
+pcase("p_four_slice_ok", "D3 outcome 3: four-call design, the control read a slice: PILOT OK, the marker", True, ["design: 4 calls"], four=True)
+pcase("p_reference", "D3 outcome 1: a reference to the rules file after the boundary: PILOT NOT OK [occasion]", False, ["[occasion]", "reference"], four=True, post=lambda t, c: t.file_reference(c.rules))
+pcase("p_json_string_line", "P1: a transcript line that is a JSON string: a named stop, no traceback", False, ["[unparsed lines]"], junk_lines=('"a string"',))
+pcase("p_x1_write_result", "X1: lines of K in a write call's result", False, ["[rules in another call's result]"], after=lambda t, c: (t.tool("Bash", {"command": f"head -40 {RULES}"}, first(40)), t.tool("Edit", {"file_path": c.app, "old_string": "a", "new_string": "b"}, "edited\n" + "\n".join(KLINES[:60]))))
 for name, what, ok, has, kw in PILOTS: cmake(name, **kw)
 
 # ---------------------------------------------------------------- run the readers
 PILOT_NAMES = ["q901"] + [p[0] for p in PILOTS]
-env = dict(os.environ, R214_ROOT=str(TR), R214P_ROOT=str(TR), R214_PILOTS=" ".join(PILOT_NAMES), R214_OUT=str(OUTD), R214_CFG=str(ST / "cfg"), BMA_BASE=FAKE_BASE, BMA_SCRATCH=str(ST.parent))
+env = dict(os.environ, R214_TEST_ONLY="1", R214_ROOT=str(TR), R214P_ROOT=str(TR), R214_PILOTS=" ".join(PILOT_NAMES), R214_OUT=str(OUTD), R214_CFG=str(ST / "cfg"), BMA_BASE=FAKE_BASE, BMA_SCRATCH=str(ST.parent))
 def run(script, *args, env=env):
     r = subprocess.run([sys.executable, str(HERE / script), *args], env=env, capture_output=True, text=True)
     if r.returncode != 0: print("FAIL:", script, "crashed:", r.stderr[-600:]); sys.exit(1)
@@ -532,7 +579,12 @@ for name, what, after, exp, kw in CASES:
     if "seq_classes" in exp: chk(name, "access classes", [x["class"] for x in i["sequence"]], exp["seq_classes"])
     if "flag_has" in exp: chk(name, "flag", any(exp["flag_has"] in f for f in r["flags"]), True)
     if "rest_n" in exp: chk(name, "rest-of-turn count", ii["rest_of_turn"]["n"], M if exp["rest_n"] == "M" else exp["rest_n"])
+    if "no_flag" in exp: chk(name, "no such flag", any(exp["no_flag"] in f for f in r["flags"]), False)
     if "unreadable" in exp: chk(name, "request copies unreadable", ii["request_copies_unreadable"], exp["unreadable"])
+    if "design" in exp: chk(name, "design", r["design"].startswith(exp["design"]), True)
+    if "ivb" in exp: chk(name, "(iv-b) class", (r["ivb"] or {}).get("class"), exp["ivb"])
+    if "occ_kinds" in exp: chk(name, "attachments naming the rules", [a["kind"] for a in r["occasion"]["attachments_naming_rules"]], exp["occ_kinds"])
+    if "occ_files" in exp: chk(name, "distinct files touched before the boundary", r["occasion"]["distinct_files_touched_before_boundary"], exp["occ_files"])
     if "xn_cmp" in exp: chk(name, "(x, x + n)", (ii["x"], ii["x_plus_n"]), (exp["xn_cmp"][0], exp["xn_cmp"][2]))
     if "added" in exp: chk(name, "added line handed back", ii["added_line_handed_back"], exp["added"])
     if "unparsed" in exp: chk(name, "unparsed lines", r["transcript"]["unparsed_lines"], exp["unparsed"])
@@ -594,6 +646,8 @@ for name, what, exp, kw in CERT:
     if "own_memory" in exp: chk(name, "own-memory calls", r["tool_calls_own_memory"], exp["own_memory"])
     if "dotdot" in exp: chk(name, "dotdot calls", r["segments"]["before"]["tool_calls_dotdot"], exp["dotdot"])
     if "second_model" in exp: chk(name, "second model reported", r["second_model_in_usage"], ["claude-haiku-4"])
+    if "calls" in exp: chk(name, "calls in the design", r["calls"], exp["calls"])
+    if "unparsed" in exp: chk(name, "lines that are not objects counted", r["unparsed_lines"], exp["unparsed"])
 fa = ct["c_repo"]["fail_at"].get("no_tool_call_naming_repo")
 chk("c_repo", "fail_at places the failing call", bool(fa) and all(isinstance(i, int) and i >= 0 for i in fa), True)
 chk("c_two", "one transcript in own folder", ct["c_two"]["one_transcript_in_own_folder"], False)
@@ -604,17 +658,36 @@ chk("c_ok", "cp prompt file is /compact", ct["c_ok"]["compact_prompt_file_is_exa
 # pilot cases: check_pilot.sh end to end
 print("-- check_pilot.sh on synthetic pilots")
 for name, what, ok, has, kw in PILOTS:
+    open(OUTD / "pilot_ok.stale", "w").write("PILOT OK stale\n")             # G1: every marker goes at the start of a check
     r = subprocess.run(["/bin/bash", str(HERE / "check_pilot.sh"), name], env=env, capture_output=True, text=True)
     out = r.stdout
     print(f"-- {name}: {what}")
-    chk(name, "verdict is OK", "== verdict: PILOT OK" in out, ok)
+    want_ok = ok is True
+    chk(name, "verdict is PILOT OK", "== verdict: PILOT OK" in out, want_ok)
+    if ok == "WHOLE": chk(name, "the control read whole: exit 3, no marker", (r.returncode, "THE CONTROL READ WHOLE" in out, (OUTD / f"pilot_ok.{name}").exists()), (3, True, False))
+    chk(name, "marker iff PILOT OK (content `PILOT OK <name>`)", ((OUTD / f"pilot_ok.{name}").read_text().strip() if (OUTD / f"pilot_ok.{name}").exists() else None), (f"PILOT OK {name}" if want_ok else None))
+    chk(name, "G1: the stale marker is gone", (OUTD / "pilot_ok.stale").exists(), False)
+    chk(name, "no traceback", "Traceback" in out + r.stderr, False)
     for h in has: chk(name, f"prints {h[:40]!r}", h in out, True)
     if r.stderr.strip(): print("   stderr:", r.stderr.strip()[-300:])
 real = [n for n, m in changed if "->" in m and "stays" not in m]
-chk("p_healthy", "marker written on PILOT OK", (OUTD / "pilot_ok.p_healthy").exists(), True)
-chk("p_iv_none", "no marker on PILOT NOT OK", (OUTD / "pilot_ok.p_iv_none").exists(), False)
 rr = subprocess.run(["/bin/bash", str(HERE / "check_pilot.sh"), "q112"], env=env, capture_output=True, text=True)
 chk("check_pilot q112", "a counted arm is refused (exit 2, says so)", (rr.returncode, "refuses" in rr.stdout and "not a pilot" in rr.stdout), (2, True))
+# D5: G2 marker content, G3 override
+import tempfile
+sys.path.insert(0, str(HERE)); import kset
+td = pathlib.Path(tempfile.mkdtemp(dir=str(ST)))
+(td / "pilot_ok.x").write_text(""); chk("G2", "an empty marker named pilot_ok.x opens nothing", kset.marker_ok(td, ["q901", "q902", "q903"]), False)
+(td / "pilot_ok.q901").write_text("PILOT OK q902\n"); chk("G2", "a marker whose content names another pilot opens nothing", kset.marker_ok(td, ["q901", "q902", "q903"]), False)
+(td / "pilot_ok.q901").write_text("PILOT OK q901\n"); chk("G2", "the marker the check writes opens", kset.marker_ok(td, ["q901", "q902", "q903"]), True)
+(td / "pilot_ok.q901").write_text("PILOT OK q901\n"); chk("G2", "a marker for a name that is not a pilot opens nothing", kset.marker_ok(td, ["q902"]), False)
+def refused(e):
+    try: kset.pilots_from_env(e); return False
+    except SystemExit: return True
+chk("G3", "an override naming a counted arm is refused", refused({"R214_PILOTS": "q901 q902 q903 q112"}), True)
+chk("G3", "an override leaving out a pilot is refused", refused({"R214_PILOTS": "q901 q902"}), True)
+chk("G3", "the same with R214_TEST_ONLY is allowed", refused({"R214_PILOTS": "q901 q902 q903 q112", "R214_TEST_ONLY": "1"}), False)
+chk("G3", "no override: the default names", kset.pilots_from_env({}), ["q901", "q902", "q903"])
 # C8: one arm the reader cannot read does not end the read of the others
 os.environ.update(env); sys.argv = ["read.py"]
 import read as readmod

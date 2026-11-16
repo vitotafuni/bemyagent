@@ -1,0 +1,1 @@
+Thanks. Now let each player type a name before a game starts. Save the names with the game and show them in the saved-games list and on the scoreboard. Update the tests and the README.

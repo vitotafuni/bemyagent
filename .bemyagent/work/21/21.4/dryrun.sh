@@ -29,8 +29,8 @@ REAL_BEFORE=$(ls "$REAL_CFG/projects" 2>/dev/null | wc -l | tr -d ' ')
 D="$S/p214/dry"
 rm -rf "$D"; mkdir -p "$D/stub" "$D/trees" "$D/out" "$D/cfg/projects"
 REAL_PATH="$PATH"                                      # the PATH of the shell, kept for setup.py (npm); launch.sh only ever sees the stub PATH
-export R214_ROOT="$D/trees" R214P_ROOT="$D/ptrees" R214_PILOTS="q901 q902 q903 q904" R214_OUT="$D/out" R214_CFG="$D/cfg" STUB_LOG="$D/stub.log" STUB_HERE="$HERE"
-export STUB_SLICE_ARMS="q901 q903 q112" STUB_NOCOMPACT_ARMS="q902" STUB_HAND8_ARMS="q903" STUB_NEWSID_ARMS="q904" STUB_STREAMONLY_ARMS="q116" STUB_TRANSCRIPTONLY_ARMS="q117" STUB_MEM_ARMS="q115"
+export R214_ROOT="$D/trees" R214P_ROOT="$D/ptrees" R214_PILOTS="q901 q902 q903 q904 q905 q906" R214_OUT="$D/out" R214_CFG="$D/cfg" STUB_LOG="$D/stub.log" STUB_HERE="$HERE"
+export STUB_SLICE_ARMS="q901 q903 q906 q112" STUB_REFERENCE_ARMS="q906" STUB_NOCOMPACT_ARMS="q902" STUB_HAND8_ARMS="q903" STUB_NEWSID_ARMS="q904" STUB_STREAMONLY_ARMS="q116" STUB_TRANSCRIPTONLY_ARMS="q117" STUB_MEM_ARMS="q115"
 mkdir -p "$D/trees" "$D/ptrees"
 : > "$STUB_LOG"
 
@@ -46,7 +46,7 @@ echo "-- the pilot arms setup.py builds (B9), all C, none counted: $(grep -o '"q
 echo "-- build twice refuses:"; python3 "$HERE/setup.py" pilots q901 2>&1 | tail -1
 echo "-- setup.py with no mode:"; python3 "$HERE/setup.py" 2>&1 | tail -1
 echo "-- the assertions (B10 included): six fake repos, each with a candidate branch that breaks one assertion; setup.py six must stop and build nothing"
-mkdir -p "$D/fakemarker"; touch "$D/fakemarker/pilot_ok.x"      # so the refusal under test is the assertion, not the missing marker
+mkdir -p "$D/fakemarker"; printf "PILOT OK q901\\n" > "$D/fakemarker/pilot_ok.q901"      # so the refusal under test is the assertion, not the missing marker
 python3 - "$ROOT" "$D" "$HERE" <<'PY'
 import os, pathlib, shutil, subprocess, sys
 root, d, here = (pathlib.Path(x) for x in sys.argv[1:4])
@@ -79,9 +79,9 @@ variant("line_altered", ins(rules0, LINE.replace("every time", "each time")), in
 PY
 echo "-- the pilots' trees stand in one root, the six's in another: pilots root holds: $(ls "$D/ptrees" | tr '\n' ' ')  six root holds: $(ls "$D/trees" | tr '\n' ' ')(nothing yet)"
 
-echo; echo "== 2. the other pilot trees: copies of q901 (q902 q903 q904) in the pilots root"
+echo; echo "== 2. the other pilot trees: copies of q901 (q902 .. q906) in the pilots root"
 copy() { mkdir -p "$3/$1"; (cd "$4/$2" && tar -cf - --exclude=node_modules .) | (cd "$3/$1" && tar -xf -); }
-for a in q902 q903 q904; do copy $a q901 "$D/ptrees" "$D/ptrees"; done
+for a in q902 q903 q904 q905 q906; do copy $a q901 "$D/ptrees" "$D/ptrees"; done
 ls "$D/ptrees" | tr '\n' ' '; echo
 
 echo; echo "== 3. which claude will launch.sh see? PATH = stub : /usr/local/bin : /usr/bin : /bin"
@@ -115,9 +115,9 @@ while i < len(args):
     else: bad.append(a); i += 1
 cwd = os.getcwd(); arm = os.path.basename(cwd); cfg = os.environ.get("CLAUDE_CONFIG_DIR", "")
 env = lambda k: os.environ.get(k, "").split()
-phase = "cp" if prompt == "/compact" else "t2" if prompt and "Reset scores" in prompt else "t1"
+phase = "cp" if prompt == "/compact" else "t2" if prompt and "Reset scores" in prompt else "t1b" if prompt and "type a name" in prompt else "t1"
 stdin_null = os.path.samestat(os.fstat(0), os.stat("/dev/null"))
-shape_ok = {"t1": fmt == "json" and not resume and not verbose, "cp": fmt == "stream-json" and bool(resume) and verbose,
+shape_ok = {"t1": fmt == "json" and not resume and not verbose, "t1b": fmt == "json" and bool(resume) and not verbose, "cp": fmt == "stream-json" and bool(resume) and verbose,
             "t2": fmt == "json" and bool(resume) and not verbose}[phase]
 flags_ok = bool(prompt) and model == "sonnet" and not bad and tools == ["Read", "Write", "Edit", "Bash", "Glob", "Grep"] and stdin_null and shape_ok
 L(f"STUB-CALL arm={arm} phase={phase} mode={'resume' if resume else 'new'} flags_ok={flags_ok} model={model} fmt={fmt} stdin_is_dev_null={stdin_null} bad={bad} cfg_is_pinned={cfg == os.environ['R214_CFG']}")
@@ -145,6 +145,10 @@ if phase == "t1":
     edit(); t.assistant_text("Scoreboard added.")
     if arm in env("STUB_MEM_ARMS"):
         (proj / "memory").mkdir(exist_ok=True); (proj / "memory" / "MEMORY.md").write_text("- index\n"); (proj / "memory" / "topic.md").write_text("x\n")
+elif phase == "t1b":
+    t.user(prompt)
+    app = pathlib.Path("client/app.js"); app.write_text(app.read_text() + "\n// player names\n")
+    edit(); t.assistant_text("Names added.")
 elif phase == "cp":
     if arm not in env("STUB_NOCOMPACT_ARMS"):
         stream_boundary = arm not in env("STUB_TRANSCRIPTONLY_ARMS"); transcript_boundary = arm not in env("STUB_STREAMONLY_ARMS")
@@ -152,7 +156,9 @@ elif phase == "cp":
     if transcript_boundary:
         t.boundary(trigger="manual", pre=60000, post=9000)
         t.summary("Notes:\n" + rules_text if arm in env("STUB_HAND8_ARMS") else "A summary of the work so far.")
-        t.instructions(); t.manual_compact_tail()
+        t.instructions()
+        if arm in env("STUB_REFERENCE_ARMS"): t.file_reference(cwd + "/" + RULES)       # D3 outcome 1: the tool leaves a reference to the rules file
+        t.manual_compact_tail()
 else:
     t.user(prompt)
     if arm in env("STUB_SLICE_ARMS"): t.tool("Bash", {"command": f"head -40 {RULES}"}, "\n".join(rules_text.splitlines()[:40]))
@@ -178,8 +184,8 @@ echo; echo "== 4. C4: a counted arm is refused before a PILOT OK; check_pilot.sh
 bash "$HERE/launch.sh" q112 2>&1 | grep -E 'q112' | sed -E "s|$D/||g"
 bash "$HERE/check_pilot.sh" q112 | head -1; echo "   exit $?  (stub calls so far: $(grep -c STUB-CALL "$STUB_LOG"))"
 
-echo; echo "== 5. launch.sh q901 q902 q903 q904 'bad name' '../x'   (the pilots; the stub plays every call)"
-bash "$HERE/launch.sh" q901 q902 q903 q904 'bad name' '../x' > "$D/launch.out" 2>&1
+echo; echo "== 5. launch.sh q901 .. q906 'bad name' '../x'   (the pilots, four calls each; the stub plays every call)"
+bash "$HERE/launch.sh" q901 q902 q903 q904 q905 q906 'bad name' '../x' > "$D/launch.out" 2>&1; echo "launch.sh exit code: $?   (m1: 1 because two names were refused)"
 grep -v '^q9[0-9]* ' "$D/launch.out" | grep -v 'prompts t1_sha' | sed -E "s|$D/||g"
 echo "-- check_pilot.sh q901 (the good pilot) - the marker is written on PILOT OK only:"
 bash "$HERE/check_pilot.sh" q901 | sed -n '/== verdict/,$p' | sed -E "s|$D/||g"; echo "   markers now: $(ls "$D/out" | grep pilot_ok | tr '\n' ' ')"
@@ -214,7 +220,7 @@ diff -rq "$D/out/snap/q115.t1" "$D/out/snap/q115.t2" | sed "s|$D/||g"; diff -rq 
 echo "snapshots taken: $(ls "$D/out/snap" | tr '\n' ' ')"
 
 echo; echo "== 10. certificate.py (key fields)"
-python3 "$HERE/certificate.py" --write-each q901 q902 q903 q904 q115 q112 q116 q117 > "$D/cert.json"
+python3 "$HERE/certificate.py" --write-each q901 q902 q903 q904 q905 q906 q115 q112 q116 q117 > "$D/cert.json"
 python3 - "$D/cert.json" <<'PY'
 import json, sys
 for a, r in json.load(open(sys.argv[1])).items():
@@ -225,7 +231,7 @@ for a, r in json.load(open(sys.argv[1])).items():
 PY
 
 echo; echo "== 11. read.py (per arm: classes, x + n of K, eligibility; then the per-condition counts)"
-python3 "$HERE/read.py" q901 q902 q903 q904 q115 q112 q116 q117 > "$D/read.json"
+python3 "$HERE/read.py" q901 q902 q903 q904 q905 q906 q115 q112 q116 q117 > "$D/read.json"
 python3 - "$D/read.json" <<'PY'
 import json, sys
 d = json.load(open(sys.argv[1]))
@@ -244,11 +250,22 @@ echo; echo "== 12. the stub's log: every call that happened; flags checked"
 sed -E "s|$D/||g" "$STUB_LOG" | sed -E 's/ bad=\[\]//'
 echo "calls logged: $(grep -c STUB-CALL "$STUB_LOG")   flags_ok=False: $(grep -c 'flags_ok=False' "$STUB_LOG")   resume calls: $(grep -c 'mode=resume' "$STUB_LOG")   stream-json calls: $(grep -c 'fmt=stream-json' "$STUB_LOG")   per phase: t1 $(grep -c 'phase=t1' "$STUB_LOG") cp $(grep -c 'phase=cp' "$STUB_LOG") t2 $(grep -c 'phase=t2' "$STUB_LOG")"
 
-echo; echo "== 13. check_pilot.sh on the four pilots: q901 is good, q902 (no boundary), q903 (every line handed back), q904 (session id changed) must fail"
-for a in q901 q902 q903 q904; do echo "-------- $a"; bash "$HERE/check_pilot.sh" $a | sed -n '/== session/,$p'; done
+echo; echo "== 13. check_pilot.sh on the six pilots: q901 slice (PILOT OK, marker), q902 (no boundary), q903 (every line handed back), q904 (session id changed), q905 (the control reads whole: its own verdict, exit 3, no marker), q906 (a reference to the rules file after the boundary: [occasion])"
+for a in q901 q902 q903 q904 q905 q906; do echo "-------- $a"; bash "$HERE/check_pilot.sh" $a > "$D/chk.out" 2>&1; rc=$?; sed -n '/== session/,$p' "$D/chk.out" | grep -E "^== (verdict|design)|^\(iv-b\)|^  - |marker written"; echo "   check_pilot.sh exit code: $rc   markers now: $(ls "$D/out" | grep pilot_ok | tr '\n' ' ')"; done
+echo "-- G1: every marker was removed at the start of each check; the last pilot checked (q906) is NOT OK, so none stands. A counted arm is refused (exit code 1, m1):"
+bash "$HERE/launch.sh" q118 2>&1 | grep refused | sed -E "s|$D/||g"; echo "   exit code: ${PIPESTATUS[0]}"
+echo "-- G2: a marker of the right name with the content of another pilot, and an empty one: both refused"
+printf 'PILOT OK q902\n' > "$D/out/pilot_ok.q901"; : > "$D/out/pilot_ok.x"
+bash "$HERE/launch.sh" q118 2>&1 | grep -c refused | sed 's/^/   refused lines: /'; python3 "$HERE/setup.py" six q113 2>&1 | tail -1 | sed -E "s|$D/||g"; rm -f "$D/out/pilot_ok.q901" "$D/out/pilot_ok.x"
+echo "-- m2: setup.py with BMA_SCRATCH unset reads local.env itself (the refusal below comes from the marker gate, not from a KeyError):"
+mkdir -p "$D/nomarker"; ( env -u BMA_SCRATCH -u R214_ROOT -u R214P_ROOT R214_OUT="$D/nomarker" PATH="$REAL_PATH" python3 "$HERE/setup.py" six q113 2>&1 | tail -1 | sed -E "s|$D/||g" )
+echo "-- G3: an override of the pilot names that names a counted arm or leaves out a pilot is refused:"
+R214_PILOTS="q901 q902 q903 q112" python3 "$HERE/kset.py" pilots 2>&1 | head -1; echo "   exit code ${PIPESTATUS[0]}"
+R214_PILOTS="q901 q902" python3 "$HERE/kset.py" pilots 2>&1 | head -1; echo "   exit code ${PIPESTATUS[0]}"
+R214_PILOTS="q901 q902 q903 q112" R214_TEST_ONLY=1 python3 "$HERE/kset.py" pilots 2>&1 | head -2
 
 echo; echo "== 14. N5 (A7): a repeated arm name, a lock, a concurrent second launch (own trees, own outputs; the stub sleeps 2 s in turn 1 of q914)"
-mkdir -p "$D/dup/trees" "$D/dup/cfg/projects" "$D/dup/out"; touch "$D/dup/out/pilot_ok.x"        # the marker the counted arms need (not the point of this run)
+mkdir -p "$D/dup/trees" "$D/dup/cfg/projects" "$D/dup/out"; printf "PILOT OK q901\\n" > "$D/dup/out/pilot_ok.q901"        # the marker the counted arms need (not the point of this run)
 for a in q912 q913 q914; do mkdir -p "$D/dup/trees/$a"; (cd "$D/ptrees/q901" && tar -cf - --exclude=node_modules .) | (cd "$D/dup/trees/$a" && tar -xf -); done
 dupenv() { R214_ROOT="$D/dup/trees" R214_OUT="$D/dup/out" R214_CFG="$D/dup/cfg" STUB_LOG="$D/stub_dup.log" STUB_SLOW_ARMS="q914" "$@"; }
 : > "$D/stub_dup.log"
@@ -263,7 +280,7 @@ echo "   launch 1 / launch 2 said: $(grep -h 'q914:' "$D/dup/l1.out" "$D/dup/l2.
 echo "   stub calls added: $(( $(grep -c STUB-CALL "$D/stub_dup.log") - c0 ))   t1 lines for q914: $(grep -c '^q914 t1 exit' "$D/dup/out/launch.status")   (want 3 calls, one t1 line, one refusal)"
 
 echo; echo "== 15. A7: the time limit. Same stub, same PATH. R214_TIMEOUT=3; the stub hangs (sleeps 300 s) in turn 1 of q915"
-mkdir -p "$D/hang/trees/q915" "$D/hang/cfg/projects" "$D/hang/out" "$D/hang/out2"; touch "$D/hang/out/pilot_ok.x" "$D/hang/out2/pilot_ok.x"; (cd "$D/ptrees/q901" && tar -cf - --exclude=node_modules .) | (cd "$D/hang/trees/q915" && tar -xf -)
+mkdir -p "$D/hang/trees/q915" "$D/hang/cfg/projects" "$D/hang/out" "$D/hang/out2"; printf "PILOT OK q901\\n" | tee "$D/hang/out/pilot_ok.q901" > "$D/hang/out2/pilot_ok.q901"; (cd "$D/ptrees/q901" && tar -cf - --exclude=node_modules .) | (cd "$D/hang/trees/q915" && tar -xf -)
 : > "$D/stub_hang.log"
 t0=$(date +%s)
 R214_ROOT="$D/hang/trees" R214_OUT="$D/hang/out" R214_CFG="$D/hang/cfg" STUB_LOG="$D/stub_hang.log" STUB_HANG_ARMS="q915" R214_TIMEOUT=3 bash "$HERE/launch.sh" q915 2>&1 | sed -E "s|$D/||g" | grep -E 'resolves|q915 (t1|cp|t2)|killed|failed'
@@ -274,7 +291,7 @@ echo "stub processes still alive after the run: $(pgrep -f "$D/stub/stub.py" | w
 echo "calls made for q915: $(grep -c STUB-CALL "$D/stub_hang.log") (the turn-1 call only: the arm ended like a failed call, no compaction, no turn 2)"
 
 echo; echo "== 16. B7: a compaction call that exits 1 after writing its boundary ends its arm; a time limit that is not a positive integer is refused"
-mkdir -p "$D/cpf/trees/q916" "$D/cpf/cfg/projects" "$D/cpf/out" "$D/cpf/out_to"; touch "$D/cpf/out/pilot_ok.x" "$D/cpf/out_to/pilot_ok.x"; (cd "$D/ptrees/q901" && tar -cf - --exclude=node_modules .) | (cd "$D/cpf/trees/q916" && tar -xf -)
+mkdir -p "$D/cpf/trees/q916" "$D/cpf/cfg/projects" "$D/cpf/out" "$D/cpf/out_to"; printf "PILOT OK q901\\n" | tee "$D/cpf/out/pilot_ok.q901" > "$D/cpf/out_to/pilot_ok.q901"; (cd "$D/ptrees/q901" && tar -cf - --exclude=node_modules .) | (cd "$D/cpf/trees/q916" && tar -xf -)
 : > "$D/stub_cpf.log"
 R214_ROOT="$D/cpf/trees" R214_OUT="$D/cpf/out" R214_CFG="$D/cpf/cfg" STUB_LOG="$D/stub_cpf.log" STUB_CPFAIL_ARMS="q916" bash "$HERE/launch.sh" q916 2>&1 | grep -E '^q916 (cp|compaction|turn2)' | sed -E 's/(pre_tokens=[0-9]+).*/\1 .../'
 echo "stub calls for q916: $(grep -c STUB-CALL "$D/stub_cpf.log")  per phase: t1 $(grep -c 'phase=t1' "$D/stub_cpf.log") cp $(grep -c 'phase=cp' "$D/stub_cpf.log") t2 $(grep -c 'phase=t2' "$D/stub_cpf.log")   (want one t1, one cp, no t2)"

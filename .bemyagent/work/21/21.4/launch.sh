@@ -3,6 +3,7 @@
 # instruction is injected; outputs outside the trees' parent; refuses to run an arm twice) with the three
 # calls this round needs, on ONE session:
 #   turn 1      -p <prompt_t1>                              --output-format json         -> <arm>.t1.json   snap/<arm>.t1/
+#   turn 1b     -p <prompt_t1b> --resume <session of turn 1> --output-format json  -> <arm>.t1b.json   (D1, Amendment 4; the snapshot snap/<arm>.t1 is taken after it)
 #   compaction  -p "/compact" --resume <session of turn 1>  --output-format stream-json --verbose -> <arm>.cp.jsonl
 #   turn 2      -p <prompt_t2>  --resume <same session>     --output-format json         -> <arm>.t2.json   snap/<arm>.t2/
 # What is new against 21.1, and why:
@@ -36,7 +37,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 S="${BMA_SCRATCH:?set BMA_SCRATCH to the scratch directory of this round}"
 R="${R214_ROOT:-$S/r214}"          # the trees of the six (untouched by this script except by the arms themselves)
 RP="${R214P_ROOT:-$S/r214p}"       # the trees of the pilots (C4): a pilot's tree is found in this root, a counted arm's in $R
-PILOTS="${R214_PILOTS:-q901 q902 q903}"
+PILOTS="$(python3 "$HERE/kset.py" pilots)" || exit 2      # G3: an override that names a counted arm or drops a pilot is refused unless R214_TEST_ONLY is set
 is_pilot() { case " $PILOTS " in *" $1 "*) return 0;; esac; return 1; }
 root_of() { if is_pilot "$1"; then echo "$RP"; else echo "$R"; fi; }
 OUT="${R214_OUT:-$S/r214_out}"      # every launcher output
@@ -80,7 +81,7 @@ claude_call() {   # claude_call <out> <err> <prompt> <resume id or ""> <json|str
 timeout_note() { [ "$3" = 142 ] && echo "$1 $2 killed by the time limit (${LIMIT}s)" >> "$STATUS"; return 0; }
 
 one_arm() {
-  local a="$1" d="$(root_of "$1")/$1" p1 pc p2 rc sid sid2 want proj tr other mem n before after iserr
+  local a="$1" d="$(root_of "$1")/$1" p1 pb pc p2 rc sidb sid sid2 want proj tr other mem n before after iserr
   local s_found s_pre s_sid t_n t_trig t_pre t_post by pre same cprc
   cd "$d" || { echo "$a missing-tree" >> "$STATUS"; return; }
   want=$(printf %s "$d" | sed 's/[^A-Za-z0-9]/-/g')      # the arm's own project folder name: its path, every non-alphanumeric a dash
@@ -88,15 +89,25 @@ one_arm() {
   p1=$(sed "s|<ARM_DIR>|$d|" "$HERE/prompt_t1.txt")
   pc=$(cat "$HERE/prompt_compact.txt")
   p2=$(cat "$HERE/prompt_t2.txt")
-  echo "$a prompts t1_sha=$(printf %s "$p1" | sha) cp_sha=$(printf %s "$pc" | sha) t2_sha=$(printf %s "$p2" | sha)" >> "$STATUS"
+  pb=$(cat "$HERE/prompt_t1b.txt")
+  echo "$a prompts t1_sha=$(printf %s "$p1" | sha) t1b_sha=$(printf %s "$pb" | sha) cp_sha=$(printf %s "$pc" | sha) t2_sha=$(printf %s "$p2" | sha)" >> "$STATUS"
 
   # ---- turn 1
   rc=$(claude_call "$OUT/$a.t1.json" "$OUT/$a.t1.err" "$p1" "" json)
   echo "$a t1 exit=$rc" >> "$STATUS"; timeout_note "$a" t1 "$rc"
-  snap "$d" "$OUT/snap/$a.t1"
   sid=$(sid_of "$OUT/$a.t1.json"); iserr=$(err_of "$OUT/$a.t1.json")
   if [ "$rc" != 0 ] || [ -z "$sid" ] || [ "$iserr" != 0 ]; then
-    echo "$a t1 failed (exit=$rc is_error=${iserr:-?} session=$([ -n "$sid" ] && echo yes || echo no)): arm stopped, no compaction, no turn 2" >> "$STATUS"; return
+    snap "$d" "$OUT/snap/$a.t1"
+    echo "$a t1 failed (exit=$rc is_error=${iserr:-?} session=$([ -n "$sid" ] && echo yes || echo no)): arm stopped, no turn 1b, no compaction, no turn 2" >> "$STATUS"; return
+  fi
+
+  # ---- turn 1b (D1): a second small feature on the same session, so that the rules file falls out of the files the tool hands back
+  rc=$(claude_call "$OUT/$a.t1b.json" "$OUT/$a.t1b.err" "$pb" "$sid" json)
+  echo "$a t1b exit=$rc resumed_from=${sid:0:8}" >> "$STATUS"; timeout_note "$a" t1b "$rc"
+  snap "$d" "$OUT/snap/$a.t1"                  # the snapshot the readings use is taken AFTER turn 1b
+  sidb=$(sid_of "$OUT/$a.t1b.json"); iserr=$(err_of "$OUT/$a.t1b.json")
+  if [ "$rc" != 0 ] || [ "$iserr" != 0 ] || [ "$sidb" != "$sid" ]; then
+    echo "$a t1b failed (exit=$rc is_error=${iserr:-?} session_same=$([ "$sidb" = "$sid" ] && echo 1 || echo 0)): arm stopped, no compaction, no turn 2" >> "$STATUS"; return
   fi
 
   # ---- the transcript: the arm's own project folder, and only there
@@ -145,17 +156,19 @@ one_arm() {
 
 pilot_hint() { case "$1" in q901) echo " - a pilot that has run is not cleared and run again under its name: use the next pilot name, q902";; q902) echo " - use the next pilot name, q903";; q903) echo " - the pilot names are used up: the designer rules";; esac; }   # B9
 SEEN=" "
+REFUSED=0
 mkdir -p "$OUT/locks"
 for a in "$@"; do
-  case "$a" in ""|*[!A-Za-z0-9]*) echo "'$a' is not an arm name (skipped)"; continue;; esac
-  case "$SEEN" in *" $a "*) echo "$a: named twice - run once (the repeat is skipped)"; continue;; esac
+  case "$a" in ""|*[!A-Za-z0-9]*) echo "'$a' is not an arm name (skipped)"; REFUSED=1; continue;; esac
+  case "$SEEN" in *" $a "*) echo "$a: named twice - run once (the repeat is skipped)"; REFUSED=1; continue;; esac
   SEEN="$SEEN$a "
-  if ! is_pilot "$a" && ! ls "$OUT"/pilot_ok.* > /dev/null 2>&1; then echo "$a: refused - a counted arm is launched only after a PILOT OK: no marker $OUT/pilot_ok.<pilot> (check_pilot.sh writes it)"; continue; fi    # C4
-  if [ ! -d "$(root_of "$a")/$a" ]; then echo "$a: no tree at $(root_of "$a")/$a (skipped)"; continue; fi
-  if [ -e "$OUT/$a.t1.json" ]; then echo "$a: $OUT/$a.t1.json exists - refusing to run twice (skipped)$(pilot_hint "$a")"; continue; fi
-  if ! mkdir "$OUT/locks/$a" 2> /dev/null; then echo "$a: locked by another launch ($OUT/locks/$a) - refusing to run twice (skipped)$(pilot_hint "$a")"; continue; fi   # mkdir is atomic: two launches cannot both start an arm
+  if ! is_pilot "$a" && ! python3 "$HERE/kset.py" marker "$OUT" 2> /dev/null; then echo "$a: refused - a counted arm is launched only after a PILOT OK: no marker $OUT/pilot_ok.<pilot> holding 'PILOT OK <pilot>' (check_pilot.sh writes it)"; REFUSED=1; continue; fi    # C4, G2
+  if [ ! -d "$(root_of "$a")/$a" ]; then echo "$a: no tree at $(root_of "$a")/$a (skipped)"; REFUSED=1; continue; fi
+  if [ -e "$OUT/$a.t1.json" ]; then echo "$a: $OUT/$a.t1.json exists - refusing to run twice (skipped)$(pilot_hint "$a")"; REFUSED=1; continue; fi
+  if ! mkdir "$OUT/locks/$a" 2> /dev/null; then echo "$a: locked by another launch ($OUT/locks/$a) - refusing to run twice (skipped)$(pilot_hint "$a")"; REFUSED=1; continue; fi   # mkdir is atomic: two launches cannot both start an arm
   ( one_arm "$a" ) &          # an explicit subshell group, as in 20.11: a bare `fn &` lost the rest of the function after the claude call under bash 3.2
 done
 wait
 echo "all arms finished"
 cat "$STATUS"
+[ "$REFUSED" = 0 ] || { echo "at least one arm was refused or skipped: exit 1"; exit 1; }       # m1

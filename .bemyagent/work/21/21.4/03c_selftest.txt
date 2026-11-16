@@ -51,7 +51,8 @@ PASS handed_8_file_attachment       record kind carrying     got=True want=True
 PASS handed_8_file_attachment       rules-file record        got=('rules', False) want=('rules', False)
 -- handed_partial_attachment: sections 1-3 handed back by a partial file attachment: reported, the arm stays
 PASS handed_partial_attachment      (ii) some, not all       got=True want=True
-PASS handed_partial_attachment      eligible iff n < M/2     got=True want=True
+PASS handed_partial_attachment      eligible                 got=False want=False
+PASS handed_partial_attachment      reason                   got=True want=True
 PASS handed_partial_attachment      rules-file record        got=('rules', True) want=('rules', True)
 -- handed_headings_only: a summary that lists only the eight heading lines: n of N, reported, the arm stays (N4)
 PASS handed_headings_only           (ii) some, not all       got=True want=True
@@ -616,6 +617,72 @@ PASS c8_metadata_not_object         metadata shape           got='not an object'
 -- c8_metadata_absent: C8/T12: the boundary has no metadata: flagged
 PASS c8_metadata_absent             flag                     got=True want=True
 PASS c8_metadata_absent             metadata shape           got='absent' want='absent'
+-- d1_design_four: D1: a four-call arm (turn 1, turn 1b, compaction, turn 2) is read as four calls
+PASS d1_design_four                 (i) class                got='whole' want='whole'
+PASS d1_design_four                 design                   got=True want=True
+PASS d1_design_four                 eligible                 got=True want=True
+-- d1_design_three: D1: q901's three-call design is still read as it was
+PASS d1_design_three                (i) class                got='whole' want='whole'
+PASS d1_design_three                design                   got=True want=True
+PASS d1_design_three                eligible                 got=True want=True
+-- d2_reference_after_boundary: D2: a compact_file_reference to the rules file after the boundary: the occasion was not produced, the arm leaves
+PASS d2_reference_after_boundary    (i) class                got='whole' want='whole'
+PASS d2_reference_after_boundary    attachments naming the rules got=['reference'] want=['reference']
+PASS d2_reference_after_boundary    eligible                 got=False want=False
+PASS d2_reference_after_boundary    reason                   got=True want=True
+-- d2_text_attachment_after_boundary: D2: a file attachment of the rules after the boundary
+PASS d2_text_attachment_after_boundary attachments naming the rules got=['text-attachment'] want=['text-attachment']
+PASS d2_text_attachment_after_boundary eligible                 got=False want=False
+PASS d2_text_attachment_after_boundary reason                   got=True want=True
+-- d2_name_only_attachment: D2: any other attachment that names the rules file
+PASS d2_name_only_attachment        attachments naming the rules got=['name'] want=['name']
+PASS d2_name_only_attachment        eligible                 got=False want=False
+-- d2_instruction_attachment_is_not_one: D2: the instruction attachment (it names the file by the sentinel) is not counted
+PASS d2_instruction_attachment_is_not_one (i) class                got='whole' want='whole'
+PASS d2_instruction_attachment_is_not_one attachments naming the rules got=[] want=[]
+PASS d2_instruction_attachment_is_not_one eligible                 got=True want=True
+-- d2_files_touched: D2: seven distinct files touched before the boundary (rules, app.js, five more in turn 1b): printed
+PASS d2_files_touched               distinct files touched before the boundary got=7 want=7
+PASS d2_files_touched               eligible                 got=True want=True
+-- d4_ivb_whole: D4: turn 1b starts with a whole read of the rules: (iv-b) whole, deciding nothing
+PASS d4_ivb_whole                   (i) class                got='whole' want='whole'
+PASS d4_ivb_whole                   (iv-b) class             got='whole' want='whole'
+PASS d4_ivb_whole                   eligible                 got=True want=True
+-- d4_ivb_none: D4: turn 1b never reads the rules: (iv-b) none; the arm is unaffected
+PASS d4_ivb_none                    (i) class                got='whole' want='whole'
+PASS d4_ivb_none                    (iv-b) class             got='none' want='none'
+PASS d4_ivb_none                    eligible                 got=True want=True
+-- d4_ivb_null_three_call: D4: a three-call transcript has no turn-1b prompt: (iv-b) null with the reason
+PASS d4_ivb_null_three_call         (iv-b) class             got=None want=None
+PASS d4_ivb_null_three_call         eligible                 got=True want=True
+-- x1_rules_in_write_result: X1: lines of K in the result of an Edit that does not name the rules file are listed
+PASS x1_rules_in_write_result       (ii) n                   got=0 want=0
+PASS x1_rules_in_write_result       flag                     got=True want=True
+PASS x1_rules_in_write_result       rules in other calls' results got=1 want=1
+PASS x1_rules_in_write_result       eligible                 got=True want=True
+-- x1_failed_edit_result: X1: the same in a failed Edit inside the window, before the first write that succeeds
+PASS x1_failed_edit_result          flag                     got=True want=True
+PASS x1_failed_edit_result          rules in other calls' results got=1 want=1
+-- d6_empty_content_blob: D6: a blob copy before the first tool result whose content is an empty list: read, 0 lines, no flag, the arm stays
+PASS d6_empty_content_blob          (ii) n                   got=0 want=0
+PASS d6_empty_content_blob          no such flag             got=False want=False
+PASS d6_empty_content_blob          request copies unreadable got=0 want=0
+PASS d6_empty_content_blob          eligible                 got=True want=True
+-- d6_text_blocks_blob_with_rules: D6: a blob whose text blocks hold the rules before the first tool result: counted
+PASS d6_text_blocks_blob_with_rules (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS d6_text_blocks_blob_with_rules request copies unreadable got=0 want=0
+PASS d6_text_blocks_blob_with_rules eligible                 got=False want=False
+-- d6_unknown_block_type: D6: a blob whose content has a block of an unknown type: unreadable, flagged
+PASS d6_unknown_block_type          flag                     got=True want=True
+PASS d6_unknown_block_type          request copies unreadable got=1 want=1
+PASS d6_unknown_block_type          eligible                 got=True want=True
+-- d6_content_not_string_or_list: D6: a blob whose content is a number: unreadable
+PASS d6_content_not_string_or_list  request copies unreadable got=1 want=1
+PASS d6_content_not_string_or_list  eligible                 got=True want=True
+-- d6_hash_resolves_to_empty_blob: D6: a copy listing a hash that resolves to a stored blob with empty content: read, 0 lines
+PASS d6_hash_resolves_to_empty_blob (ii) n                   got=0 want=0
+PASS d6_hash_resolves_to_empty_blob request copies unreadable got=0 want=0
+PASS d6_hash_resolves_to_empty_blob eligible                 got=True want=True
 PASS m1_form_not_recorded_as_class  form beside class        got=[('offset-or-limit', 'whole')] want=[('offset-or-limit', 'whole')]
 PASS m1_form_shell                  form beside class        got=[('shell', 'whole')] want=[('shell', 'whole')]
 PASS (output)                       no text: 'A summary of the w' got=False want=False
@@ -688,6 +755,24 @@ PASS c_hash_wrong                   design_ok                got=False want=Fals
 -- c_override_extra: three OVERRIDE headers per two records
 PASS c_override_extra               clean                    got=False want=False
 PASS c_override_extra               failed term named        got=True want=True
+-- c4_four_calls_ok: D1: a four-call arm: four sessions equal, the turn-1b prompt and its hash checked
+PASS c4_four_calls_ok               clean                    got=True want=True
+PASS c4_four_calls_ok               design_ok                got=True want=True
+PASS c4_four_calls_ok               calls in the design      got=4 want=4
+-- c4_t1b_session_differs: D1: turn 1b reports another session id
+PASS c4_t1b_session_differs         design_ok                got=False want=False
+PASS c4_t1b_session_differs         same session on all three got=False want=False
+-- c4_t1b_prompt_missing: D1: the turn-1b prompt record is not the prompt
+PASS c4_t1b_prompt_missing          design_ok                got=False want=False
+-- c4_t1b_hash_wrong: D1: the launcher's hash of the turn-1b prompt differs from the file's
+PASS c4_t1b_hash_wrong              design_ok                got=False want=False
+-- c4_three_calls_still_ok: D1: the three-call design (q901) is certified as it was
+PASS c4_three_calls_still_ok        clean                    got=True want=True
+PASS c4_three_calls_still_ok        design_ok                got=True want=True
+PASS c4_three_calls_still_ok        calls in the design      got=3 want=3
+-- c_p1_non_object_lines: P1: transcript lines that are JSON but not objects: dropped and counted, no traceback
+PASS c_p1_non_object_lines          clean                    got=True want=True
+PASS c_p1_non_object_lines          lines that are not objects counted got=2 want=2
 -- c_summary_quotes_header: N7: a summary that quotes the instruction header once: the failing term is named
 PASS c_summary_quotes_header        clean                    got=False want=False
 PASS c_summary_quotes_header        failed term named        got=True want=True
@@ -698,111 +783,298 @@ PASS c_ok                           base check says so when unset got=(False, Tr
 PASS c_ok                           cp prompt file is /compact got=True want=True
 -- check_pilot.sh on synthetic pilots
 -- p_healthy: a healthy pilot: turn 1 whole, one whole read after the boundary
-PASS p_healthy                      verdict is OK            got=True want=True
+PASS p_healthy                      verdict is PILOT OK      got=True want=True
+PASS p_healthy                      marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_healthy' want='PILOT OK p_healthy'
+PASS p_healthy                      G1: the stale marker is gone got=False want=False
+PASS p_healthy                      no traceback             got=False want=False
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_iv_none: M1: turn 1 never read the rules
-PASS p_iv_none                      verdict is OK            got=False want=False
+PASS p_iv_none                      verdict is PILOT OK      got=False want=False
+PASS p_iv_none                      marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_iv_none                      G1: the stale marker is gone got=False want=False
+PASS p_iv_none                      no traceback             got=False want=False
 PASS p_iv_none                      prints '(iv) turn-1 restore' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_iv_wrapped: M1: a result format the reader cannot match (long lines wrapped): turn 1 is not whole
-PASS p_iv_wrapped                   verdict is OK            got=False want=False
+PASS p_iv_wrapped                   verdict is PILOT OK      got=False want=False
+PASS p_iv_wrapped                   marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_iv_wrapped                   G1: the stale marker is gone got=False want=False
+PASS p_iv_wrapped                   no traceback             got=False want=False
 PASS p_iv_wrapped                   prints '(iv) turn-1 restore' got=True want=True
 PASS p_iv_wrapped                   prints '`slice`'         got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_unknown_prefix: an unknown line prefix everywhere: A1 still reads it whole
-PASS p_unknown_prefix               verdict is OK            got=True want=True
+PASS p_unknown_prefix               verdict is PILOT OK      got=True want=True
+PASS p_unknown_prefix               marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_unknown_prefix' want='PILOT OK p_unknown_prefix'
+PASS p_unknown_prefix               G1: the stale marker is gone got=False want=False
+PASS p_unknown_prefix               no traceback             got=False want=False
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_attempted_after: M3: the Read after the boundary got the unchanged-file stub
-PASS p_attempted_after              verdict is OK            got=False want=False
+PASS p_attempted_after              verdict is PILOT OK      got=False want=False
+PASS p_attempted_after              marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_attempted_after              G1: the stale marker is gone got=False want=False
+PASS p_attempted_after              no traceback             got=False want=False
 PASS p_attempted_after              prints 'attempted access' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_attach_partial: M6: a file attachment with sections 1-7 after the boundary
-PASS p_attach_partial               verdict is OK            got=False want=False
+PASS p_attach_partial               verdict is PILOT OK      got=False want=False
+PASS p_attach_partial               marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_attach_partial               G1: the stale marker is gone got=False want=False
+PASS p_attach_partial               no traceback             got=False want=False
 PASS p_attach_partial               prints '(ii) handed back' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_summary_all: every line handed back by the summary
-PASS p_summary_all                  verdict is OK            got=False want=False
+PASS p_summary_all                  verdict is PILOT OK      got=False want=False
+PASS p_summary_all                  marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_summary_all                  G1: the stale marker is gone got=False want=False
+PASS p_summary_all                  no traceback             got=False want=False
 PASS p_summary_all                  prints '(ii) handed back' got=True want=True
 PASS p_summary_all                  prints 'cannot produce the occasion' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_preserved_results: M6 (ruling): the turn-1 whole read and its result preserved across the boundary: every line handed back
-PASS p_preserved_results            verdict is OK            got=False want=False
+PASS p_preserved_results            verdict is PILOT OK      got=False want=False
+PASS p_preserved_results            marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_preserved_results            G1: the stale marker is gone got=False want=False
+PASS p_preserved_results            no traceback             got=False want=False
 PASS p_preserved_results            prints 'preserved across the boundary' got=True want=True
 PASS p_preserved_results            prints 'cannot produce the occasion' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_preserved_partial: M6 (ruling): a preserved 40-line result: partly handed back, the pilot stops for the designer
-PASS p_preserved_partial            verdict is OK            got=False want=False
+PASS p_preserved_partial            verdict is PILOT OK      got=False want=False
+PASS p_preserved_partial            marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_preserved_partial            G1: the stale marker is gone got=False want=False
+PASS p_preserved_partial            no traceback             got=False want=False
 PASS p_preserved_partial            prints '(ii) handed back' got=True want=True
 PASS p_preserved_partial            prints "designer's ruling" got=True want=True
 PASS p_preserved_partial            prints 'preserved across the boundary' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_t2_no_tool_call: ruling: turn 2 made no tool call: NOT OK with its own check name
-PASS p_t2_no_tool_call              verdict is OK            got=False want=False
+PASS p_t2_no_tool_call              verdict is PILOT OK      got=False want=False
+PASS p_t2_no_tool_call              marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_t2_no_tool_call              G1: the stale marker is gone got=False want=False
+PASS p_t2_no_tool_call              no traceback             got=False want=False
 PASS p_t2_no_tool_call              prints '[turn 2 no tool call]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_unclean_term: a tool call names the repo: the failing term is printed
-PASS p_unclean_term                 verdict is OK            got=False want=False
+PASS p_unclean_term                 verdict is PILOT OK      got=False want=False
+PASS p_unclean_term                 marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_unclean_term                 G1: the stale marker is gone got=False want=False
+PASS p_unclean_term                 no traceback             got=False want=False
 PASS p_unclean_term                 prints 'certificate clean' got=True want=True
 PASS p_unclean_term                 prints 'no_tool_call_naming_repo' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_second_model_usage: N7/A6: a second model in modelUsage is printed, not a stop
-PASS p_second_model_usage           verdict is OK            got=True want=True
+PASS p_second_model_usage           verdict is PILOT OK      got=True want=True
+PASS p_second_model_usage           marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_second_model_usage' want='PILOT OK p_second_model_usage'
+PASS p_second_model_usage           G1: the stale marker is gone got=False want=False
+PASS p_second_model_usage           no traceback             got=False want=False
 PASS p_second_model_usage           prints 'second model in usage (printed, not a st' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_search_only: B1: turn 2 only searches the rules (a count): not attempted, the pilot is not stopped for it
-PASS p_search_only                  verdict is OK            got=True want=True
+PASS p_search_only                  verdict is PILOT OK      got=True want=True
+PASS p_search_only                  marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_search_only' want='PILOT OK p_search_only'
+PASS p_search_only                  G1: the stale marker is gone got=False want=False
+PASS p_search_only                  no traceback             got=False want=False
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_fences_summary: B2/R2: a code fence and a table rule in the summary: a fact, not a stop
-PASS p_fences_summary               verdict is OK            got=True want=True
+PASS p_fences_summary               verdict is PILOT OK      got=True want=True
+PASS p_fences_summary               marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_fences_summary' want='PILOT OK p_fences_summary'
+PASS p_fences_summary               G1: the stale marker is gone got=False want=False
+PASS p_fences_summary               no traceback             got=False want=False
 PASS p_fences_summary               prints 'short lines hit (fact, decides nothing):' got=True want=True
--- p_sentinel_record: B2/R2: the instruction text (the sentinel) carried by a record after the boundary: not a stop
-PASS p_sentinel_record              verdict is OK            got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_sentinel_record: B2/R2 + D2: the instruction text (it names the rules file) carried by an attachment of another type after the boundary: n = 0, but D2's occasion gate stops
+PASS p_sentinel_record              verdict is PILOT OK      got=False want=False
+PASS p_sentinel_record              marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_sentinel_record              G1: the stale marker is gone got=False want=False
+PASS p_sentinel_record              no traceback             got=False want=False
+PASS p_sentinel_record              prints '[occasion]'      got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_rules_in_other_record_type: B3/R3b: the rules text in a record of an unnamed type after the boundary: counted, the pilot stops
-PASS p_rules_in_other_record_type   verdict is OK            got=False want=False
+PASS p_rules_in_other_record_type   verdict is PILOT OK      got=False want=False
+PASS p_rules_in_other_record_type   marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_rules_in_other_record_type   G1: the stale marker is gone got=False want=False
+PASS p_rules_in_other_record_type   no traceback             got=False want=False
 PASS p_rules_in_other_record_type   prints '(ii) handed back' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_request_copy_before_call: B12(b): a request copy with the rules text before the arm's first call counts: the pilot stops
-PASS p_request_copy_before_call     verdict is OK            got=False want=False
+PASS p_request_copy_before_call     verdict is PILOT OK      got=False want=False
+PASS p_request_copy_before_call     marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_request_copy_before_call     G1: the stale marker is gone got=False want=False
+PASS p_request_copy_before_call     no traceback             got=False want=False
 PASS p_request_copy_before_call     prints '(ii) handed back' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_request_copy_after_call: B12(b): the same copy after the arm's first call is left out: no stop
-PASS p_request_copy_after_call      verdict is OK            got=True want=True
+PASS p_request_copy_after_call      verdict is PILOT OK      got=True want=True
+PASS p_request_copy_after_call      marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_request_copy_after_call' want='PILOT OK p_request_copy_after_call'
+PASS p_request_copy_after_call      G1: the stale marker is gone got=False want=False
+PASS p_request_copy_after_call      no traceback             got=False want=False
 PASS p_request_copy_after_call      prints 'request copies left out: 1' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_rest_of_turn: B12(a): the rules in an attachment after the first write: the pilot stops on the rest-of-turn count
-PASS p_rest_of_turn                 verdict is OK            got=False want=False
+PASS p_rest_of_turn                 verdict is PILOT OK      got=False want=False
+PASS p_rest_of_turn                 marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_rest_of_turn                 G1: the stale marker is gone got=False want=False
+PASS p_rest_of_turn                 no traceback             got=False want=False
 PASS p_rest_of_turn                 prints '[(ii) rest of turn 2]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_no_shrink: B5/R3c: the context did not shrink at the boundary
-PASS p_no_shrink                    verdict is OK            got=False want=False
+PASS p_no_shrink                    verdict is PILOT OK      got=False want=False
+PASS p_no_shrink                    marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_no_shrink                    G1: the stale marker is gone got=False want=False
+PASS p_no_shrink                    no traceback             got=False want=False
 PASS p_no_shrink                    prints '[context shrink]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_preserved_ids_missing: B5/R3a: preserved records named but not in the file
-PASS p_preserved_ids_missing        verdict is OK            got=False want=False
+PASS p_preserved_ids_missing        verdict is PILOT OK      got=False want=False
+PASS p_preserved_ids_missing        marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_preserved_ids_missing        G1: the stale marker is gone got=False want=False
+PASS p_preserved_ids_missing        no traceback             got=False want=False
 PASS p_preserved_ids_missing        prints '[preserved fields]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_preserved_bad_shape: B5/R3a: a preserved field of an unexpected shape
-PASS p_preserved_bad_shape          verdict is OK            got=False want=False
+PASS p_preserved_bad_shape          verdict is PILOT OK      got=False want=False
+PASS p_preserved_bad_shape          marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_preserved_bad_shape          G1: the stale marker is gone got=False want=False
+PASS p_preserved_bad_shape          no traceback             got=False want=False
 PASS p_preserved_bad_shape          prints '[preserved fields]' got=True want=True
 PASS p_preserved_bad_shape          prints 'unexpected'      got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_unknown_metadata_key: B5/R3d: a key in the boundary's metadata the reader does not know: its name is printed
-PASS p_unknown_metadata_key         verdict is OK            got=False want=False
+PASS p_unknown_metadata_key         verdict is PILOT OK      got=False want=False
+PASS p_unknown_metadata_key         marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_unknown_metadata_key         G1: the stale marker is gone got=False want=False
+PASS p_unknown_metadata_key         no traceback             got=False want=False
 PASS p_unknown_metadata_key         prints '[boundary metadata]' got=True want=True
 PASS p_unknown_metadata_key         prints 'keptRecords'     got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_x_nonzero: C3/T5a: the instruction file holds 5 lines of K: the tree is not the designed one
-PASS p_x_nonzero                    verdict is OK            got=False want=False
+PASS p_x_nonzero                    verdict is PILOT OK      got=False want=False
+PASS p_x_nonzero                    marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_x_nonzero                    G1: the stale marker is gone got=False want=False
+PASS p_x_nonzero                    no traceback             got=False want=False
 PASS p_x_nonzero                    prints '[instruction file]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_snapshot_k_wrong: C3/T5: the snapshot's rules file gives 85 of the 86 lines of K
-PASS p_snapshot_k_wrong             verdict is OK            got=False want=False
+PASS p_snapshot_k_wrong             verdict is PILOT OK      got=False want=False
+PASS p_snapshot_k_wrong             marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_snapshot_k_wrong             G1: the stale marker is gone got=False want=False
+PASS p_snapshot_k_wrong             no traceback             got=False want=False
 PASS p_snapshot_k_wrong             prints '[snapshot rules file]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_copy_empty_content: D6: a blob copy with an empty content list before the first tool result: not a stop
+PASS p_copy_empty_content           verdict is PILOT OK      got=True want=True
+PASS p_copy_empty_content           marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_copy_empty_content' want='PILOT OK p_copy_empty_content'
+PASS p_copy_empty_content           G1: the stale marker is gone got=False want=False
+PASS p_copy_empty_content           no traceback             got=False want=False
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_copy_unknown_block: D6: a blob copy with an unknown block type: a stop
+PASS p_copy_unknown_block           verdict is PILOT OK      got=False want=False
+PASS p_copy_unknown_block           marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_copy_unknown_block           G1: the stale marker is gone got=False want=False
+PASS p_copy_unknown_block           no traceback             got=False want=False
+PASS p_copy_unknown_block           prints '[request copies]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_copy_unreadable: C5/T4: a request copy before the first tool result that cannot be read as text
-PASS p_copy_unreadable              verdict is OK            got=False want=False
+PASS p_copy_unreadable              verdict is PILOT OK      got=False want=False
+PASS p_copy_unreadable              marker iff PILOT OK (content `PILOT OK <name>`) got=None want=Nonenote: R214_PILOTS override in use: q901 q902 q903 q112 (R214_TEST_ONLY)
+note: R214_PILOTS override in use: q901 p_healthy p_iv_none p_iv_wrapped p_unknown_prefix p_attempted_after p_attach_partial p_summary_all p_preserved_results p_preserved_partial p_t2_no_tool_call p_unclean_term p_second_model_usage p_search_only p_fences_summary p_sentinel_record p_rules_in_other_record_type p_request_copy_before_call p_request_copy_after_call p_rest_of_turn p_no_shrink p_preserved_ids_missing p_preserved_bad_shape p_unknown_metadata_key p_x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+
+PASS p_copy_unreadable              G1: the stale marker is gone got=False want=False
+PASS p_copy_unreadable              no traceback             got=False want=False
 PASS p_copy_unreadable              prints '[request copies]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_pairs_disagree: C6/T6c: the two token pairs disagree on the direction
-PASS p_pairs_disagree               verdict is OK            got=False want=False
+PASS p_pairs_disagree               verdict is PILOT OK      got=False want=False
+PASS p_pairs_disagree               marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_pairs_disagree               G1: the stale marker is gone got=False want=False
+PASS p_pairs_disagree               no traceback             got=False want=False
 PASS p_pairs_disagree               prints '[token numbers]' got=True want=True
 PASS p_pairs_disagree               prints 'disagree'        got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_rules_in_other_result: C7/T10: the result of an `ls` carries lines of K
-PASS p_rules_in_other_result        verdict is OK            got=False want=False
+PASS p_rules_in_other_result        verdict is PILOT OK      got=False want=False
+PASS p_rules_in_other_result        marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_rules_in_other_result        G1: the stale marker is gone got=False want=False
+PASS p_rules_in_other_result        no traceback             got=False want=False
 PASS p_rules_in_other_result        prints "[rules in another call's result]" got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_unparsed_line: C8/T11: a transcript line that does not parse
-PASS p_unparsed_line                verdict is OK            got=False want=False
+PASS p_unparsed_line                verdict is PILOT OK      got=False want=False
+PASS p_unparsed_line                marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_unparsed_line                G1: the stale marker is gone got=False want=False
+PASS p_unparsed_line                no traceback             got=False want=False
 PASS p_unparsed_line                prints '[unparsed lines]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_metadata_not_object: C8/T12: the boundary's metadata is not an object: a stop with that reason, no traceback
-PASS p_metadata_not_object          verdict is OK            got=False want=False
+PASS p_metadata_not_object          verdict is PILOT OK      got=False want=False
+PASS p_metadata_not_object          marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_metadata_not_object          G1: the stale marker is gone got=False want=False
+PASS p_metadata_not_object          no traceback             got=False want=False
 PASS p_metadata_not_object          prints '[boundary metadata]' got=True want=True
 PASS p_metadata_not_object          prints 'not an object'   got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_metadata_absent: C8/T12: the boundary has no metadata
-PASS p_metadata_absent              verdict is OK            got=False want=False
+PASS p_metadata_absent              verdict is PILOT OK      got=False want=False
+PASS p_metadata_absent              marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_metadata_absent              G1: the stale marker is gone got=False want=False
+PASS p_metadata_absent              no traceback             got=False want=False
 PASS p_metadata_absent              prints '[boundary metadata]' got=True want=True
 PASS p_metadata_absent              prints 'absent'          got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 -- p_unplaced_print: C2: cat F > /dev/null in turn 2: unplaced, a warning, no stop
-PASS p_unplaced_print               verdict is OK            got=True want=True
+PASS p_unplaced_print               verdict is PILOT OK      got=True want=True
+PASS p_unplaced_print               marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_unplaced_print' want='PILOT OK p_unplaced_print'
+PASS p_unplaced_print               G1: the stale marker is gone got=False want=False
+PASS p_unplaced_print               no traceback             got=False want=False
 PASS p_unplaced_print               prints 'cannot place'    got=True want=True
-PASS p_healthy                      marker written on PILOT OK got=True want=True
-PASS p_iv_none                      no marker on PILOT NOT OK got=False want=False
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_control_whole: D3 outcome 2: the occasion produced, every gate passed, the control read whole: its own verdict, exit 3, no marker
+PASS p_control_whole                verdict is PILOT OK      got=False want=False
+PASS p_control_whole                the control read whole: exit 3, no marker got=(3, True, False) want=(3, True, False)
+PASS p_control_whole                marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_control_whole                G1: the stale marker is gone got=False want=False
+PASS p_control_whole                no traceback             got=False want=False
+PASS p_control_whole                prints 'THE CONTROL READ WHOLE' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_four_slice_ok: D3 outcome 3: four-call design, the control read a slice: PILOT OK, the marker
+PASS p_four_slice_ok                verdict is PILOT OK      got=True want=True
+PASS p_four_slice_ok                marker iff PILOT OK (content `PILOT OK <name>`) got='PILOT OK p_four_slice_ok' want='PILOT OK p_four_slice_ok'
+PASS p_four_slice_ok                G1: the stale marker is gone got=False want=False
+PASS p_four_slice_ok                no traceback             got=False want=False
+PASS p_four_slice_ok                prints 'design: 4 calls' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_reference: D3 outcome 1: a reference to the rules file after the boundary: PILOT NOT OK [occasion]
+PASS p_reference                    verdict is PILOT OK      got=False want=False
+PASS p_reference                    marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_reference                    G1: the stale marker is gone got=False want=False
+PASS p_reference                    no traceback             got=False want=False
+PASS p_reference                    prints '[occasion]'      got=True want=True
+PASS p_reference                    prints 'reference'       got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_json_string_line: P1: a transcript line that is a JSON string: a named stop, no traceback
+PASS p_json_string_line             verdict is PILOT OK      got=False want=False
+PASS p_json_string_line             marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_json_string_line             G1: the stale marker is gone got=False want=False
+PASS p_json_string_line             no traceback             got=False want=False
+PASS p_json_string_line             prints '[unparsed lines]' got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
+-- p_x1_write_result: X1: lines of K in a write call's result
+PASS p_x1_write_result              verdict is PILOT OK      got=False want=False
+PASS p_x1_write_result              marker iff PILOT OK (content `PILOT OK <name>`) got=None want=None
+PASS p_x1_write_result              G1: the stale marker is gone got=False want=False
+PASS p_x1_write_result              no traceback             got=False want=False
+PASS p_x1_write_result              prints "[rules in another call's result]" got=True want=True
+   stderr: x_nonzero p_snapshot_k_wrong p_copy_empty_content p_copy_unknown_block p_copy_unreadable p_pairs_disagree p_rules_in_other_result p_unparsed_line p_metadata_not_object p_metadata_absent p_unplaced_print p_control_whole p_four_slice_ok p_reference p_json_string_line p_x1_write_result (R214_TEST_ONLY)
 PASS check_pilot q112               a counted arm is refused (exit 2, says so) got=(2, True) want=(2, True)
+PASS G2                             an empty marker named pilot_ok.x opens nothing got=False want=False
+PASS G2                             a marker whose content names another pilot opens nothing got=False want=False
+PASS G2                             the marker the check writes opens got=True want=True
+PASS G2                             a marker for a name that is not a pilot opens nothing got=False want=False
+PASS G3                             an override naming a counted arm is refused got=True want=True
+PASS G3                             an override leaving out a pilot is refused got=True want=True
+PASS G3                             the same with R214_TEST_ONLY is allowed got=False want=False
+PASS G3                             no override: the default names got=['q901', 'q902', 'q903'] want=['q901', 'q902', 'q903']
 PASS (reader)                       a failing arm is named, no traceback got=(False, 'ZeroDivisionError', True) want=(False, 'ZeroDivisionError', True)
 
 Cases whose expected CLASS changed under Amendment 1 (40): cat_two_files, whole_truncated_marker, cat_pipe_head, read_error, whole_result_after_write, d1_read_limit2000, d1_read_offset1, d1_read_offset1_limit2000, d1_sed_1_dollar, d1_head_500, d1_tail_plus1, d1_awk_1, n9_error_with_text, n1_pipe_grep_cat, n1_elided_lines, n1_tail_cut, n1_all_lines_out_of_order, n1_unknown_prefix_still_whole, m5_auto_in_turn2_read_before, m5_auto_in_turn2_read_after, n3_failed_edit_first, n3_cat_tee_same_call, b1_read_offset_past_end, b1_grep_tool_count, b1_grep_tool_names_file, b6_killed, b8_failed_shell_write, b8_one_record_edit_then_read, b8_head_and_bemyagent, b8_rules_changed_in_turn1, b8_rules_changed_after_reading, c1_stub_then_slices, c1_stub_with_fence_reminder, c1_stub_with_instruction_line, c2_devnull, c2_devnull_and_echo, c2_pbcopy, c2_python_len, c2_node, c2_while_read

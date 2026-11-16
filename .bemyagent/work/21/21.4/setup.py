@@ -18,8 +18,14 @@ Usage: python3 setup.py pilots|six [arm ...]    (R214P_ROOT / R214_ROOT override
 import difflib, glob, hashlib, json, os, pathlib, shutil, subprocess, sys
 sys.dont_write_bytecode = True
 ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
-S = pathlib.Path(os.environ["BMA_SCRATCH"])      # the scratch directory of this round (the shell scripts export it from local.env)
 HERE = pathlib.Path(__file__).resolve().parent
+if "BMA_SCRATCH" not in os.environ and (HERE / "local.env").is_file():      # m2: read local.env as the shell scripts do
+    _r = subprocess.run(["bash", "-c", '. "$1"; printf "%s\\n%s\\n%s\\n" "${BMA_SCRATCH:-}" "${CLAUDE_CONFIG_DIR:-}" "${BMA_BASE:-}"', "x", str(HERE / "local.env")], capture_output=True, text=True)
+    for _k, _v in zip(("BMA_SCRATCH", "CLAUDE_CONFIG_DIR", "BMA_BASE"), _r.stdout.split("\n")):
+        if _v and _k not in os.environ: os.environ[_k] = _v
+if "BMA_SCRATCH" not in os.environ:
+    sys.exit("setup.py: BMA_SCRATCH is not set and there is no local.env to read it from")
+S = pathlib.Path(os.environ["BMA_SCRATCH"])      # the scratch directory of this round
 FIXTURE = ROOT / "harness" / "fixture"
 sys.path.insert(0, str(HERE))
 import kset                                       # noqa: E402
@@ -28,8 +34,8 @@ MODE = sys.argv[1] if len(sys.argv) > 1 else ""
 if MODE not in ("pilots", "six"):
     sys.exit("usage: setup.py pilots|six [arm ...]")
 OUT = pathlib.Path(os.environ.get("R214P_ROOT") or S / "r214p") if MODE == "pilots" else pathlib.Path(os.environ.get("R214_ROOT") or S / "r214")
-if MODE == "six" and not glob.glob(str(STATUS_DIR / "pilot_ok.*")):
-    sys.exit(f"setup.py six refuses: no marker {STATUS_DIR}/pilot_ok.<pilot> - check_pilot.sh writes it on PILOT OK; the six are built after a PILOT OK")
+if MODE == "six" and not kset.marker_ok(STATUS_DIR, kset.pilots_from_env()):          # G2: the marker's content and name are checked
+    sys.exit(f"setup.py six refuses: no marker {STATUS_DIR}/pilot_ok.<pilot> holding 'PILOT OK <pilot>' - check_pilot.sh writes it on a PILOT OK; the six are built after one")
 REF = "bma/21.4"                                  # the ref that carries the candidate line
 LINE_SHA1_EXPECTED = "c39979f0fa5bc245fc6454d087ef5fb7d8754cc3"      # B10: sha1 of the added line, without its newline (02_tasks.md Amendment 2)
 RULES_REL = ".bemyagent/docs/00-ai-rules.md"

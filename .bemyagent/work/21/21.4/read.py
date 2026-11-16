@@ -58,7 +58,7 @@ PROJECTS = TOOL_CFG / "projects"
 RULES_REL = ".bemyagent/docs/00-ai-rules.md"
 BEM_REL = "BEMYAGENT.md"
 COND = {**{a: "C" for a in ("q112", "q113", "q114", "q901", "q902", "q903")}, **{a: "L" for a in ("q115", "q116", "q117")}}
-PILOT = set((os.environ.get("R214_PILOTS") or "q901 q902 q903").split())      # B9: no pilot is cleared and run again under its name; the next name follows
+PILOT = set(kset.pilots_from_env())      # B9: no pilot is cleared and run again under its name; the next name follows
 
 
 def root_of(arm):
@@ -66,6 +66,7 @@ def root_of(arm):
     return RP if arm in PILOT else R
 ALL_ARMS = ["q901", "q112", "q113", "q114", "q115", "q116", "q117"]     # control first
 T2 = (HERE / "prompt_t2.txt").read_text()
+T1B = (HERE / "prompt_t1b.txt").read_text()
 
 try:
     K = kset.k_lines(REPO)          # C3: the 86 lines both conditions share; asserted
@@ -331,9 +332,9 @@ def rules_in_other_results(calls, results, arm_dir, lo, limit_pos):
     access.set_target(arm_dir, RULES_REL)
     out = []
     for c in calls:
-        if not (lo < c["idx"] and c["pos"] <= limit_pos) or c["name"] in access.WRITE_TOOLS:
+        if not (lo < c["idx"] and c["pos"] <= limit_pos):
             continue
-        if access.names_target(c["name"], c["inp"], c["cwd"]):
+        if access.names_target(c["name"], c["inp"], c["cwd"]):          # X1: the results of write calls are looked at too; a write naming the rules file is skipped here
             continue
         res = results.get(c["id"])
         g = found(res["text"], K)[0] if res else set()
@@ -462,9 +463,23 @@ def has_text(obj):
     return any(p != "cwd" and re.search(r"\s", x) and len(x) > 40 for p, x in walk_strings(obj))
 
 
+KNOWN_BLOCKS = {"text", "tool_use", "tool_result", "thinking", "redacted_thinking", "image", "document"}
+
+
+def message_readable(m):
+    """D6 (ruled 2026-11-16): a message is read when its content is a string, or a list of blocks of known types (an empty list, or a list
+    with no text in it, has been read: 0 lines). Anything else - or an unknown block type - cannot be read."""
+    if not isinstance(m, dict) or "content" not in m:
+        return True
+    c = m["content"]
+    if isinstance(c, str):
+        return True
+    return isinstance(c, list) and all(isinstance(b, dict) and b.get("type") in KNOWN_BLOCKS for b in c)
+
+
 def copy_view(rec, blobs):
-    """C5: a request copy with the stored blobs its hashes point to (anywhere in the file) resolved. -> (view, readable): readable = it holds
-    text after resolution and every hash in a list resolves"""
+    """C5, D6: a request copy with the stored blobs its hashes point to (anywhere in the file) resolved. -> (view, readable): unreadable only when
+    a hash in a list resolves to no stored record, or the content of the copy or of a blob it points to is neither a string nor a list of known blocks"""
     resolved, unresolved = [], 0
     own = {rec.get(k) for k in ("hash", "requestDigest", "shapeHash")}
     for p, x in walk_strings(rec):
@@ -474,7 +489,8 @@ def copy_view(rec, blobs):
             elif p.endswith("[]"):
                 unresolved += 1
     view = {"copy": rec, "resolved": resolved}
-    return view, (has_text(view) and not unresolved)
+    ok = not unresolved and message_readable(rec.get("message")) and all(message_readable(m) for m in resolved)
+    return view, ok
 
 
 def handed_back(recs, calls, results, B, hi, lines, arm_dir, instr_text):
@@ -628,7 +644,7 @@ def status_of(arm):
         if not w or w[0] != arm:
             continue
         out["lines"] += 1
-        if len(w) > 2 and w[1] in ("t1", "cp", "t2") and w[2].startswith("exit="):
+        if len(w) > 2 and w[1] in ("t1", "t1b", "cp", "t2") and w[2].startswith("exit="):
             try: out["exit_codes"][w[1]] = int(w[2][5:])
             except ValueError: pass
         for m in re.finditer(r"(\w+)=([^\s()]+)", line):
@@ -703,6 +719,42 @@ def setup_sha1(arm):
     return None
 
 
+def occasion_attachments(recs, B, hi, arm_dir):
+    """D2: attachments of any type after the boundary (up to the window's end) that name the rules file: a reference (compact_file_reference),
+    a text (a `file` attachment of it, or lines of K in any attachment), or its name in any other attachment. The instruction attachment names
+    the file by the sentinel sentence, in both conditions, and is the one type left out."""
+    out = []
+    for idx in range(B + 1, hi):
+        rec = recs[idx]
+        att = rec.get("attachment") if isinstance(rec, dict) and rec.get("type") == "attachment" else None
+        if not isinstance(att, dict) or att.get("type") == "instructions":
+            continue
+        strs = [x for _, x in walk_strings(att)]
+        kind = None
+        if att.get("type") == "compact_file_reference" and any(os.path.basename(RULES_REL) in x for x in strs):
+            kind = "reference"
+        elif att.get("type") == "file" and any(os.path.basename(RULES_REL) in x for x in strs):
+            kind = "text-attachment"
+        elif any(found(x, K)[0] for x in strs):
+            kind = "text"
+        elif any(os.path.basename(RULES_REL) in x for x in strs):
+            kind = "name"
+        if kind:
+            out.append({"offset": idx - B, "type": str(att.get("type")), "kind": kind})
+    return out
+
+
+def files_touched_before(calls, B, arm_dir):
+    """D2: distinct files touched with Read, Edit or Write (and NotebookEdit/MultiEdit) before the boundary"""
+    seen = set()
+    for c in calls:
+        if c["idx"] < B and c["name"] in ("Read", "Edit", "Write", "NotebookEdit", "MultiEdit"):
+            p = c["inp"].get("file_path") or c["inp"].get("notebook_path")
+            if isinstance(p, str) and p:
+                seen.add(os.path.realpath(os.path.join(str(c["cwd"] or arm_dir), p)))
+    return len(seen)
+
+
 def read_arm(arm):
     import hashlib
     arm_dir = root_of(arm) / arm
@@ -711,8 +763,10 @@ def read_arm(arm):
     tk = st["tokens"]
     row["status"] = {"tokens": tk, "exit_codes": st["exit_codes"], "killed": st.get("killed", [])}
     t1j, t2j = read_json(OUT / f"{arm}.t1.json"), read_json(OUT / f"{arm}.t2.json")
+    t1bj = read_json(OUT / f"{arm}.t1b.json")
+    row["design"] = "4 calls (turn 1, turn 1b, compaction, turn 2)" if "t1b_sha" in tk else "3 calls (turn 1, compaction, turn 2): the design before Amendment 4"
     cpr = stream_result(OUT / f"{arm}.cp.jsonl")
-    row["vi"] = {"t1": call_cost(t1j), "cp": call_cost(cpr), "t2": call_cost(t2j)}
+    row["vi"] = {"t1": call_cost(t1j), "t1b": call_cost(t1bj), "cp": call_cost(cpr), "t2": call_cost(t2j)}
     ws = [c["weighted"] for c in row["vi"].values() if c]
     row["vi_total_weighted"] = sum(ws) if ws else None
     row["v"] = {"memory_existed": tk.get("memory_existed"), "files": tk.get("files")}
@@ -787,10 +841,10 @@ def read_arm(arm):
                   "launcher_and_transcript_agree": ((tk.get("compaction_proven") == "1") == (cut is not None)) if tk.get("compaction_proven") is not None else None}
     if before is not None and tk.get("boundaries_after") is not None and str(len(bidx)) != tk["boundaries_after"]:
         flags.append(f"transcript holds {len(bidx)} boundaries; the launcher counted {tk['boundaries_after']} after the compaction call")
-    for k in ("t1", "t2"):
+    for k in ("t1", "t1b", "t2"):
         if k in st["exit_codes"] and st["exit_codes"][k] != 0:
             flags.append(f"{k} exit code {st['exit_codes'][k]}")
-    for k in ("t1", "t2"):
+    for k in ("t1", "t1b", "t2"):
         if (row["vi"][k] or {}).get("is_error"):
             flags.append(f"{k} reported is_error")
     if st["exit_codes"].get("cp") not in (None, 0):          # B7: whatever the proof says
@@ -816,6 +870,16 @@ def read_arm(arm):
         row["i"] = {k: seg2[k] for k in keys + ("late_accesses", "other_files", "non_reading_mentions", "unresolved_mentions", "rules_in_results_of_other_calls")}
         row["ii"] = handed_back(recs, calls, results, B, hi, lines, arm_dir, instr_text)
         ii = row["ii"]
+        row["occasion"] = {"attachments_naming_rules": occasion_attachments(recs, B, hi, arm_dir), "distinct_files_touched_before_boundary": files_touched_before(calls, B, arm_dir)}
+        if row["occasion"]["attachments_naming_rules"]:
+            reasons.append("after the boundary the tool left an attachment that names the rules file (" + ", ".join(f"{a['type']}/{a['kind']}" for a in row["occasion"]["attachments_naming_rules"]) + "): not the occasion the census found (02_tasks.md D2)")
+        # D4: (iv-b), the restore at the start of turn 1b, reported and deciding nothing
+        ib = next((i for i in range(B) if isinstance(recs[i], dict) and is_prompt_record(recs[i]) and user_text(recs[i]).rstrip("\n") == T1B.rstrip("\n")), None)
+        if ib is None:
+            row["ivb"] = {"value": None, "reason": "no turn-1b prompt record before the boundary" + (" (a 3-call design)" if "t1b_sha" not in tk else "")}
+        else:
+            sb = segment(calls, results, arm_dir, lines, n_file_lines, ib, B)
+            row["ivb"] = {k: sb[k] for k in ("class", "note", "first_write", "sequence", "delivered_unresolved", "unplaced_forms")}
         if ii["x_plus_n"] >= ii["threshold"]:                                      # C3: one list, one threshold, both conditions
             reasons.append(f"x + n = {ii['x']} + {ii['n']} = {ii['x_plus_n']} of K={ii['K']} lines held by the instruction file or handed back (threshold {ii['threshold']}): not an occasion")
         if ii["x"]:

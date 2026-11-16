@@ -6,6 +6,9 @@
 # line (`attempted`) -> NOT OK; a turn 2 with no tool call -> NOT OK (its own check); any line of the rules handed back after the boundary, or kept across it, -> NOT OK (the designer's
 # ruling is needed; all lines -> the proxy cannot produce the occasion). Every stop prints WHICH check failed, and for the
 # certificate which term of `clean`. A second model in a call's usage is printed, not a stop. Exit code 1 on NOT OK.
+# Amendment 4 (D3): three outcomes - (1) a reference or text of the rules after the boundary: PILOT NOT OK [occasion], exit 1; (2) the occasion
+# produced, every other gate passed, (i) `whole`: a verdict line saying the control read whole and the six are not opened, NO marker, exit 3;
+# (3) the occasion produced, every gate passed, (i) not `whole`: PILOT OK and the marker, exit 0. G1: every marker is removed at the start.
 # Usage: ./check_pilot.sh [arm]      (default q901; R214_ROOT / R214_OUT / R214_CFG as for the other scripts)
 set -u
 export PYTHONDONTWRITEBYTECODE=1      # no __pycache__ in the task folder
@@ -14,19 +17,21 @@ HERE="$(cd "$(dirname "$0")" && pwd)"; cd "$HERE" || exit 1
 arm="${1:-q901}"
 S="${BMA_SCRATCH:?set BMA_SCRATCH to the scratch directory of this round}"
 OUT="${R214_OUT:-$S/r214_out}"
-case " ${R214_PILOTS:-q901 q902 q903} " in *" $arm "*) ;; *) echo "check_pilot.sh refuses '$arm': it is not a pilot (${R214_PILOTS:-q901 q902 q903}). A counted arm is not checked with the pilot's verdict (Amendment 3, C4)."; exit 2;; esac
+PILOTS="$(python3 "$HERE/kset.py" pilots)" || exit 2      # G3
+case " $PILOTS " in *" $arm "*) ;; *) echo "check_pilot.sh refuses '$arm': it is not a pilot ($PILOTS). A counted arm is not checked with the pilot's verdict (Amendment 3, C4)."; exit 2;; esac
 echo "== launch.status for $arm"
 if grep -q "^$arm " "$OUT/launch.status" 2>/dev/null; then grep "^$arm " "$OUT/launch.status" | sed 's/ t1_sha=.*//'; else echo "(none)"; fi
 python3 certificate.py "$arm" > "$OUT/$arm.cert.json"      # {arm: row}; read.py looks for this file
 python3 read.py "$arm" > "$OUT/$arm.read.json"
-rm -f "$OUT/pilot_ok.$arm"                                  # a marker stands only for the latest verdict
+rm -f "$OUT"/pilot_ok.*                                      # G1: every marker goes at the start; a marker stands only for the latest check of any pilot
 python3 - "$arm" "$OUT" <<'PY'
 import json, sys
 arm, R = sys.argv[1:3]
 c = json.load(open(f"{R}/{arm}.cert.json"))[arm]; rd = json.load(open(f"{R}/{arm}.read.json"))["arms"][arm]
 bad, warn = [], []
 st = rd["status"]; tk = st["tokens"]
-for k in ("t1", "cp", "t2"):
+design4 = "t1b_sha" in tk
+for k in ("t1", "t1b", "cp", "t2") if design4 else ("t1", "cp", "t2"):
     if st["exit_codes"].get(k) != 0: bad.append(f"[exit codes] {k} exit code is {st['exit_codes'].get(k)}")
 iii = rd.get("iii") or {}
 if rd.get("reader_error"):
@@ -58,6 +63,8 @@ else:
         bad.append(f"[boundary metadata] keys the reader does not know: {pres['unknown_metadata_keys']} (names only): a kept record could pass unseen")
     if ii["request_copies_unreadable"]: bad.append(f"[request copies] {ii['request_copies_unreadable']} request copy(ies) between the boundary and the first tool result cannot be read as text, even with their hashes resolved: (ii) was not tested there")
     if i.get("rules_in_results_of_other_calls"): bad.append(f"[rules in another call's result] lines of K in the result of {[(x['tool'], x['form'], x['K_lines']) for x in i['rules_in_results_of_other_calls']]} inside the window, calls that did not name the rules file (tool, form, K lines)")
+occ = rd.get("occasion") or {}
+if occ.get("attachments_naming_rules"): bad.append(f"[occasion] after the boundary the tool left {[(a['type'], a['kind']) for a in occ['attachments_naming_rules']]} naming the rules file: the occasion was not produced (02_tasks.md D3 outcome 1): back to the user")
 if iv.get("class") is None: bad.append(f"[(iv) turn-1 restore] could not be computed: {iv.get('reason')}")
 elif iv["class"] != "whole": bad.append(f"[(iv) turn-1 restore] is `{iv['class']}`, not `whole`: the reader cannot read the real format, or turn 1 did not read the rules whole")
 for name, seg in (("(iv)", iv), ("(i)", i)):
@@ -69,7 +76,7 @@ if not c.get("clean"):
     failed = [k for k, v in (c.get("clean_terms") or {}).items() if not v]
     bad.append("[certificate clean] failed term(s): " + (", ".join(failed) or "unknown") + f"   (record indexes where they fail: {c.get('fail_at')}; override headers {c.get('override_header_count')})")
 if not c.get("base_check_made"): bad.append("[certificate base check] BMA_BASE is not set: the folder sessions start in was not checked")
-for k in ("t1", "t2"):
+for k in ("t1", "t1b", "t2") if design4 else ("t1", "t2"):
     v = (rd["vi"] or {}).get(k)
     if not v: bad.append(f"[{k}.json] missing or unreadable")
     elif v.get("is_error") or v.get("permission_denials"): bad.append(f"[{k}.json] is_error={v.get('is_error')} permission_denials={v.get('permission_denials')}")
@@ -106,10 +113,19 @@ for k in ("before", "after"):
     if s: print(f"  {k} boundary: " + str({x: s[x] for x in ("outside_arm_dir", "parent_repo_tool_calls", "base_tool_calls", "tool_calls_naming_apparatus", "tool_calls_dotdot", "attachments_naming_foreign_paths", "foreign_attachment_types", "events_cwd_outside_arm")}))
 if not c.get("base_check_made"): print("  " + str(c.get("base_check")))
 for x in warn: print("  WARNING:", x)
-print("== verdict:", "PILOT OK - launch the six" if not bad else "PILOT NOT OK - do not launch the six")
-for x in bad: print("  -", x)
-if not bad:
-    open(f"{R}/pilot_ok.{arm}", "w").write(f"PILOT OK {arm}\n")
-    print(f"  marker written: pilot_ok.{arm} (necessary, not sufficient: the eye list and the designer's dated go-ahead in 03_execute.log come before the six)")
-sys.exit(1 if bad else 0)
+ivb = rd.get("ivb") or {}
+print(f"== design: {rd.get('design')}")
+print(f"(iv-b) restore at the start of turn 1b (reported, decides nothing): {ivb.get('class', ivb.get('reason'))}   distinct files touched before the boundary: {occ.get('distinct_files_touched_before_boundary')}   attachments after the boundary naming the rules: {occ.get('attachments_naming_rules')}")
+if bad:
+    print("== verdict: PILOT NOT OK - do not launch the six")
+    for x in bad: print("  -", x)
+    sys.exit(1)
+if i.get("class") == "whole":       # D3 outcome 2: the occasion was produced, every gate passed, the control read whole
+    print("== verdict: THE CONTROL READ WHOLE - the occasion was produced and every other gate passed, but the pilot's (i) is `whole`: the six are NOT opened, no marker is written")
+    print("  - recorded as: not reproduced by this harness (two control pilots of two at `whole` would say ceiling); the choice is the user's (02_tasks.md D3 outcome 2)")
+    sys.exit(3)
+print("== verdict: PILOT OK - launch the six")                         # D3 outcome 3: the occasion produced, every gate passed, (i) not whole
+open(f"{R}/pilot_ok.{arm}", "w").write(f"PILOT OK {arm}\n")
+print(f"  marker written: pilot_ok.{arm} (necessary, not sufficient: the eye list and the designer's dated go-ahead in 03_execute.log come before the six)")
+sys.exit(0)
 PY

@@ -24,12 +24,12 @@ import hashlib, json, os, pathlib, posixpath, re, sys
 sys.dont_write_bytecode = True
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import boundary                                                    # noqa: E402
+import boundary, kset                                              # noqa: E402
 
 S = pathlib.Path(os.environ["BMA_SCRATCH"])      # the scratch directory of this round (the shell scripts export it from local.env)
 R = pathlib.Path(os.environ.get("R214_ROOT") or S / "r214")          # the trees of the six
 RP = pathlib.Path(os.environ.get("R214P_ROOT") or S / "r214p")       # the trees of the pilots (C4)
-PILOTS = (os.environ.get("R214_PILOTS") or "q901 q902 q903").split()
+PILOTS = kset.pilots_from_env()
 root_of = lambda arm: RP if arm in PILOTS else R
 OUT = pathlib.Path(os.environ.get("R214_OUT") or S / "r214_out")    # launcher outputs
 _HOME = pathlib.Path.home()
@@ -55,6 +55,7 @@ CFG_ALTS.append(r"(?:~|\$HOME|\$\{HOME\})/\.claude\b")
 CFGPAT = re.compile("(?:" + "|".join(CFG_ALTS) + r")[^\s\"'\\]*")
 T1 = (HERE / "prompt_t1.txt").read_text()
 T2 = (HERE / "prompt_t2.txt").read_text()
+T1B = (HERE / "prompt_t1b.txt").read_text()
 TC = (HERE / "prompt_compact.txt").read_text()
 T1_TASK = next(l for l in T1.splitlines() if l.startswith("Task:"))
 
@@ -193,14 +194,19 @@ def certify_arm(arm):
     arm_dir = str(root_of(arm) / arm)
     row = {"cond": COND.get(arm, "?"), "arm_dir": arm_dir}
     t1, t2 = read_json(OUT / f"{arm}.t1.json"), read_json(OUT / f"{arm}.t2.json")
+    st = status_tokens(arm)
+    four = "t1b_sha" in st                      # D1: the design with turn 1b; q901 ran under the three-call design, which is read as it was
+    row["calls"] = 4 if four else 3
+    t1b = read_json(OUT / f"{arm}.t1b.json") if four else None
     cp_path = OUT / f"{arm}.cp.jsonl"
     sids = {"t1": (t1 or {}).get("session_id"), "cp": stream_sid(cp_path), "t2": (t2 or {}).get("session_id")}
+    if four: sids["t1b"] = (t1b or {}).get("session_id")
     row["session_ids_present"] = {k: bool(v) for k, v in sids.items()}
     sid = sids["t1"]
     # the compaction stream's own session id is information: if the stream carries none (a format this round has not seen)
     # the transcript still decides - one file, and the boundary record's sessionId below. A DIFFERENT id is a failure.
     row["cp_stream_session_equals_t1"] = None if sids["cp"] is None else sids["cp"] == sid
-    row["same_session_id_on_all_three"] = bool(sid) and sids["t2"] == sid and sids["cp"] in (None, sid)
+    row["same_session_id_on_all_three"] = bool(sid) and sids["t2"] == sid and sids["cp"] in (None, sid) and (not four or sids["t1b"] == sid)      # "all": every call of the design
     own = re.sub(r"[^A-Za-z0-9]", "-", arm_dir)
     mains = list(PROJECTS.glob(f"*/{sid}.jsonl")) if sid else []
     own_file = PROJECTS / own / f"{sid}.jsonl" if sid else None
@@ -213,7 +219,8 @@ def certify_arm(arm):
     if not row["one_transcript_in_own_folder"]:
         row["clean"] = False; row["design_ok"] = False; row["clean_terms"] = {"one_transcript_in_own_folder": False}; row["why"] = "no single transcript in the arm's own project folder"
         return row
-    recs = boundary.records(own_file)
+    recs = boundary.records(own_file)          # P1: indexes as read.py counts them; a record that is not an object is skipped where its fields are read
+    row["unparsed_lines"] = boundary.unparsed_lines(own_file)
     bidx = [i for i, r in enumerate(recs) if boundary.is_boundary(r)]
     split = bidx[-1] if bidx else len(recs)
     subs = list((own_file.parent / sid).rglob("*.jsonl")) if (own_file.parent / sid).is_dir() else []
@@ -258,21 +265,26 @@ def certify_arm(arm):
     row["override_header_count"] = {"headers": tot("override_header"), "allowed": 2 * n_instr}
     row["clean"] = all(terms.values())
     # the prompts
-    first = next((text_of(r) for r in recs if is_prompt_record(r)), None)
+    first = next((text_of(r) for r in recs if isinstance(r, dict) and is_prompt_record(r)), None)
     row["first_user_equals_prompt_t1"] = first is not None and first.rstrip("\n") == T1.replace("<ARM_DIR>", arm_dir).rstrip("\n")
-    after = [text_of(r) for r in recs[split:] if is_prompt_record(r)]
-    before = [text_of(r) for r in recs[:split] if is_prompt_record(r)]
+    after = [text_of(r) for r in recs[split:] if isinstance(r, dict) and is_prompt_record(r)]
+    before = [text_of(r) for r in recs[:split] if isinstance(r, dict) and is_prompt_record(r)]
     row["t2_prompt_is_a_user_message_after_boundary"] = any(m.rstrip("\n") == T2.rstrip("\n") for m in after) if bidx else False
     row["t1_task_sentence_before_boundary"] = any(T1_TASK in m for m in before)
     row["context_carried"] = row["t2_prompt_is_a_user_message_after_boundary"] and row["t1_task_sentence_before_boundary"]
     row["compact_prompt_file_is_exactly_/compact"] = TC.rstrip("\n") == "/compact"
     row["compact_command_recorded_after_boundary"] = any("/compact" in m for m in after)        # information only: the form is not documented
-    st = status_tokens(arm)
     want = {"t1_sha": sha(T1.replace("<ARM_DIR>", arm_dir)), "cp_sha": sha(TC), "t2_sha": sha(T2)}
+    if four:
+        want["t1b_sha"] = sha(T1B)
+        row["t1b_prompt_is_a_user_message_before_boundary"] = any(m.rstrip("\n") == T1B.rstrip("\n") for m in before)
+        t1b_ok = row["t1b_prompt_is_a_user_message_before_boundary"]
+    else:
+        t1b_ok = True
     row["launcher_prompt_hashes_equal_files"] = all(st.get(k) == v for k, v in want.items())
     row["design_ok"] = bool(row["same_session_id_on_all_three"] and row["boundary_session_id_equals_t1"] and bidx
                             and row["first_user_equals_prompt_t1"] and row["context_carried"]
-                            and row["compact_prompt_file_is_exactly_/compact"] and row["launcher_prompt_hashes_equal_files"])
+                            and row["compact_prompt_file_is_exactly_/compact"] and row["launcher_prompt_hashes_equal_files"] and t1b_ok)
     return row
 
 
