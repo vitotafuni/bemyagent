@@ -9,8 +9,9 @@ Verdicts: KEEP; TRIM (non-rule text removable on inspection, 13.3's precedent); 
 (declarative, never measured either way, low cost of failure - each was a cut candidate and each
 failed its own overlap or cost check, recorded per unit in the evidence column).
 """
+import os
 import pathlib, sys
-RULES = pathlib.Path("<repo>/.bemyagent/docs/00-ai-rules.md").read_text().splitlines()
+RULES = (pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4]) / ".bemyagent" / "docs" / "00-ai-rules.md").read_text().splitlines()
 U = [  # id, section, name, lines, class, V, F, evidence, verdict
  (1,"1","Self-Registration",(3,15),"P","high","high","sentinel obeyed by 58/118 arms (20.10); CLAUDE.md precedence landed in 15.1 (#3)","KEEP"),
  (2,"2.0","Pending upgrade",(18,18),"P","high","high","19.5 UPGRADE rounds","KEEP"),

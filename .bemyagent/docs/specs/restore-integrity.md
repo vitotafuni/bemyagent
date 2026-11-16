@@ -1,0 +1,40 @@
+# Restore integrity
+**Status**: decided 2026-11-12 — candidate 0 chosen, the count turned down (see *Decision*). **Not on `main`** since 2026-11-14 (the user): the line left both files untested and is back as one commit on the candidate branch `bma/21.4` (`46f4621`, 2026-11-15, both files, sync check equal, 108 lines) now that the repo sits in `src/` (21.7); `main` holds only what is measured. The test is designed (`work/21/21.4/`), not yet run
+
+## Description
+Session Restore is the one step everything else stands on, and it can fail without a sign. On 2026-11-11 an agent read `00-ai-rules.md` in a chained command; the tool cut ~6.4 KB from the **middle** of the output (end of §4, all of §5, the head of §6), the head and the tail arrived, and the session worked a day without the Critical Review Protocol loaded. The user noticed; the agent did not. The feature: an incomplete read of the rules is **recognisable by the agent that made it** and **visible to the user**.
+
+## What is known
+- No record of this failure before 2026-11-12, and no measurement of how often it happens (overlap sweep, 2026-11-12).
+- An end-of-file marker would not have caught it: the tail was there. A count of sections would: two headings were missing.
+- The file is 107 lines and 14 KB; `06` is 258 lines and 63 KB. `contextSlicingThreshold` counts lines, so it sees neither.
+- **21.2, verified (`work/21/21.2/04_verify.md`)**: tool truncation 1 event in 248 transcripts; deliberate first-N-lines slices 9 of 102 restore-type transcripts; by restore event in main sessions 9 of 36 partial, 5 of 14 in this repo, 7 of the 9 after a compaction. The question under *Weakness* below is answered: routine, and chosen — though not by Context Slicing (threshold 200, file 107 lines).
+- The sentinel is obeyed (20.10: 58 of 118 launches; 20.11: ceremony 3/3 on the sentinel alone) — it is the one line certain to be in context, so it is where a count can live.
+
+## Candidate, smallest first
+0. **Say it** (the user, 2026-11-12): the instruction names the whole file — *"read all of it"*. Two or three words. Aimed at the mode 21.2 found to be the common one, a slice the agent chooses (9 of 10 partial restores); it does nothing for a cut the agent cannot see (1 of 10), which only a count exposes. The two compose — *all of it* says what to do, the count says how to know it was done — and the place is the rules file's **first line**, the one line every slice still reads, so the sentinel stays byte-identical and §1's idempotent check is not broken for existing installs. Unmeasured: whether it changes a restore after a compaction, where the agent believes it has read the file already.
+1. **Count in the sentinel and in the file's first line**: *"…it has eight numbered sections; a read that shows fewer was cut — read it again in parts."* A mismatch is an event the agent can see while it happens. About 20 words.
+2. **Forced output**: the first reply of a restored session opens with the section headings it read. Rule 3 of the harness warns against forcing the assertion rather than the artifact; here the headings can only be copied from a complete read as long as the sentinel carries the count and not the names. Visible to the user, one line per session.
+3. `contextSlicingThreshold` in bytes, not lines (already proposed in `drafts/state-review-2026-11-11.md` A4).
+
+## Decision (the user, 2026-11-12)
+- **Candidate 0 alone.** The line is `00-ai-rules.md:2`: *"Read this file whole — first line to last, every time, a context compaction included. A slice of it, or what you recall of it, is not a read."* The sentinel is untouched.
+- **The count (candidates 1 and 2) is turned down**: the sections can change, and a number kept in step by hand breaks easily unless a machine checks it. Registered in `decisions/rejected.md` with its reopening condition. The cost is accepted knowingly: a cut the agent cannot see (1 event in 248 transcripts) stays undetected. An end-of-file marker is not a substitute — on 2026-11-11 the tail arrived and the middle did not.
+- **This departs from the reading fixed before the census** (*several, in main sessions → the count goes to an arm round*). That reading assumed the tool was the cause; the census found the agent's own slice in 9 of 10, and a count detects a cut, it does not stop a choice.
+- **In both files, never in one.** The line is at `00-ai-rules.md:2` and in the copy `BEMYAGENT.md` embeds, uncommitted, until it is tested. A first version of this entry kept it out of SRC as an *exception* to `01-overview.md`: that was the agent misreading the user, who had said the opposite — the file that is released and this folder are strictly linked, a change tried in either is synchronised in the other, and only *where the edit starts* is the agent's call. Corrected the same day.
+- **Who tests it: not the agent that wrote it** (the user, 2026-11-12). The main agent has read the rules, wrote the line, and carries a tool-memory note with the same instruction; a census of its own next restores would be the author checking its own work. The test goes to clean subagent arms → task 21.4. What that test must get past, known now: at session start clean arms already read the file whole (0 of 6 incomplete, `work/21/21.2/04_verify.md`), so a start-of-session round sits at ceiling; 7 of the 9 chosen slices followed a compaction, and whether a compaction can be produced in a headless arm is not known (21.1's pilot answers the first half: whether `--resume` works under `-p`). The census stays what it is, an observation, and is not the test.
+
+## Critical review
+1. **Overlap** — §1 sentinel, §2 Session Restore, §3 Context Slicing. All three candidates are edits to existing sentences.
+2. **Cost** — candidate 1 is ~30 tokens per restore. Unpriced until the base rate is known: a guard against a once-in-245-sessions event is noise.
+3. **Weakness** — the count must be kept in step with the file by hand; a wrong count cries wolf at every restore. **Unanswered** — was 2026-11-11 a one-off of a chained command, or does Context Slicing lead agents to slice the rules routinely?
+4. **Minimal alternative** — nothing in the protocol; the tool's private memory already holds the lesson for this user on this machine. It binds nobody else (§3 Precedence).
+
+## Acceptance criteria
+- [x] Base rate measured from the transcripts on disk: of the sessions that read the rules, how many had read all of them before their first write (21.2). — `work/21/21.2/04_verify.md` (PASS_WITH_CAVEATS): 90 complete of 142 by transcript; by restore event 9 partial of 36, 5 of 14 in this repo.
+- [x] A decision recorded on that number: guard shipped, or not worth its restore cost. — *Decision* above and `05` Decision 24: one line, the count turned down; candidate only — out of both files on `main` since 2026-11-14 (`grep -c 'Read this file whole' docs/00-ai-rules.md BEMYAGENT.md` → 0, 0), to live on `bma/21.4`.
+- [ ] The line is tested by clean arms that did not write it, on a restore after a compaction or the nearest producible proxy, against the same arm without the line (21.4); it stays in both files on a pass and leaves both on a null. No commit of `BEMYAGENT.md` before that reading. *(Replaces, 2026-11-12, the two criteria written for the count — the cut-file arm and the count's upkeep — which fall with it.)*
+
+## Open questions
+- **"In a command of its own"** — the cause of the 2026-11-11 cut was the rules printed together with other output, the sum passing the tool's output limit. Naming it would prevent that cause without a number to keep in step. It rests on one event and on one tool's limit; today it lives in the tool's memory for this user. Undecided.
+- A cut file on disk is a proxy for a cut tool output: detection is the same, the remedy is not. Is the proxy good enough to ship on?

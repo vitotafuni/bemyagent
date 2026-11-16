@@ -1,5 +1,6 @@
+import os
 import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 # neutral names, continuing 18.2's series; nothing in them reveals the condition
@@ -13,7 +14,7 @@ OUT.mkdir(parents=True)
 for name in ARMS:
     d = OUT / name
     shutil.copytree(FIXTURE, d)
-    shutil.copy(pathlib.Path("<scratchpad>") / "BMA.rc.md", d / "BEMYAGENT.md")
+    shutil.copy(pathlib.Path(os.environ["BMA_SCRATCH"]) / "BMA.rc.md", d / "BEMYAGENT.md")
     (d / ".bemyagent").mkdir()
     (d / ".bemyagent" / "settings.json").write_text(json.dumps(SETTINGS, indent=2) + "\n")
     subprocess.run(["git", "init", "-q"], cwd=d, check=True)

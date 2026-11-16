@@ -1,9 +1,8 @@
 """20.7 condition P — deterministic extraction only. The NAMED/SILENT call is made by a reader
 against the rubric in 02_tasks.md and recorded in 04_verify.md naming the arm; this script
 produces the text that call is made on, plus the context counts, and never the verdict."""
-import json, pathlib, re, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r207p")
+import os, json, pathlib, re, subprocess, sys
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r207p"
 ARMS = ["q64", "q67", "q70"]
 # pre-filter only: a hit is not a NAMED, a miss is not a SILENT. It points the reader at lines.
 D1 = re.compile(r"draw", re.I)                                    # do draws count

@@ -14,9 +14,8 @@ found' as n/a on arms whose tests were never exercised.
 store.js is restored in a finally block and `git status --porcelain` is compared before and after,
 so no arm tree is contaminated by the measurement.
 """
-import pathlib, re, subprocess, sys
-S = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad")
+import os, pathlib, re, subprocess, sys
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 # which round's scratchpad each arm lives in
 TREE = {**{a: S / "r202" for a in ("q52", "q53", "q54", "q55", "q56", "q57")},
         **{a: S / "r203" for a in ("q85", "q86", "q87", "q88", "q89", "q90")},

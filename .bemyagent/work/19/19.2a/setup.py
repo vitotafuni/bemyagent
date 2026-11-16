@@ -1,6 +1,7 @@
+import os
 import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
-S = pathlib.Path("<scratchpad>")
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 ARMS = {"q34": "A", "q35": "B", "q36": "A", "q37": "B", "q38": "A", "q39": "B"}

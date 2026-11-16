@@ -4,11 +4,10 @@ Two instruments, deliberately: the TREE (what a user could audit) and the TRANSC
 measured). The two conditions are compared on the transcript, because the control leaves nothing
 on disk by construction and comparing disk to transcript would be comparing instruments.
 """
+import os
 import json, pathlib, re, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r154")
-T = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/tasks")
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r154"
+T = pathlib.Path(os.environ["BMA_SCRATCH"]).parent / "tasks"
 SIDE = {"q46": "A", "q47": "B", "q48": "A", "q49": "B", "q50": "A", "q51": "B"}
 AGENT = {"q46": "<agent-id>", "q47": "<agent-id>",
          "q48": "<agent-id>", "q49": "<agent-id>",

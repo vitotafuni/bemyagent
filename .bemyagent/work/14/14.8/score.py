@@ -1,5 +1,6 @@
+import os
 import pathlib, subprocess, json, shutil
-S = pathlib.Path("<scratchpad>")
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 CMD = {
  "q13": "git ls-files '*.js' '*.sql' '*.html' | xargs grep -nE '^(async )?function |^const [A-Za-z_]+ = |^app\\.(get|post|use)|^CREATE TABLE'",
  "q14": "git ls-files '*.js' | xargs grep -nE \"^(const [a-zA-Z]+ =|function |module\\.exports|app\\.(get|post|use))\"",

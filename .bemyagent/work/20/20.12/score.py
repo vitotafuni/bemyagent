@@ -12,11 +12,9 @@ is still a claim. (iv) is read from the transcript, which is the only place toke
 The AGENT table is blank at build time — 20.2's ids point at 20.2's transcripts, and carrying
 them over scores the wrong arms silently.
 """
-import json, pathlib, re, subprocess, sys
-T = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/tasks")
-S = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad")
+import os, json, pathlib, re, subprocess, sys
+T = pathlib.Path(os.environ["BMA_SCRATCH"]).parent / "tasks"
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 TREE = {**{a: S / "r202" for a in ("q52", "q53", "q54", "q55", "q56", "q57")},
         **{a: S / "r203" for a in ("q85", "q86", "q87", "q88", "q89", "q90")},
         **{a: S / "r208" for a in ("q91", "q92", "q93")},

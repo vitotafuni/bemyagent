@@ -4,11 +4,10 @@ decidable by pattern — see 03_execute.log. Emissions come from the transcript,
 text the arm itself produced. Coverage matches the targets an emission names against the
 governed files the arm actually changed.
 """
+import os
 import json, pathlib, re, subprocess, sys
-T = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/tasks")
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r1413")
+T = pathlib.Path(os.environ["BMA_SCRATCH"]).parent / "tasks"
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r1413"
 ARMS = {"q28": "<agent-id>", "q29": "<agent-id>", "q30": "<agent-id>",
         "q31": "<agent-id>", "q32": "<agent-id>", "q33": "<agent-id>"}
 PC_LINE = re.compile(r"^[ \t>*_`-]*PROTOCOL_CHECK[^\n]*", re.M)

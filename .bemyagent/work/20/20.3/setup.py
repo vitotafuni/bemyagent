@@ -1,8 +1,8 @@
 """20.3 — Sonnet+BMA against Opus-without-BMA. 20.2's two seeds, unchanged; the variable
 is the pair (tier, protocol). S arms get 20.2's P tree, O arms get 20.2's N tree."""
-import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
-S = pathlib.Path("<scratchpad>")
+import os, json, pathlib, shutil, subprocess, sys
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 ARMS = {"q85": "P", "q87": "P", "q89": "P", "q86": "N", "q88": "N", "q90": "N"}

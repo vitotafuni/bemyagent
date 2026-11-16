@@ -1,9 +1,8 @@
 """19.2b — routing read from what Step 0 left on disk, never from what an arm says it did."""
+import os
 import json, pathlib, re, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r192b")
-T = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/tasks")
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r192b"
+T = pathlib.Path(os.environ["BMA_SCRATCH"]).parent / "tasks"
 SIDE = {"q40": "A", "q41": "B", "q42": "A", "q43": "B", "q44": "A", "q45": "B"}
 AGENT = {"q40": "<agent-id>", "q41": "<agent-id>",
          "q42": "<agent-id>", "q43": "<agent-id>",

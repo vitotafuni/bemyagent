@@ -32,6 +32,8 @@ This repository IS the source code of the BEMYAGENT protocol. The protocol gover
 | **Pacing** | `interactiveMode`: SEAMLESS (autonomous) vs INTERACTIVE (human gates after THINK and VERIFY). |
 | **Self-Registration** | Writing the sentinel line into the tool's native rule file (`AGENTS.md`, `CLAUDE.md`, …). |
 | **SRC vs live instance** | `/BEMYAGENT.md` is the distributable template; `/.bemyagent/` is this repo's own instance. |
+| **Resume block** | *Candidate, Milestone 21.* Three lines at the top of `06` — `Task:` / `Intent:` / `Next:` — overwritten whole; the short-term memory a fresh session resumes from. |
+| **Rejected register** | *Candidate, Milestone 21.* `decisions/rejected.md`: one line per idea evaluated and turned down, with the premise it rests on and what reopens it. |
 
 ## Success Metrics (Measurable KPIs)
 - Token consumption per task (reduction)

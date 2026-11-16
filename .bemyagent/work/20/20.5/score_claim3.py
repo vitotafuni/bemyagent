@@ -1,9 +1,8 @@
 """20.5 claim 3 — did the weak baseline re-run the inventory command unaided.
 Scored exactly as 14.13 scored it: the arm's final session.js block against the real output of
 the command THE ARM'S OWN MAP NAMES, re-run in the arm's own tree. Never from a sentence."""
-import pathlib, re, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r205")
+import os, pathlib, re, subprocess, sys
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r205"
 def block(t, h):
     out, on = [], False
     for ln in t.splitlines():

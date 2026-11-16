@@ -1,9 +1,8 @@
 """20.2 metrics (ii) and (iv). Both sides are read from the SAME instrument — the arm's full
 transcript — because one side writes docs and the other does not, and scoring documents would
 be scoring the protocol's definition rather than its effect."""
-import json, pathlib, re, sys
-T = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/tasks")
+import os, json, pathlib, re, sys
+T = pathlib.Path(os.environ["BMA_SCRATCH"]).parent / "tasks"
 SIDE = {"q52": "P", "q53": "N", "q54": "P", "q55": "N", "q56": "P", "q57": "N"}
 AGENT = {"q52": "<agent-id>", "q53": "<agent-id>",
          "q54": "<agent-id>", "q55": "<agent-id>",

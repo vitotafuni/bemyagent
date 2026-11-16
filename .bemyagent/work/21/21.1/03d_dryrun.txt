@@ -1,0 +1,332 @@
+== 1. which claude does the launcher see? (PATH = stub : /usr/local/bin : /usr/bin : /bin)
+<scratchpad>/r211-dry/stub/claude
+claude is <scratchpad>/r211-dry/stub/claude
+
+== 2. launch.sh q106 q103 q109 q107 q105 q108  (q106: fake memory/; q103: none; q109: stub ignores --resume; q107: context shrinks at turn 2; q105: turn 1 is_error; q108: turn 2 exits 1)
+'bad name' is not an arm name (skipped)
+'../x' is not an arm name (skipped)
+all arms finished
+q106 t1 exit=0
+q107 t1 exit=0
+q108 t1 exit=0
+q109 t1 exit=0
+q105 t1 exit=0
+q103 t1 exit=0
+q105 t1 failed: no turn 2 for this arm
+q108 t2 exit=1 resumed_from=611dd3ea
+q106 t2 exit=0 resumed_from=b0d92aec
+q109 t2 exit=0 resumed_from=d0411a73
+q103 t2 exit=0 resumed_from=b62768bd
+q107 t2 exit=0 resumed_from=2278e82f
+q108 t2 failed: no session 2 for this arm
+q106 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q109 resume_ok=0 t1_sentence_msgs=0 t2_sentence_msgs=1 transcript_found=1
+q109 session2=skipped (resume_ok=0)
+q103 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q103 memory_existed=0 files=0
+q106 memory_existed=1 files=2 moved_to=<scratchpad>/r211-dry/out/q106.memory.s1
+q107 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q107 memory_existed=0 files=0
+q103 s2 exit=0
+q106 s2 exit=0
+q107 s2 exit=0
+
+== 3. where things are. Arm trees (what `ls ..` shows from inside an arm) and the separate outputs dir:
+-- ls <scratchpad>/r211-dry/trees:
+q103
+q105
+q106
+q107
+q108
+q109
+-- ls <scratchpad>/r211-dry/out:
+launch.status
+q103.s2.err
+q103.s2.json
+q103.t1.err
+q103.t1.json
+q103.t2.err
+q103.t2.json
+q105.t1.err
+q105.t1.json
+q106.memory.s1
+q106.s2.err
+q106.s2.json
+q106.t1.err
+q106.t1.json
+q106.t2.err
+q106.t2.json
+q107.s2.err
+q107.s2.json
+q107.t1.err
+q107.t1.json
+q107.t2.err
+q107.t2.json
+q108.t1.err
+q108.t1.json
+q108.t2.err
+q108.t2.json
+q109.t1.err
+q109.t1.json
+q109.t2.err
+q109.t2.json
+snap
+-- out/snap:
+q103.t1
+q103.t2
+q105.t1
+q106.t1
+q106.t2
+q107.t1
+q107.t2
+q108.t1
+q108.t2
+q109.t1
+q109.t2
+-- memory moved aside (out/q106.memory.s1):
+MEMORY.md
+topic.md
+-- any launcher output inside the trees dir (must be 0):        0 files at its top level
+
+== 4. the memory step both ways, the resume check, the stops
+q105 t1 failed: no turn 2 for this arm
+q108 t2 failed: no session 2 for this arm
+q106 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q109 resume_ok=0 t1_sentence_msgs=0 t2_sentence_msgs=1 transcript_found=1
+q109 session2=skipped (resume_ok=0)
+q103 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q103 memory_existed=0 files=0
+q106 memory_existed=1 files=2 moved_to=<scratchpad>/r211-dry/out/q106.memory.s1
+q107 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q107 memory_existed=0 files=0
+
+== 5. guard: launch.sh q106 again must refuse and add nothing
+q106: <scratchpad>/r211-dry/out/q106.t1.json exists - refusing to run twice (skipped)
+status lines before/after:       24 /       24   stub calls before/after:       14 /       14
+
+== 6. snapshots differ as the stub's edits say (q106: t1 vs t2, then t2 vs final tree)
+Files out/snap/q106.t1/.bemyagent/docs/06-implementation-plan.md and out/snap/q106.t2/.bemyagent/docs/06-implementation-plan.md differ
+Files out/snap/q106.t2/.bemyagent/docs/06-implementation-plan.md and trees/q106/.bemyagent/docs/06-implementation-plan.md differ
+Files out/snap/q106.t2/client/app.js and trees/q106/client/app.js differ
+Files out/snap/q106.t2/server/index.js and trees/q106/server/index.js differ
+
+== 7. score.py (q106 in full; the others as their readings)
+{
+ "arm": "q106",
+ "cond": "E",
+ "status": {
+  "resume_ok": 1,
+  "memory_existed": 1,
+  "memory_files": 2,
+  "exit_codes": {
+   "t1": 0,
+   "t2": 0,
+   "s2": 0
+  }
+ },
+ "i": true,
+ "i_hits": [
+  ".bemyagent/docs/06-implementation-plan.md:5"
+ ],
+ "ii": true,
+ "ii_files": [
+  ".bemyagent/docs/06-implementation-plan.md"
+ ],
+ "iii": true,
+ "iii_wellformed_t1": true,
+ "iii_wellformed_t2": true,
+ "iii_wellformed_final": true,
+ "iii_changed_t1_t2": true,
+ "block_headings": {
+  "t1": 1,
+  "t2": 1,
+  "final": 1
+ },
+ "iv": {
+  "t1": {
+   "footer_shaped": true,
+   "equal_to_disk": true
+  },
+  "t2": {
+   "footer_shaped": true,
+   "equal_to_disk": true
+  },
+  "s2": {
+   "footer_shaped": true,
+   "equal_to_disk": true
+  }
+ },
+ "iv_equal_count": 3,
+ "iv_calls_present": 3,
+ "iv_stale_footers": 0,
+ "v": true,
+ "v_hits": [
+  "client/app.js:34"
+ ],
+ "vi_destructive_new": 0,
+ "vi_hits": [],
+ "vii": {
+  "t1": {
+   "weighted": 4760,
+   "weighted_from_usage": 4760,
+   "raw": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 1000,
+    "cache_read_input_tokens": 10000,
+    "output_tokens": 500
+   },
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "num_turns": 4,
+   "is_error": false,
+   "permission_denials": 0,
+   "session_id": "b0d92aec-3652-4a75-9a08-de7fea1a5803"
+  },
+  "t2": {
+   "weighted": 4760,
+   "weighted_from_usage": 4760,
+   "raw": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 1000,
+    "cache_read_input_tokens": 10000,
+    "output_tokens": 500
+   },
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "num_turns": 4,
+   "is_error": false,
+   "permission_denials": 0,
+   "session_id": "b0d92aec-3652-4a75-9a08-de7fea1a5803"
+  },
+  "s2": {
+   "weighted": 4760,
+   "weighted_from_usage": 4760,
+   "raw": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 1000,
+    "cache_read_input_tokens": 10000,
+    "output_tokens": 500
+   },
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "num_turns": 4,
+   "is_error": false,
+   "permission_denials": 0,
+   "session_id": "b547528d-86f7-4db1-a4de-4025a7bd6aa5"
+  }
+ },
+ "vii_total_weighted": 14280,
+ "vii_t2_weighted": 4760,
+ "viii": false,
+ "viii_hits": [],
+ "viii_any_at_t2": true,
+ "counted_out": false
+}
+q103 {'cond': 'K', 'i': False, 'ii': False, 'iii': False, 'iv_equal_count': 0, 'v': True, 'vi_destructive_new': 0, 'viii': False, 'incomplete': None} {'resume_ok': 1, 'memory_existed': 0, 'memory_files': 0, 'exit_codes': {'t1': 0, 't2': 0, 's2': 0}}
+q109 {'cond': 'R', 'i': True, 'ii': True, 'iii': True, 'iv_equal_count': 2, 'v': False, 'vi_destructive_new': 0, 'viii': False, 'incomplete': None} {'resume_ok': 0, 'memory_existed': None, 'memory_files': None, 'exit_codes': {'t1': 0, 't2': 0}}
+q107 {'cond': 'E', 'i': True, 'ii': True, 'iii': True, 'iv_equal_count': 3, 'v': True, 'vi_destructive_new': 0, 'viii': False, 'incomplete': None} {'resume_ok': 1, 'memory_existed': 0, 'memory_files': 0, 'exit_codes': {'t1': 0, 't2': 0, 's2': 0}}
+q105 {'cond': 'K', 'i': None, 'ii': None, 'iii': None, 'iv_equal_count': None, 'v': None, 'vi_destructive_new': None, 'viii': None, 'incomplete': ['snap.t2']} {'resume_ok': None, 'memory_existed': None, 'memory_files': None, 'exit_codes': {'t1': 0}}
+q108 {'cond': 'E', 'i': True, 'ii': True, 'iii': True, 'iv_equal_count': 2, 'v': False, 'vi_destructive_new': 0, 'viii': False, 'incomplete': None} {'resume_ok': None, 'memory_existed': None, 'memory_files': None, 'exit_codes': {'t1': 0, 't2': 1}}
+
+== 8. certificate.py
+q106 {'cond': 'E', 't2_same_session_id_as_t1': True, 's2_session_differs_from_t1_and_t2': True, 'calls_present': 3, 'all_calls_clean': True, 'design_ok': True, 'context_checked_by_tokens': True}
+    t1 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 2, 'first_user_equals_prompt_t1': True}
+    t2 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 2, 't2_sentence_user_msgs': 1, 't1_task_sentence_user_msgs': 1, 't2_sentence_is_a_user_message': True, 'context_carried': True, 'prompt_tokens_before_t2': 50105, 'prompt_tokens_after_t2': 51105, 'model_context_not_smaller': True}
+    s2 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 1, 'first_user_equals_prompt_s2': True, 't1_task_sentence_user_msgs': 0}
+q103 {'cond': 'K', 't2_same_session_id_as_t1': True, 's2_session_differs_from_t1_and_t2': True, 'calls_present': 3, 'all_calls_clean': True, 'design_ok': True, 'context_checked_by_tokens': True}
+    t1 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 2, 'first_user_equals_prompt_t1': True}
+    t2 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 2, 't2_sentence_user_msgs': 1, 't1_task_sentence_user_msgs': 1, 't2_sentence_is_a_user_message': True, 'context_carried': True, 'prompt_tokens_before_t2': 50105, 'prompt_tokens_after_t2': 51105, 'model_context_not_smaller': True}
+    s2 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 1, 'first_user_equals_prompt_s2': True, 't1_task_sentence_user_msgs': 0}
+q109 {'cond': 'R', 't2_same_session_id_as_t1': False, 's2_session_differs_from_t1_and_t2': False, 'calls_present': 2, 'all_calls_clean': False, 'design_ok': False, 'context_checked_by_tokens': False}
+    t1 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 1, 'first_user_equals_prompt_t1': True}
+    t2 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 1, 't2_sentence_user_msgs': 1, 't1_task_sentence_user_msgs': 0, 't2_sentence_is_a_user_message': True, 'context_carried': False, 'prompt_tokens_before_t2': None, 'prompt_tokens_after_t2': 51105, 'model_context_not_smaller': None}
+    s2 {'status': 'no launcher output', 'file': '<scratchpad>/r211-dry/out/q109.s2.json'}
+q107 {'cond': 'E', 't2_same_session_id_as_t1': True, 's2_session_differs_from_t1_and_t2': True, 'calls_present': 3, 'all_calls_clean': True, 'design_ok': True, 'context_checked_by_tokens': False}
+    t1 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 2, 'first_user_equals_prompt_t1': True}
+    t2 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 2, 't2_sentence_user_msgs': 1, 't1_task_sentence_user_msgs': 1, 't2_sentence_is_a_user_message': True, 'context_carried': True, 'prompt_tokens_before_t2': 50105, 'prompt_tokens_after_t2': 10105, 'model_context_not_smaller': False}
+    s2 {'transcripts': 1, 'subagent_transcripts': 0, 'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'override_header': 2, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'instruction_records': 1, 'clean': True, 'user_messages': 1, 'first_user_equals_prompt_s2': True, 't1_task_sentence_user_msgs': 0}
+
+== 9. the stub's log: every call that happened; flags checked
+STUB-CALL arm=q106 phase=t1 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q108 phase=t1 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q105 phase=t1 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q107 phase=t1 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q109 phase=t1 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q103 phase=t1 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q108 phase=t2 mode=resume flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q106 phase=t2 mode=resume flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q109 phase=t2 mode=resume flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q103 phase=t2 mode=resume flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q107 phase=t2 mode=resume flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q106 phase=s2 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q103 phase=s2 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+STUB-CALL arm=q107 phase=s2 mode=new flags_ok=True bad=[] cfg_is_pinned=True
+calls logged: 14   flags_ok=False: 0   resume calls: 5
+
+== 10. check_pilot.sh (q106 good; q109 resume ignored; q107 context shrank; q105 is_error)
+-- q106
+== facts
+tool calls containing ../ (NOT gating - hand-read them): 0
+turn-2 prompt tokens before/after the turn-2 message: 50105 / 51105
+t2 session id same as t1: True   s2 id differs from both: True
+memory folder existed before session 2: 1 (files 2)
+weighted tokens t1/t2/s2: {'t1': 4760, 't2': 4760, 's2': 4760}   total: 14280   nine arms at that rate: 128520
+readings (i)-(viii) on the pilot, for the record: i=True iii=True v=True viii=False
+== verdict: PILOT OK - launch the nine
+-- q109
+== facts
+tool calls containing ../ (NOT gating - hand-read them): 0
+turn-2 prompt tokens before/after the turn-2 message: None / 51105
+t2 session id same as t1: False   s2 id differs from both: False
+memory folder existed before session 2: None (files None)
+weighted tokens t1/t2/s2: {'t1': 4760, 't2': 4760, 's2': None}   total: 9520   nine arms at that rate: 85680
+readings (i)-(viii) on the pilot, for the record: i=True iii=True v=False viii=False
+== verdict: PILOT NOT OK - do not launch the nine
+  - s2 exit code is None
+  - resume_ok is not 1: --resume did not carry the context
+  - certificate design_ok false (prompts / resume / reset not as designed)
+  - certificate: a call is not clean (instruction outside the arm, parent path, OVERRIDE header beyond the arm's own CLAUDE.md, a tool call naming the apparatus, a foreign attachment)
+  - turn 2: the model's own prompt tokens do not show the context carried (before=None after=51105)
+-- q107
+== facts
+tool calls containing ../ (NOT gating - hand-read them): 0
+turn-2 prompt tokens before/after the turn-2 message: 50105 / 10105
+t2 session id same as t1: True   s2 id differs from both: True
+memory folder existed before session 2: 0 (files 0)
+weighted tokens t1/t2/s2: {'t1': 4760, 't2': 4760, 's2': 4760}   total: 14280   nine arms at that rate: 128520
+readings (i)-(viii) on the pilot, for the record: i=True iii=True v=True viii=False
+== verdict: PILOT NOT OK - do not launch the nine
+  - turn 2: the model's own prompt tokens do not show the context carried (before=50105 after=10105)
+-- q105
+== facts
+tool calls containing ../ (NOT gating - hand-read them): 0
+turn-2 prompt tokens before/after the turn-2 message: None / None
+t2 session id same as t1: False   s2 id differs from both: False
+memory folder existed before session 2: None (files None)
+weighted tokens t1/t2/s2: {}   total: None   nine arms at that rate: 0
+readings (i)-(viii) on the pilot, for the record: i=None iii=None v=None viii=None
+== verdict: PILOT NOT OK - do not launch the nine
+  - t2 exit code is None
+  - s2 exit code is None
+  - resume_ok is not 1: --resume did not carry the context
+  - certificate design_ok false (prompts / resume / reset not as designed)
+  - certificate: a call is not clean (instruction outside the arm, parent path, OVERRIDE header beyond the arm's own CLAUDE.md, a tool call naming the apparatus, a foreign attachment)
+  - turn 2: the model's own prompt tokens do not show the context carried (before=None after=None)
+  - snapshots missing: ['snap.t2']
+
+== 11. DECOY (VERIFY B2): the stub writes the arm's session file ALSO into the user's project folder <project-key>, which holds a memory/ of its own
+-- LC_ALL=C: status lines:
+q106 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q106 memory=NOT-MOVED the session file also sits in a folder that is not the arm's own (<project-key>): session2=skipped
+   decoy memory/ still in place, files: 2 (want 2)   moved copy exists: no   session 2 ran: no
+-- LC_ALL=it_IT.UTF-8: status lines:
+q106 resume_ok=1 t1_sentence_msgs=1 t2_sentence_msgs=1 transcript_found=1
+q106 memory=NOT-MOVED the session file also sits in a folder that is not the arm's own (<project-key>): session2=skipped
+   decoy memory/ still in place, files: 2 (want 2)   moved copy exists: no   session 2 ran: no
+
+== 12. real-CLI evidence
+dry-run projects in the REAL config dir: 0  (0 = the real claude never ran)
+real claude directory in the PATH used by launch.sh: 0  (0 = unreachable)

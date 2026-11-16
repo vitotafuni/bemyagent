@@ -1,9 +1,9 @@
 """20.12 - 20.11's setup.py except the docstring and ARMS. Three protocol arms only, on the seed
 20.3 and 20.11 used for that side; the controls are 20.11's q97 q98 q99, already certified clean.
 """
-import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
-S = pathlib.Path("<scratchpad>")
+import os, json, pathlib, shutil, subprocess, sys
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 ARMS = {"q100": "P", "q101": "P", "q102": "P"}   # 20.3 ran q85 q87 q89, 20.11 q94 q95 q96

@@ -1,5 +1,5 @@
-import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
+import os, json, pathlib, shutil, subprocess, sys
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 # neutral names, continuing 18.2's series; nothing in them reveals the condition

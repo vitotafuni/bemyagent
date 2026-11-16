@@ -1,5 +1,6 @@
+import os
 import pathlib, re, subprocess, json
-S = pathlib.Path("<scratchpad>")
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 TAG = re.compile(r"\[RUNTIME_CHECK:\s*`?(.+?)`?\]", re.S)
 out = {}
 for arm in ("q10", "q11", "q12"):

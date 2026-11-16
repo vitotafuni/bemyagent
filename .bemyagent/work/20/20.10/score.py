@@ -11,16 +11,16 @@ A parent read is counted ONLY from a `tool_use` input containing the parent repo
 path. Body text cannot serve: an arm's own `00-ai-rules.md` opens with the same heading as the
 parent's, so the heading proves nothing about which file was opened.
 """
-import ast, json, pathlib, re, sys
+import os, ast, json, pathlib, re, sys
 
-ROOT = pathlib.Path("<repo>")
-SUB = pathlib.Path("<claude-config>/projects/<project-key>"
-                   "/<session-id>/subagents")
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
+SUB = (pathlib.Path(os.environ.get("CLAUDE_CONFIG_DIR") or pathlib.Path.home() / ".claude") / "projects"
+       / re.sub(r"[^A-Za-z0-9]", "-", str(ROOT)) / "<session-id>" / "subagents")
 
-P_RULES = "<repo>/.bemyagent/docs/00-ai-rules.md"
-P_BMA = "<repo>/BEMYAGENT.md"
-P_DOCS = {"decisions": "<repo>/.bemyagent/docs/05-decisions-and-issues.md",
-          "plan": "<repo>/.bemyagent/docs/06-implementation-plan.md"}
+P_RULES = str(ROOT / ".bemyagent" / "docs" / "00-ai-rules.md")
+P_BMA = str(ROOT / "BEMYAGENT.md")
+P_DOCS = {"decisions": str(ROOT / ".bemyagent" / "docs" / "05-decisions-and-issues.md"),
+          "plan": str(ROOT / ".bemyagent" / "docs" / "06-implementation-plan.md")}
 TTEV = ("01_think", "02_tasks", "03_execute", "04_verify", "PROTOCOL_CHECK")
 # The arm directories are not uniform: `r1413/q28`, `r11/w1`, `r18/z1`, `exp/runs/a-1`,
 # `gf/arm-1`, `r209/r85x`. An earlier pass matched only `q<N>` and `r<N>x` and silently

@@ -1,8 +1,8 @@
 """19.2a scoring. Preservation is judged against the SEEDED bytes, recovered from each arm's own
 setup commit, not from a copy kept outside the tree."""
+import os
 import json, pathlib, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r192a")
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r192a"
 SIDE = {"q34": "A", "q35": "B", "q36": "A", "q37": "B", "q38": "A", "q39": "B"}
 # Matched on the distinctive fragment, not the whole sentence: an arm may migrate these into
 # 05 in its own words and still have preserved them. Exact-sentence matching produced a false

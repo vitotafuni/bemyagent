@@ -3,11 +3,11 @@
 Criteria fixed in 02_tasks.md before any arm ran. Prints evidence lines for
 inspection rather than booleans: a prior round's regex produced a false positive
 that only reading the matched line caught."""
+import os
 import re, sys
 from pathlib import Path
 
-EXP = Path("/private/tmp/claude-501/-Users-caporale-me-gitlab-bemyagent/"
-           "8aeed20a-f57d-484c-a624-f3b1637843b6/scratchpad/exp10")
+EXP = Path(os.environ["BMA_SCRATCH"]) / "exp10"
 
 EARS     = re.compile(r"\bWHEN\b.*\bSHALL\b", re.I)
 CMD      = re.compile(r"(npm\s+test|node\s+--test|node\s+\S+\.js|curl|grep|diff|git\s+\w+)", re.I)

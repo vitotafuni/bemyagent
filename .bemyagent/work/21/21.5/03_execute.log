@@ -1,0 +1,47 @@
+# 21.5 — EXECUTE
+
+[1] 2026-11-12 — inventory. `{ git ls-files; git ls-files -o --exclude-standard; } | xargs grep -ilE <four residue words>` → **90 files**: 65 `.py`, 6 `.sh`, 9 `.md`, 5 `.txt`, 3 `.json`, 2 `.log`. By place: `work/13`–`work/19` 34, `work/20` 39, `work/21` 15, `docs/05` 1, `harness/README.md` 1. The words and the table are in `<scratchpad>/p215/` and stay there.
+→ next: backup.
+
+[2] backup of the 122 files the pass can touch (modified + untracked + every file with residue + `.gitignore`): `<scratchpad>/p215/pre_sweep_backup.tgz` and a copy under `.git/bma-backup/` (the scratchpad does not survive a reboot; `.git/` is neither published nor in the working tree). sha1 `31f0caa4…`. Unpacked copy in `<scratchpad>/p215/orig/` for before/after diffs.
+Baseline of the ten seeded trees re-computed now: `111b2ed91a9fae9f9a34b7654137d19dc53d81e5` = `21.1/03b_seed.txt`.
+→ next: fix the convention once, so three builders write the same thing.
+
+[3] convention (also the brief the builders get, `<scratchpad>/p215/brief.md`):
+- notes, logs, verdicts, JSON: token swap by table, nothing else on the line;
+- scripts keep their variable names; the repo root is `BMA_REPO` or, absent, the script's own location; the scratch directory is `BMA_SCRATCH` (required, clear error); the tool's config directory is the tool's own `CLAUDE_CONFIG_DIR` or `~/.claude`; the project key is computed from the root the way the tool computes it;
+- `BMA_REPO` exists for one reason: a closed round's transcripts hold the path the repo had when it ran, and after the `src/` move (21.7) the script's own location will no longer be that path;
+- a regex that *matches* a trace word is rebuilt from those values and reported as a functional line for VERIFY;
+- 21.1 only (the live apparatus): the shell entry points source a gitignored `local.env` beside them, so the user's launch command stays one line.
+→ next: delegate.
+
+[4] delegation — three builders in parallel, disjoint files, **Sonnet**: the work is a table swap and one repeated edit pattern over 90 files; no finding is judged, no design is chosen (both are fixed in [3]). Split by what can break: (X) scripts of `work/13`–`19`, records, parse-check only; (Y) scripts of `work/20`, same; (Z) `work/21` scripts — the apparatus verified on 2026-11-12, regression by its own `selftest.sh` and `dryrun.sh` (stub only) — plus the 19 non-script files. VERIFY afterwards by an agent that did none of it.
+→ next: read the three reports; residue search over the whole tree; then VERIFY.
+
+[5] builder X back (its report, not yet checked by anyone else): 31 scripts of `work/13`–`19` edited, all at depth 4; no functional line, no script left untouched, no `<other-project>` hit; its residue search on the 31 → nothing; `py_compile` all pass; nothing run.
+One case the convention did not cover: three scoring scripts (15.4, 19.2b, 19.3) read a `tasks` folder that sat beside the scratchpad under the session's temp folder. X wrote it as the parent of `BMA_SCRATCH` + `tasks`. Accepted: it is the old location exactly when `BMA_SCRATCH` is a session's scratchpad, which is what the variable means; VERIFY is told to look at it.
+→ next: wait for Y and Z.
+
+[6] builder Y back (its report): 30 scripts of `work/20` edited (28 `.py`, 2 `.sh`), all at depth 4; residue search on the 30 → nothing; `py_compile` / `bash -n` pass; nothing run. Functional lines it names, for VERIFY: 20.10 `score.py` — the four substring tests for "the arm read the parent repo's rules / protocol / decisions / plan" and the subagent-transcript folder, now built from the root and the computed project key; 20.11 and 20.12 `certificate.py` — `PARENT` (the old literal was the repo itself, so it stays the root, not the folder above), the transcript glob root, the arm directories behind the `startswith` test; 20.10 `report.py` — output text, now `<repo>/…` as in the notes.
+Two things it left that VERIFY must weigh: a session id kept as a literal in 20.10 `score.py` (not one of the four words; identifies a session, not a person); the two closed-round `launch.sh` used to pin the config folder and now take the tool's variable or `~/.claude`.
+→ next: wait for Z.
+
+[7] builder Z back (its report): 19 non-script files swapped (46 changed lines, a character-level diff against the backup shows table swaps only), 10 scripts of `work/21` edited, `.gitignore` gains `local.env`, `21.1/local.env` created and confirmed ignored. 21.1 regression, stub only: selftest before 82 PASS / 0 mismatches, after 82 PASS / 0 mismatches, outputs identical; dry-run before/after differ only in the order of parallel lines and stub-generated ids, verdict lines the same. Seeded trees: `111b2ed9…` = baseline. Eight functional lines listed (21.1 `certificate.py` `NAMED` and `PARENT`; `selftest.sh` two fixtures, one of which named another project's key and now holds a neutral one; `dryrun.sh` the decoy key and the real-config count; 21.2 `census.py`, `verify_census.py` path classes).
+What Z flags, for VERIFY and for the user:
+- five note lines quote a regex that contained the config folder's bare name; the table had no entry, Z wrote `<claude-config>`; one quoted regex in `03g` now shows `~` twice in an alternation. A quoted regex that no longer is the regex is a changed record — VERIFY judges whether the notes still say what they said.
+- with the default `~/.claude`, the `NAMED` fragment is broader than the old literal. Same defect family as N1 (already waiting for the user), not touched.
+- without `BMA_SCRATCH` the scripts stop; `cert_on_2011.py` needs it pointed at 20.11's scratch directory.
+
+[8] whole tree, by me: residue search over tracked + untracked-not-ignored → **0 files** (was 90). Files that still hold the words are all ignored: the conversation log (`.bemyagent/log/`, 12 files), `21.1/local.env`, `.claude/settings.local.json`. `git status`: 81 modified, 5 untracked entries, nothing staged. No `__pycache__` left.
+Convention written where a round designer reads it: `harness/README.md`, last section; one row in `03-code-map.md`.
+→ next: independent VERIFY. Model: the strongest tier (§4), an agent that wrote none of it. Reason for not going cheaper: the builders' own checks are searches and parse checks; what is left to judge is whether sixteen rebuilt classifier lines count the same things and whether a swapped note still states its finding — reading, not matching.
+
+[9] VERIFY back: **PASS_WITH_CAVEATS** (`04_verify.md`, by a strongest-tier agent that wrote none of it). What held: 0 residue files over 433; wider shapes 0; 71 script diffs read, no logic touched; 100 of 114 changed constants evaluate to the old literal, the rest explained; classifiers old vs new give the same answer on every probe with the config pinned; selftest byte-identical; trees' hash unchanged.
+What it found that the builders' search could not: **one trace left** — the config profile's name inside a glob in `21.1/03g` (not one of the four words: pre-mortem 3, realised); one quoted regex broken by the swap (N1's proposed pattern lost its absolute-home alternative); four lines where `<claude-config>` stood for a bare folder name; the live launcher no longer pinning the profile; four wrong numbers in my own new text.
+Self-correction (`interactiveMode=false`: correct and re-verify): the profile token → `<profile>`; the lost alternative → `<home>`; the bare name → `<config-folder-name>` in five places on four lines; `local.env` pins the config directory again and lets a caller's scratch win; `launch.sh:23` comment says where the pin lives; the four numbers; `21.1/03_execute.log` [23] records that `03e`/`03g` line numbers predate the edit. Residue search with the profile word added → 0 (the only word match left is a font name in `site/template.html`).
+Left for the user, not corrected: without `local.env` the launchers follow the caller's config, then `~/.claude`; two classifiers widen or narrow when the config variable is absent; an empty `BMA_SCRATCH` in Python means the current directory; `cert_on_2011.py` needs the closed round's scratch; 18 session ids in 10 files.
+→ next: the same verifier re-checks the repairs; then `06`, and the report to the user.
+
+[10] re-check back: **PASS_WITH_CAVEATS, nothing blocks the commit**. Every repair in place and true (N1's pattern compiles again and matches the four home-config spellings probed); no new trace; notes still swap-only against the backup; selftest byte-identical, dry-run same lines, trees' hash unchanged; across the 71 scripts the one comment in `launch.sh` is the only difference since the first pass. It also corrected itself: the profile word in `site/template.html` is a font name, not a person. Three small inaccuracies of mine it listed are corrected (README placeholder list and the *in path position* qualifier; "89" → 90; "five lines" → four lines, five places).
+Open, the user's: see `04_verify.md` "Still open" 1–7. Not established by anyone: no script of rounds 13–20 was run; no real launch.
+→ next: report; the commit waits — `git config user.name` is still the account word, so a commit made now would add one more to what 21.6 has to rewrite.

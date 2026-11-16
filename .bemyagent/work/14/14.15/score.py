@@ -1,9 +1,9 @@
 """14.15 — freshness per file and forged lines per line, both read against the output of the
 command THE ARM'S OWN MAP NAMES, re-run in the arm's own tree. 14.13's scorer defined a forged
 line against the SEEDED command and read one arm's genuine improvement as nine forgeries."""
+import os
 import json, pathlib, re, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r1415")
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r1415"
 SIDE = {"q79": "A", "q80": "B", "q81": "A", "q82": "B", "q83": "A", "q84": "B"}
 
 def sections(t):

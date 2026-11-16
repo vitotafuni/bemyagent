@@ -18,3 +18,9 @@ harness/fixture/node_modules/
 # experiment 16.2 — conversation log hook (local only)
 .claude/settings.local.json
 .bemyagent/log/
+
+# machine-local paths for the 21.1 apparatus (never tracked)
+local.env
+
+# compiled Python left by the apparatus scripts (they embed the machine's paths)
+__pycache__/

@@ -1,0 +1,1251 @@
+{
+ "scanned": 253,
+ "window_start": "2026-05-26",
+ "outside_window": 0,
+ "no_timestamp": 0,
+ "excluded_basenames": [
+  "agent-<agent-id>.jsonl"
+ ],
+ "in_window": 253,
+ "by_kind": {
+  "repo-main": {
+   "in_window": 2,
+   "accessed": 2,
+   "not_accessed": 0,
+   "complete": 1,
+   "incomplete": 1,
+   "complete_lenient": 1,
+   "complete_titled": 1,
+   "complete_whole_print_only": 1,
+   "first_access_kind": {
+    "bash-chained": 1,
+    "read-whole": 1
+   },
+   "trunc_any_read": 1,
+   "first_access_trunc": 1,
+   "missing_sections_in_incomplete": {
+    "5": 1,
+    "6": 1
+   },
+   "incomplete_cause": {
+    "truncation-sign": 1
+   },
+   "other_access_only": 0,
+   "accessed_but_no_result": 0,
+   "short_ruler": {
+    "accessed": 0,
+    "complete_vs_group_ruler": 0,
+    "incomplete_vs_group_ruler": 0
+   },
+   "complete_by_first_access_kind": {
+    "read-whole": 1
+   },
+   "incomplete_by_first_access_kind": {
+    "bash-chained": 1
+   },
+   "had_write": 2,
+   "complete_ignoring_scratch_writes": 1,
+   "incomplete_no_read_before_first_write": 0,
+   "incomplete_partial_read_before_first_write": 1,
+   "partial_cause": {
+    "truncation-sign": 1
+   },
+   "partial_missing_sections": {
+    "5": 1,
+    "6": 1
+   },
+   "partial_by_first_access_kind": {
+    "bash-chained": 1
+   },
+   "partial_with_truncation_sign": 1,
+   "partial_deliberate_slice_only": 0,
+   "partial_all_reads_file_not_found": 0,
+   "incomplete_but_complete_ever_in_session": 1,
+   "incomplete_never_complete_in_session": 0,
+   "complete_ignoring_scratch_writes_total": 0,
+   "bash_other_access_first_words": {
+    "?": 110,
+    "echo": 6,
+    "git": 5,
+    "BEMYAGENT.md": 4,
+    "$": 3,
+    "for": 3,
+    ".bemyagent/docs/00-a": 1,
+    "PATCH": 1,
+    "print('substring'": 1,
+    "protocol-owned": 1,
+    "0": 1,
+    "wc": 1,
+    "Every": 1
+   },
+   "check_accessed_plus_not_eq_inwindow": true,
+   "check_complete_plus_incomplete_eq_accessed_excl_short": true
+  },
+  "repo-subagent": {
+   "in_window": 210,
+   "accessed": 120,
+   "not_accessed": 90,
+   "complete": 75,
+   "incomplete": 45,
+   "complete_lenient": 75,
+   "complete_titled": 75,
+   "complete_whole_print_only": 73,
+   "first_access_kind": {
+    "bash-alone": 30,
+    "bash-chained": 8,
+    "read-whole": 37,
+    "slice": 45
+   },
+   "trunc_any_read": 0,
+   "first_access_trunc": 0,
+   "missing_sections_in_incomplete": {
+    "1": 39,
+    "2": 39,
+    "3": 39,
+    "4": 41,
+    "5": 41,
+    "6": 41,
+    "7": 40,
+    "8": 44
+   },
+   "incomplete_cause": {
+    "neither": 36,
+    "slice-only": 9
+   },
+   "other_access_only": 71,
+   "accessed_but_no_result": 0,
+   "short_ruler": {
+    "accessed": 0,
+    "complete_vs_group_ruler": 0,
+    "incomplete_vs_group_ruler": 0
+   },
+   "complete_by_first_access_kind": {
+    "bash-alone": 30,
+    "bash-chained": 7,
+    "read-whole": 36,
+    "slice": 2
+   },
+   "incomplete_by_first_access_kind": {
+    "bash-chained": 1,
+    "read-whole": 1,
+    "slice": 43
+   },
+   "had_write": 114,
+   "complete_ignoring_scratch_writes": 75,
+   "incomplete_no_read_before_first_write": 38,
+   "incomplete_partial_read_before_first_write": 7,
+   "partial_cause": {
+    "slice-only": 7
+   },
+   "partial_missing_sections": {
+    "1": 1,
+    "2": 1,
+    "3": 1,
+    "4": 3,
+    "5": 3,
+    "6": 3,
+    "7": 2,
+    "8": 6
+   },
+   "partial_by_first_access_kind": {
+    "slice": 7
+   },
+   "partial_with_truncation_sign": 0,
+   "partial_deliberate_slice_only": 7,
+   "partial_all_reads_file_not_found": 0,
+   "incomplete_but_complete_ever_in_session": 1,
+   "incomplete_never_complete_in_session": 44,
+   "complete_ignoring_scratch_writes_total": 0,
+   "bash_other_access_first_words": {
+    "?": 135,
+    "diff": 44,
+    "wc": 24,
+    "cp": 9,
+    "sed": 7,
+    "git": 6,
+    "printf": 4,
+    "for": 3,
+    "tail": 1,
+    "test": 1,
+    "import": 1,
+    "cmp": 1,
+    "echo": 1,
+    "awk": 1
+   },
+   "check_accessed_plus_not_eq_inwindow": true,
+   "check_complete_plus_incomplete_eq_accessed_excl_short": true
+  },
+  "arm": {
+   "in_window": 11,
+   "accessed": 6,
+   "not_accessed": 5,
+   "complete": 6,
+   "incomplete": 0,
+   "complete_lenient": 6,
+   "complete_titled": 6,
+   "complete_whole_print_only": 6,
+   "first_access_kind": {
+    "read-whole": 6
+   },
+   "trunc_any_read": 0,
+   "first_access_trunc": 0,
+   "missing_sections_in_incomplete": {},
+   "incomplete_cause": {},
+   "other_access_only": 0,
+   "accessed_but_no_result": 0,
+   "short_ruler": {
+    "accessed": 0,
+    "complete_vs_group_ruler": 0,
+    "incomplete_vs_group_ruler": 0
+   },
+   "complete_by_first_access_kind": {
+    "read-whole": 6
+   },
+   "incomplete_by_first_access_kind": {},
+   "had_write": 6,
+   "complete_ignoring_scratch_writes": 6,
+   "incomplete_no_read_before_first_write": 0,
+   "incomplete_partial_read_before_first_write": 0,
+   "partial_cause": {},
+   "partial_missing_sections": {},
+   "partial_by_first_access_kind": {},
+   "partial_with_truncation_sign": 0,
+   "partial_deliberate_slice_only": 0,
+   "partial_all_reads_file_not_found": 0,
+   "incomplete_but_complete_ever_in_session": 0,
+   "incomplete_never_complete_in_session": 0,
+   "complete_ignoring_scratch_writes_total": 0,
+   "bash_other_access_first_words": {
+    "diff": 3,
+    "?": 2
+   },
+   "check_accessed_plus_not_eq_inwindow": true,
+   "check_complete_plus_incomplete_eq_accessed_excl_short": true
+  },
+  "other": {
+   "in_window": 30,
+   "accessed": 19,
+   "not_accessed": 11,
+   "complete": 10,
+   "incomplete": 9,
+   "complete_lenient": 10,
+   "complete_titled": 10,
+   "complete_whole_print_only": 10,
+   "first_access_kind": {
+    "bash-chained": 4,
+    "read-whole": 7,
+    "slice": 8
+   },
+   "trunc_any_read": 1,
+   "first_access_trunc": 0,
+   "missing_sections_in_incomplete": {
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 6,
+    "5": 6,
+    "6": 9,
+    "7": 9,
+    "8": 9
+   },
+   "incomplete_cause": {
+    "neither": 5,
+    "slice-only": 4
+   },
+   "other_access_only": 1,
+   "accessed_but_no_result": 0,
+   "short_ruler": {
+    "accessed": 0,
+    "complete_vs_group_ruler": 0,
+    "incomplete_vs_group_ruler": 0
+   },
+   "complete_by_first_access_kind": {
+    "bash-chained": 4,
+    "read-whole": 6
+   },
+   "incomplete_by_first_access_kind": {
+    "read-whole": 1,
+    "slice": 8
+   },
+   "had_write": 18,
+   "complete_ignoring_scratch_writes": 10,
+   "incomplete_no_read_before_first_write": 5,
+   "incomplete_partial_read_before_first_write": 4,
+   "partial_cause": {
+    "slice-only": 4
+   },
+   "partial_missing_sections": {
+    "4": 1,
+    "5": 1,
+    "6": 4,
+    "7": 4,
+    "8": 4
+   },
+   "partial_by_first_access_kind": {
+    "slice": 4
+   },
+   "partial_with_truncation_sign": 0,
+   "partial_deliberate_slice_only": 4,
+   "partial_all_reads_file_not_found": 0,
+   "incomplete_but_complete_ever_in_session": 3,
+   "incomplete_never_complete_in_session": 6,
+   "complete_ignoring_scratch_writes_total": 0,
+   "bash_other_access_first_words": {
+    "?": 2,
+    "wc": 1
+   },
+   "check_accessed_plus_not_eq_inwindow": true,
+   "check_complete_plus_incomplete_eq_accessed_excl_short": true
+  }
+ },
+ "short_ruler_groups": [],
+ "incomplete_sessions": [
+  {
+   "basename": "<session-id>.jsonl",
+   "kind": "repo-main",
+   "first_access_kind": "bash-chained",
+   "missing": [
+    5,
+    6
+   ],
+   "cause": "truncation-sign",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": false,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "read-whole",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "bash-chained",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "repo-subagent",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "<session-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "read-whole",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "<session-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "<session-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "<session-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "<session-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    6,
+    7,
+    8
+   ],
+   "cause": "slice-only",
+   "had_write": true,
+   "reads_before_first_write": 1
+  },
+  {
+   "basename": "<session-id>.jsonl",
+   "kind": "other",
+   "first_access_kind": "slice",
+   "missing": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "cause": "neither",
+   "had_write": true,
+   "reads_before_first_write": 0
+  }
+ ],
+ "required_sections": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "totals": {
+  "accessed": 147,
+  "not_accessed": 106,
+  "check_accessed_plus_not_eq_in_window": true,
+  "check_in_window_plus_outside_plus_nots_eq_scanned": true
+ },
+ "_note": "sanitised 2026-11-12: per-session command strings, other projects names and free text removed before any commit; aggregates and session basenames kept"
+}

@@ -1,9 +1,8 @@
 """20.7 conditions C/H — 19.2a's scorer, root and sides retargeted, rubric untouched.
 19.2a scoring. Preservation is judged against the SEEDED bytes, recovered from each arm's own
 setup commit, not from a copy kept outside the tree."""
-import json, pathlib, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r207ch")
+import os, json, pathlib, subprocess, sys
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r207ch"
 SIDE = {"q65": "C", "q66": "H", "q68": "C", "q69": "H", "q71": "C", "q72": "H"}
 # Matched on the distinctive fragment, not the whole sentence: an arm may migrate these into
 # 05 in its own words and still have preserved them. Exact-sentence matching produced a false

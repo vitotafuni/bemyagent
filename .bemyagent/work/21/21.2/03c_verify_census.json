@@ -1,0 +1,806 @@
+{
+ "tables": {
+  "totals_unique_by_content": {
+   "scored": 247,
+   "accessed": 141,
+   "complete": 89,
+   "incomplete": 52
+  },
+  "totals": {
+   "files_on_disk": 257,
+   "excluded": 9,
+   "scored": 248,
+   "accessed": 142,
+   "not_accessed": 106,
+   "complete": 89,
+   "incomplete": 53,
+   "byte_identical_duplicate_pairs": 1
+  },
+  "not_accessed_breakdown": {
+   "n": 106,
+   "mention_only_nonreading_command": 52,
+   "rules_file_injected_by_file_attachment": 0
+  },
+  "per_kind": {
+   "repo-main": {
+    "scanned": 2,
+    "accessed": 2,
+    "not_accessed": 0,
+    "complete": 1,
+    "incomplete": 1,
+    "modes": {
+     "c": 1
+    },
+    "complete_title_variant": 1,
+    "complete_if_chained_results_ignored": null
+   },
+   "repo-subagent": {
+    "scanned": 205,
+    "accessed": 115,
+    "not_accessed": 90,
+    "complete": 72,
+    "incomplete": 43,
+    "modes": {
+     "a": 37,
+     "b": 6
+    },
+    "complete_title_variant": 108,
+    "complete_if_chained_results_ignored": null
+   },
+   "arm": {
+    "scanned": 11,
+    "accessed": 6,
+    "not_accessed": 5,
+    "complete": 6,
+    "incomplete": 0,
+    "modes": {},
+    "complete_title_variant": 6,
+    "complete_if_chained_results_ignored": null
+   },
+   "other": {
+    "scanned": 30,
+    "accessed": 19,
+    "not_accessed": 11,
+    "complete": 10,
+    "incomplete": 9,
+    "modes": {
+     "a": 5,
+     "b": 4
+    },
+    "complete_title_variant": 2,
+    "complete_if_chained_results_ignored": null
+   },
+   "ALL": {
+    "scanned": 248,
+    "accessed": 142,
+    "not_accessed": 106,
+    "complete": 89,
+    "incomplete": 53,
+    "modes": {
+     "a": 42,
+     "c": 1,
+     "b": 10
+    },
+    "complete_title_variant": 117,
+    "complete_if_chained_results_ignored": null
+   }
+  },
+  "check3_incomplete_by_kind_mode": {
+   "repo-main": {
+    "incomplete": 1,
+    "mode_a": 0,
+    "mode_b": 0,
+    "mode_c": 1,
+    "mode_d": 0,
+    "a_first_change_class": {},
+    "a_first_change_reason": {},
+    "a_but_full_8_headings_via_other_path_before_change": 0,
+    "a_scratch_and_no_other_path_headings": 0,
+    "mode_a_complete_later_in_session": 0,
+    "mode_b_complete_later_in_session": 0,
+    "mode_c_complete_later_in_session": 1,
+    "b_with_cut_marker_too": 0
+   },
+   "repo-subagent": {
+    "incomplete": 43,
+    "mode_a": 37,
+    "mode_b": 6,
+    "mode_c": 0,
+    "mode_d": 0,
+    "a_first_change_class": {
+     "scratch": 37
+    },
+    "a_first_change_reason": {
+     "mkdir": 26,
+     "redirect": 4,
+     "npm install": 5,
+     "heredoc-write": 2
+    },
+    "a_but_full_8_headings_via_other_path_before_change": 35,
+    "a_scratch_and_no_other_path_headings": 2,
+    "mode_a_complete_later_in_session": 1,
+    "mode_b_complete_later_in_session": 0,
+    "mode_c_complete_later_in_session": 0,
+    "b_with_cut_marker_too": 0
+   },
+   "arm": {
+    "incomplete": 0,
+    "mode_a": 0,
+    "mode_b": 0,
+    "mode_c": 0,
+    "mode_d": 0,
+    "a_first_change_class": {},
+    "a_first_change_reason": {},
+    "a_but_full_8_headings_via_other_path_before_change": 0,
+    "a_scratch_and_no_other_path_headings": 0,
+    "mode_a_complete_later_in_session": 0,
+    "mode_b_complete_later_in_session": 0,
+    "mode_c_complete_later_in_session": 0,
+    "b_with_cut_marker_too": 0
+   },
+   "other": {
+    "incomplete": 9,
+    "mode_a": 5,
+    "mode_b": 4,
+    "mode_c": 0,
+    "mode_d": 0,
+    "a_first_change_class": {
+     "claude-state": 1,
+     "scratch": 2,
+     "repo": 2
+    },
+    "a_first_change_reason": {
+     "Write": 2,
+     "mkdir": 2,
+     "redirect": 1
+    },
+    "a_but_full_8_headings_via_other_path_before_change": 0,
+    "a_scratch_and_no_other_path_headings": 2,
+    "mode_a_complete_later_in_session": 2,
+    "mode_b_complete_later_in_session": 1,
+    "mode_c_complete_later_in_session": 0,
+    "b_with_cut_marker_too": 0
+   },
+   "ALL": {
+    "incomplete": 53,
+    "mode_a": 42,
+    "mode_b": 10,
+    "mode_c": 1,
+    "mode_d": 0,
+    "a_first_change_class": {
+     "claude-state": 1,
+     "scratch": 39,
+     "repo": 2
+    },
+    "a_first_change_reason": {
+     "Write": 2,
+     "mkdir": 28,
+     "redirect": 5,
+     "npm install": 5,
+     "heredoc-write": 2
+    },
+    "a_but_full_8_headings_via_other_path_before_change": 35,
+    "a_scratch_and_no_other_path_headings": 4,
+    "mode_a_complete_later_in_session": 3,
+    "mode_b_complete_later_in_session": 1,
+    "mode_c_complete_later_in_session": 1,
+    "b_with_cut_marker_too": 0
+   }
+  },
+  "headline_variants": {
+   "repo-main": {
+    "H0_as_defined": {
+     "complete": 1,
+     "of": 2,
+     "incomplete": 1
+    },
+    "H1_minus_mode_a_with_scratch_first_change": {
+     "complete": 1,
+     "of": 2,
+     "incomplete": 1
+    },
+    "H2_minus_all_mode_a": {
+     "complete": 1,
+     "of": 2,
+     "incomplete": 1
+    },
+    "H3_content_title_variant_complete_of_accessed": {
+     "complete": 1,
+     "of": 2
+    }
+   },
+   "repo-subagent": {
+    "H0_as_defined": {
+     "complete": 72,
+     "of": 115,
+     "incomplete": 43
+    },
+    "H1_minus_mode_a_with_scratch_first_change": {
+     "complete": 72,
+     "of": 78,
+     "incomplete": 6
+    },
+    "H2_minus_all_mode_a": {
+     "complete": 72,
+     "of": 78,
+     "incomplete": 6
+    },
+    "H3_content_title_variant_complete_of_accessed": {
+     "complete": 108,
+     "of": 115
+    }
+   },
+   "arm": {
+    "H0_as_defined": {
+     "complete": 6,
+     "of": 6,
+     "incomplete": 0
+    },
+    "H1_minus_mode_a_with_scratch_first_change": {
+     "complete": 6,
+     "of": 6,
+     "incomplete": 0
+    },
+    "H2_minus_all_mode_a": {
+     "complete": 6,
+     "of": 6,
+     "incomplete": 0
+    },
+    "H3_content_title_variant_complete_of_accessed": {
+     "complete": 6,
+     "of": 6
+    }
+   },
+   "other": {
+    "H0_as_defined": {
+     "complete": 10,
+     "of": 19,
+     "incomplete": 9
+    },
+    "H1_minus_mode_a_with_scratch_first_change": {
+     "complete": 10,
+     "of": 17,
+     "incomplete": 7
+    },
+    "H2_minus_all_mode_a": {
+     "complete": 10,
+     "of": 14,
+     "incomplete": 4
+    },
+    "H3_content_title_variant_complete_of_accessed": {
+     "complete": 2,
+     "of": 19
+    }
+   },
+   "ALL": {
+    "H0_as_defined": {
+     "complete": 89,
+     "of": 142,
+     "incomplete": 53
+    },
+    "H1_minus_mode_a_with_scratch_first_change": {
+     "complete": 89,
+     "of": 103,
+     "incomplete": 14
+    },
+    "H2_minus_all_mode_a": {
+     "complete": 89,
+     "of": 100,
+     "incomplete": 11
+    },
+    "H3_content_title_variant_complete_of_accessed": {
+     "complete": 117,
+     "of": 142
+    }
+   }
+  },
+  "check4_other_projects": {},
+  "check4_repo_subagent_split": {
+   "work-like (all the others)": {
+    "sessions": 31,
+    "accessed": 9,
+    "complete": 5,
+    "incomplete": 4,
+    "modes": {
+     "a": 4
+    },
+    "a_scratch": 4
+   }
+  },
+  "check4_repo_subagent_split_sensitivity_any_fixture_touch": {
+   "sessions": 178,
+   "accessed": 109,
+   "complete": 68,
+   "incomplete": 41
+  },
+  "check5_main_unique_by_content": {
+   "N": 30,
+   "accessed": 21,
+   "not_accessed": 9,
+   "complete": 15,
+   "incomplete": 6,
+   "modes": {
+    "a": 4,
+    "c": 1,
+    "b": 1
+   },
+   "a_first_change_class": {
+    "claude-state": 1,
+    "scratch": 1,
+    "repo": 2
+   },
+   "incomplete_basenames": [
+    [
+     "<session-id>",
+     "other",
+     "a",
+     "claude-state"
+    ],
+    [
+     "<session-id>",
+     "other",
+     "a",
+     "scratch"
+    ],
+    [
+     "<session-id>",
+     "repo-main",
+     "c",
+     "repo"
+    ],
+    [
+     "<session-id>",
+     "other",
+     "a",
+     "repo"
+    ],
+    [
+     "<session-id>",
+     "other",
+     "a",
+     "repo"
+    ],
+    [
+     "<session-id>",
+     "other",
+     "b",
+     "claude-state"
+    ]
+   ]
+  },
+  "check5_main_sessions": {
+   "N": 31,
+   "by_kind": {
+    "other": 18,
+    "repo-main": 2,
+    "arm": 11
+   },
+   "accessed": 22,
+   "not_accessed": 9,
+   "complete": 15,
+   "incomplete": 7,
+   "modes": {
+    "a": 5,
+    "c": 1,
+    "b": 1
+   },
+   "a_first_change_class": {
+    "claude-state": 1,
+    "scratch": 2,
+    "repo": 2
+   }
+  },
+  "check6_slices": [
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "repo-subagent",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3
+    ],
+    "missing": [
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "scratch"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "repo-subagent",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "missing": [
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "scratch"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "repo-subagent",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "missing": [
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "scratch"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "repo-subagent",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "missing": [
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "scratch"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "repo-subagent",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "missing": [
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "scratch"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "repo-subagent",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     7,
+     8
+    ],
+    "missing": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "scratch"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "other",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "missing": [
+     6,
+     7,
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "repo"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "other",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3
+    ],
+    "missing": [
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "repo"
+   },
+   {
+    "basename": "agent-<agent-id>.jsonl",
+    "kind": "other",
+    "main": false,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "missing": [
+     6,
+     7,
+     8
+    ],
+    "completes_later_in_session": false,
+    "any_later_rules_access_after_first_change": false,
+    "first_change_class": "repo"
+   },
+   {
+    "basename": "<session-id>.jsonl",
+    "kind": "other",
+    "main": true,
+    "shapes": [
+     "[removed]"
+    ],
+    "secs_pre": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "missing": [
+     6,
+     7,
+     8
+    ],
+    "completes_later_in_session": true,
+    "any_later_rules_access_after_first_change": true,
+    "first_change_class": "claude-state"
+   }
+  ],
+  "check6_shape_counts": {
+   "cat|head -40": 1,
+   "cat|head -100": 4,
+   "sed -n A,Bp": 1,
+   "cat|head -80": 3,
+   "head -3000c": 1
+  },
+  "check6_missing_counts": {
+   "4": 3,
+   "5": 3,
+   "6": 6,
+   "7": 5,
+   "8": 9,
+   "1": 1,
+   "2": 1,
+   "3": 1
+  },
+  "check6_complete_later": {
+   "n": 10,
+   "completes_later": 1
+  },
+  "cut_markers_on_rules_access_results": {
+   "all": {
+    "chars-truncated-marker": 1,
+    "persisted-output": 1
+   },
+   "before_first_change": {
+    "chars-truncated-marker": 1
+   }
+  },
+  "complete_only_by_chained_command_results": {
+   "n": 12,
+   "of_which_title_confirmed": 8
+  },
+  "complete_vs_title_disagree": {
+   "numeric_complete_title_not": 8,
+   "title_complete_numeric_not": 36
+  },
+  "no_change_in_session_among_accessed": 4,
+  "comparison_with_03b": {
+   "author_incomplete_entries": 55,
+   "author_incomplete_distinct": 54,
+   "my_incomplete_entries": 53,
+   "author_by_kind": {
+    "repo-main": {
+     "in_window": 2,
+     "accessed": 2,
+     "complete": 1,
+     "incomplete": 1
+    },
+    "repo-subagent": {
+     "in_window": 210,
+     "accessed": 120,
+     "complete": 75,
+     "incomplete": 45
+    },
+    "arm": {
+     "in_window": 11,
+     "accessed": 6,
+     "complete": 6,
+     "incomplete": 0
+    },
+    "other": {
+     "in_window": 30,
+     "accessed": 19,
+     "complete": 10,
+     "incomplete": 9
+    }
+   },
+   "author_totals_accessed": 147,
+   "author_excluded": [
+    "agent-<agent-id>.jsonl"
+   ],
+   "disagreements": [
+    {
+     "basename": "agent-<agent-id>.jsonl",
+     "author": "[removed]",
+     "mine": "[removed]"
+    },
+    {
+     "basename": "agent-<agent-id>.jsonl",
+     "author": "[removed]",
+     "mine": "[removed]"
+    },
+    {
+     "basename": "agent-<agent-id>.jsonl",
+     "author": "[removed]",
+     "mine": "[removed]"
+    },
+    {
+     "basename": "agent-<agent-id>.jsonl",
+     "author": "[removed]",
+     "mine": "[removed]"
+    }
+   ]
+  }
+ },
+ "excluded": [
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-11T23:37:53.163Z",
+   "size": 738156,
+   "would_be_accessed": true,
+   "would_be_complete": false,
+   "would_be_mode": "b"
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-12T00:05:33.922Z",
+   "size": 1263989,
+   "would_be_accessed": true,
+   "would_be_complete": true,
+   "would_be_mode": null
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-11T23:50:06.908Z",
+   "size": 1689830,
+   "would_be_accessed": true,
+   "would_be_complete": true,
+   "would_be_mode": null
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-11T23:50:06.928Z",
+   "size": 1709489,
+   "would_be_accessed": true,
+   "would_be_complete": true,
+   "would_be_mode": null
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-11T23:50:06.923Z",
+   "size": 1200392,
+   "would_be_accessed": true,
+   "would_be_complete": true,
+   "would_be_mode": null
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-11T23:58:41.917Z",
+   "size": 1493739,
+   "would_be_accessed": true,
+   "would_be_complete": true,
+   "would_be_mode": null
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-11T23:37:53.175Z",
+   "size": 1256357,
+   "would_be_accessed": true,
+   "would_be_complete": true,
+   "would_be_mode": null
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-11T23:56:49.194Z",
+   "size": 897353,
+   "would_be_accessed": false,
+   "would_be_complete": null,
+   "would_be_mode": null
+  },
+  {
+   "basename": "agent-<agent-id>.jsonl",
+   "birth_local": "[removed]",
+   "first_ts_utc": "2026-11-12T00:05:33.929Z",
+   "size": 806698,
+   "would_be_accessed": true,
+   "would_be_complete": true,
+   "would_be_mode": null
+  }
+ ],
+ "_note": "sanitised 2026-11-12: per-session command strings, other projects names and free text removed before any commit; aggregates and session basenames kept"
+}

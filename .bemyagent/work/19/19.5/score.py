@@ -1,7 +1,7 @@
 """19.5 — routing read from the tree, settings preservation read per key against the seed."""
+import os
 import json, pathlib, re, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r195")
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r195"
 SIDE = {"q73": "A", "q74": "B", "q75": "A", "q76": "B", "q77": "A", "q78": "B"}
 SEED = {"language": "en", "interactiveMode": False, "strictVerification": False,
         "autoModelSwitching": True, "autoCommit": False, "conversationLog": "",

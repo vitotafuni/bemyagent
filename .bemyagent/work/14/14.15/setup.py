@@ -1,8 +1,9 @@
 """14.15 — the derived-blocks clause as a TREATMENT. 20.5's G seed and 14.13's clause,
 both sides this time. Only the arm table and the overwrite guard differ from 20.5/setup_G.py."""
+import os
 import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
-S = pathlib.Path("<scratchpad>")
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 ARMS = {"q79": "A", "q80": "B", "q81": "A", "q82": "B", "q83": "A", "q84": "B"}

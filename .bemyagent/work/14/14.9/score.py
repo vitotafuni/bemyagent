@@ -1,6 +1,7 @@
 """14.9 scoring, every criterion executed. Usage: python3 -I score149.py cmds.json"""
+import os
 import json, pathlib, subprocess, shutil, sys
-S = pathlib.Path("<scratchpad>")
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 SIDE = {"q16":"S","q17":"C","q18":"S","q19":"C","q20":"S","q21":"C"}
 SRC_EXT = (".js", ".sql", ".html")
 CMD = json.loads(pathlib.Path(sys.argv[1]).read_text())

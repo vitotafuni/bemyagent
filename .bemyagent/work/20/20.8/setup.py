@@ -2,9 +2,9 @@
 kind: the fourth cell of the protocol x tier grid. The P branch is left in place unused so
 the seed this round shares with 20.2 N and 20.3 O is visibly the same code path.
 """
-import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
-S = pathlib.Path("<scratchpad>")
+import os, json, pathlib, shutil, subprocess, sys
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 ARMS = {"q91": "N", "q92": "N", "q93": "N"}   # 20.2 ran q53 q55 q57; same seed, new names

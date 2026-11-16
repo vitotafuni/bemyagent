@@ -1,0 +1,84 @@
+PASS pos             i                              got=True want=True
+PASS pos             ii                             got=True want=True
+PASS pos             iii                            got=True want=True
+PASS pos             iv_equal_count                 got=3 want=3
+PASS pos             iv_stale_footers               got=0 want=0
+PASS pos             v                              got=True want=True
+PASS pos             vi_destructive_new             got=0 want=0
+PASS pos             viii                           got=False want=False
+PASS pos             counted_out                    got=False want=False
+PASS pos             i_hits file                    got='.bemyagent/docs/06-implementation-plan.md' want='.bemyagent/docs/06-implementation-plan.md'
+PASS pos             i_hits line is int             got=True want=True
+PASS pos             v_hits files                   got=['client/app.js', 'server/index.js'] want=['client/app.js', 'server/index.js']
+PASS pos             weighted t1/t2/s2              got=[4760, 9520, 2380] want=[4760, 9520, 2380]
+PASS pos             weighted total                 got=16660 want=16660
+PASS pos             weighted_from_usage            got=9520 want=9520
+PASS pos             models/turns/denials           got=(['claude-sonnet-5-5'], 7, 0) want=(['claude-sonnet-5-5'], 7, 0)
+PASS pos             ix memory                      got=(1, 3, 1) want=(1, 3, 1)
+PASS neg             i                              got=False want=False
+PASS neg             ii                             got=False want=False
+PASS neg             iii                            got=False want=False
+PASS neg             iv_equal_count                 got=0 want=0
+PASS neg             iv_stale_footers               got=0 want=0
+PASS neg             v                              got=False want=False
+PASS neg             viii                           got=False want=False
+PASS neg             vi_destructive_new             got=0 want=0
+PASS neg             ix memory                      got=(0, 0) want=(0, 0)
+PASS summary         i                              got=True want=True
+PASS summary         ii                             got=False want=False
+PASS summary         iii                            got=True want=True
+PASS summary         i_hits only the block file     got=['.bemyagent/docs/06-implementation-plan.md'] want=['.bemyagent/docs/06-implementation-plan.md']
+PASS occasion        viii                           got=True want=True
+PASS occasion        counted_out                    got=True want=True
+PASS occasion        v                              got=False want=False
+PASS occasion        i                              got=True want=True
+PASS occasion        ii                             got=True want=True
+PASS stale           iv_equal_count                 got=2 want=2
+PASS stale           iv_stale_footers               got=1 want=1
+PASS stale           iv.t2                          got={'footer_shaped': True, 'equal_to_disk': False} want={'footer_shaped': True, 'equal_to_disk': False}
+PASS decoy           i                              got=False want=False
+PASS decoy           ii                             got=False want=False
+PASS decoy           iii                            got=False want=False
+PASS decoy           v                              got=False want=False
+PASS decoy           viii                           got=False want=False
+PASS destr           v                              got=True want=True
+PASS destr           vi_destructive_new             got=1 want=1
+PASS destr           vi_hits file                   got='server/index.js' want='server/index.js'
+PASS destr2          vi_destructive_new             got=1 want=1
+PASS benign_update   vi_destructive_new             got=0 want=0
+PASS ghost           incomplete                     got=['snap.t1', 'snap.t2'] want=['snap.t1', 'snap.t2']
+PASS pos             viii_any_at_t2 (seed has reset) got=True want=True
+PASS neg             viii_any_at_t2 (seed has reset) got=True want=True
+PASS decoy           viii_any_at_t2 (seed has reset) got=True want=True
+PASS (all)           no reply text: 'Built the button' got=False want=False
+PASS (all)           no reply text: 'Noted'         got=False want=False
+PASS (all)           no reply text: 'Scoreboard added' got=False want=False
+PASS reword          i                              got=True want=True
+PASS reword          ii                             got=True want=True
+PASS reword          iii                            got=True want=True
+PASS nokeep          i                              got=True want=True
+PASS nokeep          ii                             got=False want=False
+PASS otherfile       i                              got=True want=True
+PASS otherfile       ii                             got=True want=True
+PASS otherfile       iii                            got=False want=False
+PASS comment_t2      i                              got=False want=False
+PASS comment_t2      viii                           got=False want=False
+PASS comment_t2      v                              got=False want=False
+PASS comment_s2      v                              got=False want=False
+PASS boldkeys        iii                            got=True want=True
+PASS boldkeys        iv_equal_count                 got=3 want=3
+PASS fenced          iv_equal_count                 got=3 want=3
+PASS fenced          iv_stale_footers               got=0 want=0
+PASS c_ok            all_calls_clean / design_ok    got=(True, True) want=(True, True)
+PASS c_ok            own CLAUDE.md, override 2/record got=(1, 2) want=(1, 2)
+PASS c_ok            model_context_not_smaller      got=True want=True
+PASS c_override_extra t1.clean (override 3 > 2/record) got=False want=False
+PASS c_instr_out     t1.clean (instruction file outside) got=False want=False
+PASS c_instr_out     outside_arm_dir count          got=1 want=1
+PASS c_named         t1.clean (tool reads <arm>.t2.json) got=False want=False
+PASS c_named2        t1.clean (tool reads a sibling arm) got=False want=False
+PASS c_att           t1.clean (foreign memory attachment) got=False want=False
+PASS c_dotdot        dotdot counted, not gating     got=(1, True) want=(1, True)
+PASS c_shrink        model_context_not_smaller      got=False want=False
+
+0 mismatches

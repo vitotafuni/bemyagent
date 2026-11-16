@@ -1,5 +1,6 @@
+import os
 import pathlib, re, shutil, subprocess, sys, json
-S = pathlib.Path("<scratchpad>")
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 ARMS = {"q10": "r172", "q11": "r172", "q12": "r172",
         "q7": "r183", "q8": "r183", "q9": "r183"}
 MUT = S / "mutants"

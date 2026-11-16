@@ -1,7 +1,8 @@
+import os
 import shutil, subprocess
 from pathlib import Path
-SP=Path("/private/tmp/claude-501/-Users-caporale-me-gitlab-bemyagent/8aeed20a-f57d-484c-a624-f3b1637843b6/scratchpad")
-REPO=Path("/Users/caporale/me-gitlab/bemyagent")
+SP=Path(os.environ["BMA_SCRATCH"])
+REPO=Path(os.environ.get("BMA_REPO") or Path(__file__).resolve().parents[4])
 EXP=SP/"exp10"; SRC=SP/"fix10"
 BASE=(REPO/"BEMYAGENT.md").read_text(encoding="utf-8")
 

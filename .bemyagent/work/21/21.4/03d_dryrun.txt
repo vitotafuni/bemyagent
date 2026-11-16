@@ -1,0 +1,386 @@
+== 0. the prompts
+prompt_t1.txt = 21.1/prompt_t1.txt (cmp silent)
+prompt_compact.txt: 8 bytes, equals '/compact': yes
+prompt_t2.txt is the turn-2 sentence of 02_tasks.md verbatim: 1 occurrence(s) there
+
+== 1. setup.py pilots: q901 (C) into the PILOTS root (real PATH: npm is needed; claude is never called). setup.py six refuses until a PILOT OK
+asserted: L = C + one line in each file, the same line, rules line 2, BEMYAGENT.md line 30
+built 1 arms in <scratchpad>/p214/dry/ptrees; status in <scratchpad>/p214/dry/out/setup.status
+-- setup.py six q115 before any marker:
+setup.py six refuses: no marker out/pilot_ok.<pilot> - check_pilot.sh writes it on PILOT OK; the six are built after a PILOT OK
+-- the pilot arms setup.py builds (B9), all C, none counted: "q901": "C" "q902": "C" "q903": "C" 
+-- build twice refuses:
+AssertionError: q901 already built - refusing to overwrite
+-- setup.py with no mode:
+usage: setup.py pilots|six [arm ...]
+-- the assertions (B10 included): six fake repos, each with a candidate branch that breaks one assertion; setup.py six must stop and build nothing
+  two_lines    exit=1 built=False  AssertionError: 00-ai-rules.md: 2 differing regions, expected 1
+  replaced     exit=1 built=False  AssertionError: 00-ai-rules.md: the difference is replace of 2 line(s), expected one inserted line
+  lines_differ exit=1 built=False  AssertionError: the added line differs between the rules file and BEMYAGENT.md
+  wrong_start  exit=1 built=False  AssertionError: the added line does not start with `**Read this file whole`
+  one_file_only exit=1 built=False  AssertionError: BEMYAGENT.md: 0 differing regions, expected 1
+  line_altered exit=1 built=False  AssertionError: the sha1 of the added line is c3f920def632dd09da5857af3c994c4118305075, not the value fixed in
+-- the pilots' trees stand in one root, the six's in another: pilots root holds: q901   six root holds: (nothing yet)
+
+== 2. the other pilot trees: copies of q901 (q902 q903 q904) in the pilots root
+q901 q902 q903 q904 
+
+== 3. which claude will launch.sh see? PATH = stub : /usr/local/bin : /usr/bin : /bin
+claude is <scratchpad>/p214/dry/stub/claude
+command -v claude is the stub: yes   other claude in any directory of the PATH: none
+
+== 4. C4: a counted arm is refused before a PILOT OK; check_pilot.sh refuses a counted arm
+q112: refused - a counted arm is launched only after a PILOT OK: no marker out/pilot_ok.<pilot> (check_pilot.sh writes it)
+check_pilot.sh refuses 'q112': it is not a pilot (q901 q902 q903 q904). A counted arm is not checked with the pilot's verdict (Amendment 3, C4).
+   exit 2  (stub calls so far: 0)
+
+== 5. launch.sh q901 q902 q903 q904 'bad name' '../x'   (the pilots; the stub plays every call)
+claude resolves to: stub/claude   time limit per call: 3600s
+'bad name' is not an arm name (skipped)
+'../x' is not an arm name (skipped)
+all arms finished
+-- check_pilot.sh q901 (the good pilot) - the marker is written on PILOT OK only:
+== verdict: PILOT OK - launch the six
+  marker written: pilot_ok.q901 (necessary, not sufficient: the eye list and the designer's dated go-ahead in 03_execute.log come before the six)
+   markers now: pilot_ok.q901 
+
+== 6. after the marker: setup.py six q115 (real PATH for npm), the other counted trees, then the six launch (stub PATH)
+asserted: L = C + one line in each file, the same line, rules line 2, BEMYAGENT.md line 30
+built 1 arms in trees; status in out/setup.status
+-- the pilots root holds: q901 q902 q903 q904    the six root holds: q112 q115 q116 q117 
+-- setup.status (in the outputs folder, not beside the trees):
+repo_head=668274fbfea4fb3b0810ff043127182a8d311809
+bma_21_4=46f462151919cc4330d313fcaa46f57ea894c609
+added_line_sha1=c39979f0fa5bc245fc6454d087ef5fb7d8754cc3
+rules_line=2 bemyagent_line=30
+arm q115 cond=L rules_sha1=d5b7e467aa.. bemyagent_sha1=6688657399..
+arm q901 cond=C rules_sha1=4db2fc64c0.. bemyagent_sha1=600d0364d9..
+-- diff -r (no node_modules, no .git) C (the seed as committed in the pilot's tree, before the pilot's edits) against L (q115, not yet launched):
+diff -r -x node_modules -x .git c_seed/.bemyagent/docs/00-ai-rules.md trees/q115/.bemyagent/docs/00-ai-rules.md
+1a2
+> **Read this file whole — first line to last, every time, a context compaction included. A slice of it, or what you recall of it, is not a read.**
+diff -r -x node_modules -x .git c_seed/BEMYAGENT.md trees/q115/BEMYAGENT.md
+29a30
+> **Read this file whole — first line to last, every time, a context compaction included. A slice of it, or what you recall of it, is not a read.**
+-- the two trees' files that differ: 2
+claude resolves to: stub/claude   time limit per call: 3600s
+'bad name2' is not an arm name (skipped)
+all arms finished
+q903 t1 exit=0
+q902 t1 exit=0
+q904 t1 exit=0
+q901 t1 exit=0
+q902 memory_existed=0 files=0
+q903 memory_existed=0 files=0
+q901 memory_existed=0 files=0
+q904 memory_existed=0 files=0
+q904 boundaries_before=0
+q901 boundaries_before=0
+q903 boundaries_before=0
+q902 boundaries_before=0
+q901 cp exit=0
+q903 cp exit=0
+q904 cp exit=0
+q902 cp exit=0
+q904 compaction_proven=1 by=both pre_tokens=60000 session_same=0 trigger=manual boundaries_before=0 boundaries_after=1
+q902 compaction_proven=0 by=- pre_tokens=- session_same=1 boundaries_before=0 boundaries_after=0
+q901 compaction_proven=1 by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1
+q904 turn2=skipped (the session id changed at the compaction: turn 2 would not resume the compacted history)
+q902 turn2=skipped (compaction not proven)
+q903 compaction_proven=1 by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1
+q903 t2 exit=0 resumed_from=0b5194c0
+q901 t2 exit=0 resumed_from=949dcfbe
+q901 done t2_session_same=1 boundaries_final=1
+q903 done t2_session_same=1 boundaries_final=1
+-- launch.status (the three prompt hashes are in it; they are shortened here):
+q112 prompts t1_sha=33dc8033.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q112 t1 exit=0
+q112 memory_existed=0 files=0
+q112 boundaries_before=0
+q112 cp exit=0
+q112 compaction_proven=1 by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1
+q112 t2 exit=0 resumed_from=<id8>
+q112 done t2_session_same=1 boundaries_final=1
+q115 prompts t1_sha=7614107c.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q115 t1 exit=0
+q115 memory_existed=1 files=2
+q115 boundaries_before=0
+q115 cp exit=0
+q115 compaction_proven=1 by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1
+q115 t2 exit=0 resumed_from=<id8>
+q115 done t2_session_same=1 boundaries_final=1
+q116 prompts t1_sha=ec531d25.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q116 t1 exit=0
+q116 memory_existed=0 files=0
+q116 boundaries_before=0
+q116 cp exit=0
+q116 compaction_proven=1 by=stream pre_tokens=60000 session_same=1 trigger=- boundaries_before=0 boundaries_after=0
+q116 t2 exit=0 resumed_from=<id8>
+q116 done t2_session_same=1 boundaries_final=0
+q117 prompts t1_sha=fa21fd48.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q117 t1 exit=0
+q117 memory_existed=0 files=0
+q117 boundaries_before=0
+q117 cp exit=0
+q117 compaction_proven=1 by=transcript pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1
+q117 t2 exit=0 resumed_from=<id8>
+q117 done t2_session_same=1 boundaries_final=1
+q901 prompts t1_sha=9056062c.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q901 t1 exit=0
+q901 memory_existed=0 files=0
+q901 boundaries_before=0
+q901 cp exit=0
+q901 compaction_proven=1 by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1
+q901 t2 exit=0 resumed_from=<id8>
+q901 done t2_session_same=1 boundaries_final=1
+q902 prompts t1_sha=62e94427.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q902 t1 exit=0
+q902 memory_existed=0 files=0
+q902 boundaries_before=0
+q902 cp exit=0
+q902 compaction_proven=0 by=- pre_tokens=- session_same=1 boundaries_before=0 boundaries_after=0
+q902 turn2=skipped (compaction not proven)
+q903 prompts t1_sha=93268299.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q903 t1 exit=0
+q903 memory_existed=0 files=0
+q903 boundaries_before=0
+q903 cp exit=0
+q903 compaction_proven=1 by=both pre_tokens=60000 session_same=1 trigger=manual boundaries_before=0 boundaries_after=1
+q903 t2 exit=0 resumed_from=<id8>
+q903 done t2_session_same=1 boundaries_final=1
+q904 prompts t1_sha=b14c8c6c.. cp_sha=52e657bd.. t2_sha=46a0bf26..
+q904 t1 exit=0
+q904 memory_existed=0 files=0
+q904 boundaries_before=0
+q904 cp exit=0
+q904 compaction_proven=1 by=both pre_tokens=60000 session_same=0 trigger=manual boundaries_before=0 boundaries_after=1
+q904 turn2=skipped (the session id changed at the compaction: turn 2 would not resume the compacted history)
+
+== 7. where things are. Trees (what `ls ..` shows from inside an arm) and the separate outputs dir
+-- ls pilots root: q901 q902 q903 q904   ls six root: q112 q115 q116 q117 
+-- outputs (names only):
+launch.status locks pilot_ok.q901 q112.cp.err q112.cp.jsonl q112.t1.err q112.t1.json q112.t2.err q112.t2.json q115.cp.err q115.cp.jsonl q115.t1.err q115.t1.json q115.t2.err q115.t2.json q116.cp.err q116.cp.jsonl q116.t1.err q116.t1.json q116.t2.err q116.t2.json q117.cp.err q117.cp.jsonl q117.t1.err q117.t1.json q117.t2.err q117.t2.json q901.cert.json q901.cp.err q901.cp.jsonl q901.read.json q901.t1.err q901.t1.json q901.t2.err q901.t2.json q902.cp.err q902.cp.jsonl q902.t1.err q902.t1.json q903.cp.err q903.cp.jsonl q903.t1.err q903.t1.json q903.t2.err q903.t2.json q904.cp.err q904.cp.jsonl q904.t1.err q904.t1.json setup.status snap 
+-- any launcher output inside either trees dir (must be 0): 0 files at their top level
+-- the arm's tool memory is recorded, not moved (q115 had one): still in the config? 1 MEMORY.md; moved copies: 0
+
+== 8. guard: launch.sh q901 again must refuse and add nothing
+claude resolves to: stub/claude   time limit per call: 3600s
+status lines before/after: 62 / 62   stub calls before/after: 22 / 22
+
+== 9. snapshots differ as the stub's edits say (q115: t1 vs t2; t2 vs final tree)
+Only in out/snap/q115.t2/.bemyagent/work: 2
+Files out/snap/q115.t1/client/app.js and out/snap/q115.t2/client/app.js differ
+(no more lines = the final tree equals the t2 snapshot)
+snapshots taken: q112.t1 q112.t2 q115.t1 q115.t2 q116.t1 q116.t2 q117.t1 q117.t2 q901.t1 q901.t2 q902.t1 q903.t1 q903.t2 q904.t1 
+
+== 10. certificate.py (key fields)
+q901 {'cond': 'C', 'same_session_id_on_all_three': True, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 1, 'first_user_equals_prompt_t1': True, 'context_carried': True, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': True, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+q902 {'cond': 'C', 'same_session_id_on_all_three': False, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 0, 'first_user_equals_prompt_t1': True, 'context_carried': False, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': False, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+q903 {'cond': 'C', 'same_session_id_on_all_three': True, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 1, 'first_user_equals_prompt_t1': True, 'context_carried': True, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': True, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+q904 {'cond': '?', 'same_session_id_on_all_three': False, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 1, 'first_user_equals_prompt_t1': True, 'context_carried': False, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': False, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+q115 {'cond': 'L', 'same_session_id_on_all_three': True, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 1, 'first_user_equals_prompt_t1': True, 'context_carried': True, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': True, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+q112 {'cond': 'C', 'same_session_id_on_all_three': True, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 1, 'first_user_equals_prompt_t1': True, 'context_carried': True, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': True, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+q116 {'cond': 'L', 'same_session_id_on_all_three': True, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 0, 'first_user_equals_prompt_t1': True, 'context_carried': False, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': False, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+q117 {'cond': 'L', 'same_session_id_on_all_three': True, 'one_transcript_in_own_folder': True, 'boundaries_in_transcript': 1, 'first_user_equals_prompt_t1': True, 'context_carried': True, 'launcher_prompt_hashes_equal_files': True, 'model_pinned': True, 'second_model_in_usage': [], 'override_header_ok': True, 'clean': True, 'design_ok': True, 'base_check_made': True, 'tool_calls_dotdot': 0, 'failed_terms': []}
+
+== 11. read.py (per arm: classes, x + n of K, eligibility; then the per-condition counts)
+q901 {'cond': 'C', 'role': 'pilot', 'iv': 'whole', 'i': 'slice', 'handed_back': 'x=0 n=0 x+n=0 of K=86, added line handed back: None', 'eligible': True, 'why_not': [], 'flags': [], 'v': {'memory_existed': '0', 'files': '0'}, 'vii': {'new_leaf': False, 'reset_new': True}}
+   iii: {'proven': '1', 'by': 'both', 'pre_tokens': '60000', 'session_same': '1', 'boundaries_before': '0', 'boundaries_after': '1', 'turn2': None} {'boundaries': 1, 'cut_trigger': 'manual', 'pre_tokens': 60000, 'post_tokens': 9000} tokens before/after: 60105 20105 shrank: True
+   accesses in the window (tool, form, class, lines): [('Bash', 'shell', 'slice', '34/90')] write: {'idx': 16, 'kind': 'Edit'}
+   preserved across the boundary: {'fields_present': {'preservedMessages': False, 'preservedSegment': False}, 'ids_named': 0, 'ids_not_in_file': 0, 'unexpected_shape': [], 'records_found': 0, 'found_by': None, 'offsets': None, 'types': {}, 'lines_in_non_result_records': 0, 'lines_in_results': 0, 'metadata_shape': 'ok', 'unknown_metadata_keys': [], 'any_rules_lines': False}
+q902 {'cond': 'C', 'role': 'pilot', 'iv': "no compaction boundary in the transcript at the launcher's count", 'i': "no compaction boundary in the transcript at the launcher's count", 'handed_back': "no compaction boundary in the transcript at the launcher's count", 'eligible': False, 'why_not': ["no compaction boundary in the transcript at the launcher's count", 'the launcher did not prove the compaction', 'turn 2 did not run'], 'flags': [], 'v': {'memory_existed': '0', 'files': '0'}, 'vii': {'new_leaf': False, 'reset_new': False}}
+   iii: {'proven': '0', 'by': '-', 'pre_tokens': '-', 'session_same': '1', 'boundaries_before': '0', 'boundaries_after': '0', 'turn2': 'skipped'} {'boundaries': 0, 'cut_trigger': None, 'pre_tokens': None, 'post_tokens': None} tokens before/after: None None shrank: None
+q903 {'cond': 'C', 'role': 'pilot', 'iv': 'whole', 'i': 'slice', 'handed_back': 'x=0 n=86 x+n=86 of K=86, added line handed back: None', 'eligible': False, 'why_not': ['x + n = 0 + 86 = 86 of K=86 lines held by the instruction file or handed back (threshold 43): not an occasion'], 'flags': [], 'v': {'memory_existed': '0', 'files': '0'}, 'vii': {'new_leaf': False, 'reset_new': True}}
+   iii: {'proven': '1', 'by': 'both', 'pre_tokens': '60000', 'session_same': '1', 'boundaries_before': '0', 'boundaries_after': '1', 'turn2': None} {'boundaries': 1, 'cut_trigger': 'manual', 'pre_tokens': 60000, 'post_tokens': 9000} tokens before/after: 60105 20105 shrank: True
+   accesses in the window (tool, form, class, lines): [('Bash', 'shell', 'slice', '34/90')] write: {'idx': 16, 'kind': 'Edit'}
+   preserved across the boundary: {'fields_present': {'preservedMessages': False, 'preservedSegment': False}, 'ids_named': 0, 'ids_not_in_file': 0, 'unexpected_shape': [], 'records_found': 0, 'found_by': None, 'offsets': None, 'types': {}, 'lines_in_non_result_records': 0, 'lines_in_results': 0, 'metadata_shape': 'ok', 'unknown_metadata_keys': [], 'any_rules_lines': False}
+q904 {'cond': '?', 'role': 'pilot', 'iv': 'whole', 'i': 'none', 'handed_back': 'x=0 n=0 x+n=0 of K=86, added line handed back: None', 'eligible': False, 'why_not': ["turn 2's prompt is not a user record after the boundary", 'turn 2 did not run'], 'flags': ['turn2_no_tool_call: turn 2 ran, did not fail, and made no tool call after the boundary'], 'v': {'memory_existed': '0', 'files': '0'}, 'vii': {'new_leaf': False, 'reset_new': False}}
+   iii: {'proven': '1', 'by': 'both', 'pre_tokens': '60000', 'session_same': '0', 'boundaries_before': '0', 'boundaries_after': '1', 'turn2': 'skipped'} {'boundaries': 1, 'cut_trigger': 'manual', 'pre_tokens': 60000, 'post_tokens': 9000} tokens before/after: 60105 None shrank: True
+   accesses in the window (tool, form, class, lines): [] write: None
+   preserved across the boundary: {'fields_present': {'preservedMessages': False, 'preservedSegment': False}, 'ids_named': 0, 'ids_not_in_file': 0, 'unexpected_shape': [], 'records_found': 0, 'found_by': None, 'offsets': None, 'types': {}, 'lines_in_non_result_records': 0, 'lines_in_results': 0, 'metadata_shape': 'ok', 'unknown_metadata_keys': [], 'any_rules_lines': False}
+q115 {'cond': 'L', 'role': 'arm', 'iv': 'whole', 'i': 'whole', 'handed_back': 'x=0 n=0 x+n=0 of K=86, added line handed back: False', 'eligible': True, 'why_not': [], 'flags': [], 'v': {'memory_existed': '1', 'files': '2'}, 'vii': {'new_leaf': True, 'reset_new': True}}
+   iii: {'proven': '1', 'by': 'both', 'pre_tokens': '60000', 'session_same': '1', 'boundaries_before': '0', 'boundaries_after': '1', 'turn2': None} {'boundaries': 1, 'cut_trigger': 'manual', 'pre_tokens': 60000, 'post_tokens': 9000} tokens before/after: 60105 20105 shrank: True
+   accesses in the window (tool, form, class, lines): [('Read', 'plain', 'whole', '91/91')] write: {'idx': 16, 'kind': 'Edit'}
+   preserved across the boundary: {'fields_present': {'preservedMessages': False, 'preservedSegment': False}, 'ids_named': 0, 'ids_not_in_file': 0, 'unexpected_shape': [], 'records_found': 0, 'found_by': None, 'offsets': None, 'types': {}, 'lines_in_non_result_records': 0, 'lines_in_results': 0, 'metadata_shape': 'ok', 'unknown_metadata_keys': [], 'any_rules_lines': False}
+q112 {'cond': 'C', 'role': 'arm', 'iv': 'whole', 'i': 'slice', 'handed_back': 'x=0 n=0 x+n=0 of K=86, added line handed back: None', 'eligible': True, 'why_not': [], 'flags': [], 'v': {'memory_existed': '0', 'files': '0'}, 'vii': {'new_leaf': False, 'reset_new': False}}
+   iii: {'proven': '1', 'by': 'both', 'pre_tokens': '60000', 'session_same': '1', 'boundaries_before': '0', 'boundaries_after': '1', 'turn2': None} {'boundaries': 1, 'cut_trigger': 'manual', 'pre_tokens': 60000, 'post_tokens': 9000} tokens before/after: 60105 20105 shrank: True
+   accesses in the window (tool, form, class, lines): [('Bash', 'shell', 'slice', '34/90')] write: {'idx': 16, 'kind': 'Edit'}
+   preserved across the boundary: {'fields_present': {'preservedMessages': False, 'preservedSegment': False}, 'ids_named': 0, 'ids_not_in_file': 0, 'unexpected_shape': [], 'records_found': 0, 'found_by': None, 'offsets': None, 'types': {}, 'lines_in_non_result_records': 0, 'lines_in_results': 0, 'metadata_shape': 'ok', 'unknown_metadata_keys': [], 'any_rules_lines': False}
+q116 {'cond': 'L', 'role': 'arm', 'iv': "no compaction boundary in the transcript at the launcher's count", 'i': "no compaction boundary in the transcript at the launcher's count", 'handed_back': "no compaction boundary in the transcript at the launcher's count", 'eligible': False, 'why_not': ["no compaction boundary in the transcript at the launcher's count"], 'flags': [], 'v': {'memory_existed': '0', 'files': '0'}, 'vii': {'new_leaf': True, 'reset_new': True}}
+   iii: {'proven': '1', 'by': 'stream', 'pre_tokens': '60000', 'session_same': '1', 'boundaries_before': '0', 'boundaries_after': '0', 'turn2': None} {'boundaries': 0, 'cut_trigger': None, 'pre_tokens': None, 'post_tokens': None} tokens before/after: None None shrank: None
+q117 {'cond': 'L', 'role': 'arm', 'iv': 'whole', 'i': 'whole', 'handed_back': 'x=0 n=0 x+n=0 of K=86, added line handed back: False', 'eligible': True, 'why_not': [], 'flags': [], 'v': {'memory_existed': '0', 'files': '0'}, 'vii': {'new_leaf': True, 'reset_new': True}}
+   iii: {'proven': '1', 'by': 'transcript', 'pre_tokens': '60000', 'session_same': '1', 'boundaries_before': '0', 'boundaries_after': '1', 'turn2': None} {'boundaries': 1, 'cut_trigger': 'manual', 'pre_tokens': 60000, 'post_tokens': 9000} tokens before/after: 60105 20105 shrank: True
+   accesses in the window (tool, form, class, lines): [('Read', 'plain', 'whole', '91/91')] write: {'idx': 16, 'kind': 'Edit'}
+   preserved across the boundary: {'fields_present': {'preservedMessages': False, 'preservedSegment': False}, 'ids_named': 0, 'ids_not_in_file': 0, 'unexpected_shape': [], 'records_found': 0, 'found_by': None, 'offsets': None, 'types': {}, 'lines_in_non_result_records': 0, 'lines_in_results': 0, 'metadata_shape': 'ok', 'unknown_metadata_keys': [], 'any_rules_lines': False}
+per condition, eligible arms only:
+   {'cond': 'C', 'arms': ['q112'], 'eligible': ['q112'], 'n_eligible': 1, 'whole': 0, 'slice': 1, 'none': 0, 'class_and_handed_back_per_arm': {'q112': {'class': 'slice', 'handed_back': {'x': 0, 'n': 0, 'x_plus_n': 0, 'of_K': 86, 'rest_of_turn_n_of_K': 0, 'added_line_handed_back': None}, 'eligible': True}}, 'attempted_access_in_window': [], 'turn2_no_tool_call': [], 'delivered_unresolved_pending_hand_read': [], 'rules_in_results_of_other_calls': [], 'handed_back_partly': {}, 'left_out': {}}
+   {'cond': 'L', 'arms': ['q115', 'q116', 'q117'], 'eligible': ['q115', 'q117'], 'n_eligible': 2, 'whole': 2, 'slice': 0, 'none': 0, 'class_and_handed_back_per_arm': {'q115': {'class': 'whole', 'handed_back': {'x': 0, 'n': 0, 'x_plus_n': 0, 'of_K': 86, 'rest_of_turn_n_of_K': 0, 'added_line_handed_back': False}, 'eligible': True}, 'q116': {'class': None, 'handed_back': None, 'eligible': False}, 'q117': {'class': 'whole', 'handed_back': {'x': 0, 'n': 0, 'x_plus_n': 0, 'of_K': 86, 'rest_of_turn_n_of_K': 0, 'added_line_handed_back': False}, 'eligible': True}}, 'attempted_access_in_window': [], 'turn2_no_tool_call': [], 'delivered_unresolved_pending_hand_read': [], 'rules_in_results_of_other_calls': [], 'handed_back_partly': {}, 'left_out': {'q116': ["no compaction boundary in the transcript at the launcher's count"]}}
+
+== 12. the stub's log: every call that happened; flags checked
+STUB-CALL arm=q902 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q904 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q903 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q901 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q904 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q903 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q901 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q902 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q903 phase=t2 mode=resume flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q901 phase=t2 mode=resume flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q115 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q112 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q116 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q117 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q112 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q116 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q115 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q117 phase=cp mode=resume flags_ok=True model=sonnet fmt=stream-json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q112 phase=t2 mode=resume flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q115 phase=t2 mode=resume flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q116 phase=t2 mode=resume flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+STUB-CALL arm=q117 phase=t2 mode=resume flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True cfg_is_pinned=True
+calls logged: 22   flags_ok=False: 0   resume calls: 14   stream-json calls: 8   per phase: t1 8 cp 8 t2 6
+
+== 13. check_pilot.sh on the four pilots: q901 is good, q902 (no boundary), q903 (every line handed back), q904 (session id changed) must fail
+-------- q901
+== session
+same session id on the three calls: True   one transcript in the arm's own folder: True   launcher session_same=1
+== compaction
+launcher: proven=1 by=both pre_tokens=60000   transcript: boundaries=1 cut number=1 trigger=manual pre=60000 post=9000   agree=True
+model prompt tokens, last record before the boundary / first after it: 60105 / 20105   (shrank: True)
+== the occasion: lines of the rules handed back after the boundary or kept across it (reading ii)
+n = 0 of K=86 lines handed back, x = 0 held by the instruction file, x + n = 0 (leaves at 43); added line handed back: None (deciding nothing); short lines hit (fact, decides nothing): 0 of 3; request copies left out: 0, unreadable: 0; rest of turn 2 after the window: 0 of 86; carried by: no record
+records about the rules file itself (kind, target, partial, lines): none
+preserved across the boundary: fields present {'preservedMessages': False, 'preservedSegment': False}, ids named 0 (not in the file: 0), shape problems [], records found 0 {}, lines of the rules in them: non-result 0, results 0; unknown metadata keys: []
+== classes (by what the access delivered; the form decides nothing)
+(iv) turn-1 restore: whole   (i) after the boundary: slice   first write after: {'idx': 16, 'kind': 'Edit'}
+accesses to the rules file in the window (tool, form, class, lines delivered of N): [('Bash', 'shell', 'slice', '34/90')]
+other files read instead: []   unresolved mentions: 0   flags: []
+== cost (weights of harness/tokens.py)
+weighted tokens t1/cp/t2: {'t1': 4760, 'cp': 4760, 't2': 4760}   arm total: 14280   six arms at that rate: 85680   (a C arm's rate: the L arms read the line and may spend more)
+tool memory after turn 1: existed=0 files=0   tool calls naming the arm's own memory: 0
+certificate: clean=True design_ok=True terms failed=[] second model in usage (printed, not a stop)=[] compact command recorded after boundary (info)=True
+  before boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+  after boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+== verdict: PILOT OK - launch the six
+  marker written: pilot_ok.q901 (necessary, not sufficient: the eye list and the designer's dated go-ahead in 03_execute.log come before the six)
+-------- q902
+== session
+same session id on the three calls: False   one transcript in the arm's own folder: True   launcher session_same=1
+== compaction
+launcher: proven=0 by=- pre_tokens=-   transcript: boundaries=0 cut number=1 trigger=None pre=None post=None   agree=True
+model prompt tokens, last record before the boundary / first after it: None / None
+== the occasion: lines of the rules handed back after the boundary or kept across it (reading ii)
+== classes (by what the access delivered; the form decides nothing)
+(iv) turn-1 restore: no compaction boundary in the transcript at the launcher's count   (i) after the boundary: no compaction boundary in the transcript at the launcher's count   first write after: None
+accesses to the rules file in the window (tool, form, class, lines delivered of N): []
+other files read instead: None   unresolved mentions: 0   flags: []
+== cost (weights of harness/tokens.py)
+weighted tokens t1/cp/t2: {'t1': 4760, 'cp': 4760, 't2': None}   arm total: 9520   six arms at that rate: 57120   (a C arm's rate: the L arms read the line and may spend more)
+tool memory after turn 1: existed=0 files=0   tool calls naming the arm's own memory: 0
+certificate: clean=True design_ok=False terms failed=[] second model in usage (printed, not a stop)=[] compact command recorded after boundary (info)=False
+  before boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+  after boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+== verdict: PILOT NOT OK - do not launch the six
+  - [exit codes] t2 exit code is None
+  - [context shrink] the context did not shrink at the boundary, or the two token numbers cannot be read (before None, after None): that is not shown to be a compaction
+  - [compaction] the launcher did not prove it (Pivot: /compact does not compact under -p --resume)
+  - [compaction] no compaction boundary in the transcript
+  - [session] not kept across the three calls (Pivot: --resume does not carry the session)
+  - [(ii) handed back] could not be computed: no compaction boundary in the transcript at the launcher's count
+  - [(iv) turn-1 restore] could not be computed: no compaction boundary in the transcript at the launcher's count
+  - [certificate design_ok] false (prompts / session / boundary not as designed): same_session=False boundary_sid=False first_user=True context_carried=False hashes=True
+  - [t2.json] missing or unreadable
+  - [reader: eligibility] no compaction boundary in the transcript at the launcher's count
+  - [reader: eligibility] the launcher did not prove the compaction
+  - [reader: eligibility] turn 2 did not run
+-------- q903
+== session
+same session id on the three calls: True   one transcript in the arm's own folder: True   launcher session_same=1
+== compaction
+launcher: proven=1 by=both pre_tokens=60000   transcript: boundaries=1 cut number=1 trigger=manual pre=60000 post=9000   agree=True
+model prompt tokens, last record before the boundary / first after it: 60105 / 20105   (shrank: True)
+== the occasion: lines of the rules handed back after the boundary or kept across it (reading ii)
+n = 86 of K=86 lines handed back, x = 0 held by the instruction file, x + n = 86 (leaves at 43); added line handed back: None (deciding nothing); short lines hit (fact, decides nothing): 3 of 3; request copies left out: 0, unreadable: 0; rest of turn 2 after the window: 0 of 86; carried by: user{CompactSummary,VisibleInTranscriptOnly} x1 at message.content (86)
+records about the rules file itself (kind, target, partial, lines): none
+preserved across the boundary: fields present {'preservedMessages': False, 'preservedSegment': False}, ids named 0 (not in the file: 0), shape problems [], records found 0 {}, lines of the rules in them: non-result 0, results 0; unknown metadata keys: []
+== classes (by what the access delivered; the form decides nothing)
+(iv) turn-1 restore: whole   (i) after the boundary: slice   first write after: {'idx': 16, 'kind': 'Edit'}
+accesses to the rules file in the window (tool, form, class, lines delivered of N): [('Bash', 'shell', 'slice', '34/90')]
+other files read instead: []   unresolved mentions: 0   flags: []
+== cost (weights of harness/tokens.py)
+weighted tokens t1/cp/t2: {'t1': 4760, 'cp': 4760, 't2': 4760}   arm total: 14280   six arms at that rate: 85680   (a C arm's rate: the L arms read the line and may spend more)
+tool memory after turn 1: existed=0 files=0   tool calls naming the arm's own memory: 0
+certificate: clean=True design_ok=True terms failed=[] second model in usage (printed, not a stop)=[] compact command recorded after boundary (info)=True
+  before boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+  after boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+== verdict: PILOT NOT OK - do not launch the six
+  - [(ii) handed back] x + n = 0 + 86 = 86 of K=86: the rules come back without the arm acting (Pivot: this proxy cannot produce the occasion)
+  - [reader: eligibility] x + n = 0 + 86 = 86 of K=86 lines held by the instruction file or handed back (threshold 43): not an occasion
+-------- q904
+== session
+same session id on the three calls: False   one transcript in the arm's own folder: True   launcher session_same=0
+== compaction
+launcher: proven=1 by=both pre_tokens=60000   transcript: boundaries=1 cut number=1 trigger=manual pre=60000 post=9000   agree=True
+model prompt tokens, last record before the boundary / first after it: 60105 / None
+== the occasion: lines of the rules handed back after the boundary or kept across it (reading ii)
+n = 0 of K=86 lines handed back, x = 0 held by the instruction file, x + n = 0 (leaves at 43); added line handed back: None (deciding nothing); short lines hit (fact, decides nothing): 0 of 3; request copies left out: 0, unreadable: 0; rest of turn 2 after the window: 0 of 86; carried by: no record
+records about the rules file itself (kind, target, partial, lines): none
+preserved across the boundary: fields present {'preservedMessages': False, 'preservedSegment': False}, ids named 0 (not in the file: 0), shape problems [], records found 0 {}, lines of the rules in them: non-result 0, results 0; unknown metadata keys: []
+== classes (by what the access delivered; the form decides nothing)
+(iv) turn-1 restore: whole   (i) after the boundary: none   first write after: None
+accesses to the rules file in the window (tool, form, class, lines delivered of N): []
+other files read instead: []   unresolved mentions: 0   flags: ['turn2_no_tool_call: turn 2 ran, did not fail, and made no tool call after the boundary']
+== cost (weights of harness/tokens.py)
+weighted tokens t1/cp/t2: {'t1': 4760, 'cp': 4760, 't2': None}   arm total: 9520   six arms at that rate: 57120   (a C arm's rate: the L arms read the line and may spend more)
+tool memory after turn 1: existed=0 files=0   tool calls naming the arm's own memory: 0
+certificate: clean=True design_ok=False terms failed=[] second model in usage (printed, not a stop)=[] compact command recorded after boundary (info)=True
+  before boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+  after boundary: {'outside_arm_dir': [], 'parent_repo_tool_calls': 0, 'base_tool_calls': 0, 'tool_calls_naming_apparatus': 0, 'tool_calls_dotdot': 0, 'attachments_naming_foreign_paths': 0, 'foreign_attachment_types': {}, 'events_cwd_outside_arm': 0}
+== verdict: PILOT NOT OK - do not launch the six
+  - [exit codes] t2 exit code is None
+  - [session] not kept across the three calls (Pivot: --resume does not carry the session)
+  - [certificate design_ok] false (prompts / session / boundary not as designed): same_session=False boundary_sid=True first_user=True context_carried=False hashes=True
+  - [t2.json] missing or unreadable
+  - [turn 2 no tool call] the resumed session ran and did nothing after the boundary: the designer looks
+  - [reader: eligibility] turn 2's prompt is not a user record after the boundary
+  - [reader: eligibility] turn 2 did not run
+
+== 14. N5 (A7): a repeated arm name, a lock, a concurrent second launch (own trees, own outputs; the stub sleeps 2 s in turn 1 of q914)
+-- launch.sh q912 q912 (the same name twice):
+claude resolves to: stub/claude   time limit per call: 3600s
+q912: named twice - run once (the repeat is skipped)
+all arms finished
+   stub calls: 3   status lines for q912: 8   t1 lines: 1   (want 3 calls, one t1 line)
+-- a lock left by another launch (mkdir <scratchpad>/p214/dry/dup/out/locks/q913 first): launch.sh q913
+q913: locked by another launch (dup/out/locks/q913) - refusing to run twice (skipped)
+   stub calls added: 0
+-- two launches of q914 at the same moment:
+   launch 1 / launch 2 said: q914: locked by another launch (dup/out/locks/q914) - refusing to run twice (skipped)|
+   stub calls added: 3   t1 lines for q914: 1   (want 3 calls, one t1 line, one refusal)
+
+== 15. A7: the time limit. Same stub, same PATH. R214_TIMEOUT=3; the stub hangs (sleeps 300 s) in turn 1 of q915
+claude resolves to: stub/claude   time limit per call: 3s
+q915 t1 exit=142
+q915 t1 killed by the time limit (3s)
+q915 t1 failed (exit=142 is_error=? session=no): arm stopped, no compaction, no turn 2
+elapsed: 3 s (limit 3 s, the stub would have slept 300)
+launch.sh resolved claude to the same file as 'command -v claude' here: yes
+stub log of the hung call: STUB-CALL arm=q915 phase=t1 mode=new flags_ok=True model=sonnet fmt=json stdin_is_dev_null=True bad=[] cfg_is_pinned=True|
+stub processes still alive after the run: 0   (0 = the hung call was killed)
+calls made for q915: 1 (the turn-1 call only: the arm ended like a failed call, no compaction, no turn 2)
+
+== 16. B7: a compaction call that exits 1 after writing its boundary ends its arm; a time limit that is not a positive integer is refused
+q916 cp exit=1
+q916 compaction_proven=1 by=both pre_tokens=60000 ...
+q916 turn2=skipped (the compaction call exited 1: whatever the proof says, the arm ends - B7)
+stub calls for q916: 2  per phase: t1 1 cp 1 t2 0   (want one t1, one cp, no t2)
+R214_TIMEOUT='abc': exit 2, R214_TIMEOUT='abc' is not a positive integer - refusing to start, stub calls: 0
+R214_TIMEOUT='0': exit 2, R214_TIMEOUT='0' is not a positive integer - refusing to start, stub calls: 0
+R214_TIMEOUT='-5': exit 2, R214_TIMEOUT='-5' is not a positive integer - refusing to start, stub calls: 0
+R214_TIMEOUT='3.5': exit 2, R214_TIMEOUT='3.5' is not a positive integer - refusing to start, stub calls: 0
+
+== 17. real-CLI evidence
+projects in the REAL config folder before / after: 23 / 23   (equal = nothing was written there)
+dry-run folders in the real config folder: 0   (0 = the real claude never ran)
+directories of the PATH used by launch.sh that hold a claude other than the stub: 0   (0 = the real binary is unreachable)

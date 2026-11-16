@@ -1,0 +1,1 @@
+Thanks. Next I want a "Reset scores" button under the scoreboard. It must only reset the win counts, never delete the saved games. Not now — later.

@@ -7,9 +7,8 @@ edit per arm is recorded in EDITS below so it is auditable, not reconstructed.
 The arm's store.js is restored afterwards and `git status` is compared before and after, so no
 arm tree is contaminated by the measurement.
 """
-import pathlib, subprocess, sys
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r203")
+import os, pathlib, subprocess, sys
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r203"
 CASE = "CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner"
 EDITS = {
  # Built by reading each arm's OWN tally query. Never inherited from another round.

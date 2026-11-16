@@ -8,11 +8,9 @@ classifier, and this harness already shipped one classifier that read bias as si
 Both sides are read from the same instrument — the transcript — because one side writes documents
 and the other does not, and scoring documents scores the protocol's definition, not its effect.
 """
-import json, pathlib, re, subprocess, sys
-T = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/tasks")
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r209")
+import os, json, pathlib, re, subprocess, sys
+T = pathlib.Path(os.environ["BMA_SCRATCH"]).parent / "tasks"
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r209"
 SIDE = {"r85x": "H", "r87x": "H", "r89x": "H", "r91x": "C", "r92x": "C", "r93x": "C"}
 AGENT = {"r85x": "<agent-id>", "r87x": "<agent-id>",
          "r89x": "<agent-id>", "r91x": "<agent-id>",

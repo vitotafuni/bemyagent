@@ -9,10 +9,10 @@
 #   * --allowedTools — in `-p` mode an unpermitted call is denied, not queued, and an arm that
 #     cannot run `npm test` floors every metric for a reason that is not the protocol.
 set -u
-S=<scratchpad>
+S="${BMA_SCRATCH:?set BMA_SCRATCH to the scratch directory of this round}"
 R="$S/r2011"
 PROMPT_FILE="$(dirname "$0")/prompt.txt"
-export CLAUDE_CONFIG_DIR=<claude-config>
+export CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 
 for a in "$@"; do
   d="$R/$a"

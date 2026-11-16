@@ -461,3 +461,28 @@ trees, five days old, lost most of their files — app sources and most of `.git
 from 11-08 onward were untouched (inferred: a periodic `/tmp` cleaner; not verified). A scorer
 that walks every arm it knows crashed on them. Score the arms a round compares, by name, and
 do not plan a later round on an old tree without checking it is still whole.
+
+### A script that names the machine it ran on publishes it
+
+For seventeen days every round script held the repo's absolute path as a constant, and the notes
+quoted it as evidence: the account name, the folder layout and the tool's config folder of the
+development machine, in a public repo — and a harness nobody else could run. No VERIFY caught
+it: each one read what a script measured, none read what it disclosed (found 2026-11-12, by
+accident; cleaned in 21.5).
+
+**A script takes nothing from the machine it was written on:**
+
+| Value | Where it comes from |
+|---|---|
+| the repo | `BMA_REPO`, else the script's own location |
+| the round's scratch directory | `BMA_SCRATCH` — required; the script stops without it |
+| the tool's config directory | `CLAUDE_CONFIG_DIR` (the tool's own variable), else `~/.claude` |
+| the tool's folder name for the repo | computed from the repo path, every non-alphanumeric character → `-` |
+
+`BMA_REPO` exists for closed rounds: their transcripts hold the path the repo had when they ran,
+which need not be where a clone sits now — and for a repo kept one level below the folder its
+sessions start in, where the tool names its project folder after that folder, not after the repo. A live round may keep its machine values in a
+`local.env` beside its launcher — the name is gitignored. A note writes `<repo>`, `<scratchpad>`,
+`<claude-config>`, `<project-key>` — and `<home>`, `<profile>`, `<config-folder-name>` where a note quotes a pattern — never the path. Before a round is called done, search what
+it adds to the repo for the account name, the home path and, in path position, the tool's profile name; the search returning nothing is
+part of the round's VERIFY.

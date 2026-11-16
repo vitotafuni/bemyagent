@@ -5,9 +5,8 @@ hand to each arm's own query and printed literally, with the same discipline as 
 restored in a finally block and `git status --porcelain` compared before and after. q98 has no
 server tally at all — its count lives in localStorage — so there is nothing on the server to mutate.
 """
-import pathlib, re, subprocess
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r2011")
+import os, pathlib, re, subprocess
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r2011"
 DRAW = "CASE WHEN winner = 'draw' THEN 'X' ELSE winner END AS winner"
 SWAP = "CASE WHEN winner = 'X' THEN 'O' WHEN winner = 'O' THEN 'X' ELSE winner END AS winner"
 Q = {"q95": "SELECT winner, COUNT(*) AS n FROM game GROUP BY winner",

@@ -1,6 +1,6 @@
 """19.2b — 18.2's directory shape: `.bemyagent/` holding ONLY settings.json."""
-import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
+import os, json, pathlib, shutil, subprocess, sys
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 ARMS = {"q58": "A", "q60": "A", "q62": "A"}

@@ -1,0 +1,34 @@
+read 00-ai-rules, 01_think, 02_tasks, spec → ok → sweep 05 index lines 3-26
+read 05:94-225 selected lines → ok → read 05:230-350
+read 05:230-274 → ok → read 05:277-350
+read 05:277-309 → ok → read 05:313-350, 408-470
+read 05:313-470 selected → ok → read 05:150,200,216,221,222,227,228,239,240,244,259,264,324,345,359,365,370,377 and 480-517
+read most 05 verdict lines → ok → skim headings of unread 05 lines
+read 05 learnings (most) → ok → 05:414,518,520-531, then 06
+read 06 rows 133,136,153,157,161-163,167,172,177,180,195,206,220 → ok → rest of 06 dropped rows, then drafts
+06 swept → next drafts
+landscape lines 16,28,57-60,101,144-147,274 read → next landscape 200-334 then other drafts
+landscape+graphify read → next: generated-code-map, DRT, drt-reply, federation, state-review
+drafts swept → next 05:128-152,166-190 and generated-code-map ruled out
+read most sources; remaining: landscape 150-182, state-review 100-127, resume-block spec, 05:82-86; then write
+all sources read; verdict lines chosen → writing decisions/rejected.md (51 rows planned, theme-grouped) → run self-check script
+wrote decisions/rejected.md → ok → self-check script
+self-check (python script in scratchpad, plus a phrase grep on ~90 cited lines, all ok) → table lines 50; Evidence cells all resolve to existing files with enough lines (0 bad); `not stated` cells 37; empty cells 0; kinds: design 26, measured-null 8, under-powered 7, redundancy 5, harm 4; status: stands 47, reversed 2, reopened 1; citations by source: 05 x61, 06 x16, drafts/landscape-analysis x10, state-review x3, DRT x2, prompt-logs x1, graphify x1 → mark steps 1-2 done in 02_tasks.md; leave 3-4 for the independent verifier
+ordering: grouped by theme (bold word opening the Idea cell): Memory, Scope, Verify, Codemap, Step0, Upgrade, Rules, Gates, Process, Release, Packaging
+candidates considered and left out (not cap-driven, no evaluation or not an idea): 17.3 per-task RUNTIME_CHECK (untested), 14.5 doc-comment-trust fix (no candidate written), 16.3 as separate task (folded into the 15.7 line), Strands trace validator (parked as a round, unresolved), contracts+adapters / hook (state-review:121-127, proposal awaiting user ruling, folded into the "ship a hook" line), Capability Handshake and npx CLI (backlog, never evaluated), self-compression directive (excluded pending user decision, not evaluated), Opus+protocol third condition (corrected, already measured), Decision 22 rejected formulations (principle wording, not an idea), Monthly Audit relocation (moved, capability kept), 20.9 Handoff Principle null (principle stands, no clause rejected)
+next intended action: hand back to the caller; steps 3-4 (independent VERIFY, 04_verify.md, spec ticks, 06) are not mine
+received corrections; read 03b_crosscheck → applying 8 items
+item1: remove 51 hand-build fixture, 54 SKILL.md (undecided); SR:131 cite dropped from line 50; SR:132/133 checked; landscape-only lines (11,38,55) kept - flagged
+applied items 1-7 edits (see below)
+--- corrections after 03b_crosscheck_sonnet.md ---
+item 1 REMOVED: "Hand-build a second synthetic fixture" (SR:130) and "Ship BMA as a SKILL.md" (SR:133, LA:316) — undecided — not registered: both rest on state-review-2026-11-11 (header "Nothing here is decided — every item is the user's call") and landscape deferral; 05/06 carry no same verdict (06:20 lists a second fixture as the user's call). Other SR "Ruled out" items: "More clause candidates on the tic-tac-toe app" is carried by 05:377 (kept, SR:131 cite dropped, evidence now 05:377 only); the activeContext item is covered by line 1 (05:517 withdraws it). JUDGEMENT FLAGGED, not removed: three lines rest only on landscape-analysis.md, whose Status says "analysis, not decision" but whose text states explicit "Reject" verdicts (self-amending section :274, Troubleshooting/commit-intent :146, Spec-Kit/OpenSpec/GSD :333); the caller may rule on them.
+item 2 CHANGED: resume-state rule Status → reopened → specs/resume-block.md (Milestone 21.1).
+item 3 CHANGED (kept): EARS — Verdict "under-powered, inconclusive, not adopted"; Rests on quotes the inconclusive result ("nothing rejected", ceiling 3/3 vs 3/3).
+item 4 CHANGED: implicit standing rules — kind design; Rests on says round dropped, never run, not measured.
+item 5 CHANGED: evidence added 05:278 (exit code line), 05:428 (derived block; also Rests on reworded to drop the unsupported "Opus"), 05:184 (tag every push); each opened and confirmed (phrase grep).
+item 6 CHANGED: Step0 idea now "Drop "do not ask permission" to unblock the greenfield stop" (11 words with theme tag); check script confirms no Idea > 12 words, Rests > 20 or Reopens > 15 (one Rests of 22 words trimmed).
+item 7: 14.5 (06:153) NOT ADDED: the candidate is a measurement of the problem (finding stands in 05); no fix was ever proposed or evaluated, dropped for want of a fixture. 14.7 (06:161) NOT ADDED as a line: already the Graphify line; 06:161 added to its Evidence. 05:266/05:272-273 reversibility wording ADDED ("Let only hard-to-undo decisions trip the Saturation Check STOP", measured-null, 05:273, 05:272, 06:220); ownership wording stays on the existing line, 05:272 added to its evidence. 05:165 declarative anchoring ADDED ("Anchor protocol writes with a declarative rule, not a forced-output gate", design, with 05:326 noting the estimate was unmeasurable). 06:155 comm -13 variant ADDED (measured-null 2026-11-04, 05:292, 06:155). 05:169 rejected formulations NOT ADDED: wordings of a principle that was reformulated (Decision 22), kept as examples of error, not a proposal someone would re-make.
+item 8: removed stray 02_tasks.md-E (diff showed it was only the pre-edit copy of 02_tasks.md). Re-ran self-check: 51 table lines, 0 bad evidence refs, 0 empty cells, 37 `not stated`; kinds measured-null 10, design 26, harm 4, under-powered 6, redundancy 5; status stands 47, reopened 2, reversed 2.
+ruling (main agent): the three landscape-only lines stay — the draft's header says analysis, but Decision 18 (05:126) is the project decision that closed that survey with 'one genuine gap', i.e. the rest not adopted; 05:126 added to their Evidence → next: independent VERIFY on the strongest tier
+2026-11-12 one line added to decisions/rejected.md at file line 49 (the section count, turned down by the user under 21.2 — 05 Decision 24). The line numbers in 04_verify.md were taken before it: L52, L53, L56 there are now L53, L54, L57; L11–L45 are unchanged. The must-fix list is still not applied (awaiting the user's decision on the three draft-only lines).
+    Next: apply the 04_verify.md list with the shifted numbers once the user decides.

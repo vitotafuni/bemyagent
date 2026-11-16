@@ -10,9 +10,12 @@
 | Path | File | Role | Key Description |
 |---|---|---|---|
 | `/` | `BEMYAGENT.md` | Source Template (SRC) | The distributable prompt. Contains bootstrap Steps 0-4 and the embedded `00-ai-rules.md`. Must be updated when protocol evolves. |
+| above `/` | — | Base folder (not in the repo) | On the development machine the repo is `<base>/src`; sessions start at `<base>`, task worktrees are `<base>/<project>-task-X.Y` → `05` Decision 25 |
 | `/` | `README.md` | Documentation | High-level explanation for human developers and GitHub visitors. |
 | `/.bemyagent/docs/` | `00-ai-rules.md` | Live Rules | The active protocol governing this project. Changes here must propagate to `BEMYAGENT.md`. |
 | `/.bemyagent/docs/drafts/` | `*.md` | Pending Ideas | Unresolved proposals. Evaluate → integrate into `00-ai-rules.md` → propagate to `BEMYAGENT.md` → delete draft. |
+| `/.bemyagent/docs/specs/` | `*.md` | Specs | One per feature being built, with acceptance criteria. Milestone 21: `resume-block`, `restore-integrity`, `rejected-register`. |
+| `/.bemyagent/docs/decisions/` | `rejected.md` | Rejected register | Ideas evaluated and turned down, one line each (Milestone 21.3). Never read at restore. |
 | `/.bemyagent/work/` | `*/` | Execution Traces | Volatile TTEV logs for each task. |
 
 ## Key Concepts / Mental Models
@@ -33,6 +36,7 @@
 | File | Role | Notes |
 |---|---|---|
 | `harness/README.md` | The method, its limits, and the traps that cost experiment rounds | Read this before designing a run |
+| `.bemyagent/work/<N>/<N.Y>/*.py`, `*.sh` | Round scripts: setup, launcher, scorer, certificate — the method behind each verdict | Take nothing from the machine: `BMA_REPO` / own location, `BMA_SCRATCH`, `CLAUDE_CONFIG_DIR`; machine values of a live round in a gitignored `local.env` → `harness/README.md` (last section) |
 | `harness/tokens.py` | Per-arm cost from agent session transcripts, cache-weighted | Emits numeric aggregates only, never transcript content |
 | `harness/fixture/` | Cavia: tic-tac-toe app with real layer separation | schema → store → API → client → test |
 | `fixture/server/rules.js` | Pure move legality + win detection | No I/O — the seam most experiments target |

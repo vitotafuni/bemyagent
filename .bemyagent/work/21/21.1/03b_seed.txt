@@ -1,0 +1,57 @@
+# 21.1 seed proof — diff -r (excluding node_modules, .git) among the built arms; run 2026-11-11T23:52:05Z
+## q103 vs q104 (same condition: must print nothing)
+
+diff lines: 0
+## q103 vs q105 (same condition: must print nothing)
+
+diff lines: 0
+## q103 vs q900 (same condition: must print nothing)
+
+diff lines: 0
+## q106 vs q107 (same condition: must print nothing)
+
+diff lines: 0
+## q106 vs q108 (same condition: must print nothing)
+
+diff lines: 0
+## q109 vs q110 (same condition: must print nothing)
+
+diff lines: 0
+## q109 vs q111 (same condition: must print nothing)
+
+diff lines: 0
+## q103 vs q106 (files that differ)
+Files q103/.bemyagent/docs/00-ai-rules.md and q106/.bemyagent/docs/00-ai-rules.md differ
+Files q103/.bemyagent/docs/06-implementation-plan.md and q106/.bemyagent/docs/06-implementation-plan.md differ
+Files q103/BEMYAGENT.md and q106/BEMYAGENT.md differ
+## q103 vs q109 (files that differ)
+Files q103/.bemyagent/docs/00-ai-rules.md and q109/.bemyagent/docs/00-ai-rules.md differ
+Files q103/.bemyagent/docs/06-implementation-plan.md and q109/.bemyagent/docs/06-implementation-plan.md differ
+Files q103/BEMYAGENT.md and q109/BEMYAGENT.md differ
+## q106 vs q109 (files that differ)
+Files q106/.bemyagent/docs/00-ai-rules.md and q109/.bemyagent/docs/00-ai-rules.md differ
+Files q106/BEMYAGENT.md and q109/BEMYAGENT.md differ
+## per-file changed-line counts (diff | grep -c '^[<>]')
+BEMYAGENT.md  q103-vs-q106: 6
+BEMYAGENT.md  q103-vs-q109: 6
+BEMYAGENT.md  q106-vs-q109: 2
+.bemyagent/docs/00-ai-rules.md  q103-vs-q106: 6
+.bemyagent/docs/00-ai-rules.md  q103-vs-q109: 6
+.bemyagent/docs/00-ai-rules.md  q106-vs-q109: 2
+.bemyagent/docs/06-implementation-plan.md  q103-vs-q106: 5
+.bemyagent/docs/06-implementation-plan.md  q103-vs-q109: 5
+.bemyagent/docs/06-implementation-plan.md  q106-vs-q109: 0
+## E(q106) vs R(q109), the differing lines, cut to the part that differs
+E tail: in the same response as a task's verdict, and in the same response as any user message that changes what they want or adds something for later.
+R tail: as the last action of every reply, and end the reply with its three lines, verbatim.
+E tail: in the same response as a task's verdict, and in the same response as any user message that changes what they want or adds something for later.
+R tail: as the last action of every reply, and end the reply with its three lines, verbatim.
+## Resume-block presence (grep -c '## Resume here' per file, K / E / R)
+q103: q103/BEMYAGENT.md:0 q103/.bemyagent/docs/00-ai-rules.md:0 q103/.bemyagent/docs/06-implementation-plan.md:0 
+q106: q106/BEMYAGENT.md:2 q106/.bemyagent/docs/00-ai-rules.md:2 q106/.bemyagent/docs/06-implementation-plan.md:1 
+q109: q109/BEMYAGENT.md:2 q109/.bemyagent/docs/00-ai-rules.md:2 q109/.bemyagent/docs/06-implementation-plan.md:1 
+## trees: git clean after build?
+q103:        0 dirty,        2 commits
+q106:        0 dirty,        2 commits
+q109:        0 dirty,        2 commits
+q900:        0 dirty,        2 commits

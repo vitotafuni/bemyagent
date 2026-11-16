@@ -1,8 +1,8 @@
 """14.13 scoring. Detection is a diff of the arm's inventory block against the real output of
 the command that block names, run in the arm's own tree. Never the presence of a sentence."""
+import os
 import json, pathlib, re, subprocess, sys
-S = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r1413")
+S = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r1413"
 SIDE = {"q28":"A","q29":"B","q30":"A","q31":"B","q32":"A","q33":"B"}
 GEN_CMD = ("git ls-files client server db test | while read f; do echo \"== $f\"; "
            "grep -nE '^(async )?function [A-Za-z_]+|^const [A-Za-z_]+ = |^CREATE TABLE|"

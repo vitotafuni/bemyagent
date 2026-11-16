@@ -6,11 +6,10 @@ and that record is the positive control that shows this reader can see an inject
 Covers the arm's own subagents too: in 20.10, 13 of 25 independent VERIFY agents read the parent,
 and a headless P arm may spawn one for section 4's VERIFY.
 """
-import json, pathlib, sys
-CFG = pathlib.Path("<claude-config>/projects")
-R = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/scratchpad/r2011")
-PARENT = "<repo>"
+import os, json, pathlib, sys
+CFG = pathlib.Path(os.environ.get("CLAUDE_CONFIG_DIR") or pathlib.Path.home() / ".claude") / "projects"
+R = pathlib.Path(os.environ["BMA_SCRATCH"]) / "r2011"
+PARENT = str(pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4]))
 OVERRIDE = "OVERRIDE any default behavior"
 SIDE = {"q94": "P", "q95": "P", "q96": "P", "q97": "N", "q98": "N", "q99": "N"}
 

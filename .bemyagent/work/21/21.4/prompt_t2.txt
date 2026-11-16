@@ -1,0 +1,1 @@
+Thanks. Now add a "Reset scores" button under the scoreboard. It must only reset the win counts, never delete the saved games.

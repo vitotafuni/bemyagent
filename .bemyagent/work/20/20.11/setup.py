@@ -4,9 +4,9 @@ instead of by the Agent tool: the first condition in which a control arm demonst
 protocol text. The P side is in the round to prove the launcher can still produce a test; a floor
 on both sides is an unfit instrument, not an agreement with 20.8.
 """
-import json, pathlib, shutil, subprocess, sys
-ROOT = pathlib.Path("<repo>")
-S = pathlib.Path("<scratchpad>")
+import os, json, pathlib, shutil, subprocess, sys
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 FIXTURE = ROOT / "harness" / "fixture"
 OUT = pathlib.Path(sys.argv[1])
 ARMS = {"q94": "P", "q95": "P", "q96": "P",      # 20.3 ran q85 q87 q89 on this branch

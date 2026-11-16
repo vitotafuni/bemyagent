@@ -1,0 +1,811 @@
+-- whole_read_noparams: whole by Read with no parameters (absolute path)
+PASS whole_read_noparams            (i) class                got='whole' want='whole'
+PASS whole_read_noparams            (iv) class               got='whole' want='whole'
+PASS whole_read_noparams            eligible                 got=True want=True
+-- whole_lone_cat: whole by a lone cat (relative path)
+PASS whole_lone_cat                 (i) class                got='whole' want='whole'
+-- whole_cat_n: whole by cat -n (tab-numbered result)
+PASS whole_cat_n                    (i) class                got='whole' want='whole'
+-- whole_dot_slash: whole by `cat ./...` (the ./ form)
+PASS whole_dot_slash                (i) class                got='whole' want='whole'
+-- whole_relative_read: whole by Read with a relative path
+PASS whole_relative_read            (i) class                got='whole' want='whole'
+-- slice_read_limit: slice by Read with limit 50 (the result has 50 lines)
+PASS slice_read_limit               (i) class                got='slice' want='slice'
+-- slice_read_offset: slice by Read with offset 40
+PASS slice_read_offset              (i) class                got='slice' want='slice'
+-- slice_head: slice by head -60
+PASS slice_head                     (i) class                got='slice' want='slice'
+-- slice_sed_n: slice by sed -n 1,45p
+PASS slice_sed_n                    (i) class                got='slice' want='slice'
+-- slice_grep: grep whose result shows the eight heading lines only (looks whole, is a slice)
+PASS slice_grep                     (i) class                got='slice' want='slice'
+-- slice_grep_tool: slice by the Grep tool
+PASS slice_grep_tool                (i) class                got='slice' want='slice'
+-- none_other_file: no access to the rules (reads another file)
+PASS none_other_file                (i) class                got='none' want='none'
+PASS none_other_file                (iv) class               got='whole' want='whole'
+PASS none_other_file                eligible                 got=True want=True
+-- whole_truncated_persisted: a cat whose output was persisted to a file: only a 20-line preview came back
+PASS whole_truncated_persisted      (i) class                got='slice' want='slice'
+-- whole_only_before_boundary: whole read only before the boundary
+PASS whole_only_before_boundary     (i) class                got='none' want='none'
+PASS whole_only_before_boundary     (iv) class               got='whole' want='whole'
+-- whole_after_first_write: whole read only after the first write
+PASS whole_after_first_write        (i) class                got='none' want='none'
+PASS whole_after_first_write        accesses after the window got=1 want=1
+-- slice_then_whole: a slice, then a whole read, before the first write
+PASS slice_then_whole               (i) class                got='whole' want='whole'
+-- two_slices_union: two slices that together cover every line stay a slice, noted union
+PASS two_slices_union               (i) class                got='slice' want='slice'
+PASS two_slices_union               note                     got=True want=True
+-- handed_8_summary: every line of the rules handed back by the summary
+PASS handed_8_summary               (i) class                got='none' want='none'
+PASS handed_8_summary               (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS handed_8_summary               eligible                 got=False want=False
+PASS handed_8_summary               record kind carrying     got=True want=True
+-- handed_8_file_attachment: every line handed back by a file attachment of the rules file
+PASS handed_8_file_attachment       (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS handed_8_file_attachment       eligible                 got=False want=False
+PASS handed_8_file_attachment       record kind carrying     got=True want=True
+PASS handed_8_file_attachment       rules-file record        got=('rules', False) want=('rules', False)
+-- handed_partial_attachment: sections 1-3 handed back by a partial file attachment: reported, the arm stays
+PASS handed_partial_attachment      (ii) some, not all       got=True want=True
+PASS handed_partial_attachment      eligible iff n < M/2     got=True want=True
+PASS handed_partial_attachment      rules-file record        got=('rules', True) want=('rules', True)
+-- handed_headings_only: a summary that lists only the eight heading lines: n of N, reported, the arm stays (N4)
+PASS handed_headings_only           (ii) some, not all       got=True want=True
+PASS handed_headings_only           eligible                 got=True want=True
+-- handed_text_without_marks: the whole text of the rules without its `## ` marks in the summary: all lines counted (N4)
+PASS handed_text_without_marks      (ii) some, not all       got=True want=True
+PASS handed_text_without_marks      eligible                 got=False want=False
+PASS handed_text_without_marks      reason                   got=True want=True
+-- reference_only: the rules file named by a path-only compact_file_reference
+PASS reference_only                 (ii) lines handed back   got=0 want=0
+PASS reference_only                 rules-file record        got=('rules-reference-only', None) want=('rules-reference-only', None)
+-- no_boundary: no compaction boundary at all
+PASS no_boundary                    (i) class                got=None want=None
+PASS no_boundary                    eligible                 got=False want=False
+PASS no_boundary                    boundaries               got=0 want=0
+-- shell_write_first: a shell redirect is the first write; the whole read comes after it
+PASS shell_write_first              (i) class                got='none' want='none'
+PASS shell_write_first              first write kind         got='redirect' want='redirect'
+-- shell_write_after_whole: a whole read, then a shell mkdir as the first write
+PASS shell_write_after_whole        (i) class                got='whole' want='whole'
+PASS shell_write_after_whole        first write kind         got='mkdir' want='mkdir'
+-- seven_of_eight: a Read with no parameters whose result lacks the last section (looks whole, is not)
+PASS seven_of_eight                 (i) class                got='slice' want='slice'
+-- cd_then_cat: cd into docs then cat the bare name, stderr redirected (looks partial, is whole)
+PASS cd_then_cat                    (i) class                got='whole' want='whole'
+-- dotdot_read: a Read with `..` segments in the path (looks odd, is whole)
+PASS dotdot_read                    (i) class                got='whole' want='whole'
+-- bash_c_cat: cat inside bash -c (looks partial, is whole)
+PASS bash_c_cat                     (i) class                got='whole' want='whole'
+-- read_offset_zero: a Read with offset 0 and no limit
+PASS read_offset_zero               (i) class                got='whole' want='whole'
+-- cat_two_files: cat of BEMYAGENT.md and the rules file in one call: its result holds every line, but the call names a file that embeds the rules (B8): not counted whole, flagged
+CHANGED  cat_two_files: whole -> none + flag (B8)
+PASS cat_two_files                  (i) class                got='none' want='none'
+PASS cat_two_files                  access classes           got=['mixed-embedding'] want=['mixed-embedding']
+PASS cat_two_files                  delivered-unresolved calls got=1 want=1
+-- whole_list_content: a whole Read whose tool_result content is a list of text blocks
+PASS whole_list_content             (i) class                got='whole' want='whole'
+-- edit_rules_first: the rules file EDITED first (a write, not an access), then read whole
+PASS edit_rules_first               (i) class                got='none' want='none'
+PASS edit_rules_first               first write kind         got='Edit' want='Edit'
+-- persistent_cwd: cat of the bare name after an earlier call left the shell in docs/ (the record's cwd)
+PASS persistent_cwd                 (i) class                got='whole' want='whole'
+-- wc_only: wc -l of the rules file: named, not read
+PASS wc_only                        (i) class                got='none' want='none'
+PASS wc_only                        non-reading mentions     got=1 want=1
+-- turn1_slice_then_whole: turn 1 read a slice only; after the boundary a whole read
+PASS turn1_slice_then_whole         (i) class                got='whole' want='whole'
+PASS turn1_slice_then_whole         (iv) class               got='slice' want='slice'
+-- turn1_none: turn 1 never read the rules
+PASS turn1_none                     (i) class                got='whole' want='whole'
+PASS turn1_none                     (iv) class               got='none' want='none'
+-- launcher_not_proven: a boundary in the transcript but the launcher did not prove it
+PASS launcher_not_proven            (i) class                got='whole' want='whole'
+PASS launcher_not_proven            eligible                 got=False want=False
+-- no_turn2_output: turn 2 left no t2.json
+PASS no_turn2_output                (i) class                got='whole' want='whole'
+PASS no_turn2_output                eligible                 got=False want=False
+-- whole_truncated_marker: all lines present and a truncation marker appended
+CHANGED  whole_truncated_marker: slice -> whole (A1: the signs are recorded and decide nothing; every line is there)
+PASS whole_truncated_marker         (i) class                got='whole' want='whole'
+-- cat_pipe_head: cat piped into head -300: every line is in the result
+CHANGED  cat_pipe_head: slice -> whole (A1: the form decides nothing)
+PASS cat_pipe_head                  (i) class                got='whole' want='whole'
+-- read_error: a Read that returns an error holding none of the lines
+CHANGED  read_error: none -> attempted (A2), and the arm leaves (i)
+PASS read_error                     (i) class                got='attempted' want='attempted'
+PASS read_error                     eligible                 got=False want=False
+PASS read_error                     reason                   got=True want=True
+-- whole_result_after_write: Read issued BEFORE an Edit in the same assistant message: its result comes after the Edit was issued
+CHANGED  whole_result_after_write: none -> whole (A4: a call issued before the write in the same message is inside the window)
+PASS whole_result_after_write       (i) class                got='whole' want='whole'
+-- whole_BEMYAGENT_only: BEMYAGENT.md read whole, the rules file never
+CHANGED  whole_BEMYAGENT_only: none stays none; new: the A3 flag, naming BEMYAGENT.md
+PASS whole_BEMYAGENT_only           (i) class                got='none' want='none'
+PASS whole_BEMYAGENT_only           other files listed       got=1 want=1
+PASS whole_BEMYAGENT_only           delivered-unresolved calls got=1 want=1
+PASS whole_BEMYAGENT_only           flag names BEMYAGENT.md  got=True want=True
+-- other_arms_rules: a whole Read of ANOTHER arm's rules file by absolute path
+CHANGED  other_arms_rules: none stays none; new: the A3 flag
+PASS other_arms_rules               (i) class                got='none' want='none'
+PASS other_arms_rules               unresolved mentions      got=1 want=1
+PASS other_arms_rules               delivered-unresolved calls got=1 want=1
+-- unresolvable_var: cat of a $VAR path: cannot be resolved, never a hit, reported
+CHANGED  unresolvable_var: none stays none; new: the A3 flag
+PASS unresolvable_var               (i) class                got='none' want='none'
+PASS unresolvable_var               unresolved mentions      got=1 want=1
+PASS unresolvable_var               delivered-unresolved calls got=1 want=1
+-- backup_copy: cat of a .bak copy of the rules file: another file, reported
+CHANGED  backup_copy: none stays none; new: the A3 flag
+PASS backup_copy                    (i) class                got='none' want='none'
+PASS backup_copy                    unresolved mentions      got=1 want=1
+PASS backup_copy                    delivered-unresolved calls got=1 want=1
+-- two_boundaries: an auto boundary in turn 1, then the call's: the launcher's count (1 before) cuts at number 2; the whole read between them is turn 1
+CHANGED  two_boundaries: the cut is the launcher's number, not the last (same result here)
+PASS two_boundaries                 (i) class                got='none' want='none'
+PASS two_boundaries                 boundaries               got=2 want=2
+PASS two_boundaries                 cut boundary number      got=2 want=2
+-- d1_read_limit2000: D1: Read with {'limit': 2000} returning every line
+CHANGED  d1_read_limit2000: slice -> whole (A1)
+PASS d1_read_limit2000              (i) class                got='whole' want='whole'
+-- d1_read_offset1: D1: Read with {'offset': 1} returning every line
+CHANGED  d1_read_offset1: slice -> whole (A1)
+PASS d1_read_offset1                (i) class                got='whole' want='whole'
+-- d1_read_offset1_limit2000: D1: Read with {'offset': 1, 'limit': 2000} returning every line
+CHANGED  d1_read_offset1_limit2000: slice -> whole (A1)
+PASS d1_read_offset1_limit2000      (i) class                got='whole' want='whole'
+-- d1_sed_1_dollar: D1: sed -n '1,$p' <rules> returning every line
+CHANGED  d1_sed_1_dollar: slice -> whole (A1)
+PASS d1_sed_1_dollar                (i) class                got='whole' want='whole'
+-- d1_head_500: D1: head -n 500 <rules> returning every line
+CHANGED  d1_head_500: slice -> whole (A1)
+PASS d1_head_500                    (i) class                got='whole' want='whole'
+-- d1_tail_plus1: D1: tail -n +1 <rules> returning every line
+CHANGED  d1_tail_plus1: slice -> whole (A1)
+PASS d1_tail_plus1                  (i) class                got='whole' want='whole'
+-- d1_awk_1: D1: awk '1' <rules> returning every line
+CHANGED  d1_awk_1: slice -> whole (A1)
+PASS d1_awk_1                       (i) class                got='whole' want='whole'
+-- n9_error_with_text: N9: a result marked is_error that holds every line
+CHANGED  n9_error_with_text: slice -> whole (A1)
+PASS n9_error_with_text             (i) class                got='whole' want='whole'
+-- n1_pipe_grep_cat: N1: cat F | grep '^## ' | cat, whose result is the eight heading lines
+CHANGED  n1_pipe_grep_cat: whole -> slice (A1)
+PASS n1_pipe_grep_cat               (i) class                got='slice' want='slice'
+-- n1_elided_lines: N1: a result with twenty lines replaced by a marker
+CHANGED  n1_elided_lines: whole -> slice (A1)
+PASS n1_elided_lines                (i) class                got='slice' want='slice'
+-- n1_tail_cut: N1: a result with the last three lines cut
+CHANGED  n1_tail_cut: whole -> slice (A1)
+PASS n1_tail_cut                    (i) class                got='slice' want='slice'
+-- n1_all_lines_out_of_order: N1: every line is in the result but in reversed order: not 'in order', so a slice
+CHANGED  n1_all_lines_out_of_order: whole -> slice (A1: in order)
+PASS n1_all_lines_out_of_order      (i) class                got='slice' want='slice'
+-- n1_unknown_prefix_still_whole: an unknown line prefix on every line: the lines are still in the result, so whole (A1 does not depend on the prefix)
+CHANGED  n1_unknown_prefix_still_whole: none/unknown -> whole (A1)
+PASS n1_unknown_prefix_still_whole  (i) class                got='whole' want='whole'
+-- m2_t2_failed: M2: boundary proven, t2.json is_error, exit 1, nothing after the boundary
+PASS m2_t2_failed                   eligible                 got=False want=False
+PASS m2_t2_failed                   reason                   got=True want=True
+-- m2_t2_elsewhere: M2: t2.json carries another session id and the transcript has no turn-2 prompt
+PASS m2_t2_elsewhere                eligible                 got=False want=False
+PASS m2_t2_elsewhere                reason                   got=True want=True
+-- m2_t2_prompt_missing: M2: turn 2's prompt is not a user record after the boundary (actions present)
+PASS m2_t2_prompt_missing           eligible                 got=False want=False
+PASS m2_t2_prompt_missing           reason                   got=True want=True
+-- m2_cert_missing: A5: the certificate is missing
+PASS m2_cert_missing                (i) class                got='whole' want='whole'
+PASS m2_cert_missing                eligible                 got=False want=False
+PASS m2_cert_missing                reason                   got=True want=True
+-- m2_cert_unclean: A5: the certificate is not clean (the failed term is named)
+PASS m2_cert_unclean                (i) class                got='whole' want='whole'
+PASS m2_cert_unclean                eligible                 got=False want=False
+PASS m2_cert_unclean                reason                   got=True want=True
+-- m3_unchanged_stub: M3: a Read with no parameters answered by the unchanged-file stub
+PASS m3_unchanged_stub              (i) class                got='attempted' want='attempted'
+PASS m3_unchanged_stub              eligible                 got=False want=False
+PASS m3_unchanged_stub              reason                   got=True want=True
+-- m4_glob_cat: M4: cat .bemyagent/docs/0*.md
+PASS m4_glob_cat                    (i) class                got='none' want='none'
+PASS m4_glob_cat                    delivered-unresolved calls got=1 want=1
+-- m4_for_loop: M4: for f in .bemyagent/docs/*.md; do cat "$f"; done
+PASS m4_for_loop                    (i) class                got='none' want='none'
+PASS m4_for_loop                    delivered-unresolved calls got=1 want=1
+-- m4_python_open: M4: python3 -c print(open(<rules>).read())
+PASS m4_python_open                 (i) class                got='none' want='none'
+PASS m4_python_open                 unresolved mentions      got=0 want=0
+PASS m4_python_open                 delivered-unresolved calls got=1 want=1
+-- m4_write_and_read_same_call: A3+A4: one python call prints the rules AND writes a file: the first write delivers the text, unresolved
+PASS m4_write_and_read_same_call    (i) class                got='none' want='none'
+PASS m4_write_and_read_same_call    delivered-unresolved calls got=1 want=1
+PASS m4_write_and_read_same_call    first write kind         got='python-write' want='python-write'
+-- m4_symlink: M4: ln -s <rules> r.md, then cat r.md
+PASS m4_symlink                     (i) class                got='none' want='none'
+PASS m4_symlink                     delivered-unresolved calls got=1 want=1
+-- m4_other_letter_case: M4: the path in another letter case
+PASS m4_other_letter_case           (i) class                got='none' want='none'
+PASS m4_other_letter_case           delivered-unresolved calls got=1 want=1
+-- m5_auto_in_turn2_read_before: M5: whole read and edit after the call's boundary, then an automatic boundary, then edits
+CHANGED  m5_auto_in_turn2_read_before: none -> whole (A4: cut at the launcher's number; the verifier's c2)
+PASS m5_auto_in_turn2_read_before   (i) class                got='whole' want='whole'
+PASS m5_auto_in_turn2_read_before   cut boundary number      got=1 want=1
+-- m5_auto_in_turn2_read_after: M5: an edit, then an automatic boundary, then a whole read
+CHANGED  m5_auto_in_turn2_read_after: whole -> none (A4; the verifier's c3)
+PASS m5_auto_in_turn2_read_after    (i) class                got='none' want='none'
+PASS m5_auto_in_turn2_read_after    cut boundary number      got=1 want=1
+-- m5_boundary_inside_window: A4: a further boundary inside the window is flagged
+PASS m5_boundary_inside_window      (i) class                got='whole' want='whole'
+PASS m5_boundary_inside_window      flag                     got=True want=True
+-- n3_failed_edit_first: N3: a failed Edit (is_error) is not a write; a whole read after it is inside the window
+CHANGED  n3_failed_edit_first: none -> whole (A4)
+PASS n3_failed_edit_first           (i) class                got='whole' want='whole'
+-- n3_mkdir_first: N3: mkdir -p is a write (the census definition): a whole read after it is late
+PASS n3_mkdir_first                 (i) class                got='none' want='none'
+PASS n3_mkdir_first                 first write kind         got='mkdir' want='mkdir'
+-- n3_stderr_redirect_first: N3: a command with 2> err.log is a write: a whole read after it is late
+PASS n3_stderr_redirect_first       (i) class                got='none' want='none'
+PASS n3_stderr_redirect_first       first write kind         got='redirect' want='redirect'
+-- n3_cat_tee_same_call: N3: cat <rules> | tee /dev/null: the read and the write are one call: the access is delivered by it
+CHANGED  n3_cat_tee_same_call: none -> whole (A4: delivered by the same call as the first write)
+PASS n3_cat_tee_same_call           (i) class                got='whole' want='whole'
+-- n3_edit_then_read_same_message: A4: an Edit issued BEFORE the Read in one assistant message: the Read is after the write
+PASS n3_edit_then_read_same_message (i) class                got='none' want='none'
+PASS n3_edit_then_read_same_message accesses after the window got=1 want=1
+-- m6_preserved_whole_read: M6 (ruling 2026-11-15): the turn-1 whole read and its result preserved across the boundary: every line counts as handed back, not an occasion
+PASS m6_preserved_whole_read        (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS m6_preserved_whole_read        eligible                 got=False want=False
+PASS m6_preserved_whole_read        record kind carrying     got=True want=True
+PASS m6_preserved_whole_read        preserved holds rules    got=True want=True
+PASS m6_preserved_whole_read        preserved types          got=True want=True
+-- m6_preserved_partial_result: M6 (ruling): a preserved result holding part of the rules (a 40-line read): 0 < n < N, the arm stays
+PASS m6_preserved_partial_result    (ii) some, not all       got=True want=True
+PASS m6_preserved_partial_result    eligible iff n < M/2     got=True want=True
+PASS m6_preserved_partial_result    record kind carrying     got=True want=True
+PASS m6_preserved_partial_result    preserved holds rules    got=True want=True
+-- t2_no_tool_call: ruling: turn 2 ran, did not fail, made no tool call: the arm stays eligible, class none, flagged
+PASS t2_no_tool_call                (i) class                got='none' want='none'
+PASS t2_no_tool_call                eligible                 got=True want=True
+PASS t2_no_tool_call                flag                     got=True want=True
+-- m6_preserved_user_record: M6: a user record holding the whole rules text, preserved across the boundary: handed back
+PASS m6_preserved_user_record       (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS m6_preserved_user_record       eligible                 got=False want=False
+PASS m6_preserved_user_record       preserved holds rules    got=True want=True
+-- m6_attach_partial: M6: a file attachment holding sections 1-7 after the boundary
+PASS m6_attach_partial              (ii) some, not all       got=True want=True
+PASS m6_attach_partial              eligible iff n < M/2     got=False want=False
+-- b1_grep_c: B1/R1: grep -c '^## ' ... delivers no line: a search or a count, not an access
+CHANGED  b1_grep_c: attempted -> none, the arm stays (B1)
+PASS b1_grep_c                      (i) class                got='none' want='none'
+PASS b1_grep_c                      access classes           got=['no-line'] want=['no-line']
+PASS b1_grep_c                      eligible                 got=True want=True
+-- b1_grep_nohit: B1/R1: grep 'zzzzzz' ... delivers no line: a search or a count, not an access
+CHANGED  b1_grep_nohit: attempted -> none, the arm stays (B1)
+PASS b1_grep_nohit                  (i) class                got='none' want='none'
+PASS b1_grep_nohit                  access classes           got=['no-line'] want=['no-line']
+PASS b1_grep_nohit                  eligible                 got=True want=True
+-- b1_grep_q: B1/R1: grep -q 'zzzzzz' ... delivers no line: a search or a count, not an access
+CHANGED  b1_grep_q: attempted -> none, the arm stays (B1)
+PASS b1_grep_q                      (i) class                got='none' want='none'
+PASS b1_grep_q                      access classes           got=['no-line'] want=['no-line']
+PASS b1_grep_q                      eligible                 got=True want=True
+-- b1_grep_l: B1/R1: grep -l 'zzzzzz' ... delivers no line: a search or a count, not an access
+CHANGED  b1_grep_l: attempted -> none, the arm stays (B1)
+PASS b1_grep_l                      (i) class                got='none' want='none'
+PASS b1_grep_l                      access classes           got=['no-line'] want=['no-line']
+PASS b1_grep_l                      eligible                 got=True want=True
+-- b1_sed_past_end: B1/R1: sed -n '900,910p' ... delivers no line: a search or a count, not an access
+CHANGED  b1_sed_past_end: attempted -> none, the arm stays (B1)
+PASS b1_sed_past_end                (i) class                got='none' want='none'
+PASS b1_sed_past_end                access classes           got=['no-line'] want=['no-line']
+PASS b1_sed_past_end                eligible                 got=True want=True
+-- b1_awk_count: B1/R1: awk 'END{print NR}' ... delivers no line: a search or a count, not an access
+CHANGED  b1_awk_count: attempted -> none, the arm stays (B1)
+PASS b1_awk_count                   (i) class                got='none' want='none'
+PASS b1_awk_count                   access classes           got=['no-line'] want=['no-line']
+PASS b1_awk_count                   eligible                 got=True want=True
+-- b1_head_c: B1/R1: head -c 20 ... delivers no line: a search or a count, not an access
+CHANGED  b1_head_c: attempted -> none, the arm stays (B1)
+PASS b1_head_c                      (i) class                got='none' want='none'
+PASS b1_head_c                      access classes           got=['no-line'] want=['no-line']
+PASS b1_head_c                      eligible                 got=True want=True
+-- b1_grep_o_head: B1/R1: grep -o 'zzzz' ... delivers no line: a search or a count, not an access
+CHANGED  b1_grep_o_head: attempted -> none, the arm stays (B1)
+PASS b1_grep_o_head                 (i) class                got='none' want='none'
+PASS b1_grep_o_head                 access classes           got=['no-line'] want=['no-line']
+PASS b1_grep_o_head                 eligible                 got=True want=True
+-- b1_read_offset_past_end: B1/R1: a Read with an offset past the end
+CHANGED  b1_read_offset_past_end: attempted -> none (B1)
+PASS b1_read_offset_past_end        (i) class                got='none' want='none'
+PASS b1_read_offset_past_end        access classes           got=['no-line'] want=['no-line']
+PASS b1_read_offset_past_end        eligible                 got=True want=True
+-- b1_grep_tool_count: B1/R1: the Grep tool in count mode
+CHANGED  b1_grep_tool_count: attempted -> none (B1)
+PASS b1_grep_tool_count             (i) class                got='none' want='none'
+PASS b1_grep_tool_count             access classes           got=['no-line'] want=['no-line']
+PASS b1_grep_tool_count             eligible                 got=True want=True
+-- b1_grep_tool_names_file: B1/R1: the Grep tool answering with the file's name
+CHANGED  b1_grep_tool_names_file: attempted -> none (B1)
+PASS b1_grep_tool_names_file        (i) class                got='none' want='none'
+PASS b1_grep_tool_names_file        access classes           got=['no-line'] want=['no-line']
+PASS b1_grep_tool_names_file        eligible                 got=True want=True
+-- b1_read_range_stub: B1: a Read with limit 50 answered by the unchanged stub: a range form, not an access
+PASS b1_read_range_stub             (i) class                got='none' want='none'
+PASS b1_read_range_stub             access classes           got=['no-line'] want=['no-line']
+PASS b1_read_range_stub             eligible                 got=True want=True
+-- b1_cat_empty: B1: cat of the file with an empty result: a whole form that delivered nothing
+PASS b1_cat_empty                   (i) class                got='attempted' want='attempted'
+PASS b1_cat_empty                   eligible                 got=False want=False
+PASS b1_cat_empty                   reason                   got=True want=True
+-- b1_nl_error: B1: nl of the file returning an error text: whole form
+PASS b1_nl_error                    (i) class                got='attempted' want='attempted'
+PASS b1_nl_error                    eligible                 got=False want=False
+-- b1_pager_empty: B1: less of the file with an empty result: whole form
+PASS b1_pager_empty                 (i) class                got='attempted' want='attempted'
+PASS b1_pager_empty                 eligible                 got=False want=False
+-- b1_read_reaching_both_ends_stub: B1: a Read with offset 1 and limit 5000 (reaches both ends) answered by the stub: whole form
+PASS b1_read_reaching_both_ends_stub (i) class                got='attempted' want='attempted'
+PASS b1_read_reaching_both_ends_stub eligible                 got=False want=False
+-- b1_cat_pipe_grep_nohit: B1: cat F | grep zzzz | cat delivering nothing: a filter, so a range form, not attempted
+PASS b1_cat_pipe_grep_nohit         (i) class                got='none' want='none'
+PASS b1_cat_pipe_grep_nohit         access classes           got=['no-line'] want=['no-line']
+PASS b1_cat_pipe_grep_nohit         eligible                 got=True want=True
+-- b1_unplaced_form: B1: a Read with limit given as a string delivering nothing: a form the reader cannot place: not attempted, flagged
+PASS b1_unplaced_form               (i) class                got='none' want='none'
+PASS b1_unplaced_form               access classes           got=['unplaced'] want=['unplaced']
+PASS b1_unplaced_form               flag                     got=True want=True
+PASS b1_unplaced_form               eligible                 got=True want=True
+-- b1_slice_and_noline: B1: a slice and a count: the class comes from the slice
+PASS b1_slice_and_noline            (i) class                got='slice' want='slice'
+-- b1_noline_then_whole: B1: a count, then a whole read
+PASS b1_noline_then_whole           (i) class                got='whole' want='whole'
+-- b2_sentinel_in_summary: B2/R2: the arm's own instruction text (the sentinel line, one line of the rules) in the summary: not counted
+PASS b2_sentinel_in_summary         (ii) n                   got=0 want=0
+PASS b2_sentinel_in_summary         eligible                 got=True want=True
+-- b2_fences_summary: B2/R2: a code fence and a table rule in the summary: short lines, a fact, decide nothing
+PASS b2_fences_summary              (ii) n                   got=0 want=0
+PASS b2_fences_summary              short lines hit (a fact) got=True want=True
+PASS b2_fences_summary              eligible                 got=True want=True
+-- b3_result_no_matching_call: B3/R3b: a result record with no matching call, holding the rules text
+PASS b3_result_no_matching_call     (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS b3_result_no_matching_call     eligible                 got=False want=False
+-- b3_other_record_type: B3/R3b: the text in a record of a type the reader has no name for
+PASS b3_other_record_type           (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS b3_other_record_type           eligible                 got=False want=False
+-- b3_queue_operation: B3: the text in a queue-operation record
+PASS b3_queue_operation             (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS b3_queue_operation             eligible                 got=False want=False
+-- b3_text_block_beside_result: B3/R3b: a text block beside the result of an after-boundary call
+PASS b3_text_block_beside_result    (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS b3_text_block_beside_result    eligible                 got=False want=False
+-- b3_unmatched_result_toolUseResult: B3/R3b: the text under toolUseResult of a record whose result matches no call
+PASS b3_unmatched_result_toolUseResult (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS b3_unmatched_result_toolUseResult eligible                 got=False want=False
+-- b3_synthetic_assistant: B3/R3b: the text in an assistant record of another (synthetic) model
+PASS b3_synthetic_assistant         (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS b3_synthetic_assistant         eligible                 got=False want=False
+-- b3_pinned_assistant_quotes: B3: the arm's own pinned-model assistant text quotes the rules: its own words, not counted
+PASS b3_pinned_assistant_quotes     (ii) n                   got=0 want=0
+PASS b3_pinned_assistant_quotes     eligible                 got=True want=True
+-- b3_own_result_toolUseResult: B3: the same result of an after-boundary call under toolUseResult: the same result, not counted
+PASS b3_own_result_toolUseResult    (ii) n                   got=0 want=0
+PASS b3_own_result_toolUseResult    eligible                 got=True want=True
+-- b12b_copy_before_first_call: B12(b): a stored request copy between the boundary and the arm's first call holding the rules text: counted
+PASS b12b_copy_before_first_call    (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS b12b_copy_before_first_call    eligible                 got=False want=False
+-- b12b_copy_after_first_call: B12(b): the same copy AFTER the arm's first call: left out, the number printed
+PASS b12b_copy_after_first_call     (ii) n                   got=0 want=0
+PASS b12b_copy_after_first_call     request-copy records skipped got=1 want=1
+PASS b12b_copy_after_first_call     eligible                 got=True want=True
+-- b12b_copy_hashes_only: C5: a copy before the first result that holds hashes no blob resolves cannot be read: counted unreadable, flagged
+PASS b12b_copy_hashes_only          (ii) n                   got=0 want=0
+PASS b12b_copy_hashes_only          flag                     got=True want=True
+PASS b12b_copy_hashes_only          request copies unreadable got=1 want=1
+PASS b12b_copy_hashes_only          eligible                 got=True want=True
+-- b12a_attachment_after_first_write: B12(a): the rules in an attachment AFTER the first write: window count 0, rest-of-turn count M, the arm stays
+PASS b12a_attachment_after_first_write (ii) n                   got=0 want=0
+PASS b12a_attachment_after_first_write flag                     got=True want=True
+PASS b12a_attachment_after_first_write rest-of-turn count       got=86 want=86
+PASS b12a_attachment_after_first_write eligible                 got=True want=True
+-- b12a_rest_of_turn_zero: B12(a): nothing handed back in the rest of turn 2: 0
+PASS b12a_rest_of_turn_zero         (ii) n                   got=0 want=0
+PASS b12a_rest_of_turn_zero         rest-of-turn count       got=0 want=0
+PASS b12a_rest_of_turn_zero         eligible                 got=True want=True
+-- b4_half_out: B4/R6: n >= M/2 lines handed back: the arm leaves (i), reason named
+PASS b4_half_out                    eligible                 got=False want=False
+PASS b4_half_out                    reason                   got=True want=True
+-- b4_below_half_stays: B4/R6: n < M/2: reported, the arm stays
+PASS b4_below_half_stays            (ii) some, not all       got=True want=True
+PASS b4_below_half_stays            eligible                 got=True want=True
+-- b5_no_shrink: B5/R3c: the context did not shrink at the boundary: not a compaction, the arm leaves
+PASS b5_no_shrink                   (i) class                got='whole' want='whole'
+PASS b5_no_shrink                   eligible                 got=False want=False
+PASS b5_no_shrink                   reason                   got=True want=True
+-- b5_preserved_ids_missing: B5/R3a: the metadata names two preserved records that are not in the file
+PASS b5_preserved_ids_missing       preserved ids not in file got=2 want=2
+-- b6_failed_readonly: B6/R4: turn 2 ran a read-only call and failed: its window never closed
+PASS b6_failed_readonly             eligible                 got=False want=False
+PASS b6_failed_readonly             reason                   got=True want=True
+-- b6_failed_after_write: B6: turn 2 failed after a write that succeeded: the arm stays, flagged
+PASS b6_failed_after_write          (i) class                got='whole' want='whole'
+PASS b6_failed_after_write          flag                     got=True want=True
+PASS b6_failed_after_write          eligible                 got=True want=True
+-- b6_killed: C9/T8: turn 2 killed by the time limit AFTER a write that succeeded (empty t2.json): the arm stays, flagged
+CHANGED  b6_killed: not eligible -> eligible (C9)
+PASS b6_killed                      (i) class                got='whole' want='whole'
+PASS b6_killed                      flag                     got=True want=True
+PASS b6_killed                      eligible                 got=True want=True
+PASS b6_killed                      reason absent            got=False want=False
+-- c9_killed_no_write: C9: turn 2 killed by the time limit with no write: the arm leaves, named so
+PASS c9_killed_no_write             eligible                 got=False want=False
+PASS c9_killed_no_write             reason                   got=True want=True
+PASS c9_killed_no_write             reason absent            got=False want=False
+-- b7_cp_exit: B7/R5: the compaction call exited 1 though a boundary was written: the arm is left out
+PASS b7_cp_exit                     (i) class                got='whole' want='whole'
+PASS b7_cp_exit                     eligible                 got=False want=False
+PASS b7_cp_exit                     reason                   got=True want=True
+-- b8_failed_shell_write: B8/R7a: a shell write that returned an error is still a write: the whole read after it is late
+CHANGED  b8_failed_shell_write: whole -> none (B8)
+PASS b8_failed_shell_write          (i) class                got='none' want='none'
+PASS b8_failed_shell_write          first write kind         got='redirect' want='redirect'
+-- b8_one_record_read_then_edit: B8/R7c: one assistant record, Read block then Edit block: the Read was issued before the write
+PASS b8_one_record_read_then_edit   (i) class                got='whole' want='whole'
+-- b8_one_record_edit_then_read: B8/R7c: one assistant record, Edit block then Read block: the Read was issued after the write
+CHANGED  b8_one_record_edit_then_read: whole -> none (B8)
+PASS b8_one_record_edit_then_read   (i) class                got='none' want='none'
+PASS b8_one_record_edit_then_read   accesses after the window got=1 want=1
+-- b8_head_and_bemyagent: B8/R8: head -3 <rules>; cat BEMYAGENT.md - the result holds every line through the other file: flagged, not whole
+CHANGED  b8_head_and_bemyagent: whole -> none + flag (B8)
+PASS b8_head_and_bemyagent          (i) class                got='none' want='none'
+PASS b8_head_and_bemyagent          access classes           got=['mixed-embedding'] want=['mixed-embedding']
+PASS b8_head_and_bemyagent          delivered-unresolved calls got=1 want=1
+-- b8_wc_and_bemyagent: B8: wc -l <rules> && cat BEMYAGENT.md: flagged through the other file
+PASS b8_wc_and_bemyagent            (i) class                got='none' want='none'
+PASS b8_wc_and_bemyagent            delivered-unresolved calls got=1 want=1
+-- b8_rules_changed_in_turn1: B8/R9: the arm changed its rules file in turn 1: the lines come from the turn-1 snapshot; flagged
+CHANGED  b8_rules_changed_in_turn1: slice -> whole (B8)
+PASS b8_rules_changed_in_turn1      (i) class                got='whole' want='whole'
+PASS b8_rules_changed_in_turn1      flag                     got=True want=True
+-- b8_rules_changed_after_reading: B8/R9: the arm added a line to its rules file AFTER reading it: the snapshot's lines decide, the read was whole
+CHANGED  b8_rules_changed_after_reading: slice -> whole (B8)
+PASS b8_rules_changed_after_reading (i) class                got='whole' want='whole'
+PASS b8_rules_changed_after_reading flag                     got=True want=True
+-- b8_cert_fails_only_late: B8/R10: the certificate fails only on a call after the window's end: the arm stays, flagged
+PASS b8_cert_fails_only_late        (i) class                got='whole' want='whole'
+PASS b8_cert_fails_only_late        flag                     got=True want=True
+PASS b8_cert_fails_only_late        eligible                 got=True want=True
+-- b8_cert_fails_inside: B8: the certificate fails on a call inside the window: the arm leaves
+PASS b8_cert_fails_inside           eligible                 got=False want=False
+PASS b8_cert_fails_inside           reason                   got=True want=True
+-- b8_cert_fail_not_placed: B8: a failing term the certificate could not place: the arm leaves
+PASS b8_cert_fail_not_placed        eligible                 got=False want=False
+-- c1_stub_then_slices: C1/T2b: the stub on a whole Read, then two ranged reads of 45 lines: attempted wins, the arm leaves
+CHANGED  c1_stub_then_slices: slice -> attempted (C1)
+PASS c1_stub_then_slices            (i) class                got='attempted' want='attempted'
+PASS c1_stub_then_slices            eligible                 got=False want=False
+PASS c1_stub_then_slices            reason                   got=True want=True
+-- c1_stub_with_fence_reminder: C1/T2a: the stub followed by a reminder holding two code-fence lines: not a delivery, attempted
+CHANGED  c1_stub_with_fence_reminder: slice -> attempted (C1)
+PASS c1_stub_with_fence_reminder    (i) class                got='attempted' want='attempted'
+PASS c1_stub_with_fence_reminder    eligible                 got=False want=False
+-- c1_stub_with_instruction_line: C1/T2a: the stub followed by the instruction file's one line: not a delivery, attempted
+CHANGED  c1_stub_with_instruction_line: slice -> attempted (C1)
+PASS c1_stub_with_instruction_line  (i) class                got='attempted' want='attempted'
+PASS c1_stub_with_instruction_line  eligible                 got=False want=False
+-- c1_stub_then_whole: C1: the stub, then a whole cat that delivers: whole (the withheld access is listed)
+PASS c1_stub_then_whole             (i) class                got='whole' want='whole'
+PASS c1_stub_then_whole             access classes           got=['attempted', 'whole'] want=['attempted', 'whole']
+PASS c1_stub_then_whole             eligible                 got=True want=True
+-- c2_devnull: C2/T1: cat ... > /dev/null: the output never comes back: unplaced, flagged, not attempted
+CHANGED  c2_devnull: attempted -> none + flag (C2)
+PASS c2_devnull                     (i) class                got='none' want='none'
+PASS c2_devnull                     access classes           got=['unplaced'] want=['unplaced']
+PASS c2_devnull                     flag                     got=True want=True
+PASS c2_devnull                     eligible                 got=True want=True
+-- c2_devnull_and_echo: C2/T1: cat ... >/dev/null 2>&1 && echo presen: the output never comes back: unplaced, flagged, not attempted
+CHANGED  c2_devnull_and_echo: attempted -> none + flag (C2)
+PASS c2_devnull_and_echo            (i) class                got='none' want='none'
+PASS c2_devnull_and_echo            access classes           got=['unplaced'] want=['unplaced']
+PASS c2_devnull_and_echo            flag                     got=True want=True
+PASS c2_devnull_and_echo            eligible                 got=True want=True
+-- c2_pbcopy: C2/T1: cat ... | pbcopy: the output never comes back: unplaced, flagged, not attempted
+CHANGED  c2_pbcopy: attempted -> none + flag (C2)
+PASS c2_pbcopy                      (i) class                got='none' want='none'
+PASS c2_pbcopy                      access classes           got=['unplaced'] want=['unplaced']
+PASS c2_pbcopy                      flag                     got=True want=True
+PASS c2_pbcopy                      eligible                 got=True want=True
+-- c2_python_len: C2/T1: cat ... | python3 -c 'import sys; prin: the output never comes back: unplaced, flagged, not attempted
+CHANGED  c2_python_len: attempted -> none + flag (C2)
+PASS c2_python_len                  (i) class                got='none' want='none'
+PASS c2_python_len                  access classes           got=['unplaced'] want=['unplaced']
+PASS c2_python_len                  flag                     got=True want=True
+PASS c2_python_len                  eligible                 got=True want=True
+-- c2_node: C2/T1: cat ... | node -e 'process.stdin.resum: the output never comes back: unplaced, flagged, not attempted
+CHANGED  c2_node: attempted -> none + flag (C2)
+PASS c2_node                        (i) class                got='none' want='none'
+PASS c2_node                        access classes           got=['unplaced'] want=['unplaced']
+PASS c2_node                        flag                     got=True want=True
+PASS c2_node                        eligible                 got=True want=True
+-- c2_while_read: C2/T1: cat ... | while read l; do :; done: the output never comes back: unplaced, flagged, not attempted
+CHANGED  c2_while_read: attempted -> none + flag (C2)
+PASS c2_while_read                  (i) class                got='none' want='none'
+PASS c2_while_read                  access classes           got=['unplaced'] want=['unplaced']
+PASS c2_while_read                  flag                     got=True want=True
+PASS c2_while_read                  eligible                 got=True want=True
+-- c2_md5_not_an_access: C2: cat F | md5 is not an access (a checksum)
+PASS c2_md5_not_an_access           (i) class                got='none' want='none'
+PASS c2_md5_not_an_access           access classes           got=[] want=[]
+PASS c2_md5_not_an_access           eligible                 got=True want=True
+-- c2_less_grep_c: C2: less F | grep -c: a filter, no-line
+PASS c2_less_grep_c                 (i) class                got='none' want='none'
+PASS c2_less_grep_c                 access classes           got=['no-line'] want=['no-line']
+PASS c2_less_grep_c                 eligible                 got=True want=True
+-- c2_stderr_only_still_whole: C2: cat F 2>/dev/null (only stderr away): the output comes back: whole
+PASS c2_stderr_only_still_whole     (i) class                got='whole' want='whole'
+-- c3_x_and_n_below: C3/T7: the instruction file holds 20 lines of K (x = 20) and 20 other lines are handed back (n = 20): x + n = 40 < 43, the arm stays
+PASS c3_x_and_n_below               (x, x + n)               got=(20, 40) want=(20, 40)
+PASS c3_x_and_n_below               eligible                 got=True want=True
+-- c3_x_plus_n_leaves: C3: x = 20 and n = 25: x + n = 45 >= 43, the arm leaves
+PASS c3_x_plus_n_leaves             eligible                 got=False want=False
+PASS c3_x_plus_n_leaves             reason                   got=True want=True
+-- c3_same_hand_back_C: C3/T7: the same 43 lines handed back in a C arm: x + n = 43, leaves
+PASS c3_same_hand_back_C            eligible                 got=False want=False
+PASS c3_same_hand_back_C            reason                   got=True want=True
+-- c3_same_hand_back_L: C3/T7: the same 43 lines handed back in an L arm (87 lines in its file): x + n = 43, leaves too; the added line was not handed back
+PASS c3_same_hand_back_L            added line handed back   got=False want=False
+PASS c3_same_hand_back_L            eligible                 got=False want=False
+PASS c3_same_hand_back_L            reason                   got=True want=True
+-- c3_added_line_handed_back: C3: an L arm whose summary quotes the added line: reported yes, decides nothing (n = 0, the arm stays)
+PASS c3_added_line_handed_back      (ii) n                   got=0 want=0
+PASS c3_added_line_handed_back      added line handed back   got=True want=True
+PASS c3_added_line_handed_back      eligible                 got=True want=True
+-- c3_added_line_none_in_C: C3: a C arm has no added line: reported None
+PASS c3_added_line_none_in_C        (ii) n                   got=0 want=0
+PASS c3_added_line_none_in_C        added line handed back   got=None want=None
+PASS c3_added_line_none_in_C        eligible                 got=True want=True
+-- c4_dotdot_flag: C4/T9: the certificate counts 2 calls through `..`: carried into the arm's row and flagged
+PASS c4_dotdot_flag                 (i) class                got='whole' want='whole'
+PASS c4_dotdot_flag                 flag                     got=True want=True
+PASS c4_dotdot_flag                 dotdot calls carried     got=2 want=2
+PASS c4_dotdot_flag                 eligible                 got=True want=True
+-- c5_copy_between_call_and_result: C5/T3: a request copy right after the first call and before its result, holding every line: counted
+PASS c5_copy_between_call_and_result (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS c5_copy_between_call_and_result eligible                 got=False want=False
+-- c5_hash_list_resolved: C5/T4c: a copy that is a list of hashes pointing at a stored blob (stored BEFORE the boundary): resolved, counted
+PASS c5_hash_list_resolved          (ii) every counted line  got=(86, 86) want=(86, 86)
+PASS c5_hash_list_resolved          request copies unreadable got=0 want=0
+PASS c5_hash_list_resolved          eligible                 got=False want=False
+-- c6_synthetic_zero_usage_first: C6/T6a: a synthetic zero-usage record first after the boundary is not a token number
+PASS c6_synthetic_zero_usage_first  token pairs disagree     got=False want=False
+PASS c6_synthetic_zero_usage_first  context shrank (decided) got=True want=True
+PASS c6_synthetic_zero_usage_first  eligible                 got=True want=True
+-- c6_sidechain_first: C6/T6b: a side-chain record with a small prompt first after the boundary is not counted
+PASS c6_sidechain_first             token pairs disagree     got=False want=False
+PASS c6_sidechain_first             context shrank (decided) got=True want=True
+PASS c6_sidechain_first             eligible                 got=True want=True
+-- c6_pairs_disagree: C6/T6c: a small main-chain record last before the boundary: the records say no shrink, the boundary says shrink: they disagree, the boundary decides, the arm stays, flagged
+PASS c6_pairs_disagree              flag                     got=True want=True
+PASS c6_pairs_disagree              token pairs disagree     got=True want=True
+PASS c6_pairs_disagree              context shrank (decided) got=True want=True
+PASS c6_pairs_disagree              eligible                 got=True want=True
+-- c6_zero_usage_cannot_hide_no_shrink: C6: the real records do not shrink (50000 -> 60000) but a zero-usage synthetic record comes first: it is not a number, so the pairs disagree (flagged)
+PASS c6_zero_usage_cannot_hide_no_shrink flag                     got=True want=True
+PASS c6_zero_usage_cannot_hide_no_shrink token pairs disagree     got=True want=True
+PASS c6_zero_usage_cannot_hide_no_shrink context shrank (decided) got=True want=True
+PASS c6_zero_usage_cannot_hide_no_shrink eligible                 got=True want=True
+-- c6_sidechain_cannot_hide_no_shrink: C6: the same with a side-chain record with a small prompt first after the boundary
+PASS c6_sidechain_cannot_hide_no_shrink token pairs disagree     got=True want=True
+PASS c6_sidechain_cannot_hide_no_shrink context shrank (decided) got=True want=True
+PASS c6_sidechain_cannot_hide_no_shrink eligible                 got=True want=True
+-- c7_rules_in_ls_result: C7/T10: the result of `ls client` carries 60 lines of the rules: printed, flagged; the result is the arm's own, n stays 0
+PASS c7_rules_in_ls_result          (ii) n                   got=0 want=0
+PASS c7_rules_in_ls_result          flag                     got=True want=True
+PASS c7_rules_in_ls_result          rules in other calls' results got=1 want=1
+PASS c7_rules_in_ls_result          eligible                 got=True want=True
+-- c8_unparsed_line: C8/T11: a line after the boundary that is not JSON: counted, flagged
+PASS c8_unparsed_line               flag                     got=True want=True
+PASS c8_unparsed_line               unparsed lines           got=1 want=1
+PASS c8_unparsed_line               eligible                 got=True want=True
+-- c8_metadata_not_object: C8/T12: the boundary's metadata is a string: flagged, no traceback, the read goes on
+PASS c8_metadata_not_object         flag                     got=True want=True
+PASS c8_metadata_not_object         metadata shape           got='not an object' want='not an object'
+-- c8_metadata_absent: C8/T12: the boundary has no metadata: flagged
+PASS c8_metadata_absent             flag                     got=True want=True
+PASS c8_metadata_absent             metadata shape           got='absent' want='absent'
+PASS m1_form_not_recorded_as_class  form beside class        got=[('offset-or-limit', 'whole')] want=[('offset-or-limit', 'whole')]
+PASS m1_form_shell                  form beside class        got=[('shell', 'whole')] want=[('shell', 'whole')]
+PASS (output)                       no text: 'A summary of the w' got=False want=False
+PASS (output)                       no text: 'Thanks. Now add' got=False want=False
+PASS (output)                       no text: 'scoreboard'    got=False want=False
+PASS (output)                       no text: 'idempotent'    got=False want=False
+PASS (output)                       no text: 'Self-Registration' got=False want=False
+PASS (output)                       no text: 'Read this file who' got=False want=False
+PASS (rules file)                   no truncation sign in it got=[] want=[]
+-- per-condition counts (q901 is the pilot; q116 is handed every line; q113 slices; q114 does not read; q117 got the stub)
+PASS (summary)                      order: control first     got=['C', 'L'] want=['C', 'L']
+PASS (summary)                      C eligible/whole/slice/none got=(3, 2, 1, 0) want=(3, 2, 1, 0)
+PASS (summary)                      C: every arm with an attempted access listed (q114 was whole) got=['q114'] want=['q114']
+PASS (summary)                      C arms (pilot excluded)  got=['q112', 'q113', 'q114'] want=['q112', 'q113', 'q114']
+PASS (summary)                      L eligible/whole/slice/none got=(1, 1, 0, 0) want=(1, 1, 0, 0)
+PASS (summary)                      L left out               got=['q116', 'q117'] want=['q116', 'q117']
+PASS (summary)                      L attempted listed       got=['q117'] want=['q117']
+PASS (summary)                      x + n beside each arm's class got={'class': 'whole', 'handed_back': {'x': 0, 'n': 0, 'x_plus_n': 0, 'of_K': 86, 'rest_of_turn_n_of_K': 0, 'added_line_handed_back': None}, 'eligible': True} want={'class': 'whole', 'handed_back': {'x': 0, 'n': 0, 'x_plus_n': 0, 'of_K': 86, 'rest_of_turn_n_of_K': 0, 'added_line_handed_back': None}, 'eligible': True}
+PASS (summary)                      no verdict key           got=False want=False
+PASS (summary)                      pilot role               got='pilot' want='pilot'
+-- certificate
+-- c_ok: a clean arm
+PASS c_ok                           clean                    got=True want=True
+PASS c_ok                           design_ok                got=True want=True
+PASS c_ok                           same session on all three got=True want=True
+-- c_repo: a tool call names the repo
+PASS c_repo                         clean                    got=False want=False
+PASS c_repo                         failed term named        got=True want=True
+-- c_base: a tool call names the folder sessions start in
+PASS c_base                         clean                    got=False want=False
+PASS c_base                         failed term named        got=True want=True
+-- c_instr_out: an instruction record outside the arm
+PASS c_instr_out                    clean                    got=False want=False
+PASS c_instr_out                    failed term named        got=True want=True
+-- c_split_session: the compaction call reports another session id
+PASS c_split_session                design_ok                got=False want=False
+PASS c_split_session                same session on all three got=False want=False
+-- c_model: an assistant record of the main chain from another model
+PASS c_model                        clean                    got=False want=False
+PASS c_model                        failed term named        got=True want=True
+-- c_model_result: a helper model in modelUsage: printed, not a stop (A6)
+PASS c_model_result                 clean                    got=True want=True
+PASS c_model_result                 second model reported    got=['claude-haiku-4'] want=['claude-haiku-4']
+-- c_sidechain_model: an assistant record of a SIDECHAIN from another model: the pin is read on the main chain
+PASS c_sidechain_model              clean                    got=True want=True
+-- c_own_memory: the arm reads its OWN memory folder
+PASS c_own_memory                   clean                    got=True want=True
+PASS c_own_memory                   own-memory calls         got=1 want=1
+-- c_other_memory: the arm reads another project's memory folder
+PASS c_other_memory                 clean                    got=False want=False
+PASS c_other_memory                 failed term named        got=True want=True
+-- c_sibling: a call into a sibling arm by absolute path
+PASS c_sibling                      clean                    got=False want=False
+-- c_sibling_tmp: the same, spelled /tmp instead of /private/tmp
+PASS c_sibling_tmp                  clean                    got=False want=False
+-- c_round_parent: a call into the round's parent folder
+PASS c_round_parent                 clean                    got=False want=False
+-- c_dotdot_climb: an absolute path that climbs out with ..
+PASS c_dotdot_climb                 clean                    got=False want=False
+-- c_cwd_out: an event whose cwd is outside the arm
+PASS c_cwd_out                      clean                    got=False want=False
+PASS c_cwd_out                      failed term named        got=True want=True
+-- c_dotdot_report: cd .. inside the arm: counted, not gating
+PASS c_dotdot_report                clean                    got=True want=True
+PASS c_dotdot_report                dotdot calls             got=1 want=1
+-- c_prompt_changed: turn 1's first user message is not the prompt
+PASS c_prompt_changed               design_ok                got=False want=False
+-- c_hash_wrong: the launcher's hash of a prompt differs from the file's
+PASS c_hash_wrong                   design_ok                got=False want=False
+-- c_override_extra: three OVERRIDE headers per two records
+PASS c_override_extra               clean                    got=False want=False
+PASS c_override_extra               failed term named        got=True want=True
+-- c_summary_quotes_header: N7: a summary that quotes the instruction header once: the failing term is named
+PASS c_summary_quotes_header        clean                    got=False want=False
+PASS c_summary_quotes_header        failed term named        got=True want=True
+PASS c_repo                         fail_at places the failing call got=True want=True
+PASS c_two                          one transcript in own folder got=False want=False
+PASS c_ok                           base_check_made (BMA_BASE set) got=True want=True
+PASS c_ok                           base check says so when unset got=(False, True) want=(False, True)
+PASS c_ok                           cp prompt file is /compact got=True want=True
+-- check_pilot.sh on synthetic pilots
+-- p_healthy: a healthy pilot: turn 1 whole, one whole read after the boundary
+PASS p_healthy                      verdict is OK            got=True want=True
+-- p_iv_none: M1: turn 1 never read the rules
+PASS p_iv_none                      verdict is OK            got=False want=False
+PASS p_iv_none                      prints '(iv) turn-1 restore' got=True want=True
+-- p_iv_wrapped: M1: a result format the reader cannot match (long lines wrapped): turn 1 is not whole
+PASS p_iv_wrapped                   verdict is OK            got=False want=False
+PASS p_iv_wrapped                   prints '(iv) turn-1 restore' got=True want=True
+PASS p_iv_wrapped                   prints '`slice`'         got=True want=True
+-- p_unknown_prefix: an unknown line prefix everywhere: A1 still reads it whole
+PASS p_unknown_prefix               verdict is OK            got=True want=True
+-- p_attempted_after: M3: the Read after the boundary got the unchanged-file stub
+PASS p_attempted_after              verdict is OK            got=False want=False
+PASS p_attempted_after              prints 'attempted access' got=True want=True
+-- p_attach_partial: M6: a file attachment with sections 1-7 after the boundary
+PASS p_attach_partial               verdict is OK            got=False want=False
+PASS p_attach_partial               prints '(ii) handed back' got=True want=True
+-- p_summary_all: every line handed back by the summary
+PASS p_summary_all                  verdict is OK            got=False want=False
+PASS p_summary_all                  prints '(ii) handed back' got=True want=True
+PASS p_summary_all                  prints 'cannot produce the occasion' got=True want=True
+-- p_preserved_results: M6 (ruling): the turn-1 whole read and its result preserved across the boundary: every line handed back
+PASS p_preserved_results            verdict is OK            got=False want=False
+PASS p_preserved_results            prints 'preserved across the boundary' got=True want=True
+PASS p_preserved_results            prints 'cannot produce the occasion' got=True want=True
+-- p_preserved_partial: M6 (ruling): a preserved 40-line result: partly handed back, the pilot stops for the designer
+PASS p_preserved_partial            verdict is OK            got=False want=False
+PASS p_preserved_partial            prints '(ii) handed back' got=True want=True
+PASS p_preserved_partial            prints "designer's ruling" got=True want=True
+PASS p_preserved_partial            prints 'preserved across the boundary' got=True want=True
+-- p_t2_no_tool_call: ruling: turn 2 made no tool call: NOT OK with its own check name
+PASS p_t2_no_tool_call              verdict is OK            got=False want=False
+PASS p_t2_no_tool_call              prints '[turn 2 no tool call]' got=True want=True
+-- p_unclean_term: a tool call names the repo: the failing term is printed
+PASS p_unclean_term                 verdict is OK            got=False want=False
+PASS p_unclean_term                 prints 'certificate clean' got=True want=True
+PASS p_unclean_term                 prints 'no_tool_call_naming_repo' got=True want=True
+-- p_second_model_usage: N7/A6: a second model in modelUsage is printed, not a stop
+PASS p_second_model_usage           verdict is OK            got=True want=True
+PASS p_second_model_usage           prints 'second model in usage (printed, not a st' got=True want=True
+-- p_search_only: B1: turn 2 only searches the rules (a count): not attempted, the pilot is not stopped for it
+PASS p_search_only                  verdict is OK            got=True want=True
+-- p_fences_summary: B2/R2: a code fence and a table rule in the summary: a fact, not a stop
+PASS p_fences_summary               verdict is OK            got=True want=True
+PASS p_fences_summary               prints 'short lines hit (fact, decides nothing):' got=True want=True
+-- p_sentinel_record: B2/R2: the instruction text (the sentinel) carried by a record after the boundary: not a stop
+PASS p_sentinel_record              verdict is OK            got=True want=True
+-- p_rules_in_other_record_type: B3/R3b: the rules text in a record of an unnamed type after the boundary: counted, the pilot stops
+PASS p_rules_in_other_record_type   verdict is OK            got=False want=False
+PASS p_rules_in_other_record_type   prints '(ii) handed back' got=True want=True
+-- p_request_copy_before_call: B12(b): a request copy with the rules text before the arm's first call counts: the pilot stops
+PASS p_request_copy_before_call     verdict is OK            got=False want=False
+PASS p_request_copy_before_call     prints '(ii) handed back' got=True want=True
+-- p_request_copy_after_call: B12(b): the same copy after the arm's first call is left out: no stop
+PASS p_request_copy_after_call      verdict is OK            got=True want=True
+PASS p_request_copy_after_call      prints 'request copies left out: 1' got=True want=True
+-- p_rest_of_turn: B12(a): the rules in an attachment after the first write: the pilot stops on the rest-of-turn count
+PASS p_rest_of_turn                 verdict is OK            got=False want=False
+PASS p_rest_of_turn                 prints '[(ii) rest of turn 2]' got=True want=True
+-- p_no_shrink: B5/R3c: the context did not shrink at the boundary
+PASS p_no_shrink                    verdict is OK            got=False want=False
+PASS p_no_shrink                    prints '[context shrink]' got=True want=True
+-- p_preserved_ids_missing: B5/R3a: preserved records named but not in the file
+PASS p_preserved_ids_missing        verdict is OK            got=False want=False
+PASS p_preserved_ids_missing        prints '[preserved fields]' got=True want=True
+-- p_preserved_bad_shape: B5/R3a: a preserved field of an unexpected shape
+PASS p_preserved_bad_shape          verdict is OK            got=False want=False
+PASS p_preserved_bad_shape          prints '[preserved fields]' got=True want=True
+PASS p_preserved_bad_shape          prints 'unexpected'      got=True want=True
+-- p_unknown_metadata_key: B5/R3d: a key in the boundary's metadata the reader does not know: its name is printed
+PASS p_unknown_metadata_key         verdict is OK            got=False want=False
+PASS p_unknown_metadata_key         prints '[boundary metadata]' got=True want=True
+PASS p_unknown_metadata_key         prints 'keptRecords'     got=True want=True
+-- p_x_nonzero: C3/T5a: the instruction file holds 5 lines of K: the tree is not the designed one
+PASS p_x_nonzero                    verdict is OK            got=False want=False
+PASS p_x_nonzero                    prints '[instruction file]' got=True want=True
+-- p_snapshot_k_wrong: C3/T5: the snapshot's rules file gives 85 of the 86 lines of K
+PASS p_snapshot_k_wrong             verdict is OK            got=False want=False
+PASS p_snapshot_k_wrong             prints '[snapshot rules file]' got=True want=True
+-- p_copy_unreadable: C5/T4: a request copy before the first tool result that cannot be read as text
+PASS p_copy_unreadable              verdict is OK            got=False want=False
+PASS p_copy_unreadable              prints '[request copies]' got=True want=True
+-- p_pairs_disagree: C6/T6c: the two token pairs disagree on the direction
+PASS p_pairs_disagree               verdict is OK            got=False want=False
+PASS p_pairs_disagree               prints '[token numbers]' got=True want=True
+PASS p_pairs_disagree               prints 'disagree'        got=True want=True
+-- p_rules_in_other_result: C7/T10: the result of an `ls` carries lines of K
+PASS p_rules_in_other_result        verdict is OK            got=False want=False
+PASS p_rules_in_other_result        prints "[rules in another call's result]" got=True want=True
+-- p_unparsed_line: C8/T11: a transcript line that does not parse
+PASS p_unparsed_line                verdict is OK            got=False want=False
+PASS p_unparsed_line                prints '[unparsed lines]' got=True want=True
+-- p_metadata_not_object: C8/T12: the boundary's metadata is not an object: a stop with that reason, no traceback
+PASS p_metadata_not_object          verdict is OK            got=False want=False
+PASS p_metadata_not_object          prints '[boundary metadata]' got=True want=True
+PASS p_metadata_not_object          prints 'not an object'   got=True want=True
+-- p_metadata_absent: C8/T12: the boundary has no metadata
+PASS p_metadata_absent              verdict is OK            got=False want=False
+PASS p_metadata_absent              prints '[boundary metadata]' got=True want=True
+PASS p_metadata_absent              prints 'absent'          got=True want=True
+-- p_unplaced_print: C2: cat F > /dev/null in turn 2: unplaced, a warning, no stop
+PASS p_unplaced_print               verdict is OK            got=True want=True
+PASS p_unplaced_print               prints 'cannot place'    got=True want=True
+PASS p_healthy                      marker written on PILOT OK got=True want=True
+PASS p_iv_none                      no marker on PILOT NOT OK got=False want=False
+PASS check_pilot q112               a counted arm is refused (exit 2, says so) got=(2, True) want=(2, True)
+PASS (reader)                       a failing arm is named, no traceback got=(False, 'ZeroDivisionError', True) want=(False, 'ZeroDivisionError', True)
+
+Cases whose expected CLASS changed under Amendment 1 (40): cat_two_files, whole_truncated_marker, cat_pipe_head, read_error, whole_result_after_write, d1_read_limit2000, d1_read_offset1, d1_read_offset1_limit2000, d1_sed_1_dollar, d1_head_500, d1_tail_plus1, d1_awk_1, n9_error_with_text, n1_pipe_grep_cat, n1_elided_lines, n1_tail_cut, n1_all_lines_out_of_order, n1_unknown_prefix_still_whole, m5_auto_in_turn2_read_before, m5_auto_in_turn2_read_after, n3_failed_edit_first, n3_cat_tee_same_call, b1_read_offset_past_end, b1_grep_tool_count, b1_grep_tool_names_file, b6_killed, b8_failed_shell_write, b8_one_record_edit_then_read, b8_head_and_bemyagent, b8_rules_changed_in_turn1, b8_rules_changed_after_reading, c1_stub_then_slices, c1_stub_with_fence_reminder, c1_stub_with_instruction_line, c2_devnull, c2_devnull_and_echo, c2_pbcopy, c2_python_len, c2_node, c2_while_read
+Cases with the same class and a new flag or cut: whole_BEMYAGENT_only, other_arms_rules, unresolvable_var, backup_copy, two_boundaries, b1_grep_c, b1_grep_nohit, b1_grep_q, b1_grep_l, b1_sed_past_end, b1_awk_count, b1_head_c, b1_grep_o_head
+
+0 mismatches

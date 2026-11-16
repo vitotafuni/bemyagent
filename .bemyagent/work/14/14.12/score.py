@@ -1,6 +1,7 @@
 """14.12 scoring: two string matches per arm plus a diff against the seeded map."""
+import os
 import json, pathlib, subprocess
-S = pathlib.Path("<scratchpad>")
+S = pathlib.Path(os.environ["BMA_SCRATCH"])
 SIDE = {"q22":"H","q23":"G","q24":"H","q25":"G","q26":"H","q27":"G"}
 DRIFT = ["newResumeToken","listOnline","sweep(","resumeSession","touchSession",
          "publicView","onlineCount","tokenFingerprint","registerPresence","isExpired"]

@@ -2,9 +2,8 @@
 20.2 metrics (ii) and (iv). Both sides are read from the SAME instrument — the arm's full
 transcript — because one side writes docs and the other does not, and scoring documents would
 be scoring the protocol's definition rather than its effect."""
-import json, pathlib, re, sys
-T = pathlib.Path("<tmp>/<project-key>/"
-                 "<session-id>/tasks")
+import os, json, pathlib, re, sys
+T = pathlib.Path(os.environ["BMA_SCRATCH"]).parent / "tasks"
 SIDE = {"q85": "S", "q86": "O", "q87": "S", "q88": "O", "q89": "S", "q90": "O"}
 # S = Sonnet + the shipped protocol (20.2's P tree).  O = Opus, no protocol (20.2's N tree).
 AGENT = {"q85": "<agent-id>", "q86": "<agent-id>",

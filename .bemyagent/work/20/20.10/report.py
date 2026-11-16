@@ -3,9 +3,9 @@
 Writes 03b_census.txt (every arm launch) and 03c_direction.txt (per round: what its setup
 mutates, which way the defect pushes its verdict, and F4/F5/F6).
 """
-import ast, json, pathlib
+import os, ast, json, pathlib
 
-ROOT = pathlib.Path("<repo>")
+ROOT = pathlib.Path(os.environ.get("BMA_REPO") or pathlib.Path(__file__).resolve().parents[4])
 W = ROOT / ".bemyagent" / "work" / "20" / "20.10"
 d = json.load(open(W / "03d_score_output.json"))
 ag = d["agents"]
