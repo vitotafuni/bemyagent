@@ -6,6 +6,11 @@
 
 **Pushed 2026-11-17 (the user): `main` and tag `3.4.0`.** Nothing is ahead of `origin/main`. `3.4.0` releases two protocol changes: Step 0 branches on content (19.5), and the line *Read this file whole* as line 2 of the rules — **unmeasured**, on `main` by the owner's decision (`05` Decision 24; `specs/restore-integrity.md` criterion 3 not met, kept open as the condition for keeping the line). The unpushed history was cleaned of machine paths and session references before the push (21.6, `work/21/21.6/04_verify.md`).
 
+**Milestone 22 — the site (opened 2026-11-18), committed 2026-11-19, the push is the user's** (`main`, no tag: `BEMYAGENT.md` is unchanged). After the push, to check on bemyagent.md: `v3.4.0 · 2026-11-17` above the title, the rewritten README as the page. Not yet seen by anyone: a run on GitHub; whether the `github-pages` environment accepts a deployment started by a tag (first seen at the next release — `specs/site-version.md` criterion 4).
+- **22.3** (the README follows each release by itself): the user's choice pending — recommended a release command that makes the annotated tag with its explanation, plus a *Releases* section the page builds from the tags (`drafts/readme-follows-release.md`).
+- Found inside `BEMYAGENT.md` Step 0 by 22.2's verifier, untouched: PLAN says *5 sections* and lists six; it lists the rule file among files to regenerate while saying it is never overwritten. A protocol change, so a release.
+- The README's tone is a decision of the user (`drafts/readme-tone.md`): strengths without caveats, unknowns neither listed nor claimed, *save tokens* = less context read.
+
 **Milestone 21 — what is left open** (rows 21.x below hold the detail):
 - **21.1** (resume block): apparatus built, never launched. Its ten seeded trees were lost when the session's temporary folder was emptied on 2026-11-15 — `setup.py` again. Reader fixes N1–N7 still to do before its pilot.
 - **21.3** (rejected register): a must-fix list from its verifier not yet applied.
