@@ -1,0 +1,15 @@
+2026-11-18T20:59Z [1] pages.yml: `tags: ['[0-9]+.[0-9]+.[0-9]+']` added under on.push; checkout `fetch-depth: 0`; build step reads `version` (git describe --tags --abbrev=0 --match '[0-9]*.[0-9]*.[0-9]*') and `released` (for-each-ref creatordate:short) and passes both to pandoc with --metadata.
+    Next: template.
+2026-11-18T21:00Z [2] site/template.html: button href `blob/$if(version)$$version$$else$main$endif$/BEMYAGENT.md`, button text gains the version, footer gains `Release <version> · <released> — `. No CSS touched.
+    Next: local build, four variants, in a pandoc container (pandoc is not installed on the machine; docker is).
+2026-11-18T21:03Z [3] `docker run pandoc/core:3.1.1` (the CI installs Ubuntu's apt pandoc — another 3.1.x, not the same build), repo mounted read-only, output in the session's temporary folder:
+    - the workflow's two git commands, run in the repo → version=3.4.0 released=2026-11-17
+    - real.html: button `blob/3.4.0/BEMYAGENT.md`, text `Get BEMYAGENT.md 3.4.0`, footer `Release 3.4.0 · 2026-11-17 — MIT License — GitHub`
+    - other.html (version=9.9.9, released=2030-01-01): the same three places show 9.9.9 / 2030-01-01
+    - none.html (no version): button `blob/main/BEMYAGENT.md`, text `Get BEMYAGENT.md`, footer without a release
+    - old.html (template from HEAD) against real.html: `diff` shows lines 468-469 and 474 only; against none.html: no difference
+    - pages.yml parsed with PyYAML: on = push{branches [main], tags ['[0-9]+.[0-9]+.[0-9]+'], paths [README.md, site/**, .github/workflows/pages.yml]}, workflow_dispatch
+    Held from memory, not checked against GitHub's documentation by the author: that path filters are not evaluated for tag pushes; that `[0-9]+` is valid in a tag filter.
+    Next: VERIFY by an agent that did not write the change (Sonnet: the check is a re-run of a build and a reading of two short files and of GitHub's documentation — mechanical, light, strictVerification=false).
+2026-11-18T21:41Z [4] The user asked for a preview and for the version in the header, doubting it on the button. template.html: `.release` CSS rule; `<p class="release">` above `$body$` inside `$if(version)$`; button text back to `Get BEMYAGENT.md` (link to the tag kept); footer unchanged. Built in the container with version=3.4.0, screenshot at 1280 px read by the author: the line sits above the title, legible. A 390 px screenshot showed text cut on the right — not attributed (headless minimum window width suspected, not checked). The user: approved this form.
+    Next: second VERIFY pass on the final diff, same independent agent type (Sonnet), appended to 04_verify.md.

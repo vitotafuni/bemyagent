@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # a release tag rebuilds the page; path filters are not evaluated for tags
+    tags: ['[0-9]+.[0-9]+.[0-9]+']
     paths:
       - 'README.md'
       - 'site/**'
@@ -23,17 +25,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # the build reads the latest release tag
 
       - name: Install pandoc
         run: sudo apt-get update && sudo apt-get install -y pandoc
 
       - name: Build HTML from README
         run: |
+          version=$(git describe --tags --abbrev=0 --match '[0-9]*.[0-9]*.[0-9]*')
+          released=$(git for-each-ref --format='%(creatordate:short)' "refs/tags/$version")
           mkdir -p site/output
           pandoc README.md \
             --standalone \
             --template=site/template.html \
             --metadata title="BEMYAGENT.md" \
+            --metadata version="$version" \
+            --metadata released="$released" \
             -o site/output/index.html
           echo "bemyagent.md" > site/output/CNAME
 

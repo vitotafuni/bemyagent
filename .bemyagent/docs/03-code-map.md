@@ -12,6 +12,8 @@
 | `/` | `BEMYAGENT.md` | Source Template (SRC) | The distributable prompt. Contains bootstrap Steps 0-4 and the embedded `00-ai-rules.md`. Must be updated when protocol evolves. |
 | above `/` | — | Base folder (not in the repo) | On the development machine the repo is `<base>/src`; sessions start at `<base>`, task worktrees are `<base>/<project>-task-X.Y` → `05` Decision 25 |
 | `/` | `README.md` | Documentation | High-level explanation for human developers and GitHub visitors. |
+| `/site/` | `template.html` | Site template | pandoc template for bemyagent.md: the page is `README.md` rendered through it. Variables `version`, `released` come from the build, never from the repo → `05` Decision 26 |
+| `/.github/workflows/` | `pages.yml` | Site build & deploy | Runs on a push to `main` touching README / `site/` / itself, on a pushed release tag, and by hand. Reads the latest tag from git. |
 | `/.bemyagent/docs/` | `00-ai-rules.md` | Live Rules | The active protocol governing this project. Changes here must propagate to `BEMYAGENT.md`. |
 | `/.bemyagent/docs/drafts/` | `*.md` | Pending Ideas | Unresolved proposals. Evaluate → integrate into `00-ai-rules.md` → propagate to `BEMYAGENT.md` → delete draft. |
 | `/.bemyagent/docs/specs/` | `*.md` | Specs | One per feature being built, with acceptance criteria. Milestone 21: `resume-block`, `restore-integrity`, `rejected-register`. |
