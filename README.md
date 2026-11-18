@@ -4,7 +4,11 @@
 
 📖 **Website**: [bemyagent.md](https://bemyagent.md)
 
-BEMYAGENT.md is a lightweight, self-bootstrapping protocol that bridges the gap between humans and AI agents. Instead of forcing alignment through code reviews or rigid procedures, it creates a shared workspace where the machine thinks in structured files and the human validates at the right level of abstraction.
+BEMYAGENT.md is one markdown file. You hand it to your AI coding assistant once, and it sets up a small workspace of plain files inside your project where the agent keeps its plans, its decisions and the evidence of what it did. From then on the agent works in the open, and you check its work at the level of *what* and *why* — not line by line.
+
+No install, no runtime, no service. The protocol is text, and everything it produces is text in your repository.
+
+*Save tokens* means less context to read: the agent should never have to read the whole project just to start again. It loads the knowledge a task needs, and widens it only when necessary.
 
 ## The Problem
 
@@ -14,44 +18,75 @@ When working with AI agents on complex projects, three things break down:
 2. **Silent drift** — The agent executes a task but drifts from the original intent. Nobody catches it until it's too late.
 3. **Validation fatigue** — The human must review every line of output because there's no structured checkpoint between "done" and "delivered".
 
-## The Solution: TTEV Workflow
+## What You Get
 
-BEMYAGENT.md provides a single markdown file (`BEMYAGENT.md`) that acts as a bootstrap prompt. When fed to an AI assistant, it generates a structured `.bemyagent/` workspace:
+- **Work survives the end of a session.** Plans, checklists and decisions are files in your project, not messages in the chat. A new session reads the plan and the current task's checklist — and the task's log, when there is one — and picks up from there.
+- **Starting again does not mean reading everything.** Project knowledge is kept in short maps that point to the details, and the agent is told which of them a task calls for. Specs, drafts and detailed decision records stay unread until a task needs them.
+- **It asks instead of guessing.** Before any task that is not trivial the agent checks that it knows the target files, the expected behaviour, the constraints and the dependencies. If two or more are unknown, it stops and asks you.
+- **The plan is written before the work.** Any task beyond a trivial edit is written down before it is executed: the approach, the alternatives considered, what success will look like. You can require your approval at that point, or let the agent run.
+- **"Done" comes with evidence.** After the work, the result is checked against the criteria fixed in the plan, with commands run at that moment, and gets a verdict: PASS, PASS\_WITH\_CAVEATS or FAIL. Where a second agent or model is available, the check is run by one that did not do the work.
+- **Decisions don't evaporate.** What was decided, what was turned down and why are written into the project as they happen — including the conclusions reached in conversation.
+- **The ceremony fits the task.** A one-line fix leaves one line in a log, with its evidence. Anything larger gets the four files.
+- **It is not tied to one assistant.** The agent registers the protocol in the rule file your tool reads (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, Copilot instructions, …).
+- **Your files stay yours.** Upgrading to a newer version starts with a checklist you approve. It replaces the protocol's own files, with a backup, and never your project's documents.
 
-- **`.bemyagent/docs/`** — Permanent project memory (architecture, code map, tech stack, decisions).
-- **`.bemyagent/work/`** — Tactical, volatile memory organized as a Hierarchical Task Network (HTN).
+## Is It for You?
 
-### Core Concepts
+It is made for work that spans many sessions, for projects that more than one person or agent touches, for wanting to know a month from now why something was done — and for anyone who has been told "done" once too often.
 
-| Concept | What it does |
-|---|---|
-| **TTEV Workflow** | Think → Task → Execute → Verify. A four-phase cycle where the agent strategizes, plans atomic steps, executes, and self-validates before notifying the human. |
-| **Lazy Loading** | The agent never reads specs, drafts, or decisions during context restoration unless the current task explicitly requires them. Saves tokens by default. |
-| **Fractal Decomposition (HTN)** | If a task is too large, the agent decomposes it into sub-tasks (e.g., `work/1/1.1/`, `work/1/1.2/`). Each leaf node gets its own TTEV cycle. |
-| **Context Saturation Check** | Before executing, the agent verifies it has enough context (target files, expected behavior, constraints, dependencies). If too much is unclear, it asks instead of guessing. |
-| **Contextual DNA Mapping (CDM)** | During planning, the agent embeds validation criteria directly into each task — scaled by complexity, in three tiers: Micro tasks get none, Standard tasks get Validation criteria, and Heavy tasks get the full set — Drift sensors, Validation criteria and Pivot triggers. |
-| **Symbiotic Validation** | After execution, the agent evaluates its own output against the CDM criteria and produces a verdict (PASS / PASS\_WITH\_CAVEATS / FAIL) before presenting results. The human validates the *sense*, the agent has already validated the *form*. |
-| **Self-Registration** | The agent configures the project's native rule files (`.cursorrules`, `AGENTS.md`, etc.) to read `00-ai-rules.md` before every task. |
+It is not an orchestrator: it does not run agents for you. It is a protocol the agent follows, and there is no program behind it.
 
-### Pacing Modes
+## How It Works
 
-The human controls how much autonomy the agent has:
+Every task that is not trivial goes through four phases — **T**hink, **T**ask, **E**xecute, **V**erify — and each leaves a file:
 
-- **SEAMLESS** — The agent runs TTEV automatically. It only stops if verification finds issues.
-- **INTERACTIVE** — The agent pauses after THINK (plan approval) and after VERIFY (result approval). Two human gates.
+```
+.bemyagent/
+├── settings.json                  # How the agent behaves (see below)
+├── docs/                          # Permanent project memory
+│   ├── 00-ai-rules.md             # The protocol itself (the agent reads this first)
+│   ├── 01-overview.md             # What the project does
+│   ├── 02-architecture.md         # Components and how they fit
+│   ├── 03-code-map.md             # Where things are
+│   ├── 04-tech-stack.md           # Technologies and versions
+│   ├── 05-decisions-and-issues.md # What was decided, and why
+│   ├── 06-implementation-plan.md  # Milestones and tasks
+│   └── decisions/ specs/ drafts/  # Read only when a task needs them
+└── work/                          # One folder per task
+    └── {milestone}/{task}/
+        ├── 01_think.md            # The approach, and what was considered
+        ├── 02_tasks.md            # The checklist and the success criteria
+        ├── 03_execute.log         # What happened
+        └── 04_verify.md           # The verdict, with its evidence
+```
 
-Independently of pacing, `autoModelSwitching` lets the agent use a stronger model for THINK and VERIFY and cheaper tiers for mechanical EXECUTE steps. It composes with either mode rather than being a third one.
+A task too large for one session is split into sub-tasks, each with its own four files.
 
-## Usage
+**You choose the pace.** In *seamless* mode the agent runs the four phases by itself and stops only if it is missing what it needs to start, or if verification finds a problem. In *interactive* mode it stops twice — after the plan and after the verdict — and waits for you. This and a handful of other switches (documentation language, depth of verification, automatic commits, …) live in `.bemyagent/settings.json`; the agent goes through them when it sets the project up.
+
+## Get Started
 
 1. Drop `BEMYAGENT.md` into the root of your project.
 2. Ask your AI assistant to read the file and execute its instructions.
-3. The AI generates the `.bemyagent/` directory structure and templates.
+3. The AI generates the `.bemyagent/` workspace and adds a few lines to your assistant's rule file. In an empty project it first asks what you are building; in an existing codebase it does a shallow scan and fills the documents from what it finds.
 4. Delete `BEMYAGENT.md` and start a fresh chat session (the bootstrap context is no longer needed).
 
 That's it. From this point on, the agent reads `.bemyagent/docs/00-ai-rules.md` before every task and knows how to operate.
 
-## Human-invoked routines
+**Upgrading.** Drop the new `BEMYAGENT.md` into the project and ask the agent to execute it. It compares the file with what you have, writes a checklist and stops; you tick what to apply. Releases are the [tags](https://github.com/vitotafuni/bemyagent/tags) of this repository; a new tag is cut only when `BEMYAGENT.md` itself changes.
+
+## Is There Evidence?
+
+A rule written for an AI agent is a claim about behaviour, and reasoning about such a claim predicts the outcome badly. So rules proposed for this protocol are tested before they go in: the same task is given to agents with and without a rule, and what they leave behind is compared. Most rules proposed here did not survive that — several turned out inert, and one made the agent measurably worse before it was reworked.
+
+What has been measured about the protocol as a whole — small numbers, one ten-file app; read them as that:
+
+- On controls certified to contain no protocol text, a mid-tier model told to read the protocol file and follow it left behind a test that catches a deliberately introduced bug in 2 of 3 runs; without the protocol, none of the three runs added a test. It cost about 4× the tokens — on one task in a single session, where there is nothing to resume.
+- What the protocol changed is whether the check **stays in the repository**, not whether the work was checked: in earlier rounds the runs without it were not careless — one checked the running app more thoroughly than any protocol run beside it — but most of their checks ended with the session.
+
+The record, nulls included, is in [`.bemyagent/docs/05-decisions-and-issues.md`](https://github.com/vitotafuni/bemyagent/blob/main/.bemyagent/docs/05-decisions-and-issues.md). The test environment is in [`harness/`](https://github.com/vitotafuni/bemyagent/blob/main/harness/README.md): it is **not part of the protocol and never lands in your project** — `BEMYAGENT.md` is the only thing you copy, and it needs no runtime, no package manager and no particular operating system. The harness is kept here for anyone tuning agent instructions who wants evidence instead of intuition.
+
+## Routines for the Human
 
 These live here rather than in `00-ai-rules.md` so they cost nothing at session restore —
 they are for you to run, not for the agent to carry in context every turn.
@@ -69,84 +104,20 @@ Every procedural rule in the protocol forces an artifact to *exist*; none checks
 ### Version-control conventions
 
 `.bemyagent/` is tracked in git by default. Teams preferring a clean VCS history may
-`.gitignore` `work/` — the audit trail is kept locally and lost in VCS.
+`.gitignore` `work/` — the audit trail is kept locally and lost in VCS — and `log/`:
+if your tooling writes the optional conversation log there, it holds your messages verbatim.
 
 ### Multi-agent dispatch
 
 In the worktree workflow (`00-ai-rules.md` §8) the human dispatches one session per worktree,
 merges via PR, and resolves conflicts. There is no automated orchestrator by design.
 
-## How It Works (The Files)
-
-```
-.bemyagent/
-├── docs/                          # Permanent project memory
-│   ├── 00-ai-rules.md             # The protocol itself (agent reads this first)
-│   ├── 01-overview.md             # What the project does, quick start
-│   ├── 02-architecture.md         # System diagram, component roles
-│   ├── 03-code-map.md             # Routes, key functions, data schemas
-│   ├── 04-tech-stack.md           # Technologies, versions, external services
-│   ├── 05-decisions-and-issues.md # Decision log and known issues
-│   ├── 06-implementation-plan.md  # Milestones and task index
-│   ├── decisions/                 # Complex ADRs (loaded on-demand)
-│   ├── specs/                     # Feature specifications (loaded on-demand)
-│   └── drafts/                    # Unscoped ideas (loaded on-demand)
-└── work/                          # Tactical memory (volatile)
-    └── {milestone}/{task}/        # One folder per atomic task
-        ├── 01_think.md            # Strategy & context check
-        ├── 02_tasks.md            # Checklist with CDM criteria
-        ├── 03_execute.log         # What happened (retrospective)
-        └── 04_verify.md           # Self-validation report
-```
-
-## `harness/` — measuring whether a rule actually works
-
-**Not part of the protocol, and not shipped to you.** `BEMYAGENT.md` is the only
-thing you copy into your project. `harness/` is never referenced by it, never lands
-in your repo, and its tooling — Node, sqlite, Python — is **not** a requirement for
-using BEMYAGENT: the protocol is plain markdown and assumes no runtime, no package
-manager and no particular operating system. `harness/` is the test environment used
-to develop the protocol, kept here for anyone who wants to reuse the method.
-
-The problem it solves: a rule written for an AI agent is a *claim* about
-behaviour, and reasoning about that claim predicts the outcome badly. Across
-three milestones here, most proposed rules did not survive measurement — several
-turned out inert, and one made the agent measurably worse before it was reworked.
-
-**The method** — one variable, two arms, N=3 each:
-
-1. Copy `fixture/` into 6 isolated directories.
-2. Three get your current rules; three get the same rules plus the candidate.
-   Diff the two and confirm the only difference is the rule.
-3. Run one agent per directory, same prompt, same model, in parallel.
-4. Score the **artifact** the rule should produce — not a downstream proxy like
-   token count, which is noisy enough to produce false positives.
-
-**What's inside:**
-
-- `fixture/` — a small tic-tac-toe app (Express + sqlite + vanilla client, ~120
-  lines) with real layer separation: schema → store → API → client → tests. It is
-  deliberately layered so a feature request cuts through everything at once, which
-  is what makes decomposition and scoping rules observable. Swap in your own
-  codebase if you prefer.
-- `tokens.py` — per-arm cost from agent session transcripts, cache-weighted
-  (raw token sums mislead: cache reads are ~10× cheaper than fresh input).
-- `README.md` — the method, plus what the harness **cannot** measure and the
-  traps that cost real experiment rounds: consent-shaped rules are unmeasurable
-  because subagents never treat a coordinator as the user; directory names leak
-  the hypothesis to the agents; a fixture that advertises itself as a test
-  changes behaviour; a planted defect that doesn't actually exist turns every
-  arm into a different experiment.
-
-Useful for anyone tuning agent instructions — prompts, skills, rule files — who
-wants evidence instead of intuition.
-
 ## Contributing & Dogfooding
 
 This repository uses the BEMYAGENT.md protocol to develop itself. The `.bemyagent/` directory contains the live workspace where the protocol is planned, documented, and evolved — using its own rules.
 
-Explore `.bemyagent/work/` to see real TTEV cycles, CDM annotations, and verification reports in action.
+Explore `.bemyagent/work/` to see real plans, logs and verification reports.
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](https://github.com/vitotafuni/bemyagent/blob/main/LICENSE) file for details.
