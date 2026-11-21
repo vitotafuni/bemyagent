@@ -6,7 +6,7 @@
 
 **Pushed 2026-11-17 (the user): `main` and tag `3.4.0`.** Nothing is ahead of `origin/main`. `3.4.0` releases two protocol changes: Step 0 branches on content (19.5), and the line *Read this file whole* as line 2 of the rules — **unmeasured**, on `main` by the owner's decision (`05` Decision 24; `specs/restore-integrity.md` criterion 3 not met, kept open as the condition for keeping the line). The unpushed history was cleaned of machine paths and session references before the push (21.6, `work/21/21.6/04_verify.md`).
 
-**Milestone 23 — the conversation log with both voices (opened 2026-11-20, nothing built):** start from `drafts/log-both-sides.md`, task 23.1.
+**Milestone 23 — the conversation log with both voices (opened 2026-11-20):** 23.1 is active on this machine since 2026-11-20T23:01Z — a script and three hooks in the base's tool folder, outside the repo; the log is now `log/<YYYY-MM>/<DD>-<HHMM>-<session>.md` (UTC), the old day files stay beside it. First thing next session: read a few of the new files and say whether they hold up. Then 23.2, a protocol change (`drafts/log-both-sides.md`, `work/23/23.1/04_verify.md`).
 
 **Milestone 22 — the site (opened 2026-11-18), pushed by the user 2026-11-20** (`main`, no tag: `BEMYAGENT.md` is unchanged). To check on bemyagent.md, not yet confirmed in the session: `v3.4.0 · 2026-11-17` above the title, the rewritten README as the page. Not yet seen by anyone: a run on GitHub; whether the `github-pages` environment accepts a deployment started by a tag (first seen at the next release — `specs/site-version.md` criterion 4).
 - **22.3** (the README follows each release by itself): the user's choice pending — recommended a release command that makes the annotated tag with its explanation, plus a *Releases* section the page builds from the tags (`drafts/readme-follows-release.md`).
@@ -294,11 +294,11 @@
 
 ## Milestone 23.0 — A conversation log with both voices, set up at bootstrap
 **Goal**: the log holds the agent's replies beside the user's messages, kept in the project until the user deletes them; and the protocol tells the agent how to set it up for its harness — a contract in pseudo-code and one worked example — instead of a sentence addressed to nobody (the user, 2026-11-20). Design and limits → `drafts/log-both-sides.md`. A protocol change: a release when it lands.
-**Status**: todo — opened 2026-11-20, nothing built.
+**Status**: in-progress — opened 2026-11-20.
 
 | Task | Description | Status |
 |------|-------------|--------|
-| 23.1 | **Pilot, here.** A second hook at the end of the turn appends the agent's final message to the day's file. One real run before anything else: what the hook receives, and whether both hooks fire in the headless form the arms use. | todo |
+| 23.1 | **Pilot, here.** First a probe (what each hook receives, in headless and in an interactive session), then the real thing: one script called by three hooks writes `log/<YYYY-MM>/<DD>-<HHMM>-<session>.md` with the prompt as received, the agent's final message and the brief handed to a subagent; a subagent's report arrives by itself as a block of the harness. `work/23/23.1/`. | active locally since 2026-11-20, outside the repo — independent VERIFY (Sonnet), two passes: **PASS_WITH_CAVEATS**; a real defect found by the verifier (two long entries at the same instant interleaved) corrected with a per-session lock and re-checked. Then a folder per month instead of per day (the user, 2026-11-21) — that change checked by the author only. Stated limits: a message the user sends straight to a subagent reaches no hook (the user's choice to leave it out); trailing newlines dropped; this harness only. Not yet seen: several days of use |
 | 23.2 | **The instruction.** Bootstrap step + contract + worked example in `BEMYAGENT.md`; line 70 widened to two voices. Tested on clean two-turn arms by someone who did not write it, with and without the example; Claude Code only. | todo — after 23.1 |
 
 ## Backlog (unscheduled)
