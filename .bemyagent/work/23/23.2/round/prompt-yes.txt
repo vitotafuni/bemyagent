@@ -1,0 +1,1 @@
+Read BEMYAGENT.md in this folder and follow it. One answer in advance: if you offer me a conversation log, my answer is yes — switch it on; and yes, its folder goes in .gitignore.

@@ -11,7 +11,7 @@ This file instructs the AI to generate the `.bemyagent/` architecture: permanent
 If your tool cannot create directories, list the required `mkdir` commands and ask the user to run them first.
 1. **UPGRADE** — `.bemyagent/` holds something this step could overwrite or must not touch: any `docs/` or `work/` file, or any file this protocol does not name. **Branch on content, not on the directory existing.** Where it holds none of those — empty, or only `settings.json`, whose merge is additive and destroys nothing — there is nothing to review: go to BROWNFIELD or GREENFIELD, generate what is missing, and report in one line what was already there:
    - **ASSESS**: Treat this file as desired state; compare with the existing `.bemyagent/`. For `settings.json`: detect new, renamed (search old docs for mapping), and orphaned fields. For project docs (`01`–`06`): check section headers only — never full reads. Skip completed `work/` folders; check only in-progress tasks.
-   - **PLAN**: Write `.bemyagent/upgrade-plan.md` as a checkbox list in 5 sections: 1. Protocol Files (protocol-owned, overwrite-safe: `00-ai-rules.md`, templates — note key changes), 2. Settings (additive merge — additions, remaps `old → new` with values preserved, orphans), 3. Structural changes, 4. Project Files (user-owned — suggestions only, NEVER auto-overwritten), 5. Self-Registration files to regenerate, 6. Foreign files — anything inside `.bemyagent/` this protocol does not name belongs to another tool: **list it, never touch it**. **STOP** — the user reviews, ticks items, approves.
+   - **PLAN**: Write `.bemyagent/upgrade-plan.md` as a checkbox list in these sections: 1. Protocol Files (protocol-owned, overwrite-safe: `00-ai-rules.md`, templates — note key changes), 2. Settings (additive merge — additions, remaps `old → new` with values preserved, orphans), 3. Structural changes, 4. Project Files (user-owned — suggestions only, NEVER auto-overwritten), 5. Self-Registration files to regenerate, 6. Foreign files — anything inside `.bemyagent/` this protocol does not name belongs to another tool: **list it, never touch it**, 7. Conversation log — the files already in the `conversationLog` folder are the user's, whatever their layout: NEVER convert, move or delete them; one optional item: set up its hook (Step 4, item 5). **STOP** — the user reviews, ticks items, approves.
    - **APPLY**: Execute checked items only. Atomic dir-level copy/move (never file-by-file enumeration). Backup before overwrite (`file.bak-YYYYMMDD`). On filename collision NEVER overwrite user files — ask.
    - **AUDIT**: Write `.bemyagent/work/upgrade-YYYY-MM-DD.log` (applied / skipped lists).
    - **CLEANUP**: Delete `upgrade-plan.md`. Delete a `.bak` **only** where the file it backs up is unchanged; keep every other `.bak` and list them in the AUDIT log.
@@ -67,7 +67,7 @@ NEVER read `decisions/`, `specs/`, `drafts/` during restore — on-demand only.
 
 **Context Slicing** (any docs/work file > `contextSlicingThreshold` lines — estimate via terminal first): grep the relevant sections (~20-30 lines context) → expand (50-80) if insufficient → full read only as last resort. If you repeatedly need large parts of the same file, propose splitting it (e.g. `03-code-map/frontend.md`).
 
-**Conversation log (optional, written by your harness — never by you):** `conversationLog` in `settings.json` names a folder (`""` = off). The protocol does **not** write it: a rule telling an agent to append every turn measures at ~0, and an agent asked to quote “verbatim” paraphrases. If your harness can write it (a prompt hook, a transcript converter), point it there — one file per day, the user's message as received. NEVER read during Session Restore. Cite it (`<file> HH:MM`) instead of copying long quotes into THINK or decisions. Where no harness can write it, the folder stays empty and costs nothing.
+**Conversation log (optional, written by your harness — never by you):** `conversationLog` in `settings.json` names a folder (`""` = off). The protocol does **not** write it: a rule telling an agent to append every turn measures at ~0, and an agent asked to quote “verbatim” paraphrases. Where your harness can run a command on its events, a hook writes it — what arrives as a prompt, your final message of the turn, the brief you hand a subagent — one file per session: `<YYYY-MM>/<DD>-<HHMM>-<session>.md`. The files are the user's: NEVER delete, move or convert them. NEVER read during Session Restore. Cite it (`<file> <time>`) instead of copying long quotes into THINK or decisions. Where no hook exists, the folder stays empty and costs nothing.
 
 **Write Gate:** before creating or modifying ANY file in `docs/` or `work/`, you MUST:
 1. Re-read the Routing Table — does the content belong in an existing file?
@@ -286,7 +286,7 @@ Every Status cell starts with exactly one of those words, so Quick Resume can re
 ### Step 4: Self-Registration & Clean-up
 1. **Self-Register** now per rules §1: check your native rule file's **content** for the sentinel; create/append/skip accordingly.
 2. Output a success message.
-3. **Explain `settings.json`** briefly: `language` (docs language) · `interactiveMode` (true = human gates after THINK and VERIFY) · `strictVerification` (deep vs light VERIFY) · `autoModelSwitching` (cheaper models for mechanical phases) · `autoCommit` (commit on PASS) · `obstacleThreshold` (obstacles before pivot) · `contextSlicingThreshold` (lines before grep-instead-of-read). Editable manually or by asking.
+3. **Explain `settings.json`** briefly: `language` (docs language) · `interactiveMode` (true = human gates after THINK and VERIFY) · `strictVerification` (deep vs light VERIFY) · `autoModelSwitching` (cheaper models for mechanical phases) · `autoCommit` (commit on PASS) · `obstacleThreshold` (obstacles before pivot) · `contextSlicingThreshold` (lines before grep-instead-of-read) · `conversationLog` (folder of the optional conversation log; `""` = off). Editable manually or by asking.
 4. **Show the Quick Reference Card:**
    ```text
    ╔══════════════════════════════════════════════════╗
@@ -302,5 +302,66 @@ Every Status cell starts with exactly one of those words, so Quick Resume can re
    ║    validate behavior before going autonomous     ║
    ╚══════════════════════════════════════════════════╝
    ```
-5. Tell the user they can delete this file unless they want to keep it.
-6. **CRITICAL — context cleansing:** tell the user to CLOSE this chat and start a NEW session. The bootstrap prompt would waste tokens in every following turn; a fresh session loads only `00-ai-rules.md`.
+5. **Offer the conversation log** (optional; skip if `conversationLog` is `""`). It keeps both sides of the conversation in the project, where the user decides how long they live — your tool's own transcript sits outside the project and expires. You never write it: a command run by your harness does. Set it up once, now. **This item is the exception to "do NOT ask permission": it ends in a question.**
+   1. Find out whether your harness can run a command on these events and what it hands the command — read its documentation, do not guess:
+      ```text
+      the user's message arrives (before you see it) → append "## <UTC timestamp> · user"  + the message, as received
+      the harness itself sends a prompt (a subagent's report) → the same, with "harness" in place of "user"
+      your turn ends                                  → append "## <UTC timestamp> · agent" + your final message
+      you hand a brief to a subagent                  → append "## <UTC timestamp> · brief → <agent>" + the brief
+      file: <conversationLog>/<YYYY-MM>/<DD>-<HHMM>-<first 8 characters of the session id>.md
+            created at a session's first entry, found again by the id at every later one
+      the text is data: no shell ever evaluates it · append only · a failure of the command must not block the turn
+      ```
+   2. If it can: write the script to `.bemyagent/hooks/<your harness>/` — it travels with the project, in a folder that says which tool it is for — and **show** the user the configuration that would switch it on. Switch it on only on their yes, and in their **personal** settings for the tool, never in the ones the project shares: it is a command their machine will run at every turn, and the log holds their words. A personal settings file must not reach a commit: check that git ignores it (`git check-ignore <file>`) and, if it does not, add it to `.gitignore`. Tell them the log holds the conversation verbatim, and ask whether its folder goes in `.gitignore`.
+   3. If it cannot, or the user says no: say so in one line. The folder stays empty.
+
+   Worked example — Claude Code. **Translate it to your harness; do not copy it into another.** Needs `jq`. Script, `.bemyagent/hooks/claude-code/conversation-log.sh` (executable):
+   ```sh
+   #!/bin/sh
+   # Conversation log: appends one entry to <log folder>/<YYYY-MM>/<DD>-<HHMM>-<session>.md (UTC).
+   # Called by the harness with the event as JSON on stdin:  conversation-log.sh <log folder>
+   # The text goes from jq to the file and is never evaluated. Never exits 2 (in this harness 2 blocks the turn).
+
+   log=${1:-}
+   [ -n "$log" ] || { echo "usage: conversation-log.sh <log folder>" >&2; exit 1; }
+   input=$(cat) || exit 1
+
+   sid=$(printf '%s' "$input" | jq -r '(.session_id // "nosession") | gsub("[^A-Za-z0-9]"; "") | .[0:8]') || exit 1
+   [ -n "$sid" ] || exit 1
+
+   entry=$(printf '%s' "$input" | jq -r --arg ts "$(date -u +%FT%TZ)" '
+     def entry(voice; text): "## \($ts) · \(voice)\n\n\(text)";
+     if .hook_event_name == "UserPromptSubmit" and ((.prompt // "") != "") then
+       entry(if (.prompt | test("^\\s*<(task-notification|agent-message)[ >]")) then "harness" else "user" end; .prompt)
+     elif .hook_event_name == "Stop" and ((.last_assistant_message // "") != "") then
+       entry("agent"; .last_assistant_message)
+     elif .hook_event_name == "PreToolUse" and ((.tool_input.prompt // "") != "") then
+       entry("brief → \(if (.tool_input.subagent_type // "") != "" then .tool_input.subagent_type else "agent" end)"
+             + (if (.tool_input.description // "") != "" then " — \(.tool_input.description)" else "" end);
+             .tool_input.prompt)
+     else empty end') || exit 1
+   [ -n "$entry" ] || exit 0
+
+   dir=$log/$(date -u +%Y-%m)
+   mkdir -p "$dir" || exit 1
+
+   # one writer at a time per session: two events can land in the same instant (a reply and a subagent's report)
+   lock=$dir/.lock-$sid
+   tries=0
+   until mkdir "$lock" 2>/dev/null; do
+     tries=$((tries + 1))
+     [ "$tries" -lt 20 ] || break   # about 2 s; a lock left by a dead run is then taken over and removed below
+     sleep 0.1
+   done
+   file=$(find "$log" -type f -name "*-$sid.md" | head -n 1)   # any month: a session that runs past the end of one stays in its file
+   [ -n "$file" ] || file=$dir/$(date -u +%d-%H%M)-$sid.md
+   printf '\n%s\n' "$entry" >> "$file"
+   status=$?
+   rmdir "$lock" 2>/dev/null
+   [ "$status" -eq 0 ] || exit 1
+   ```
+   Hooks — in `.claude/settings.local.json` (personal, not committed): `UserPromptSubmit`, `Stop`, and `PreToolUse` with matcher `Agent`, each running
+   `{"type": "command", "timeout": 10, "command": "\"$CLAUDE_PROJECT_DIR/.bemyagent/hooks/claude-code/conversation-log.sh\" \"$CLAUDE_PROJECT_DIR/.bemyagent/log\""}`
+6. Tell the user they can delete this file unless they want to keep it.
+7. **CRITICAL — context cleansing:** tell the user to CLOSE this chat and start a NEW session. The bootstrap prompt would waste tokens in every following turn; a fresh session loads only `00-ai-rules.md`.

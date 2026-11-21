@@ -15,7 +15,7 @@ harness/fixture/node_modules/
 # transient audit output from development scripts
 .bemyagent/work/audit-latest.log
 
-# experiment 16.2 — conversation log hook (local only)
+# conversation log — the personal switch and the log itself (local only)
 .claude/settings.local.json
 .bemyagent/log/
 

@@ -1,0 +1,1 @@
+Read BEMYAGENT.md in this folder and follow it. I am not at the keyboard and cannot answer questions: wherever you would ask me something, decide yourself and write down what you decided. One answer in advance: if you offer me a conversation log, my answer is yes — switch it on; and yes, its folder goes in .gitignore.

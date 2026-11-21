@@ -105,7 +105,29 @@ Every procedural rule in the protocol forces an artifact to *exist*; none checks
 
 `.bemyagent/` is tracked in git by default. Teams preferring a clean VCS history may
 `.gitignore` `work/` — the audit trail is kept locally and lost in VCS — and `log/`:
-if your tooling writes the optional conversation log there, it holds your messages verbatim.
+the optional conversation log holds both sides of your conversations verbatim (below).
+
+### Conversation log (optional)
+
+Your tool keeps its own transcript outside the project and deletes it after a while. The
+conversation log keeps both sides **in the project** — what you wrote, the agent's final
+message of each turn, the brief it hands a subagent — one file per session under
+`.bemyagent/log/<YYYY-MM>/`, until *you* delete them. The agent never writes it and never
+reads it at session start: a small script run by your tool's hooks does the writing.
+
+At the end of bootstrap the agent offers to set it up and **asks first**: it writes the
+script to `.bemyagent/hooks/<tool>/`, shows you the configuration, and switches it on only
+on your yes, in your *personal* settings for the tool — it is a command your machine runs
+at every turn. Already bootstrapped? Upgrade with the current `BEMYAGENT.md`: the plan
+carries it as an optional item and never touches the log files you already have.
+
+What is known, and what is not: the worked example is for **Claude Code** (it needs `jq`),
+and that is the only tool it has been tried on — for any other the agent is told to read
+its tool's documentation and translate, and nobody has measured that. On Claude Code, two
+models, three runs each: told yes in advance, 4 of 6 runs ended with a working log and in
+the other 2 the tool itself refused the agent's write to its settings — the agent stopped
+and said so; told nothing, 0 of 6 switched it on and all 6 left the decision to the user.
+A message you send directly to a subagent reaches no hook and is not in the log.
 
 ### Multi-agent dispatch
 

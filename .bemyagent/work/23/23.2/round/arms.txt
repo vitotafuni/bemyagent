@@ -1,0 +1,12 @@
+h-yes-1 haiku yes
+h-none-1 haiku none
+s-yes-1 sonnet yes
+h-yes-2 haiku yes
+h-none-2 haiku none
+s-none-1 sonnet none
+h-yes-3 haiku yes
+h-none-3 haiku none
+s-yes-2 sonnet yes
+s-none-2 sonnet none
+s-yes-3 sonnet yes
+s-none-3 sonnet none
