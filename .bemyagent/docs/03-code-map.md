@@ -9,7 +9,7 @@
 ## Key Files
 | Path | File | Role | Key Description |
 |---|---|---|---|
-| `/` | `BEMYAGENT.md` | Source Template (SRC) | The distributable prompt. Contains bootstrap Steps 0-4 and the embedded `00-ai-rules.md`. Must be updated when protocol evolves. |
+| `/` | `BEMYAGENT.md` | Source Template (SRC) | The distributable prompt. Contains bootstrap Steps 0-4 and the embedded `00-ai-rules.md`. Must be updated when protocol evolves. The title of the embedded rules carries the release number, changed by hand in the commit that lands a protocol change; **before a tag, print it and show it beside the tag**: `awk '/^````markdown$/{f=1;next} /^````$/{f=0} f' BEMYAGENT.md \| sed -n '1s/.*BEMYAGENT //p'` → `05` Decision 28 |
 | above `/` | — | Base folder (not in the repo) | On the development machine the repo is `<base>/src`; sessions start at `<base>`, task worktrees are `<base>/<project>-task-X.Y` → `05` Decision 25 |
 | `/` | `README.md` | Documentation | High-level explanation for human developers and GitHub visitors. |
 | `/site/` | `template.html` | Site template | pandoc template for bemyagent.md: the page is `README.md` rendered through it. Variables `version`, `released` come from the build, never from the repo → `05` Decision 26 |

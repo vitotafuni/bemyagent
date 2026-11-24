@@ -10,8 +10,13 @@ This file instructs the AI to generate the `.bemyagent/` architecture: permanent
 ### Step 0: Discovery & Assessment
 If your tool cannot create directories, list the required `mkdir` commands and ask the user to run them first.
 1. **UPGRADE** — `.bemyagent/` holds something this step could overwrite or must not touch: any `docs/` or `work/` file, or any file this protocol does not name. **Branch on content, not on the directory existing.** Where it holds none of those — empty, or only `settings.json`, whose merge is additive and destroys nothing — there is nothing to review: go to BROWNFIELD or GREENFIELD, generate what is missing, and report in one line what was already there:
+   - **VERSION** (first, before anything is read or written): this file's version is the number in the title of the rules in Step 2 (`BEMYAGENT x.y.z`); the project's is the one in the title of its `.bemyagent/docs/00-ai-rules.md` — no number there, or anything that is not three numbers, is `unknown (before 3.6.0)`. Compare as numbers, field by field (`3.10.0` is newer than `3.9.0`):
+     - **this file is older** → a downgrade: say so in one line with both numbers and **STOP**, writing nothing. This is a question you do ask: go on only if the user answers that they want it.
+     - **same number** → extract the Step 2 rules with a command and compare them with the project's file byte for byte (`cmp`) — do not judge by reading. Equal, and no `upgrade-plan.md` pending → say `already on x.y.z — nothing to upgrade` and **STOP**: no plan, no backup. Otherwise say what differs and go on.
+     - **newer, or unknown** → go on.
+     The number is a label for the human: it NEVER replaces ASSESS, and you NEVER infer from it what changed.
    - **ASSESS**: Treat this file as desired state; compare with the existing `.bemyagent/`. For `settings.json`: detect new, renamed (search old docs for mapping), and orphaned fields. For project docs (`01`–`06`): check section headers only — never full reads. Skip completed `work/` folders; check only in-progress tasks.
-   - **PLAN**: Write `.bemyagent/upgrade-plan.md` as a checkbox list in these sections: 1. Protocol Files (protocol-owned, overwrite-safe: `00-ai-rules.md`, templates — note key changes), 2. Settings (additive merge — additions, remaps `old → new` with values preserved, orphans), 3. Structural changes, 4. Project Files (user-owned — suggestions only, NEVER auto-overwritten), 5. Self-Registration files to regenerate, 6. Foreign files — anything inside `.bemyagent/` this protocol does not name belongs to another tool: **list it, never touch it**, 7. Conversation log — the files already in the `conversationLog` folder are the user's, whatever their layout: NEVER convert, move or delete them; one optional item: set up its hook (Step 4, item 5). **STOP** — the user reviews, ticks items, approves.
+   - **PLAN**: Write `.bemyagent/upgrade-plan.md`: first line `Upgrade: <project's version> → <this file's version>`, then a checkbox list in these sections: 1. Protocol Files (protocol-owned, overwrite-safe: `00-ai-rules.md`, templates — note key changes), 2. Settings (additive merge — additions, remaps `old → new` with values preserved, orphans), 3. Structural changes, 4. Project Files (user-owned — suggestions only, NEVER auto-overwritten), 5. Self-Registration files to regenerate, 6. Foreign files — anything inside `.bemyagent/` this protocol does not name belongs to another tool: **list it, never touch it**, 7. Conversation log — the files already in the `conversationLog` folder are the user's, whatever their layout: NEVER convert, move or delete them; one optional item: set up its hook (Step 4, item 5). **STOP** — the user reviews, ticks items, approves.
    - **APPLY**: Execute checked items only. Atomic dir-level copy/move (never file-by-file enumeration). Backup before overwrite (`file.bak-YYYYMMDD`). On filename collision NEVER overwrite user files — ask.
    - **AUDIT**: Write `.bemyagent/work/upgrade-YYYY-MM-DD.log` (applied / skipped lists).
    - **CLEANUP**: Delete `upgrade-plan.md`. Delete a `.bak` **only** where the file it backs up is unchanged; keep every other `.bak` and list them in the AUDIT log.
@@ -26,7 +31,7 @@ If your tool cannot create directories, list the required `mkdir` commands and a
 The permanent rule file. Exact content:
 
 ````markdown
-# AI Rules & TTEV Workflow
+# AI Rules & TTEV Workflow — BEMYAGENT 3.6.0
 **Read this file whole — first line to last, every time, a context compaction included. A slice of it, or what you recall of it, is not a read.**
 
 ## 1. Self-Registration (idempotent, harness-proof)

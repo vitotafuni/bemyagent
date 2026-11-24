@@ -30,3 +30,11 @@ Candidate: `bma/24.1`. The pilot and criterion (a) ran at 8af9320; the text was 
 
 ## Verdict
 **PASS** for a–e at eb427b1, with the limits above to be carried wherever the feature is described. Not landed: step 5 is on the user's word, and the release waits for 24.2 (the number and the tag kept equal).
+
+## Landing on `main` — 2026-11-24
+**Who verified:** a Sonnet agent that wrote none of it (commands and their output), read-only, on the uncommitted tree. **PASS_WITH_CAVEATS**, the caveats answered below.
+- `git diff eb427b1 -- BEMYAGENT.md .bemyagent/docs/00-ai-rules.md` → 0 bytes: what landed is what was measured. Embedded rules `cmp` silent; hook script `cmp` silent; the title command of `03` prints `3.6.0`; tags end at `3.5.0`.
+- Nine files changed, nothing untracked; no machine value in the diff (a search that found nothing — absence only).
+- Numbers in README, `05` Decision 28 and the plan match `score.tsv` (32 arms, 30 + 2, 2.4764 USD).
+- Found, and corrected before the commit: README and Decision 28 gave the *same number* case without its two conditions (rules byte-equal, no plan pending) and without the *differs → go on* branch, and left out that the downgrade stop ends in a question; Decisions 12 and 26 had no pointer to 28; the plan said the worktree was removed while it still existed (removed with the commit). The corrections were read by the author only.
+- Left as it is: README says *since `3.6.0`* before that tag exists — true once the release is out, and `main` is not pushed before it.
