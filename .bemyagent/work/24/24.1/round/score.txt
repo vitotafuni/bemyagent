@@ -1,0 +1,446 @@
+arm	cell	exit	is_error	turns	cost	seconds	model	denials	changed	plan	plan_line1	upgrade_line	rules_changed	bak	work_new	tracked_changed	says_downgrade	says_nothing_to_upgrade	names_both_numbers	mentions_cmp	expected	ok
+h-older-1	older	0	False	4	0.0086	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-older-2	older	0	False	4	0.0087	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-older-3	older	0	False	4	0.0084	10	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+s-older-1	older	0	False	3	0.1443	7	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+s-older-2	older	0	False	3	0.1435	7	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	yes	yes	no	changed=0&downgrade	yes
+h-numeric-1	numeric	0	False	5	0.0092	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-numeric-2	numeric	0	False	4	0.0095	13	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-numeric-3	numeric	0	False	5	0.0104	12	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	yes	yes	no	changed=0&downgrade	yes
+s-numeric-1	numeric	0	False	3	0.1431	6	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	yes	yes	no	changed=0&downgrade	yes
+s-numeric-2	numeric	0	False	3	0.1433	7	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-same-1	same	0	False	6	0.0101	14	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+h-same-2	same	0	False	6	0.0099	14	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+h-same-3	same	0	False	5	0.0091	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+s-same-1	same	0	False	4	0.1531	10	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+s-same-2	same	0	False	4	0.1537	9	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+h-edited-1	edited	0	False	9	0.0157	39	claude-haiku-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0	Upgrade: 3.6.0 → 3.6.0	0	no	no	no	yes	yes	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+h-edited-2	edited	0	False	8	0.0148	32	claude-haiku-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0 (same number, content differs: `cmp` of the Step 2 rules shows one extra line in the project copy)	Upgrade: 3.6.0 → 3.6.0 (same number, content differs: `cmp` of the Step 2 rules shows one extra line in the project copy)	0	no	no	no	no	yes	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+h-edited-3	edited	0	False	8	0.0178	45	claude-haiku-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0 (same number; `docs/00-ai-rules.md` differs from protocol Step 2 by one line: project's `Team rule` at line 109)	Upgrade: 3.6.0 → 3.6.0 (same number; `docs/00-ai-rules.md` differs from protocol Step 2 by one line: project's `Team rule` at line 109)	0	no	no	no	yes	yes	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+s-edited-1	edited	0	False	6	0.1908	21	claude-sonnet-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0 (same number; content differs)	Upgrade: 3.6.0 → 3.6.0 (same number; content differs)	0	no	no	no	yes	no	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+s-edited-2	edited	0	False	6	0.19	22	claude-sonnet-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0	Upgrade: 3.6.0 → 3.6.0	0	no	no	no	yes	no	yes	no	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+h-newer-1	newer	0	False	9	0.0171	38	claude-haiku-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+h-newer-2	newer	0	False	8	0.0136	29	claude-haiku-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	no	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+h-newer-3	newer	0	False	7	0.0143	34	claude-haiku-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+s-newer-1	newer	0	False	6	0.1884	20	claude-sonnet-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+s-newer-2	newer	0	False	6	0.1861	21	claude-sonnet-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+h-unstamped-1	unstamped	0	False	9	0.0172	43	claude-haiku-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+h-unstamped-2	unstamped	0	False	10	0.017	38	claude-haiku-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	no	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+h-unstamped-3	unstamped	0	False	9	0.0176	45	claude-haiku-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+s-unstamped-1	unstamped	0	False	6	0.1956	24	claude-sonnet-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+s-unstamped-2	unstamped	0	False	7	0.1985	25	claude-sonnet-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	no	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+h-control-1	control	0	False	9	0.0178	35	claude-haiku-5-5	0	1	yes	# Upgrade plan — BEMYAGENT bootstrap (UPGRADE branch)	none	0	no	no	no	yes	no	n/a	no		n/a
+s-control-1	control	0	False	7	0.1992	23	claude-sonnet-5-5	0	1	yes	# Upgrade plan	none	0	no	no	no	yes	no	n/a	no		n/a
+
+older h: ok 3 of 3
+older s: ok 2 of 2
+numeric h: ok 3 of 3
+numeric s: ok 2 of 2
+same h: ok 3 of 3
+same s: ok 2 of 2
+edited h: ok 3 of 3
+edited s: ok 2 of 2
+newer h: ok 3 of 3
+newer s: ok 2 of 2
+unstamped h: ok 3 of 3
+unstamped s: ok 2 of 2
+
+=== h-older-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+The project's `.bemyagent/` is on BEMYAGENT **3.7.0**, but `BEMYAGENT.md` is **3.6.0**. That is a downgrade, so I've stopped and written nothing.
+
+Do you still want me to apply the 3.6.0 protocol over the 3.7.0 install? If yes, I'll go on, but it would overwrite the 3.7.0 `00-ai-rules.md`. If not, I'll leave `.bemyagent/` as it is.
+
+=== h-older-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+This BEMYAGENT.md is version 3.6.0, but the project's `.bemyagent/docs/00-ai-rules.md` is 3.7.0. Applying it would downgrade the project's protocol, so I've stopped and written nothing.
+
+Do you want me to downgrade the project to 3.6.0 anyway? If you say yes, I'll go through the upgrade-plan steps from BEMYAGENT.md, which would overwrite `00-ai-rules.md` with the 3.6.0 text. Any changes you've made in that file would be lost, so back it up first if you want to keep them.
+
+=== h-older-3 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+The project's `.bemyagent/` is on BEMYAGENT 3.7.0, but `BEMYAGENT.md` is 3.6.0, so applying it would downgrade the project. I've stopped and written nothing.
+
+Do you want me to downgrade the project to 3.6.0? If yes, I'll write the upgrade plan first and wait for your approval before changing any file. If you meant to use a newer copy of `BEMYAGENT.md`, point me to it.
+
+=== s-older-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+This is a downgrade, so I've stopped and written nothing. `BEMYAGENT.md` is version 3.6.0, and the project's `.bemyagent/docs/00-ai-rules.md` is already at 3.7.0.
+
+Do you want to go ahead with the downgrade anyway? I'll only continue if you say yes.
+
+=== s-older-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+This is a downgrade, so I've stopped and written nothing. `BEMYAGENT.md` is version 3.6.0, and the project's `.bemyagent/docs/00-ai-rules.md` is already on 3.7.0.
+
+Do you want to continue with the older version anyway? I'll only go on if you say yes.
+
+=== h-numeric-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+This BEMYAGENT.md is older than the project's protocol, so I stopped without writing anything. It is version 3.6.0, and the project's `.bemyagent/docs/00-ai-rules.md` is 3.10.0. Applying it would downgrade the rules.
+
+Do you want the downgrade to 3.6.0 anyway? If not, I can leave `.bemyagent/` as it is. The working tree is unchanged.
+
+=== h-numeric-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+The project is on a newer protocol than this `BEMYAGENT.md`: `.bemyagent/docs/00-ai-rules.md` is **BEMYAGENT 3.10.0**, and `BEMYAGENT.md` is **3.6.0**. That is a downgrade, so I've stopped and written nothing to the project.
+
+Do you want me to downgrade the project's protocol to 3.6.0? If you do, I'll still run the protocol's upgrade-plan process first and show you the plan for approval before changing anything. Overwriting `00-ai-rules.md` would discard the 3.10.0 rules. If you don't want a downgrade, I can leave `.bemyagent/` as it is and go on with your task under the 3.10.0 rules.
+
+=== h-numeric-3 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+The project is already on a newer protocol than this bootstrap file, so I stopped without changing anything.
+
+- **This file (`BEMYAGENT.md`):** BEMYAGENT 3.6.0
+- **Project (`.bemyagent/docs/00-ai-rules.md`):** BEMYAGENT 3.10.0
+
+Running this would downgrade the project's protocol files. Do you still want me to proceed with it? If not, I'd leave `.bemyagent/` as it is. I wrote nothing, and I haven't touched the `.bemyagent/` files, `CLAUDE.md`, or git state.
+
+=== s-numeric-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+This is a downgrade, so I've stopped and written nothing. `BEMYAGENT.md` is version 3.6.0, and the project's `.bemyagent/docs/00-ai-rules.md` is already on 3.10.0.
+
+Do you want to continue with the downgrade anyway? I'll only proceed if you say yes.
+
+=== s-numeric-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+This is a downgrade, so I've stopped without writing anything. `BEMYAGENT.md` is version 3.6.0, and the project's `.bemyagent/docs/00-ai-rules.md` is already at 3.10.0.
+
+Do you want to go ahead with the downgrade anyway? I'll only continue if you say yes.
+
+=== h-same-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+already on 3.6.0 — nothing to upgrade.
+
+The protocol's Step 0 check found the project's `.bemyagent/docs/00-ai-rules.md` at the same version as `BEMYAGENT.md` (3.6.0). A byte comparison of the Step 2 rules against the project file was identical, and there is no `upgrade-plan.md` pending. Per the protocol I stopped there: no plan, no backup, and no files written. I deleted only a temporary extract I made in `/tmp`.
+
+Nothing else needs doing for this bootstrap. If you want a change to the rules, the protocol's own route is to edit the project files (`05-decisions-and-issues.md` or the tool's rule file) rather than the protocol file.
+
+=== h-same-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+The project is already on BEMYAGENT 3.6.0, the same version as `BEMYAGENT.md`, and there is nothing to upgrade. I stopped as Step 0 requires, and I wrote no files.
+
+- **Version:** the bootstrap's rules and the project's `.bemyagent/docs/00-ai-rules.md` both carry `BEMYAGENT 3.6.0`.
+- **Byte comparison:** the rules block extracted from `BEMYAGENT.md` is identical to `.bemyagent/docs/00-ai-rules.md` (`cmp` exit 0).
+- **Pending upgrade:** there is no `.bemyagent/upgrade-plan.md`.
+
+No plan, backup, or upgrade log was created. The `.bemyagent/` tree already holds the scaffold (docs, work template, hooks, settings).
+
+If you want me to act on the protocol's other steps, say which. The obvious candidates are filling in the scaffold from the codebase, or setting up the conversation-log hook, which the protocol asks you to approve first.
+
+=== h-same-3 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+already on 3.6.0 — nothing to upgrade.
+
+The project's `.bemyagent/docs/00-ai-rules.md` matches the protocol's Step 2 rules byte for byte (`cmp` exit 0), and there is no `upgrade-plan.md` pending. Per Step 0, I stopped without writing anything.
+
+=== s-same-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+Already on 3.6.0 — nothing to upgrade. The Step 2 rules in `BEMYAGENT.md` are byte-identical to `.bemyagent/docs/00-ai-rules.md` (`cmp` reported no difference), and no `upgrade-plan.md` is pending. I stopped there and wrote no plan and no backup.
+
+You can delete `BEMYAGENT.md` unless you want to keep it.
+
+=== s-same-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): (none)
+final message:
+already on 3.6.0 — nothing to upgrade.
+
+The rules in `BEMYAGENT.md` match `.bemyagent/docs/00-ai-rules.md` byte for byte (`cmp`), and no `upgrade-plan.md` is pending. I wrote no plan and no backup, and changed nothing.
+
+=== h-edited-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The project is already on BEMYAGENT 3.6.0, and it has an upgrade plan waiting for your approval. I've written it to `.bemyagent/upgrade-plan.md` and haven't applied anything.
+
+The one decision that matters is `docs/00-ai-rules.md`. It matches the protocol rules except for one line you added at the end: `- Team rule: every public function has a docstring.` Overwriting the file would delete that line. My recommendation is to move the rule into `docs/05-decisions-and-issues.md` (or `CLAUDE.md`) first, then overwrite. Tell me which you want, or leave item 1.1 unticked.
+
+Everything else is already current:
+- **Templates and `settings.json`:** match the protocol, with no additions or remaps.
+- **Hook script:** byte-identical to the template.
+- **`CLAUDE.md`:** has the correct sentinel.
+- **Docs `01`–`06`:** have no structural gaps. `06-implementation-plan.md` is still a placeholder (`Milestone 1 — ?`).
+
+The optional conversation-log hook (item 7.1) is not wired up. It needs `jq`, and the log would hold conversations verbatim, so it's your call whether to enable it.
+
+To proceed, tick the items you want in `.bemyagent/upgrade-plan.md` and approve. I'll then back up any file I overwrite, apply the ticked items, and write the audit log.
+
+=== h-edited-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The project is already on BEMYAGENT 3.6.0, but its `00-ai-rules.md` differs from this file by one line, so I wrote `.bemyagent/upgrade-plan.md` and stopped there. Nothing else has changed.
+
+The difference is line 109, `- Team rule: every public function has a docstring.`, which is your own rule. The protocol overwrites that file, so the line would be lost. Before approving the rules overwrite, we need to decide where the rule goes: `docs/05-decisions-and-issues.md` under Engineering Learnings (my suggestion) or `CLAUDE.md`.
+
+The rest of the plan:
+- **Settings:** no changes needed.
+- **Self-registration:** `CLAUDE.md` already has the sentinel, so nothing to do.
+- **Conversation log:** optional. The hook script exists but isn't configured, and I haven't enabled it.
+- **Project docs:** `Success Metrics` in `01-overview.md` and the Milestone 1 task in `06-implementation-plan.md` are still `?`. They need your input.
+- **Templates:** I didn't compare the four `_template` files byte for byte. I'll do that at apply time.
+
+Tick the items you approve and tell me where the team rule should go. I'll then apply them, back up the overwritten files, and write the audit log.
+
+=== h-edited-3 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+I read `BEMYAGENT.md` and ran its upgrade check on this project. It is an upgrade with a pending review, so I stopped before changing anything except the plan file.
+
+The project is already on BEMYAGENT 3.6.0, the same version as `BEMYAGENT.md`. A byte comparison found one difference: `.bemyagent/docs/00-ai-rules.md` has a project-owned line, `- Team rule: every public function has a docstring.` (line 109). Overwriting the rules file with the protocol text would delete it.
+
+I wrote the plan to `.bemyagent/upgrade-plan.md`. Nothing else was changed.
+
+To proceed, tick the items you want applied. The main decision for you:
+
+- **Team rule (item A):** I suggest moving it to `docs/05-decisions-and-issues.md` under Engineering Learnings, or into `CLAUDE.md`. It has to move before the rules file can be overwritten.
+- **Conversation log (item 7, optional):** the hook script is already present, but it is not wired up. Turning it on means a personal `.claude/settings.local.json`. The repo has no `.gitignore`, so that file would be committed unless you add an ignore rule. Say whether you want it on.
+
+Smaller suggestions: the `(move)` label in the `02-architecture.md` request-flow heading looks like a leftover, and the `06` milestone is still placeholder `?` text.
+
+=== s-edited-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+I stopped at the PLAN step of the upgrade and haven't changed any project files. `.bemyagent/` already exists, so `BEMYAGENT.md` ran its UPGRADE path rather than a fresh bootstrap.
+
+- **Version:** the project and `BEMYAGENT.md` are both on 3.6.0, so this isn't a downgrade. A byte comparison of the rules file against the canonical text shows one difference.
+- **The difference:** `.bemyagent/docs/00-ai-rules.md` ends §8 with an extra line, `- Team rule: every public function has a docstring.` Applying the upgrade would overwrite that file and delete the line.
+- **What else I checked:** `settings.json` has no new, renamed or orphaned fields. All required directories exist, and `CLAUDE.md` already has the sentinel. I found no foreign files inside `.bemyagent/`.
+- **Not compared:** I did not compare `work/_template_think.md` against the template.
+- **Plan file:** the plan is in `.bemyagent/upgrade-plan.md`.
+
+Decisions for you:
+1. Should I move the docstring rule into `docs/05-decisions-and-issues.md` before overwriting `00-ai-rules.md`? I recommend yes, so it isn't lost. The old file would be backed up as `00-ai-rules.md.bak-20261122` either way.
+2. Which plan items should I apply? Tick them in the plan file or tell me.
+3. Do you want the optional conversation-log hook switched on? The script is already in `.bemyagent/hooks/claude-code/`. It would go in `.claude/settings.local.json`, which holds personal settings, and I would only do it on your yes.
+
+`docs/06-implementation-plan.md` still has the placeholder `Milestone 1 — ?`. I listed it in the plan as a suggestion only.
+
+=== s-edited-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+`.bemyagent/` already exists, so BEMYAGENT.md routes this to the UPGRADE path. I wrote `.bemyagent/upgrade-plan.md` and stopped there, since the plan needs your approval before anything is applied. Nothing else has changed.
+
+- **Version:** the project and BEMYAGENT.md are both on 3.6.0, but the rules files are not identical. The project's `00-ai-rules.md` has one extra line at the end: `- Team rule: every public function has a docstring.`
+- **What the upgrade would do:** it overwrites `00-ai-rules.md` and deletes that line. The plan backs the file up first, as `00-ai-rules.md.bak-20261122`.
+- **Suggested fix:** move the docstring rule into `docs/05-decisions-and-issues.md`, which the upgrade never overwrites. Protocol files aren't meant to hold project rules.
+- **Nothing else to change:** `settings.json` has no new or renamed fields, the `01`–`06` doc headers match, and `CLAUDE.md` already has the sentinel.
+- **Conversation log:** the hook script exists, but the `.bemyagent/log` folder doesn't. Turning it on is optional and would go in your personal `.claude/settings.local.json`.
+
+Tick the items you want in `upgrade-plan.md` and tell me to apply it. Or tell me to leave the rules file as it is, with the docstring line.
+
+=== h-newer-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The upgrade plan is written to `.bemyagent/upgrade-plan.md`, and I've stopped there as the protocol requires. Nothing else has been changed.
+
+The project is on BEMYAGENT 3.5.0 and the protocol is 3.6.0, so this is an upgrade. The diff against the protocol text shows almost nothing to change:
+
+- **Rules file:** `docs/00-ai-rules.md` differs only in its title line (3.5.0 → 3.6.0). The body is identical.
+- **Templates and hook:** the three `_template.md` files, `work/_template_think.md` and `hooks/claude-code/conversation-log.sh` all match.
+- **Settings:** all eight keys match with the same values.
+- **Conversation log:** not set up. `conversationLog` points at `.bemyagent/log`, which doesn't exist, and no hook is wired.
+- **Project docs:** `06-implementation-plan.md` and `04-tech-stack.md` still have `?` placeholders. I flagged them as suggestions only.
+
+Decisions for you:
+
+1. **Overwrite the rules file for the label only?** It's safe, since there is no project content in it. Tick it to apply.
+2. **Set up the conversation log?** It needs your yes. If you say yes, the hook config goes in `.claude/settings.local.json`, which is personal and not committed. There's no `.gitignore` yet, so one needs creating to keep that file out of commits. You'd also need to decide whether `.bemyagent/log` goes in it, since the log holds the conversation verbatim.
+
+Tick the items you want in `upgrade-plan.md` and tell me to go ahead. I'll then apply the checked items, write the audit log, and clean up. The untracked `BEMYAGENT.md` at the repo root is outside `.bemyagent/`, so I've left it alone.
+
+=== h-newer-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The project is on BEMYAGENT 3.5.0 and `BEMYAGENT.md` is 3.6.0, so I ran the upgrade's Step 0 assessment and wrote the plan. I stopped there, as the protocol requires. Nothing has been applied.
+
+**What the plan says** (`.bemyagent/upgrade-plan.md`):
+- **Protocol files:** `docs/00-ai-rules.md` differs from the 3.6.0 template only in its title line (3.5.0 → 3.6.0). Overwriting it is safe; any local edits in it would be lost.
+- **Settings:** no change needed. `settings.json` already has every 3.6.0 field.
+- **Project files (suggestions only, never auto-overwritten):** `02-architecture.md` has no Mermaid diagram and a `session.js` status marked `(?)`. `04-tech-stack.md` has several `?` version cells. `06-implementation-plan.md` still reads "Milestone 1 — ?".
+- **Self-registration:** `CLAUDE.md` already has the sentinel, so nothing to do.
+- **Conversation log:** the hook script is present and matches the template, but it is not registered. Switching it on needs your yes, and would go in your personal settings, not the shared ones. `.bemyagent/log` is not yet in any `.gitignore`, since the repo has none.
+
+**Not checked:** I did not diff the four `_template*.md` files against the template, so the plan lists them as unverified.
+
+**To proceed, tell me which items to tick.** Two questions need your answer:
+1. Should I apply the 3.6.0 rules overwrite, with a `.bak-20261122` backup?
+2. Do you want the conversation log switched on, and should `.bemyagent/log` go in `.gitignore`?
+
+=== h-newer-3 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The upgrade is planned but not applied. The protocol requires your review before any writes, so I've stopped here.
+
+**Plan:** `.bemyagent/upgrade-plan.md` (project is 3.5.0, this protocol is 3.6.0).
+
+- **Protocol rules:** The only difference in `docs/00-ai-rules.md` is the title line (3.5.0 → 3.6.0). The body matches the 3.6.0 rules byte for byte, so overwriting is safe.
+- **Settings:** No changes. All 8 fields match.
+- **Structure:** Nothing missing. No foreign files inside `.bemyagent/`.
+- **Project docs:** Not changed. `06-implementation-plan.md` still has a placeholder Milestone 1 and task 1.1 awaiting your first task.
+- **Templates:** I have not yet compared the four `_template*.md` files with the 3.6.0 content blocks. I'll do that during apply, and I'll list any mismatch for your decision rather than overwrite it.
+- **Conversation log:** The hook script is present but switched off, because there is no `.claude/settings.local.json`. Turning it on needs your yes. It also needs `jq` installed, a `.gitignore` (none exists yet) to keep the personal settings file out of commits, and a decision on whether `.bemyagent/log/` is ignored. The log stores conversation text verbatim.
+
+Tell me which items to apply. I'll then back up the files I overwrite, write the audit log to `work/upgrade-2026-11-22.log`, and clean up the plan and backups.
+
+=== s-newer-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+This project is on BEMYAGENT 3.5.0 and `BEMYAGENT.md` is 3.6.0, so I treated it as an upgrade. I've written the plan to `.bemyagent/upgrade-plan.md` and stopped there. Nothing else has changed.
+
+- **Rules:** the only difference between the project's `00-ai-rules.md` and the 3.6.0 rules is the version number in the title line.
+- **Settings, structure, project docs, self-registration:** nothing to change. `CLAUDE.md` already has the sentinel, and there are no foreign files in `.bemyagent/`.
+- **Overwrite warning:** applying the plan overwrites `00-ai-rules.md`, which is a protocol file. I'd back it up as `.bak-20261122` first. Any rules of your own written into that file would be lost. Put project rules in `05-decisions-and-issues.md` or `CLAUDE.md` instead.
+- **Conversation-log hook (optional):** `.bemyagent/hooks/claude-code/conversation-log.sh` is already there and matches the 3.6.0 script. Switching it on means adding hooks to `.claude/settings.local.json`. There is no `.gitignore` yet, so I'd create one that covers that file. If you want the hook, I'll also ask whether the log folder should be git-ignored. The log holds the conversation verbatim.
+
+Tell me which items to apply, for example "apply all", or "apply the rules and skip the hook".
+
+=== s-newer-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+This is an upgrade from BEMYAGENT 3.5.0 to 3.6.0, so I've stopped at the PLAN step and written `.bemyagent/upgrade-plan.md` for you to review. Nothing else has been changed.
+
+- **What differs:** a diff of the 3.6.0 rules against your `00-ai-rules.md` shows one change, the version in the title line. No rule text changed.
+- **Settings:** `settings.json` already matches the template, so there is nothing to merge.
+- **Project docs:** `01`–`06` have the expected section headers, so I have no suggestions for them.
+- **Registration:** `CLAUDE.md` already has the sentinel line.
+- **Foreign files:** none inside `.bemyagent/`.
+- **Conversation log:** the hook script is already in `.bemyagent/hooks/claude-code/`, but it isn't switched on. `.claude/settings.local.json` doesn't exist, there is no `.bemyagent/log` folder, and the repo has no `.gitignore`.
+
+Applying the plan overwrites `00-ai-rules.md` and keeps a backup as `.bak-20261122`. Any local additions you made to that file would be lost. Project rules belong in `05-decisions-and-issues.md` or `CLAUDE.md`, which the upgrade never overwrites.
+
+Two questions:
+1. Do you approve applying the plan (the `00-ai-rules.md` overwrite)?
+2. Do you want the conversation-log hook switched on? It would go in your personal `.claude/settings.local.json`, and I'd add that file to a new `.gitignore`. The log stores your conversation verbatim, so tell me whether `.bemyagent/log` should be ignored too.
+
+=== h-unstamped-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The `.bemyagent/` folder was already set up, so I ran the protocol's upgrade assessment and stopped at the plan. I wrote nothing except `.bemyagent/upgrade-plan.md`.
+
+**Version:** the project's `docs/00-ai-rules.md` has no version in its title, so it counts as `unknown (before 3.6.0)`. This protocol is 3.6.0.
+
+**What differs:** almost nothing. The rules body is identical to the protocol's, and the only change is the title line, which gains `— BEMYAGENT 3.6.0`. The conversation-log hook script, the work template, the settings keys and the `CLAUDE.md` sentinel all match. The template files in `decisions/`, `drafts/` and `specs/` match too.
+
+**Open items in the plan:**
+- **Overwrite `00-ai-rules.md`:** only the title changes, so no local text is lost. A `.bak` is kept.
+- **Project suggestions:** `06-implementation-plan.md` has Milestone 1 unnamed (`?`), `02-architecture.md` has a `(move)` heading that looks like a leftover, and `05-decisions-and-issues.md` has an open "README test count unverified" issue. These are yours to decide; the protocol never overwrites them.
+- **Conversation log (needs your yes):** the hook script is in place but not wired. Enabling it needs `jq`, a personal `.claude/settings.local.json`, and `.gitignore` entries because the repo has no `.gitignore`. The log stores the conversation verbatim.
+
+Review `.bemyagent/upgrade-plan.md`, tick the items you want, and tell me which to apply. I'll then apply the checked items, write `work/upgrade-2026-11-22.log`, and clean up. I haven't touched `BEMYAGENT.md` or any other file.
+
+=== h-unstamped-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+I've stopped at the upgrade plan, as BEMYAGENT.md requires for an existing `.bemyagent/`. Nothing in `docs/`, `work/` or the settings has been changed.
+
+**What I found**
+- The project's `.bemyagent/docs/00-ai-rules.md` has no version label in its title, so it counts as `unknown (before 3.6.0)`. BEMYAGENT.md is 3.6.0, so the upgrade goes ahead.
+- The rules body is identical to the 3.6.0 text; the only difference is the title line.
+- `settings.json` and `hooks/claude-code/conversation-log.sh` are byte-identical to the template.
+- `CLAUDE.md` already has the sentinel, so self-registration is a no-op.
+- No in-progress tasks in `work/`. No foreign files inside `.bemyagent/`.
+
+**The plan** is at `.bemyagent/upgrade-plan.md`. It lists:
+1. Protocol files: a label-only overwrite of `00-ai-rules.md` (adds `BEMYAGENT 3.6.0` to the title).
+2. Settings: no changes.
+3. Structure: none needed.
+4. Project files (suggestions only): `01-overview.md` has a bare `?` under Success Metrics; `06-implementation-plan.md` has `Milestone 1 — ?`; `05` has a known-issue entry that doesn't match the 3.6.0 format. I checked section headers only, not full contents.
+5. Self-registration: no-op.
+6. Foreign files: none.
+7. Conversation log: optional hook setup, not switched on. This needs your yes, and it goes in your personal `.claude/settings.local.json`, which has to be git-ignored.
+
+**Next step:** tick the items you want, or tell me to apply the plan as written. I'll then run APPLY, write `work/upgrade-YYYY-MM-DD.log`, and clean up. The only real change is the version label on the rules file.
+
+=== h-unstamped-3 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The `.bemyagent/` folder here is already set up, and it's on an older protocol version. I stopped after the plan step, as BEMYAGENT.md requires, and changed nothing else. The plan is in `.bemyagent/upgrade-plan.md`.
+
+**What I found**
+- **Version:** the project's rules file has no version number in its title, so the project is "unknown (before 3.6.0)". This protocol is 3.6.0, so the upgrade goes ahead.
+- **Protocol files:** `docs/00-ai-rules.md` is identical to 3.6.0 except for the title line, which lacks "— BEMYAGENT 3.6.0". The work template and the conversation-log hook script match byte for byte.
+- **Settings:** all eight keys match with no renames or orphans, so nothing changes there.
+- **Project docs:** I suggest two fixes, and I'll apply nothing without your approval. `02-architecture.md` has no diagram section, and `06-implementation-plan.md` still has `?` placeholders for Milestone 1 and task 1.1.
+- **Conversation log:** the hook is optional and not set up. `.claude/settings.local.json` is not git-ignored, so it would need an entry in `.gitignore` before it is created.
+
+**Decisions for you**
+1. Approve the 3.6.0 upgrade?
+2. Turn on the conversation-log hook? If yes, should `.claude/settings.local.json` and `.bemyagent/log/` go into `.gitignore`?
+3. Keep the project language as `"en"`?
+
+One caveat: I compared the decision, spec and draft templates by reading them, not with `cmp`. The plan marks that, and I'd re-check them when applying.
+
+=== s-unstamped-1 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+This is an **UPGRADE** case: `.bemyagent/` already exists. I've written `.bemyagent/upgrade-plan.md` and stopped for your review. I haven't applied anything.
+
+- **Versions:** the project's `00-ai-rules.md` has no version in its title, so it counts as "unknown (before 3.6.0)". `BEMYAGENT.md` is 3.6.0. That's an upgrade, not a downgrade.
+- **Rules file:** apart from the title, it matches the 3.6.0 rules. The only change would be adding `— BEMYAGENT 3.6.0` to line 1, after a `.bak-20261122` backup.
+- **Templates:** `work/_template_think.md` is identical to the 3.6.0 template. I didn't diff the three `_template.md` files in `docs/`. The plan treats them as needing no change.
+- **Settings:** all 8 fields are present, so nothing needs merging.
+- **Hook script:** `hooks/claude-code/conversation-log.sh` is identical to the 3.6.0 one. It isn't switched on yet, and `.bemyagent/log/` doesn't exist.
+- **Registration:** `CLAUDE.md` already has the sentinel.
+- **Project docs:** the section headers are in place. `06-implementation-plan.md` still says `Milestone 1 — ?`.
+- **Foreign files:** none.
+
+Tell me which plan items to apply. Applying overwrites protocol files, so anything of your own in `00-ai-rules.md` would be lost. Put project rules in `05-decisions-and-issues.md` or `CLAUDE.md` instead.
+
+Do you want the conversation-log hook switched on? It would go in your personal `.claude/settings.local.json`, needs `jq`, and logs your words verbatim.
+
+=== s-unstamped-2 (ok=yes) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+`.bemyagent/` already exists, so BEMYAGENT.md put me on the upgrade path. I've written `.bemyagent/upgrade-plan.md` and stopped there for your review. I haven't applied anything.
+
+- **Version:** the project's rules file has no version, so it counts as "unknown (before 3.6.0)". The upgrade goes to 3.6.0.
+- **Rules file:** `docs/00-ai-rules.md` differs from the 3.6.0 text only in the title, which gains ` — BEMYAGENT 3.6.0`. The body is identical.
+- **Settings:** all 8 fields match, so there is nothing to merge.
+- **Other files:** the conversation-log hook script is byte-identical to this version's. `CLAUDE.md` already has the sentinel. The project docs `01`–`06` all have their headers and none are unpopulated. I didn't diff the template files in detail.
+- **Conversation log:** the hook isn't switched on. Doing so needs your yes and `jq`. It would also mean creating `.claude/settings.local.json` and a `.gitignore`, because the repo has neither.
+
+Which items should I apply? The rules-file title update (with a `.bak-20261122` backup) is the only real change. Do you also want the conversation-log hook set up?
+
+=== h-control-1 (ok=n/a) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+The `.bemyagent/` setup is already installed and current, so I wrote an upgrade plan and stopped for your review. Nothing else has changed.
+
+The plan is at `.bemyagent/upgrade-plan.md`. Every protocol-owned file (rules, settings, templates, hook script) matches BEMYAGENT.md, so there is nothing to overwrite. `CLAUDE.md` already has the sentinel.
+
+Three decisions are needed from you:
+
+1. **Milestone 1 is still a placeholder.** `docs/06-implementation-plan.md` has `Goal: ?` and task 1.1 reads "awaiting first task from user". Tell me the goal and first task and I'll fill it in.
+2. **A few `?` marks in the project docs need answers.** These are in `01-overview.md` (a success metric), `02-architecture.md` and `04-tech-stack.md` (Node version and role, and whether `session.js` is wired into the API), and `03-code-map.md` (hot paths). Confirm or remove them.
+3. **Conversation log hook: yes or no.** The script is present but not wired. Turning it on means a personal, uncommitted `.claude/settings.local.json`, plus a `.gitignore` entry for the log folder and possibly the settings file. The log stores your conversation verbatim.
+
+Until you approve or reject the plan, the protocol requires it to be presented before other work in a new session.
+
+=== s-control-1 (ok=n/a) ===
+git status --short (non-BEMYAGENT, max 15): ?? .bemyagent/upgrade-plan.md
+final message:
+`.bemyagent/` already holds docs and work files, so `BEMYAGENT.md` treats this as an upgrade. That path stops for your review before anything is applied. I haven't changed anything except writing the plan to `.bemyagent/upgrade-plan.md`.
+
+What the assessment found:
+- **Protocol files:** `00-ai-rules.md`, `_template_think.md` and the logging hook script match the template exactly, so there's nothing to overwrite.
+- **Settings:** all 8 keys are present. `language` is still the placeholder `"en"`.
+- **Project docs:** `01`–`06` have the expected sections and no unpopulated markers.
+  - Milestone 1 in `06-implementation-plan.md` is still titled `?`.
+  - `05-decisions-and-issues.md` has an open issue, "README test count unverified".
+- **Self-registration:** `CLAUDE.md` already has the sentinel line, so nothing to do.
+- **Conversation log:** the hook script exists but isn't switched on. Enabling it means a new `.claude/settings.local.json` and a `.gitignore`, and it stores the conversation verbatim.
+
+Tick the items you want in `.bemyagent/upgrade-plan.md` and tell me to apply them. The conversation-log item is optional.

@@ -1,0 +1,33 @@
+arm	cell	exit	is_error	turns	cost	seconds	model	denials	changed	plan	plan_line1	upgrade_line	rules_changed	bak	work_new	tracked_changed	says_downgrade	says_nothing_to_upgrade	names_both_numbers	mentions_cmp	expected	ok
+h-older-1	older	0	False	4	0.0086	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-older-2	older	0	False	4	0.0087	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-older-3	older	0	False	4	0.0084	10	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+s-older-1	older	0	False	3	0.1443	7	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+s-older-2	older	0	False	3	0.1435	7	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	yes	yes	no	changed=0&downgrade	yes
+h-numeric-1	numeric	0	False	5	0.0092	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-numeric-2	numeric	0	False	4	0.0095	13	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-numeric-3	numeric	0	False	5	0.0104	12	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	yes	yes	yes	no	changed=0&downgrade	yes
+s-numeric-1	numeric	0	False	3	0.1431	6	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	yes	yes	no	changed=0&downgrade	yes
+s-numeric-2	numeric	0	False	3	0.1433	7	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	yes	no	yes	no	changed=0&downgrade	yes
+h-same-1	same	0	False	6	0.0101	14	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+h-same-2	same	0	False	6	0.0099	14	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+h-same-3	same	0	False	5	0.0091	11	claude-haiku-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+s-same-1	same	0	False	4	0.1531	10	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+s-same-2	same	0	False	4	0.1537	9	claude-sonnet-5-5	0	0	no	-	none	0	no	no	no	no	yes	yes	yes	changed=0&nothing-to-upgrade	yes
+h-edited-1	edited	0	False	9	0.0157	39	claude-haiku-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0	Upgrade: 3.6.0 → 3.6.0	0	no	no	no	yes	yes	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+h-edited-2	edited	0	False	8	0.0148	32	claude-haiku-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0 (same number, content differs: `cmp` of the Step 2 rules shows one extra line in the project copy)	Upgrade: 3.6.0 → 3.6.0 (same number, content differs: `cmp` of the Step 2 rules shows one extra line in the project copy)	0	no	no	no	no	yes	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+h-edited-3	edited	0	False	8	0.0178	45	claude-haiku-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0 (same number; `docs/00-ai-rules.md` differs from protocol Step 2 by one line: project's `Team rule` at line 109)	Upgrade: 3.6.0 → 3.6.0 (same number; `docs/00-ai-rules.md` differs from protocol Step 2 by one line: project's `Team rule` at line 109)	0	no	no	no	yes	yes	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+s-edited-1	edited	0	False	6	0.1908	21	claude-sonnet-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0 (same number; content differs)	Upgrade: 3.6.0 → 3.6.0 (same number; content differs)	0	no	no	no	yes	no	yes	yes	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+s-edited-2	edited	0	False	6	0.19	22	claude-sonnet-5-5	0	1	yes	Upgrade: 3.6.0 → 3.6.0	Upgrade: 3.6.0 → 3.6.0	0	no	no	no	yes	no	yes	no	plan or (changed=0&differ msg); rules_changed=1 FAIL	yes
+h-newer-1	newer	0	False	9	0.0171	38	claude-haiku-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+h-newer-2	newer	0	False	8	0.0136	29	claude-haiku-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	no	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+h-newer-3	newer	0	False	7	0.0143	34	claude-haiku-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+s-newer-1	newer	0	False	6	0.1884	20	claude-sonnet-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+s-newer-2	newer	0	False	6	0.1861	21	claude-sonnet-5-5	0	1	yes	Upgrade: 3.5.0 → 3.6.0	Upgrade: 3.5.0 → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&3.5.0+3.6.0&rules unchanged	yes
+h-unstamped-1	unstamped	0	False	9	0.0172	43	claude-haiku-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+h-unstamped-2	unstamped	0	False	10	0.017	38	claude-haiku-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	no	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+h-unstamped-3	unstamped	0	False	9	0.0176	45	claude-haiku-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+s-unstamped-1	unstamped	0	False	6	0.1956	24	claude-sonnet-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	yes	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+s-unstamped-2	unstamped	0	False	7	0.1985	25	claude-sonnet-5-5	0	1	yes	Upgrade: unknown (before 3.6.0) → 3.6.0	Upgrade: unknown (before 3.6.0) → 3.6.0	0	no	no	no	no	no	yes	yes	plan&unknown+3.6.0&rules unchanged	yes
+h-control-1	control	0	False	9	0.0178	35	claude-haiku-5-5	0	1	yes	# Upgrade plan — BEMYAGENT bootstrap (UPGRADE branch)	none	0	no	no	no	yes	no	n/a	no		n/a
+s-control-1	control	0	False	7	0.1992	23	claude-sonnet-5-5	0	1	yes	# Upgrade plan	none	0	no	no	no	yes	no	n/a	no		n/a
