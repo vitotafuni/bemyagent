@@ -10,7 +10,7 @@ This file instructs the AI to generate the `.bemyagent/` architecture: permanent
 ### Step 0: Discovery & Assessment
 If your tool cannot create directories, list the required `mkdir` commands and ask the user to run them first.
 1. **UPGRADE** — `.bemyagent/` holds something this step could overwrite or must not touch: any `docs/` or `work/` file, or any file this protocol does not name. **Branch on content, not on the directory existing.** Where it holds none of those — empty, or only `settings.json`, whose merge is additive and destroys nothing — there is nothing to review: go to BROWNFIELD or GREENFIELD, generate what is missing, and report in one line what was already there:
-   - **VERSION** (first, before anything is read or written): this file's version is the number in the title of the rules in Step 2 (`BEMYAGENT x.y.z`); the project's is the one in the title of its `.bemyagent/docs/00-ai-rules.md` — no number there, or anything that is not three numbers, is `unknown (before 3.6.0)`. Compare as numbers, field by field (`3.10.0` is newer than `3.9.0`):
+   - **VERSION** (first, before anything is read or written): this file's version is the number in the title of the rules in Step 2 (`BEMYAGENT x.y.z`); the project's is the one in the title of its `.bemyagent/docs/00-ai-rules.md` — no number there, or anything that is not three numbers, is `unknown (before 3.5.0)`. Compare as numbers, field by field (`3.10.0` is newer than `3.9.0`):
      - **this file is older** → a downgrade: say so in one line with both numbers and **STOP**, writing nothing. This is a question you do ask: go on only if the user answers that they want it.
      - **same number** → extract the Step 2 rules with a command and compare them with the project's file byte for byte (`cmp`) — do not judge by reading. Equal, and no `upgrade-plan.md` pending → say `already on x.y.z — nothing to upgrade` and **STOP**: no plan, no backup. Otherwise say what differs and go on.
      - **newer, or unknown** → go on.
@@ -31,7 +31,7 @@ If your tool cannot create directories, list the required `mkdir` commands and a
 The permanent rule file. Exact content:
 
 ````markdown
-# AI Rules & TTEV Workflow — BEMYAGENT 3.6.0
+# AI Rules & TTEV Workflow — BEMYAGENT 3.5.0
 **Read this file whole — first line to last, every time, a context compaction included. A slice of it, or what you recall of it, is not a read.**
 
 ## 1. Self-Registration (idempotent, harness-proof)

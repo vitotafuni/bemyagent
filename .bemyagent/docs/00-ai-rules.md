@@ -1,4 +1,4 @@
-# AI Rules & TTEV Workflow — BEMYAGENT 3.6.0
+# AI Rules & TTEV Workflow — BEMYAGENT 3.5.0
 **Read this file whole — first line to last, every time, a context compaction included. A slice of it, or what you recall of it, is not a read.**
 
 ## 1. Self-Registration (idempotent, harness-proof)
